@@ -8,10 +8,19 @@ if [ -f '~/.bashrc' ]; then . '~/.bashrc'; fi
 ################################################################
 
 # パスの指定
-export PATH=.:${HOME}/bin:${PATH}
+export PATH=${HOME}/bin:${PATH}
 export CONFDIR=${HOME}/lib/conf
 export INFOPATH=~/info:/usr/info:/usr/share/info
 export TEXINPUTS=.//:${CONFDIR}/tex//:
+
+export LD_LIBRARY_PATH=/home/fukusaka/lib
+export LD_RUN_PATH=/home/fukusaka/lib
+
+export JAVA_HOME=/usr/local/sun/jdk1.3.0_02
+export PATH=${JAVA_HOME}/bin:${PATH}
+
+export CLASSPATH=.:/usr/share/java/postgresql.jar
+
 
 # コマンドの指定
 export TEX=ptex
@@ -22,10 +31,13 @@ export CC=gcc
 #export TEXEDIT='/usr/bin/vi %s'
 
 # 言語の指定
-export LANG=ja_JP.ujis
+#export LANG=ja_JP.ujis
+export LANG=ja_JP.eucJP
+export LC_TIME=C
 #export LC_ALL=ja_JP.ujis
 #export LC_COLLATE=ja_JP.ujis
 #export LC_MESSAGES=ja_JP.ujis
+export OUTPUT_CHARSET=EUC-JP
 
 # less の指定
 export LESSCHARSET=japanese-euc
@@ -37,22 +49,23 @@ export XAPPLRESDIR=${CONFDIR}/X11/app-resources/
 # export PRINTER="gs360"
 
 # man の指定
-export MANOPT=-7
+#export MANOPT=-7
 
 # News Server の設定
+export NNTPSERVER=news01.so-net.ne.jp
 # export NNTPSERVER=news.hoge.hoge.ac.jp
 # export NEWSSPOOL=/var/spool/news
 # export NNTPSERVER=news
 
 # proxy サーバごしに WWW を見る場合に lynx や www.el に必要な設定
 # export http_proxy=http://localhost:3128/
-export http_proxy=http://localhost:8080/
+# export http_proxy=http://localhost:8080/
 # export ftp_proxy=http://proxy.hoge.hoge.ac.jp:999/
 # export wais_proxy=http://proxy.hoge.hoge.ac.jp:999/
 # export gopher_proxy=http://proxy.hoge.hoge.ac.jp:999/
 
 # CVS Repository の指定
-export CVSROOT=/home/cvsroot
+export CVSROOT=:pserver:fukusaka@blue:/home/cvs/repository
 
 # use PostgresSQL
 if [ -f /etc/postgresql/postgresql.env ]; then
@@ -62,3 +75,6 @@ fi
 #function emacs () {
 #    ( XMODIFIERS='@im=none' ; /usr/bin/emacs )
 #}
+
+export NO_NS_FIX_WCSMBS=yes
+export NO_NS_BOGUS_LOCALE=yes
