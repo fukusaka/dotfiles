@@ -22,3 +22,4 @@ emacs/emacs.el			~/	.emacs
 signature/phys.formal		~/	.signature
 perl				~/lib	perl
 guile				~/lib	guile
+tex				~/lib	tex
