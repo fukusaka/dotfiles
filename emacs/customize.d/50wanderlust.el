@@ -33,20 +33,21 @@
 
 
 ;; メールを送信する SMTP サーバ。 初期設定は "localhost"。
-(setq wl-smtp-posting-server "localhost")
+;;(setq wl-smtp-posting-server "localhost")
+(setq wl-smtp-posting-server "mail.xa2.so-net.ne.jp")
 ;; ニュース投稿用の NNTP サーバ。 初期設定は nil。
 (setq wl-nntp-posting-server "news01.so-net.ne.jp")
 
-;;(autoload 'wl-user-agent-compose "wl-draft" nil t)
-;;(if (boundp 'mail-user-agent)
-;;    (setq mail-user-agent 'wl-user-agent))
-;;(if (fboundp 'define-mail-user-agent)
-;;    (define-mail-user-agent
-;;	'wl-user-agent
-;;	'wl-user-agent-compose
-;;	'wl-draft-send
-;;	'wl-draft-kill
-;;	'mail-send-hook))
+(autoload 'wl-user-agent-compose "wl-draft" nil t)
+(if (boundp 'mail-user-agent)
+    (setq mail-user-agent 'wl-user-agent))
+(if (fboundp 'define-mail-user-agent)
+    (define-mail-user-agent
+	'wl-user-agent
+	'wl-user-agent-compose
+	'wl-draft-send
+	'wl-draft-kill
+	'mail-send-hook))
 
 (setq wl-summary-no-from-message "<名無し>")
 (setq wl-summary-no-subject-message "<題名なし>")
