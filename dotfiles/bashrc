@@ -2,7 +2,7 @@
 # $Id$
 
 export EDITOR=/usr/bin/vi
-export PAGER=/usr/bin/less	
+export PAGER=/usr/bin/pager
 export TEXEDIT='/usr/bin/vi %s'
 
 if [ -n "$PS1" ]; then
