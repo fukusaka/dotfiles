@@ -1062,6 +1062,9 @@ See also documentation for `ps-zebra-stripes'."
   :type 'number
   :group 'ps-print)
 
+;; add by Moimoi
+(defvar ps-kanji-ascii-ratio 1)
+
 (defcustom ps-line-number nil
   "*Non-nil means print line number."
   :type 'boolean
@@ -2413,6 +2416,57 @@ StandardEncoding 46 82 getinterval aload pop
 
 ")
 
+;; add by Moimoi
+(defvar ps-print-prologue-kanji
+  "
+/KS {
+  kfontarray exch get setfont
+
+  /xx currentpoint dup Descent add /yy exch def
+  Ascent add /YY exch def def
+  dup stringwidth pop xx add /XX exch def
+  Effect 8 and 0 ne {
+    /yy yy Yshadow add def
+    /XX XX Xshadow add def
+  } if
+  bg {
+    true
+    Effect 16 and 0 ne
+      {SpaceBackground doBox}
+      {xx yy XX YY doRect}
+    ifelse
+  } if							% background
+  Effect 16 and 0 ne {false 0 doBox}if			% box
+  Effect 8  and 0 ne {dup doShadow}if			% shadow
+  Effect 32 and 0 ne
+    {true doOutline}					% outline
+    {
+      KanjiRomanDiffHalf 0 rmoveto
+      KanjiRomanDiff 0 3 -1 roll ashow
+      KanjiRomanDiffHalf neg 0 rmoveto
+    }
+  ifelse
+  Effect 1  and 0 ne {UnderlinePosition Hline}if	% underline
+  Effect 2  and 0 ne {StrikeoutPosition Hline}if	% strikeout
+  Effect 4  and 0 ne {OverlinePosition  Hline}if	% overline
+} bind def
+
+/getfont {exch findfont exch scalefont} bind def
+
+% Initializing kanji fonts
+/kanji_init {
+  /bodyfontsize exch def
+  /bodykfontsize bodyfontsize kanjiAsciiRatio mul def
+  /bodyknfont /Ryumin-Light-H bodykfontsize getfont def
+  /bodykbfont /GothicBBB-Medium-H bodykfontsize getfont def
+  /bodykofont bodyknfont [ 1 0 .2 1 0 0 ] makefont def
+  /bodykbofont bodykbfont [ 1 0 .2 1 0 0 ] makefont def
+  /KanjiRomanDiff 1.2 bodyfontsize mul 1.0 bodykfontsize mul sub def
+  /KanjiRomanDiffHalf KanjiRomanDiff 2 div def
+  /kfontarray [ bodyknfont bodykbfont bodykofont bodykbofont ] def
+} def
+")
+
 ;; Start Editing Here:
 
 (defvar ps-source-buffer nil)
@@ -3289,6 +3343,8 @@ page-height == bm + print-height + tm - ho - hh
   (ps-output-boolean "Zebra" ps-zebra-stripes)
   (ps-output-boolean "PrintLineNumber" ps-line-number)
   (ps-output (format "/ZebraHeight %d def\n" ps-zebra-stripe-height))
+  ;; add by Moimoi
+  (ps-output (format "/kanjiAsciiRatio %s def\n" ps-kanji-ascii-ratio))
 
   (ps-background-text)
   (ps-background-image)
@@ -3321,6 +3377,11 @@ page-height == bm + print-height + tm - ho - hh
 			 (ps-font 'ps-font-for-text (car (car font)))))
       (setq font (cdr font)
 	    i (1+ i))))
+
+  ;; add by Moimoi
+  (ps-output ps-print-prologue-kanji)
+  ;; Kanji fonts
+  (ps-output (format "%s kanji_init\n" ps-font-size))
 
   (ps-output "\nBeginDoc\n\n"
 	     "%%EndPrologue\n"))
@@ -3451,19 +3512,55 @@ EndDSCPage\n"))
 	(cons to (* todo char-width))
       (cons (+ from avail) ps-width-remaining))))
 
+;;(defun ps-basic-plot-string (from to &optional bg-color)
+;;  (let* ((wrappoint (ps-find-wrappoint from to
+;;					 (ps-avg-char-width 'ps-font-for-text)))
+;;	   (to (car wrappoint))
+;;	   (string (buffer-substring-no-properties from to)))
+;;    (ps-output-string string)
+;;    (ps-output " S\n")
+;;    wrappoint))
+
+;; modified by Moimoi
+(require 'moi-util)
 (defun ps-basic-plot-string (from to &optional bg-color)
   (let* ((wrappoint (ps-find-wrappoint from to
-				       (ps-avg-char-width 'ps-font-for-text)))
-	 (to (car wrappoint))
-	 (string (buffer-substring-no-properties from to)))
-    (ps-output-string string)
-    (ps-output " S\n")
+					    (ps-avg-char-width 'ps-font-for-text)))
+	      (to (car wrappoint))
+	      (string (buffer-substring-no-properties from to)))
+
+    (mapcar (lambda (x)
+	      (cond
+	       ((eq (car x) 'ascii)
+		(ps-output (format "/f%d F " ps-current-font))
+		(ps-output-string (cdr x))
+		(ps-output " S\n")
+		)
+	       ((eq (car x) 'jis )
+		(string-match "^$[B@]\\(.*\\)([BJ]$" (cdr x))
+		(ps-output-string (match-string 1 (cdr x)))
+		(ps-output " 0 KS\n")
+		)
+	       )
+	      )
+	    (split-string-with-coding string))
+
     wrappoint))
 
+
+;;(defun ps-basic-plot-whitespace (from to &optional bg-color)
+;;  (let* ((wrappoint (ps-find-wrappoint from to
+;;					 (ps-space-width 'ps-font-for-text)))
+;;	   (to (car wrappoint)))
+;;    (ps-output (format "%d W\n" (- to from)))
+;;    wrappoint))
+
+;; modified by Moimoi
 (defun ps-basic-plot-whitespace (from to &optional bg-color)
   (let* ((wrappoint (ps-find-wrappoint from to
 				       (ps-space-width 'ps-font-for-text)))
 	 (to (car wrappoint)))
+    (ps-output (format "/f%d F " ps-current-font))
     (ps-output (format "%d W\n" (- to from)))
     wrappoint))
 
