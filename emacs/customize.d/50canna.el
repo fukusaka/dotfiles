@@ -44,8 +44,12 @@
 	;; とっても簡単になったもんだ〜ぁ。
 	)
     ;; かんなよ戻って来てくれ！
-    (load "yc")
-    (define-key yc-fence-mode-map "\C-j" 'yc-modeless-next)
-    (setq yc-stop-chars "(){}<>$\"\'")
+    ;;(load "yc")
+    ;;(define-key yc-fence-mode-map "\C-j" 'yc-modeless-next)
+    ;;(setq yc-stop-chars "(){}<>$\"\'")
+    ))
+ ((featurep 'xemacs)
+  (if (featurep 'canna-leim)
+      (select-input-method "japanese-canna")
     ))
  )
