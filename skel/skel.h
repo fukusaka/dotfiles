@@ -1,4 +1,5 @@
 /* @@FNAME@@ -- 
+ * $Id$
  *
  * Copyright (C) @@YEAR@@ @@NAME@@
  *
@@ -7,8 +8,6 @@
  * Created: @@DATE@@
  * Version: 1.0
  * Keywords: 
- *
- * $Id$
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,10 +31,6 @@
 #endif /* @@HEADER_DEFINDED@@ */
 
 @@@@
-FNAME: (file-name-nondirectory buffer-file-name)
-NAME: programmer-name
-ADDRESS: programmer-mail-address
-YEAR: (format-time-string "%Y")
 HEADER_DEFINDED: (let* ((fname (file-name-nondirectory buffer-file-name))
 			(ff (string-to-char-list (concat "_" fname)))
 			pp)
@@ -45,4 +40,9 @@ HEADER_DEFINDED: (let* ((fname (file-name-nondirectory buffer-file-name))
 		    (setq pp (cons (car ff) pp)))
 		   (setq ff (cdr ff)))
 		  (upcase (char-list-to-string (reverse pp))))
+FNAME: (file-name-nondirectory buffer-file-name)
+NAME: programmer-name
+ADDRESS: programmer-mail-address
+YEAR: (format-time-string "%Y")
+DATE: (format-time-string "%d %b %Y")
 @@@@

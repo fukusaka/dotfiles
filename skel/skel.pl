@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# $Id$
 
 # @@FNAME@@ --
 #
@@ -9,8 +10,6 @@
 # Created: @@DATE@@
 # Version: 1.0
 # Keywords: 
-#
-# $Id$
 
 # This file is part of 
 

@@ -1,4 +1,5 @@
 ;;; @@FNAME@@ --
+;; $Id$
 
 ;; Copyright (C) @@YEAR@@ @@NAME@@
 
@@ -7,8 +8,6 @@
 ;; Created: @@DATE@@
 ;; Version: 1.0
 ;; Keywords: 
-
-;; $Id$
 
 ;; This file is part of 
 

@@ -3,6 +3,7 @@
 exec guile -s $0 $*
 !#
 ;;; @@FNAME@@ --
+;; $Id$
 
 ;; Copyright (C) @@YEAR@@ @@NAME@@
 
@@ -11,8 +12,6 @@ exec guile -s $0 $*
 ;; Created: @@DATE@@
 ;; Version: 1.0
 ;; Keywords: 
-
-;; $Id$
 
 ;; This file is part of 
 
