@@ -17,7 +17,7 @@
         (if (re-search-forward "^[ 0-9][ 0-9][ 0-9][0-9]..[0-9][0-9]/[0-9][0-9] \\(.................\\).*$" nil t nil)
             (let ((str (buffer-substring (match-beginning 1) (match-end 1))))
 					; これは17文字
-                                       ;  2 Byte 文字が 2 columns であるとした
+					;  2 Byte 文字が 2 columns であるとした
                                         ;場合の、17 columns を抜き出す
               (setq str
                     (code-convert-string

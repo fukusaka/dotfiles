@@ -40,10 +40,10 @@
   (if (not window-system)
       (progn
 	;; Translate `C-h' to <DEL>.
-	(keyboard-translate ?\C-h ?\C-?)
-       
+	;;(keyboard-translate ?\C-h ?\C-?)
+	
 	;; Translate <DEL> to `C-h'.
-	(keyboard-translate ?\C-? ?\C-h)
+	;;(keyboard-translate ?\C-? ?\C-h)
        ))
   )
   )
