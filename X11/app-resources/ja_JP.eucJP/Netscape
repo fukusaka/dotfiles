@@ -1,6 +1,6 @@
 ! Insert copyright and license here 1994
 
-! Netscape.ad --- app-defaults file for Netscape 4.72.
+! Netscape.ad --- app-defaults file for Netscape 4.75.
 !
 ! Bugs and commentary to x_cbug@netscape.com.
 
@@ -4494,7 +4494,7 @@ Netscapeを起動し、プライベート カラーマップを使用すると\n\
 ! changed at runtime; these resources won't override that.
 *title:					Netscape
 *iconName:				Netscape
-*Navigator.title:			Netscape Navigator 4.72
+*Navigator.title:			Netscape Navigator 4.75
 *MailThread.title:			Netscape メール & ニュースグループ
 *MailThread.iconName:		メール & ニュースグループ
 @MAIL_IM_HACK@
@@ -5425,8 +5425,8 @@ Netscape*scroller.scrollBarPlacement:	BOTTOM_RIGHT
 *drawingArea*XmScrolledWindow.spacing:			0
 
 ! Do not under any circumstances change the following line:
-! Netscape.version: 		@VERSION@
-Netscape.version: 		4.72
+!Netscape.version: 		@VERSION@
+Netscape.version: 		4.75
 
 
 ! ============================================================================
@@ -5443,10 +5443,11 @@ Netscape.version: 		4.72
 -misc-fixed-medium-r-normal--14-*-*-*-*-*-jisx0212.1990-0:
 
 *XmTextField.fontList:\
--adobe-courier-medium-r-*-*-*-120-*-*-*-*-iso8859-*
+-adobe-courier-medium-r-*-*-*-120-*-*-*-*-iso8859-*;\
+-jis-fixed-medium-r-normal--16-*-*-*-*-*-jisx0208.1983-0;\
+-sony-fixed-medium-r-normal--16-*-*-*-*-*-jisx0201.1976-0;\
+-misc-fixed-medium-r-normal--16-*-*-*-*-*-jisx0212.1990-0:
 !-sony-fixed-medium-r-normal--16-*-*-*-*-*-iso8859-1;\
-!-*-fixed-medium-r-normal--16-*-*-*-*-*-jisx0208.1983-0;\
-!-sony-fixed-medium-r-normal--16-*-*-*-*-*-jisx0201.1976-0:
 
 *XmText.fontList:\
 -adobe-courier-medium-r-normal--*-120-*-*-*-*-iso8859-1;\
