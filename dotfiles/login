@@ -1,0 +1,46 @@
+################################################################
+
+set path = ( ~/bin /usr/local/bin/mh /usr/local/games /usr/games /usr/local/bin/Wnn4 $path . )
+
+setenv	EDITOR	vi
+setenv	PAGER	/usr/bin/less	
+setenv	BLOCKSIZE	K
+setenv  LANG ja_JP.ujis
+setenv LESSCHARSET japanese-euc
+setenv  XMODIFIERS '@im=kinput2'
+#setenv  MANPATH `/usr/bin/manpath`
+setenv INFOPATH /usr/info:/usr/local/info-sgml:~/info
+#setenv CC egcc
+
+setenv MAIL /var/spool/mail/${LOGNAME}
+
+alias emacs "(setenv XMODIFIERS '@im=none'; exec /usr/bin/emacs )"
+
+setenv PRINTER "gs360"
+
+# News Server の設定
+# setenv NNTPSERVER news.hoge.hoge.ac.jp
+#setenv NEWSSPOOL /var/spool/news
+
+# proxy サーバごしに WWW を見る場合に lynx や www.el に必要な設定
+#setenv http_proxy http://localhost:3128/
+# setenv ftp_proxy http://proxy.hoge.hoge.ac.jp:999/
+# setenv wais_proxy http://proxy.hoge.hoge.ac.jp:999/
+# setenv gopher_proxy http://proxy.hoge.hoge.ac.jp:999/
+
+if ($?prompt) then
+    # stty (tty type の設定)
+    stty erase ^H
+    stty intr ^C
+    stty susp ^Z
+    stty start undef
+    stty stop undef
+#    tty cs8 -istrip -parenb
+endif
+
+# A rightous umask
+umask 22
+
+# limit core 0
+
+# fetchmail -d 300

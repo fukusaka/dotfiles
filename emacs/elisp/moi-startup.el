@@ -42,7 +42,8 @@
   (let* ((files
 	  (append
 	   (directory-files moi::customize-dir t "^[0-9][0-9].*\\.el$" t)
-	   (directory-files moi::host-customize-dir t "^[0-9][0-9].*\\.el$" t)
+	   (if (file-directory-p moi::host-customize-dir)
+	       (directory-files moi::host-customize-dir t "^[0-9][0-9].*\\.el$" t))
 	   ))
 	 (s-files
 	  (moi::unique-strings

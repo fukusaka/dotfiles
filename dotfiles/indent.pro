@@ -1,0 +1,16 @@
+ -bad -bap
+ -nbc
+ -br -ce
+ -c33 -cd33 -ncdb
+ -cli0
+ -cp1 
+ -di8 -nbc
+ -nfc1 -nfca
+ -i2 -ts8
+ -ip4
+ -lp -ci2
+ -psl
+ -pcs -cs
+ -ss
+ -nsc -nsob -d0
+ -l78

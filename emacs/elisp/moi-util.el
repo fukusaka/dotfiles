@@ -1,6 +1,27 @@
+;;; moi-util.el  ---  Emacs Lisp utility
+
+;; Author: Shoichi Fukusaka <fukusaka@xa2.so-net.ne.jp>
+
+;; $Id$
+
 
 (require 'poem)
+(defun moi-substring-width (str n)
+  (let* ((strl (string-to-char-list str))
+	 (wstrl (mapcar 'char-width strl))
+	 (w 0) (estrl nil))
+    (while (> n w)
+      (setq w (+ w (car wstrl))
+	    wstrl (cdr wstrl)
+	    estrl (cons (car strl) estrl)
+	    strl (cdr strl))
+      )
+    (if (not (= n w))
+	(setq estrl (cdr estrl)))
+    (char-list-to-string (reverse estrl))
+    ))
 
+(require 'poem)
 (defun split-string-with-coding (str)
   (let*
 	((strJ (encode-coding-string str 'iso-2022-jp))

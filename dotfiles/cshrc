@@ -1,0 +1,52 @@
+################################################################
+#
+
+if ($?prompt) then
+    # An interactive shell -- set some stuff up
+    set filec
+    set history = 100
+    set savehist = 100
+
+
+    # ¥á¡¼¥ë¤ÎÀßÄê
+    set mail = /var/spool/mail/$USER
+    #biff y
+
+    # make mail(1) happy:
+    setenv	crt	24
+
+    # prompt ¤ÎÀßÄê
+    # set promptchars='%#'
+    # set prompt="%m:%~%# "
+
+    set prompt="% "
+
+    # color-ls (ls ¤¬¥«¥é¥Õ¥ë¤Ë¤Ê¤ê¤Þ¤¹)
+    eval `dircolors -c`
+    alias ls    '\ls -FN --color=auto'
+
+    alias h	history 25
+    alias j	jobs -l
+    alias la	ls -a
+    alias lf	ls -FA
+    alias ll	ls -lA
+
+    # kterm,xterm ¤Î¥¿¥¤¥È¥ë¤Ë pwd ¤òÉ½¼¨¤¹¤ë
+    if ($?TERM) then
+	if ($TERM == "kterm" || $TERM == "xterm") then
+	    echo -n "]2;${HOST}:`dirs`]1;${HOST}:`dirs`"
+	    alias cwdcmd 'echo -n "]2;${HOST}:`dirs`]1;${HOST}:`dirs`"'
+	endif
+    endif
+
+endif
+
+#if ($?EMACS && $TERM == "dumb") then
+#    setenv EDITOR  'emacsclient'
+#    setenv TEXEDIT 'emacsclient +%d %s'
+#    setenv PAGER  pageremacs
+#else
+#    setenv EDITOR  vi
+#    setenv TEXEDIT 'vi %s'
+#    setenv PAGER   /usr/bin/less	
+#endif

@@ -1,10 +1,17 @@
 TARBALL=../conf.tar.gz
 
+OWNDIR=lib/conf
+
 all:
 	@ echo "link -- "
 	@ echo "pack -- "
 
 link:
+	@( cd ~ ; 			\
+	   awk -v PWD="${OWNDIR}/" '!/^#/ { print "ln -sf",PWD $$1,$$2}' \
+	   ${OWNDIR}/link-list	\
+	   | sh			\
+	 )
 
 pack:
 	find . -type f  -not -name '*~' \
