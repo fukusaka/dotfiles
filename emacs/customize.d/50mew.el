@@ -7,53 +7,71 @@
 ;; emacs20.3        --> mew ver 1.93                                  ;;
 ;;                                                                    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(load "mew")
+
 (cond
  ;; Ver.19 の場合
- ((string-match "^19" emacs-version)
+ ((string-match "^1\\.7" mew-version-number)
   (setq load-path
 	(append '("/usr/local/share/emacs/site-lisp/mew-1.70")
 		load-path))
   (setq exec-path (cons "/usr/local/bin/mh" exec-path))
   (setq exec-path (cons "/usr/local/lib/mh" exec-path))
+;; なんだかなぁ。
+  (add-hook 'mew-init-hook
+	    (function
+	     (lambda ()
+	       (add-hook 'kill-emacs-hook
+			 (function mew-mark-process-all-folders)))))
   )
- ) 
+ 
 ;; From: に余計なモノ(localhost 名等)が付いたりする場合は、
 ;; xxxx の部分にドメイン名やメールアドレス等を指定します
 ;(setq mew-mail-domain-list
 ;      '("xxxx.xxxx.xxxx.xxxx"))
+ ((string-match "^1\\.9[0-9]" mew-version-number) 
+  (autoload 'mew "mew" nil t)
+  (autoload 'mew-send "mew" nil t)
 
-(autoload 'mew "mew" nil t)
-(autoload 'mew-send "mew" nil t)
+  (setq mew-use-overlay-keymap nil)
 
-(setq mew-use-overlay-keymap nil)
+  (setq mew-fcc "+outbox")
+  (setq mew-ask-subject t)
+  (setq mew-demo nil)
+  (setq mew-signature-insert-last t)
 
-(setq mew-fcc "+send")
-(setq mew-ask-subject t)
-(setq mew-demo nil)
-(setq mew-signature-insert-last t)
+  (setq mew-use-highlight-cursor-line nil)
+  (setq mew-use-highlight-body t)
 
-(setq mew-use-highlight-cursor-line nil)
-(setq mew-use-highlight-body t)
+  (setq mew-cite-prefix "> ")
+  (setq mew-cite-fields '("From:" "Subject:" "Date:" "Message-ID:"))
+  (setq mew-cite-format "> From: %s\n> Subject: %s\n> Date: %s\n> Message-ID: %s\n\n")
 
-(setq mew-cite-prefix "> ")
-(setq mew-cite-fields '("From:" "Subject:" "Date:" "Message-ID:"))
-(setq mew-cite-format "> From: %s\n> Subject: %s\n> Date: %s\n> Message-ID: %s\n\n")
-
-(add-hook 'mew-summary-mode-hook 
-	  (function
-	   (lambda ()
-	     (define-key mew-summary-mode-map "b" 'mew-summary-auto-refile)
-	     )))
-
-;; Ver.1.70 の場合
-;; なんだかなぁ。
-(if (string-match "^19" emacs-version)    
-    (add-hook 'mew-init-hook
-	      (function
-	       (lambda ()
-		 (add-hook 'kill-emacs-hook
-			   (function mew-mark-process-all-folders)))))
+  (add-hook 'mew-summary-mode-hook 
+	    (function
+	     (lambda ()
+	       (define-key mew-summary-mode-map "b" 'mew-summary-auto-refile)
+	       )))
   )
+ ((string-match "^2" mew-version-number) 
+  (if (boundp 'read-mail-command)
+      (setq read-mail-command 'mew))
+  (autoload 'mew-user-agent-compose "mew" nil t)
+  (if (boundp 'mail-user-agent)
+      (setq mail-user-agent 'mew-user-agent))
+  (if (fboundp 'define-mail-user-agent)
+      (define-mail-user-agent
+	'mew-user-agent
+	'mew-user-agent-compose
+	'mew-draft-send-message
+	'mew-draft-kill
+	'mew-send-hook))
+  ;;(setq mew-mailbox-type 'mbox)
+  ;;(setq mew-mbox-command "incm")
+  ;;(setq mew-mbox-command-arg "-d /var/spool/mail/fukusaka")
+  )
+ )
+;; Ver.1.70 の場合
 
 ;; mew で色を付ける設定
 (if window-system
