@@ -104,7 +104,7 @@
      ;; emacs20.3 の mew-1.93 の場合
      ;; ~/.im/Config -> Form=%+4n %m%d %-17a %S<<%b
      ;; なんかでかすぎ! (mewの色づけ処理とあまり整合性がない)
-     ((string-match "^20" emacs-version)
+     (t ;(string-match "^20" emacs-version)
       (require 'moi-util)
       (defvar  mew-summary-number-face 'mew-summary-number-face)
       (defface mew-summary-number-face
@@ -148,15 +148,15 @@
 	  )
 	nil)
 
-      (defvar mew-summary-number-regexp "^[ 0-9][ 0-9][ 0-9][0-9]")
+      (defvar mew-summary-number-regexp "^[ 0-9][ 0-9][ 0-9][ 0-9][0-9]")
       (defvar mew-summary-date-regexp   "[- MS][0-9][0-9]/[0-9][0-9]")
       (defvar mew-summary-from-regexp   'mew-summary-from-search)
-      (defvar mew-summary-body-regexp   "<<.*$")
+      (defvar mew-summary-body-regexp   "||.*$")
       (defvar mew-summary-mark-regexp   'mew-summary-mark-search)
       (defvar mew-summary-mine-regexp   "^.    .*$")
 
       (defun mew-summary-from-search (pend)
-	(mew-summary-some-search pend 12 29))
+	(mew-summary-some-search pend 13 27))
 
       (defun mew-summary-some-search (pend sta-pos &optional end-pos)
 	(if (re-search-forward "^..*$" pend t nil)
@@ -179,7 +179,7 @@
 	  ))
 
       (defun mew-summary-mark-search (pend)
-	(if (re-search-forward "^[ 0-9][ 0-9][ 0-9][0-9][^ ]" pend t nil)
+	(if (re-search-forward "^[ 0-9][ 0-9][ 0-9][ 0-9][0-9][^ ]" pend t nil)
 	    (save-excursion
 	      (let (sta end)
 		(beginning-of-line)
