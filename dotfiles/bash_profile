@@ -1,4 +1,4 @@
-# ~/.bash_profile: executed by bash(1) for login shells.
+# ~/.bash_profile: -*-shell-script-*-
 
 umask 002
 
