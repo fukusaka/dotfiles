@@ -50,6 +50,9 @@
 ;;  )
 ;; )
 
+(setq romkana-table "default.cbp")
+(setq english-table "english.cbp")
+
 ;;; 利用する辞書
 ;
 ; ただ単に書き並べているのは単語登録を行わない辞書でシステム辞書などが
