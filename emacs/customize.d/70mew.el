@@ -105,15 +105,7 @@
      ;; ~/.im/Config -> Form=%+4n %m%d %-17a %S<<%b
      ;; なんかでかすぎ! (mewの色づけ処理とあまり整合性がない)
      ((string-match "^20" emacs-version)
-      (defun moi-substring-width (str n) ; 要APELかなぁ
-	(let ((strl (string-to-char-list str)) estrl)
-	  (while (> n (eval (cons '+ (mapcar 'char-width estrl))))
-	    (setq estrl (append estrl (list (car strl))))
-	    (setq strl  (cdr strl))
-	    )
-	  (char-list-to-string estrl)
-	  ))
-
+      (require 'moi-util)
       (defvar  mew-summary-number-face 'mew-summary-number-face)
       (defface mew-summary-number-face
 	'((((class color) (background light)) (:foreground "Blue"))
@@ -164,13 +156,21 @@
       (defvar mew-summary-mine-regexp   "^.    .*$")
 
       (defun mew-summary-from-search (pend)
-	(if (re-search-forward "^[ 0-9][ 0-9][ 0-9][0-9]..[0-9][0-9]/[0-9][0-9] \\(.*\\)$" pend t nil)
+	(mew-summary-some-search pend 12 29))
+
+      (defun mew-summary-some-search (pend sta-pos &optional end-pos)
+	(if (re-search-forward "^..*$" pend t nil)
 	    (save-excursion
-	      (let ((str (buffer-substring (match-beginning 1) (match-end 1)))
+	      (let ((str (buffer-substring (match-beginning 0) (match-end 0)))
 		    sta end)
-		(goto-char (match-beginning 1))
+		(goto-char (match-beginning 0))
+		(forward-char (length (moi-substring-width str sta-pos)))
 		(setq sta (point-marker))
-		(forward-char (length (moi-substring-width str 17)))
+		(if end-pos
+		    (progn
+		      (goto-char (match-beginning 0))
+		      (forward-char (length (moi-substring-width str end-pos))))
+		  (goto-char (match-end 0)))				      
 		(setq end (point-marker))
 		(store-match-data (list sta end))
 		)

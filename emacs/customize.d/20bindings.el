@@ -17,6 +17,12 @@
 (define-key global-map "\C-zr" 'toggle-scheme)
 (define-key global-map "\C-z\C-r" 'toggle-scheme)
 
+(define-key global-map "\C-zj" 'goto-line)
+(define-key global-map "\C-zc" 'compile)
+(define-key global-map "\C-zd" 'gdb)
+(define-key global-map "\C-zm" 'man)
+
+
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし
 (defun toggle-shell-default ()

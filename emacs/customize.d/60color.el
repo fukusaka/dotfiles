@@ -27,12 +27,21 @@
       )
      ;; emacs20 では font-lock を使う
      ((string-match "^20" emacs-version)
-      (global-font-lock-mode 1)
+      (global-font-lock-mode t)
       (setq font-lock-support-mode
 	    '((c-mode . fast-lock-mode)
 	      (c++-mode . fast-lock-mode)
 	      (cc-mode . fast-lock-mode)
+	      (perl-mode . fast-lock-mode)
+	      (cperl-mode . fast-lock-mode)
+	      (t . lazy-lock-mode)
 	      ))
+      (setq fast-lock-minimum-size 25600)
+      (setq lazy-lock-minimum-size 25600)
+      (setq lazy-lock-defer-on-scrolling t)
+      (setq lazy-lock-defer-contextually t)
+      (setq lazy-lock-defer-time 0.10)
+
       (defface moi-string-face
 	'((((class color) (background light)) (:foreground "Brown"))
 	  (((class color) (background dark)) (:foreground "Salmon"))

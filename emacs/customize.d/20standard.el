@@ -27,8 +27,12 @@
     (setq visible-bell t)
   )
 
-(setq text-mode-hook
-      '(lambda () (auto-fill-mode 1)))
+;;
+;; ディフォルトModeの設定
+;;
+;;(setq default-major-mode 'text-mode)
+
+(setq text-mode-hook 'turn-on-auto-fill)
 
 ;;
 ;; コマンド入力の設定 (comint-mode)
@@ -46,13 +50,22 @@
 ;;
 (setq auto-mode-alist
       (append
-       '(("\\.pl$" . cperl-mode)
+       '(
+	 ("\\.pl$" . cperl-mode)
 	 ("\\.mht$" . html-mode)
 	 ("\\.po[tx]?\\'\\|\\.po\\." . po-mode)
+	 ("ChangeLog" . change-log-mode)
+	 ("patch" . moi-patch-view-mode)
+	 ("\\.diff" . moi-patch-view-mode)
 	 )
        auto-mode-alist))
 
 (autoload 'po-mode "po-mode")
+(autoload 'moi-patch-view-mode "moi-patch-view")
+(load "moi-skel-make")
+
+;;
+(setq vc-follow-symlinks t)
 
 ;;
 ;; 圧縮ファイルを自動に展開、圧縮

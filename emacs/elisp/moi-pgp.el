@@ -13,6 +13,18 @@
      moi2 nil moi3)
     ))
 
+(defun moi-pgp-decode (file)
+  (let ((moi (find-file file))
+	(moi2 (generate-new-buffer "*MoiTemp2*"))
+	(moi3 (generate-new-buffer "*MoiTemp3*")))
+    (set-buffer moi)
+    (shell-command-on-region
+     (point-min) (point-max)
+     (format "pgp -c \'%s\'" moi-pgp-key-id)
+     moi2 nil moi3)
+    ))
+
+
 (defun moi-pgp-mode ()
   (interactive)
   (kill-all-local-variables)
