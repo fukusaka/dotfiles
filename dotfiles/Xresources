@@ -6,11 +6,13 @@
 !*numeric:	C
 !*timeFormat:	C
 
-*basicLocale:	japanese
-*displayLang:	japanese
-*inputLang:	japanese
-*numeric:	japanese
-*timeFormat:	japanese
+*basicLocale:	ja_JP.eucJP
+*displayLang:	ja_JP.eucJP
+*inputLang:	ja_JP.eucJP
+*numeric:	ja_JP.eucJP
+*timeFormat:	ja_JP.eucJP
+*international:         true
+*inputMethod:           kinput2
 
 ! Xaw3d
 *shapeStyle:        Rectangle
@@ -18,22 +20,21 @@
 !*Label*shadowWidth: 2
 
 
-!*international:         true
-*inputMethod:           kinput2
 
 Kinput2*KinputProtocol.XlcConversionStartKey:	Ctrl<Key>backslash
 Kinput2*ConversionStartKeys: \
 	Ctrl<Key>backslash \n\
 	Ctrl<Key>Kanji
 
-emacs*background:	AntiqueWhite
+Emacs*background:	AntiqueWhite
+KTerm*background:	AntiqueWhite
+XTerm*background:	AntiqueWhite
+XMan*background:	AntiqueWhite
+
 emacs20*background:	AntiqueWhite
 mule*background:	AntiqueWhite
-kterm*background:	AntiqueWhite
-xterm*background:	AntiqueWhite
 xbiff*background:	AntiqueWhite
 xload*background:	AntiqueWhite
-xman*background:	AntiqueWhite
 
 #if WIDTH==800 && HEIGHT==600
 mule.geometry:	80x30+0+0
@@ -53,6 +54,9 @@ Netscape.bookmarks.geometry: 680x569+25+0
 Netscape.MailThread.geometry: 680x569+25+0
 Netscape.MailFolder.geometry: 680x569+25+0
 Netscape.Composition.geometry: 680x569+25+0
+#elif WIDTH==1024 && HEIGHT==768
+Netscape.Navigator.geometry: 950x680+0+0
+Mozilla*geometry: +0+0
 #endif
 Netscape*international:         true
 Netscape*inputMethod:           kinput2
@@ -63,9 +67,11 @@ Netscape*useStderrDialog:	false
 
 !Netscape*nsMotifFSBHacks: False
 
+Mozilla.geometry: 700x570+0+0
 
+!Emacs*xnlLanguage: C
 Emacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
-XEmacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
+XEmacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-*
 
 Emacs*FontSetList: 14,16,18,24
 Emacs*FontSet-14:\
@@ -87,42 +93,42 @@ Emacs*FontSet-24:\
 
 Scrollbar.JumpCursor:	True
 
-xterm*VT100.Translations:	#override\n\
+XTerm*fullCursor:	true
+XTerm*visualBell:	true
+XTerm*scrollTtyOutput:	off
+XTerm*reverseVideo:	false
+XTerm*saveLines:	1000
+XTerm*UtmpInhibit:	true
+XTerm*scrollBar:	true
+XTerm*titleBar:		false
+XTerm*reverseWrap:	true
+XTerm*loginShell:	false
+XTerm*scrollKey:	false
+XTerm*VT100.Translations:	#override\n\
 	<KeyPress>Prior: scroll-back(1,page)\n\
-	<KeyPress>Next: scrool-forw(1,page)
+	<KeyPress>Next: scroll-forw(1,page)
 
-xterm*fullCursor:	true
-xterm*visualBell:	true
-xterm*scrollTtyOutput:	off
-xterm*reverseVideo:	false
-xterm*saveLines:	1000
-xterm*UtmpInhibit:	true
-xterm*scrollBar:	true
-xterm*titleBar:		false
-xterm*reverseWrap:	true
-xterm*loginShell:	false
-xterm*scrollKey:	false
 
-kterm*fullCursor:	true
-kterm*visualBell:	true
-kterm*kanjiMode:	euc
-kterm*scrollTtyOutput:	off
-kterm*reverseVideo:	false
-kterm*UtmpInhibit:	true
-kterm*scrollBar:	true
-kterm*saveLines:	1000
-kterm*titleBar:		false
-kterm*scrollKey:	false
-kterm*reverseWrap:	true
-kterm*loginShell:	false
-kterm*fontList:		-alias-fixed-medium-r-normal--16-*
+KTerm*fullCursor:	true
+KTerm*visualBell:	true
+KTerm*kanjiMode:	euc
+KTerm*scrollTtyOutput:	off
+KTerm*reverseVideo:	false
+KTerm*UtmpInhibit:	true
+KTerm*scrollBar:	true
+KTerm*saveLines:	1000
+KTerm*titleBar:		false
+KTerm*scrollKey:	false
+KTerm*reverseWrap:	true
+KTerm*loginShell:	false
+KTerm*fontList:		-alias-fixed-medium-r-normal--16-*
 !kterm*boldFontList:	-alias-fixed-bold-r-normal--16-*
 !kterm*font:			-*-fixed-medium-r-normal--16-*-iso8859-1
 !kterm*romanKanjiFont:		-*-fixed-medium-r-normal--16-*-iso8859-1
 !kterm*kanjiFont:		-*-fixed-medium-r-normal--16-*-jisx0208.1983-0
 !kterm*romanKanjiBoldFont:	-*-fixed-bold-r-normal--16-*-iso8859-1
 !kterm*kanjiBoldFont:		-*-fixed-bold-r-normal--16-*-jisx0208.1983-0
-kterm*VT100.Translations:	#override	\n\
+KTerm*VT100.Translations:	#override	\n\
 	Ctrl<Key>backslash:begin-conversion(JAPANESE_CONVERSION)
 
 !XDvi*shrinkFactor:	4
@@ -162,11 +168,14 @@ Polly.macro*Text.width      : 50
 Polly.recall*Listbox.height :  6
 #endif
 
-Xarchie*archieHost:	archie.kyoto-u.ac.jp
+Xarchie*archieHost:	archie1.iij.ad.jp
+#Xarchie*archieHost:	archie.kyoto-u.ac.jp
 Xarchie*ftpMailAddress:	fukusaka@xa2.so-net.ne.jp
 Xarchie*searchType:	substr
 Xarchie*hostMenuItem27.label: archie.kyoto-u.ac.jp Local
 Xarchie*numHosts:               28
+Xarchie*international:        	false
+Xarchie*inputMethod:           none
 
 Xman*manualBrowser.geometry: 600x570+80+0
 Xman*inputMethod: none
@@ -179,6 +188,13 @@ Xman*inputMethod: none
 !! Wheel Mouse
 
 !! Netscape Communicator 4.xx
+
+AWTapp*fontList: \
+        -*-fixed-medium-r-*-*-*-*-jisx0201.1976-*,\
+        -*-fixed-medium-r-*-*-*-*-jisx0208.1983-* :
+
+!-bitstream-honmincho-bold-r-normal--*-*-*-*-p-*-jisx0208.1983-0,\
+!-bitstream-honmincho-bold-r-normal--*-*-*-*-p-*-jisx0201.1976-0 :
 
 !Netscape*drawingArea.translations:  #replace\
 ! <Btn1Down>:  ArmLink()\n\
