@@ -1,4 +1,4 @@
-if [ -f '~/.bashrc' ]; then . '~/.bashrc'; fi
+if [ -f ${HOME}/.bashrc ]; then . ${HOME}/.bashrc; fi
 
 MYCONFDIR=${HOME}/lib/conf/shell/profile.d
 
