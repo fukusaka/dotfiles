@@ -1,6 +1,6 @@
 TARBALL=conf.tar.gz
 
-CONFDIR=~/lib/conf
+CONFDIR=~/common/conf
 
 all:
 	@ echo "link -- リンクを張り巡らす"
