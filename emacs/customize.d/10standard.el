@@ -12,6 +12,8 @@
 (setq column-number-mode t)
 (setq scroll-step 1)
 
+;;(setq inhibit-startup-message t)
+
 ;;(if window-system
 ;;    (transient-mark-mode t))
 

@@ -23,7 +23,15 @@ exec guile -s $0 $*
 
 ;;; Code:
 
-
+;(use-modules (ice-9 debug))
+;(use-modules (ice-9 threads))
+;(use-modules (ice-9 getopt-long))
+;(use-modules (ice-9 string-fun))
+;(use-modules (ice-9 format))
+;(use-modules (ice-9 regex))
+;(use-modules (ice-9 slib))
+;(require 'printf)
+;(require 'pretty-print)
 
 @@@@
 FNAME: (file-name-nondirectory buffer-file-name)

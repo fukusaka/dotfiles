@@ -36,11 +36,11 @@
 ;
 
 (cond
- ((= canna-version 3.2)
+ ((equal canna-version "3.2")
   (setq romkana-table "default.kp")
   (setq english-table "english.kp")
   )
- ;; ((= canna-version 3.5)
+ ;; (( canna-version 3.5)
  (t
   ;;(setq romkana-table "unix.cbp")
   (setq romkana-table "default.cbp")
@@ -191,7 +191,7 @@
 (set-key 'alpha-mode "\C-\" 'japanese-mode)
 (set-key 'empty-mode "\C-\" 'alpha-mode)
 
-(global-set-key "\F1"  'set-file-coding-system) ; F1
+;;(global-set-key "\F1"  'set-file-coding-system) ; F1
 (global-set-key "\F2"  'hex-mode)               ; F2  16進入力モード
 (global-set-key "\F3"  'bushu-mode)             ; F3  部首モード
 (global-set-key "\F9"  'kigou-mode)             ; F9  記号モード

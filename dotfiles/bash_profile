@@ -7,25 +7,32 @@ if [ -f '~/.bashrc' ]; then . '~/.bashrc'; fi
 
 ################################################################
 
-PATH=.:${HOME}/bin:${PATH}
-INFOPATH=/usr/info:~/info
-export PATH INFOPATH
+# パスの指定
+export PATH=.:${HOME}/bin:${PATH}
+export INFOPATH=~/info:/usr/info:/usr/share/info
 
 # コマンドの指定
 export TEX=ptex
-export CC=egcc
+export CC=gcc
+
+#export EDITOR=/usr/bin/vi
+#export PAGER=/usr/bin/less	
+#export TEXEDIT='/usr/bin/vi %s'
 
 # 言語の指定
-LANG=ja_JP.ujis
-#LC_ALL=ja_JP.ujis
-#LC_COLLATE=ja_JP.ujis
-#LC_MESSAGES=ja_JP.ujis
-export LANG LC_ALL LC_COLLATE LC_MESSAGES
+export LANG=ja_JP.ujis
+#export LC_ALL=ja_JP.ujis
+#export LC_COLLATE=ja_JP.ujis
+#export LC_MESSAGES=ja_JP.ujis
 
+# less の指定
 export LESSCHARSET=japanese-euc
 
 # プリンターの指定
 # export PRINTER="gs360"
+
+# man の指定
+export MANOPT=-7
 
 # News Server の設定
 # export NNTPSERVER=news.hoge.hoge.ac.jp

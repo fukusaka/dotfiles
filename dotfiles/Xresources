@@ -27,6 +27,7 @@ Kinput2*ConversionStartKeys: \
 	Ctrl<Key>Kanji
 
 emacs*background:	AntiqueWhite
+emacs20*background:	AntiqueWhite
 mule*background:	AntiqueWhite
 kterm*background:	AntiqueWhite
 xterm*background:	AntiqueWhite
@@ -37,11 +38,13 @@ xman*background:	AntiqueWhite
 #if WIDTH==800 && HEIGHT==600
 mule.geometry:	80x30+0+0
 emacs.geometry:	80x34+0+0
+emacs20.geometry: 80x34+0+0
 editres.geometry: 700x572+0+0
 Xftp.geometry: 700x572+0+0
 Viewres.geometry: 700x572+0+0
 Tgif.Geometry:	680x400+0+0
 mosaic.geometry: 700x570+0+0
+chimera.geometry: 700x570+0+0
 #endif
 
 #if WIDTH==800 && HEIGHT==600
@@ -51,12 +54,14 @@ Netscape.MailThread.geometry: 680x569+25+0
 Netscape.MailFolder.geometry: 680x569+25+0
 Netscape.Composition.geometry: 680x569+25+0
 #endif
-Netscape*international:         true
-Netscape*inputMethod:           kinput2
-!Netscape*international:         false
-!Netscape*inputMethod:           none
+!Netscape*international:         true
+!Netscape*inputMethod:           kinput2
+Netscape*international:         false
+Netscape*inputMethod:           none
 Netscape*useStdoutDialog:	false
 Netscape*useStderrDialog:	false
+
+!Netscape*nsMotifFSBHacks: False
 
 
 Emacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
@@ -125,7 +130,7 @@ XDvi*paper:		a4
 XDvi*grey:		true
 XDvi*gamma:		2
 XDvi*geometry:		734x575+0+0
-
+!XDvi*ghostscript:	off
 
 Gv.antialias:		True
 
@@ -160,8 +165,10 @@ Xarchie*hostMenuItem27.label: archie.kyoto-u.ac.jp Local
 Xarchie*numHosts:               28
 
 Xman*manualBrowser.geometry: 600x570+80+0
-Xman*FontSet: -*-fixed-*-r-*-*-12-*-*-*-*-*-jisx0208.1983-*,\
-              -*-fixed-*-r-*-*-12-*-*-*-*-*-iso8859-1
+Xman*FontSet:\
+        -*-fixed-medium-r-*--12-*-iso8859-1,\
+        -*-fixed-medium-r-*--12-*-jisx0201.1976-*,\
+        -*-fixed-medium-r-*--12-*-jisx0208.1983-*
 Xman*inputMethod: none
 
 
@@ -221,3 +228,12 @@ Xman*inputMethod: none
 ! Shift<Btn5Down>:  ColumnRight()\n\
 ! Alt<Btn4Down>:  xfeDoCommand(back)\n\
 ! Alt<Btn5Down>:  xfeDoCommand(forward)
+
+! Chimera
+Chimera*FontSet:\
+	-*-fixed-medium-r-*--16-*-iso8859-1,\
+        -*-fixed-medium-r-*--16-*-jisx0201.1976-*,\
+        -*-fixed-medium-r-*--16-*-jisx0208.1983-*
+
+Tgif.ReverseVideo:		off
+Tgif.Background:		AntiqueWhite

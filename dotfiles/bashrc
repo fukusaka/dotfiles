@@ -1,6 +1,10 @@
 # ~/.bashrc: -*-shell-script-*-
 # $Id$
 
+export EDITOR=/usr/bin/vi
+export PAGER=/usr/bin/less	
+export TEXEDIT='/usr/bin/vi %s'
+
 if [ -n "$PS1" ]; then
 # This shell is interactive
     PS1="% "
@@ -19,16 +23,8 @@ if [ -n "$PS1" ]; then
     fi
 
     if [ "$EMACS" == "t" -a "$TERM" == "dumb" ]; then
-    	export EDITOR='emacsclient'
-    	export TEXEDIT='emacsclient +%d %s'
-    	export PAGER=${HOME}/bin/pageremacs
-    else
-    	export EDITOR=/usr/bin/vi
-    	export TEXEDIT='/usr/bin/vi %s'
-    	export PAGER=/usr/bin/less	
+	export EDITOR='emacsclient'
+	export TEXEDIT='emacsclient +%d %s'
+	export PAGER=${HOME}/bin/pageremacs
     fi
-else
-    export EDITOR=/usr/bin/vi
-    export TEXEDIT='/usr/bin/vi %s'
-    export PAGER=/usr/bin/less	
 fi

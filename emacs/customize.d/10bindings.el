@@ -22,9 +22,13 @@
 (define-key global-map "\C-zd" 'gdb)
 (define-key global-map "\C-zm" 'man)
 
+(define-key global-map "\C-z\C-l" 'scratch)
+(define-key global-map "\C-zl" 'scratch)
+
 ;;
 ;; 6枚ものフレームを同時生成、同時削除。
 ;;
+(define-key global-map "\C-z51" 'moi::make-frame-3)
 (define-key global-map "\C-z52" 'moi::make-frame-6)
 (define-key global-map "\C-z50" 'moi::delete-frame-6)
 
@@ -34,14 +38,20 @@
 	 (left (+ x bw (eval (cdr (assoc 'left fpar)))))
 	 (top  (+ y bw (eval (cdr (assoc 'top fpar)))))
 	 (frame (make-frame)))
-    (modify-frame-parameters
-     frame
-     (list
-      (list 'top '+ top)
-      (list 'left '+ left)))
+    (modify-frame-parameters frame `((top + ,top) (left + ,left)))
     frame))
 
 (defvar moi::make-frame-6-alist nil)
+
+(defun moi::make-frame-3 ()
+  (interactive)
+  (if (not moi::make-frame-6-alist)
+      (setq moi::make-frame-6-alist
+	    (list
+	     (moi::make-frame -800 0)
+	     (moi::make-frame 0 -600)
+	     (moi::make-frame -800 -600)
+	     ))))
 
 (defun moi::make-frame-6 ()
   (interactive)
@@ -108,6 +118,24 @@
 			  (bury-buffer (current-buffer))))
     (eval run-command)
     ))
+
+;;
+;; Scratchよ永遠に！
+;;
+(defun scratch ()
+  (interactive)
+  (if (get-buffer "*scratch*") nil
+    (get-buffer-create "*scratch*")
+    (save-excursion
+      (set-buffer "*scratch*")
+      (if (eq major-mode 'fundamental-mode)
+	  (funcall initial-major-mode))
+      (and initial-scratch-message
+	   (insert initial-scratch-message))
+      (set-buffer-modified-p nil))
+    )
+  (switch-to-buffer (get-buffer "*scratch*"))
+  )
 
 ;;
 ;; wheel mouse

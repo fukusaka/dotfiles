@@ -15,6 +15,17 @@
 #ifndef @@HEADER_DEFINDED@@
 #define @@HEADER_DEFINDED@@
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+
 #endif /* @@HEADER_DEFINDED@@ */
 
 @@@@
@@ -23,7 +34,7 @@ NAME: programmer-name
 ADDRESS: programmer-mail-address
 YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%d %b %Y")
-LICENSE: (moi::license-string 'GPL " * ")
+LICENSE: (moi::ask-license-string " * ")
 HEADER_DEFINDED: (let* ((fname (file-name-nondirectory buffer-file-name))
 			(ff (string-to-char-list (concat "_" fname)))
 			pp)
