@@ -25,15 +25,18 @@
 			    (hilit-translate 	string	  nil)
 			    )))
       )
-     ;; emacs20 では font-lock を使う
+     ((featurep 'xemacs)
+      (custom-set-variables '(font-lock-mode t t (font-lock)))
+      )
+     ;; それ以外(emacs20,xemacs) では font-lock を使う
      ((string-match "^20" emacs-version)
       (global-font-lock-mode t)
       (setq font-lock-support-mode
-	    '((c-mode . fast-lock-mode)
-	      (c++-mode . fast-lock-mode)
-	      (cc-mode . fast-lock-mode)
-	      (perl-mode . fast-lock-mode)
-	      (cperl-mode . fast-lock-mode)
+	    '(;(c-mode . fast-lock-mode)
+	      ;(c++-mode . fast-lock-mode)
+	      ;(cc-mode . fast-lock-mode)
+	      ;(perl-mode . fast-lock-mode)
+	      ;(cperl-mode . fast-lock-mode)
 	      (t . lazy-lock-mode)
 	      ))
       (setq fast-lock-minimum-size 25600)
@@ -51,4 +54,3 @@
       (setq font-lock-string-face 'moi-string-face)
       )
      ))
-
