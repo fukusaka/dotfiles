@@ -1,0 +1,4 @@
+#!/bin/sh
+cd ${HOME}/private_html/link
+export PATH=.:${PATH}
+make link
