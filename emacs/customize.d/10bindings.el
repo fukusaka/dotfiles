@@ -25,6 +25,12 @@
 (define-key global-map "\C-z\C-l" 'scratch)
 (define-key global-map "\C-zl" 'scratch)
 
+
+(if (string-match "^21" emacs-version)
+    (progn
+      (define-key global-map [home] 'beginning-of-buffer)
+      (define-key global-map [end] 'end-of-buffer)
+      ))
 ;;
 ;; 6枚ものフレームを同時生成、同時削除。
 ;;
@@ -38,7 +44,9 @@
 	 (left (+ x bw (eval (cdr (assoc 'left fpar)))))
 	 (top  (+ y bw (eval (cdr (assoc 'top fpar)))))
 	 (frame (make-frame)))
+    (sleep-for 0.03)
     (modify-frame-parameters frame `((top + ,top) (left + ,left)))
+    (sleep-for 0.03)
     frame))
 
 (defvar moi::make-frame-6-alist nil)
@@ -48,9 +56,9 @@
   (if (not moi::make-frame-6-alist)
       (setq moi::make-frame-6-alist
 	    (list
-	     (moi::make-frame 1024 0)
-	     (moi::make-frame 0 768)
-	     (moi::make-frame 1024 768)
+	     (moi::make-frame 1280 0)
+	     (moi::make-frame 0 1024)
+	     (moi::make-frame 1280 1024)
 	     ))))
 
 (defun moi::make-frame-6 ()
@@ -58,14 +66,14 @@
   (if (not moi::make-frame-6-alist)
       (setq moi::make-frame-6-alist
 	    (list
-	     (moi::make-frame 1024 0)
-	     (moi::make-frame -1024 0)
-	     (moi::make-frame 0 768)
-	     (moi::make-frame 0 -768)
-	     (moi::make-frame 1024 768)
-	     (moi::make-frame -1024 768)
+	     (moi::make-frame 1280 0)
+	     (moi::make-frame -1280 0)
+	     (moi::make-frame 0 1024)
+	     (moi::make-frame 0 -1024)
+	     (moi::make-frame 1280 1024)
+	     (moi::make-frame -1280 1024)
 	     ;;(moi::make-frame 1024 -768)
-	     (moi::make-frame -1024 -768)
+	     (moi::make-frame -1280 -1024)
 	     ))))
 
 (defun moi::delete-frame-6 ()
