@@ -9,7 +9,9 @@ if [ -f '~/.bashrc' ]; then . '~/.bashrc'; fi
 
 # パスの指定
 export PATH=.:${HOME}/bin:${PATH}
+export CONFDIR=${HOME}/lib/conf
 export INFOPATH=~/info:/usr/info:/usr/share/info
+export TEXINPUTS=.//:${CONFDIR}/tex//:
 
 # コマンドの指定
 export TEX=ptex
@@ -27,6 +29,9 @@ export LANG=ja_JP.ujis
 
 # less の指定
 export LESSCHARSET=japanese-euc
+
+# X Application Resource Directory
+export XAPPLRESDIR=${CONFDIR}/X11/app-resources/
 
 # プリンターの指定
 # export PRINTER="gs360"

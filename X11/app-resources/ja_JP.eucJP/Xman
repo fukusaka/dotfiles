@@ -1,0 +1,199 @@
+*international: TRUE
+*inputMethod:           kinput2
+!*fontSet:   -*--12-*,-*--12-*
+*fontList: -*-fixed-medium-r-normal--12-*-*-*-*-*-*-*: 
+*fontSet: -*-fixed-medium-r-normal--12-* 
+
+! $Id$
+! 
+! If you have i18n'ed commands corresponding to below, please replace them.
+!
+*commandTbl:			tbl
+*commandEqn:			neqn -Tnippon
+*commandRoff:			nroff -Tnippon
+
+!
+! The first font base-name is tried to match usually Latin-1 font, the second 
+! is to match such Japanese, Chinese font and so on.
+! To make manual page looks nice, please choose your favourite fonts to
+! replace them.
+!
+*directoryFontSetNormal: 	-*-*-medium-r-*--12-*-*-*-c-*-*-*
+*manualFontSetNormal:		-*-*-medium-r-*--12-*-*-*-c-*-*-*
+*manualFontSetBold:		-*-*-bold-r-*--12-*-*-*-c-*-*-*
+*manualFontSetItalic:		-*-*-bold-r-*--12-*-*-*-c-*-*-*
+*manualFontSymbol:		-*-symbol-*-r-*-*-12-*-*-*-*-*-*-*
+*topLabel.FontSet:              -*-*-medium-r-*--12-*-*-*-c-*-*-*
+*horizPane*FontSet:		-*-*-medium-r-*--12-*-*-*-c-*-*-*
+
+*input:				TRUE
+
+! Just for fun.
+*topBox*ShapeStyle:		Oval
+
+!*topBox.Title:			Ｘマニュアル
+!*topBox.IconName:		Ｘマニュアル
+!*manualBrowser.Title:		マニュアル・ページ
+!*manualBrowser.IconName:	マニュアル・ページ
+
+*topBox.Title:			Xman
+*topBox.IconName:		Xman
+*manualBrowser.Title:		manual page
+*manualBrowser.IconName:	manual page
+
+*SimpleMenu*FontSet:		-*-*-medium-r-*--14-*-*-*-c-*-*-*
+*SimpleMenu.BackingStore:	Always
+*SimpleMenu.SaveUnder:		Off
+
+*search*FontSet:		-*-*-medium-r-*--14-*-*-*-c-*-*-*
+*horizPane.orientation: 	horizontal
+*horizPane*showGrip:		False
+*horizPane.max:			15
+*topLabel.BorderWidth:		0
+*search*label.BorderWidth:	0
+
+*search*dialog*value:		xman
+
+*optionMenu.Label:		Xman オプション
+*sectionMenu.Label:		Xman セクション
+
+*horizPane*options.Label:	オプション
+*horizPane*sections.Label:	セクション
+
+*helpButton.Label:		ヘルプ
+*quitButton.Label:		終了
+*manpageButton.Label:		マニュアル ページ
+*manualBrowser.Label:		マニュアル
+*topLabel.Label:		マニュアル
+
+*SimpleMenu*menuLabel*vertSpace: 100
+*SimpleMenu*menuLabel*leftMargin: 20
+
+*displayDirectory.Label:	ディレクトリ表示
+*displayManualPage.Label:	マニュアル・ページ表示
+*help.Label:			ヘルプ
+*search.Label:			検索
+*removeThisManpage.Label:	マニュアル・ページ消去
+*help*removeThisManpage.Label:	ヘルプ・ページ消去
+*openNewManpage.Label:		新マニュアル・ページのオープン
+
+*showVersion.Label:		バージョン表示
+*quit.Label:			終了
+
+*pleaseStandBy*Label:		マニュアル・ページをフォーマット中。しばらくお待ち下さい......
+
+*search*dialog.Label:		検索文字列を入力して下さい:
+*search*apropos.Label:		キーワード検索
+*search*manualPage.Label:	マニュアル
+*search*cancel.Label:		取消
+
+*likeToSave*dialog.Label:	フォーマットされたマニュアル・ページを保存しますか？
+*likeToSave*yes.Label:		はい
+*likeToSave*no.Label:		いいえ
+
+*translations: 		#override \
+				Ctrl<Key>q: Quit() \n\
+				Ctrl<Key>c: Quit() \n\
+				Ctrl<Key>n: CreateNewManpage() \n\
+				Ctrl<Key>h: PopupHelp() \n\
+				Ctrl<Key>s: PopupSearch()
+
+*help*Paned.manualPage.translations:#override \
+				Ctrl<Btn1Down>: \
+					XawPositionSimpleMenu(optionMenu) \
+					MenuPopup(optionMenu) \n\
+				Ctrl<Key>q: Quit() \n\
+				Ctrl<Key>c: Quit() \n\
+				Ctrl<Key>r: RemoveThisManpage() \n\
+				Ctrl<Key>n: CreateNewManpage() \n\
+				Ctrl<Key>h: PopupHelp() \n\
+				Ctrl<Key>d: GotoPage(Directory) \n\
+				Ctrl<Key>m: GotoPage(ManualPage) \n\
+				Ctrl<Key>v: ShowVersion() 
+
+*manualBrowser*manualPage.translations:  #override \
+				Ctrl<Btn1Down>: \
+					XawPositionSimpleMenu(optionMenu) \
+					MenuPopup(optionMenu) \n\
+				Ctrl<Btn2Down>: \
+					XawPositionSimpleMenu(sectionMenu) \
+					MenuPopup(sectionMenu) \n\
+				Shift<Btn2Down>,<Btn2Up>:GotoPage(Directory)\n\
+				Ctrl<Key>q: Quit() \n\
+				Ctrl<Key>c: Quit() \n\
+				Ctrl<Key>r: RemoveThisManpage() \n\
+				Ctrl<Key>n: CreateNewManpage() \n\
+				Ctrl<Key>h: PopupHelp() \n\
+				Ctrl<Key>d: GotoPage(Directory) \n\
+				Ctrl<Key>m: GotoPage(ManualPage) \n\
+				Ctrl<Key>v: ShowVersion() \n\
+				Ctrl<Key>s: PopupSearch()
+
+*manualBrowser*directory.translations:   #override \
+				Ctrl<Btn1Down>: \
+					XawPositionSimpleMenu(optionMenu) \
+					MenuPopup(optionMenu) \n\
+				Ctrl<Btn2Down>: \
+					XawPositionSimpleMenu(sectionMenu) \
+					MenuPopup(sectionMenu) \n\
+				Shift<Btn2Down>,<Btn2Up>: GotoPage(Manpage) \n\
+				Ctrl<Key>q: Quit() \n\
+				Ctrl<Key>c: Quit() \n\
+				Ctrl<Key>r: RemoveThisManpage() \n\
+				Ctrl<Key>n: CreateNewManpage() \n\
+				Ctrl<Key>h: PopupHelp() \n\
+				Ctrl<Key>d: GotoPage(Directory) \n\
+				Ctrl<Key>m: GotoPage(ManualPage) \n\
+				Ctrl<Key>v: ShowVersion() \n\
+				Ctrl<Key>s: PopupSearch()
+
+*manualBrowser*search*manualPage.translations: 	#augment \
+				<Btn1Down>,<Btn1Up>: Search(Manpage) reset()
+
+*manualBrowser*search*apropos.translations:		#augment \
+				<Btn1Down>,<Btn1Up>: Search(Apropos) reset()
+
+*manualBrowser*search*cancel*translations:  	#augment \
+				<Btn1Down>,<Btn1Up>: Search(Cancel) reset()
+
+*manualBrowser*search*value*translations:		#override \
+				<Key>Return: Search(Manpage) \n\
+				Ctrl<Key>m:  Search(Manpage)
+
+*topBox*search*manualPage.translations: 		#augment \
+			<Btn1Down>,<Btn1Up>: Search(Manpage, Open) reset()
+
+*topBox*search*apropos.translations:		#augment \
+			<Btn1Down>,<Btn1Up>: Search(Apropos, Open) reset()
+
+*topBox*search*cancel*translations:  		#augment \
+			<Btn1Down>,<Btn1Up>: Search(Cancel, Open) reset()
+
+*topBox*search*value*translations:			#override \
+				<Key>Return: Search(Manpage, Open) \n\
+				Ctrl<Key>m:  Search(Manpage, Open)
+
+*manualBrowser*likeToSave*yes.translations:	#override \
+		<Btn1Down>,<Btn1Up>: SaveFormattedPage(Save) reset() \n\
+		<Key>y:   SaveFormattedPage(Save) \n\
+		<Key>n:   SaveFormattedPage(Cancel) 
+
+*manualBrowser*likeToSave*no.translations:	#override \
+		<Btn1Down>,<Btn1Up>: SaveFormattedPage(Cancel) reset() \n\
+		<Key>y:	  SaveFormattedPage(Save) \n\
+		<Key>n:	  SaveFormattedPage(Cancel) 
+
+*manualBrowser*likeToSave*translations:	#override \
+				<Key>y:	  SaveFormattedPage(Save) \n\
+				<Key>n:	  SaveFormattedPage(Cancel) 
+
+*helpButton.translations:	#augment \
+			<Btn1Down>,<Btn1Up>: PopupHelp() reset()
+
+*quitButton.translations:	#augment \
+			<Btn1Down>,<Btn1Up>: Quit() reset()
+
+*manpageButton.translations: #augment \
+			<Btn1Down>,<Btn1Up>: CreateNewManpage() reset()
+
+*topBox*FontSet:		-*-*-medium-r-*--12-*-*-*-c-*-*-*

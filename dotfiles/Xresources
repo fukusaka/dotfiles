@@ -19,7 +19,7 @@
 
 
 !*international:         true
-!*inputMethod:           kinput2
+*inputMethod:           kinput2
 
 Kinput2*KinputProtocol.XlcConversionStartKey:	Ctrl<Key>backslash
 Kinput2*ConversionStartKeys: \
@@ -40,6 +40,7 @@ mule.geometry:	80x30+0+0
 emacs.geometry:	80x34+0+0
 emacs20.geometry: 80x34+0+0
 editres.geometry: 700x572+0+0
+XEmacs.geometry: 80x30+0+0
 Xftp.geometry: 700x572+0+0
 Viewres.geometry: 700x572+0+0
 mosaic.geometry: 700x570+0+0
@@ -53,10 +54,10 @@ Netscape.MailThread.geometry: 680x569+25+0
 Netscape.MailFolder.geometry: 680x569+25+0
 Netscape.Composition.geometry: 680x569+25+0
 #endif
-!Netscape*international:         true
-!Netscape*inputMethod:           kinput2
-Netscape*international:         false
-Netscape*inputMethod:           none
+Netscape*international:         true
+Netscape*inputMethod:           kinput2
+!Netscape*international:         false
+!Netscape*inputMethod:           none
 Netscape*useStdoutDialog:	false
 Netscape*useStderrDialog:	false
 
@@ -64,6 +65,7 @@ Netscape*useStderrDialog:	false
 
 
 Emacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
+XEmacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
 
 Emacs*FontSetList: 14,16,18,24
 Emacs*FontSet-14:\
@@ -113,7 +115,8 @@ kterm*titleBar:		false
 kterm*scrollKey:	false
 kterm*reverseWrap:	true
 kterm*loginShell:	false
-kterm*fontList:			-*-fixed-medium-r-normal--16-*
+kterm*fontList:		-alias-fixed-medium-r-normal--16-*
+!kterm*boldFontList:	-alias-fixed-bold-r-normal--16-*
 !kterm*font:			-*-fixed-medium-r-normal--16-*-iso8859-1
 !kterm*romanKanjiFont:		-*-fixed-medium-r-normal--16-*-iso8859-1
 !kterm*kanjiFont:		-*-fixed-medium-r-normal--16-*-jisx0208.1983-0
@@ -166,11 +169,11 @@ Xarchie*hostMenuItem27.label: archie.kyoto-u.ac.jp Local
 Xarchie*numHosts:               28
 
 Xman*manualBrowser.geometry: 600x570+80+0
-Xman*FontSet:\
-        -*-fixed-medium-r-*--12-*-iso8859-1,\
-        -*-fixed-medium-r-*--12-*-jisx0201.1976-*,\
-        -*-fixed-medium-r-*--12-*-jisx0208.1983-*
 Xman*inputMethod: none
+!Xman*FontSet:\
+!	 -*-fixed-medium-r-*--12-*-iso8859-1,\
+!	 -*-fixed-medium-r-*--12-*-jisx0201.1976-*,\
+!	 -*-fixed-medium-r-*--12-*-jisx0208.1983-*
 
 
 !! Wheel Mouse

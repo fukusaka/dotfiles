@@ -48,4 +48,11 @@
       'wl-draft-kill
       'mail-send-hook))
 
+(setq wl-summary-no-from-message "<名無し>")
+(setq wl-summary-no-subject-message "<題名なし>")
+
+(setq elmo-msgdb-extra-fields
+      '("x-sequence"
+	))
+
 ;;; 50wanderlust.el ends here

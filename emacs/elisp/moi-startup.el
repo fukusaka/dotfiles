@@ -8,14 +8,34 @@
 (defvar moi::elisp-path "~/lib/conf/emacs/elisp/")
 
 (defvar moi::host-customize-dir
-  (concat moi::customize-dir "T" (getenv "HOSTNAME") "/"))
+  (concat moi::customize-dir "H" (getenv "HOSTNAME") "/"))
 
 (defvar moi::elc-dir-prefix
-  (cond ((string< emacs-version "19") "emacs18/")
-	((string< emacs-version "20") "emacs19/")
-	((string< emacs-version "21") "emacs20/")
-	(t "emacsxx/")))
+  (if (featurep 'xemacs)
+      (cond ((string< emacs-version "21") "xemacs20/")
+	    ((string< emacs-version "22") "xemacs21/")
+	    (t "xemacsxx/"))
+    (cond ((string< emacs-version "19") "emacs18/")
+	  ((string< emacs-version "20") "emacs19/")
+	  ((string< emacs-version "21") "emacs20/")
+	  (t "emacsxx/"))))
 
+(defun moi::domain-customize-dir ()
+  (let* ((hostname (getenv "HOSTNAME"))
+	 (alist (let ((buf (generate-new-buffer "temp")) data)
+		  (save-excursion
+		    (set-buffer buf)
+		    (insert-file-contents (concat moi::customize-dir
+						  "/cluster.el"))
+		    (setq data (read buf)))
+		  (kill-buffer buf)
+		  data))
+	 (domain nil))
+    (while (and (not domain) alist)
+      (if (string-match (car (car alist)) hostname)
+	  (setq domain (cdr (car alist))))
+      (setq alist (cdr alist)))
+    domain))
 
 (defun moi::unique-strings (list)
   (if (null list)
@@ -46,12 +66,25 @@
   (load (moi::compile-file file)))
 
 (defun moi::startup-customize ()
-  (let* ((files
-	  (append
-	   (directory-files moi::customize-dir t "^[0-9][0-9].*\\.el$" t)
-	   (if (file-directory-p moi::host-customize-dir)
-	       (directory-files moi::host-customize-dir t "^[0-9][0-9].*\\.el$" t))
-	   ))
+  (let* ((files-list
+	  (mapcar (lambda (dir)
+		    (if (file-directory-p dir)
+			(directory-files dir t "^[0-9][0-9].*\\.el$" t)))
+		  (let ((domain (moi::domain-customize-dir)))
+		    (if domain
+			(list moi::host-customize-dir
+			      domain
+			      moi::customize-dir)
+		      (list moi::host-customize-dir
+			    moi::customize-dir)))
+		  ))
+	 (files
+	  (let ((files))
+	    (while files-list
+	      (setq files (append files (car files-list)))
+	      (setq files-list (cdr files-list)))
+	    files))
+
 	 (s-files
 	  (moi::unique-strings
 	   (sort

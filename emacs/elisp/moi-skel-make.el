@@ -46,8 +46,8 @@
     ("\\.tex\\'" . "skel.tex")
     ("\\.html\\'" . "skel.html")
     ("\\.scm\\'" . "skel.scm")
-    ("Makefile.am" . "Makefile.am")
-    ("autogen.sh" . "autogen.sh")
+    ("\\`Makefile\\.am\\'" . "Makefile.am")
+    ("\\`autogen\\.sh\\'" . "autogen.sh")
     ))
 
 (if (fboundp 'match-string) t
@@ -82,7 +82,6 @@
 	  (let ((skel-file-real (concat moi::skel-file-dir skel-file)))
 	    (if (file-readable-p skel-file-real)
 		(moi::insert-skel-file-real fname dname skel-file-real)))))
-	    
     ))
 
 (defun moi::insert-skel-file-real (file-name dir-name skel-file)

@@ -100,7 +100,10 @@
 ;; EDITOR=emacsclientで emacs で開く
 ;; PAGER=emacsclientで emacs で開く
 ;;
-(server-start)
+(if (featurep 'xemacs)
+    nil
+  (server-start)
+  )
 
 ;;
 ;; semi-gnus 初期化ファイルの指定

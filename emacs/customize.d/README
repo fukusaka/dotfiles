@@ -1,5 +1,7 @@
 $Id$
 
+xx<package>
+
 00-04	予約
 05	言語設定
 06-09	予約
@@ -10,3 +12,14 @@ $Id$
 20-	各種パッケージ
 		普通は、50を指定。
 		パッケージの依存関係に応じて適切に指定。
+
+
+./			common
+
+D<cluster-domain>/	cluster-domain 固有
+
+H<terminal-hostname>	terminal-hostname 固有
+
+cluster.el
+	hostname -- cluster-domain
+
