@@ -29,6 +29,7 @@
     (cond ((string< emacs-version "19") "emacs18/")
 	  ((string< emacs-version "20") "emacs19/")
 	  ((string< emacs-version "21") "emacs20/")
+	  ((string< emacs-version "22") "emacs21/")
 	  (t "emacsxx/"))))
 
 (defun moi::domain-customize-dir ()
