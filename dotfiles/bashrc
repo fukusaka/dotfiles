@@ -5,7 +5,7 @@ export EDITOR=/usr/bin/vi
 export PAGER=/usr/bin/pager
 export TEXEDIT='/usr/bin/vi %s'
 
-if [ -n "$PS1" ]; then
+if [ "$PS1" != "" ]; then
 # This shell is interactive
     PS1="% "
     # stty (tty type ¤ÎÀßÄê)
@@ -16,13 +16,13 @@ if [ -n "$PS1" ]; then
     stty stop undef
 #    tty cs8 -istrip -parenb
     eval `dircolors -b`
-    if [ "$LS_COLORS" == "" ]; then
+    if [ "$LS_COLORS" = "" ]; then
 	alias  ls='\/bin/ls -FNB'
     else
 	alias  ls='\/bin/ls -FNB --color=auto'
     fi
 
-    if [ "$EMACS" == "t" -a "$TERM" == "dumb" ]; then
+    if [ "x$EMACS" = "xt" -a "x$TERM" = "xdumb" ]; then
 	export EDITOR='emacsclient'
 	export TEXEDIT='emacsclient +%d %s'
 	export PAGER=${HOME}/bin/pageremacs
