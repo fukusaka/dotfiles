@@ -1,5 +1,7 @@
 # ~/.bash_profile: -*-shell-script-*-
 
+# $Id$
+
 umask 002
 
 if [ -f '~/.bashrc' ]; then . '~/.bashrc'; fi

@@ -51,8 +51,12 @@ Netscape.MailThread.geometry: 680x569+25+0
 Netscape.MailFolder.geometry: 680x569+25+0
 Netscape.Composition.geometry: 680x569+25+0
 #endif
-Netscape*international:         true
-Netscape*inputMethod:           kinput2
+!Netscape*international:         true
+!Netscape*inputMethod:           kinput2
+Netscape*international:         false
+Netscape*inputMethod:           none
+Netscape*useStdoutDialog:	false
+Netscape*useStderrDialog:	false
 
 
 
