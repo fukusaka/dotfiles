@@ -1,17 +1,24 @@
 #$Id$
-afterstep/steprc		.steprc
-dotfiles/Xresources		.Xresources
-dotfiles/bash_profile		.bash_profile
-dotfiles/bashrc			.bashrc
-dotfiles/canna			.canna
-#dotfiles/emacs			.emacs
-#dotfiles/fvwm2rc		.fvwm2rc
-#dotfiles/fvwm2rc95		.fvwm2rc95
-#dotfiles/fvwm2rc.portable	.fvwm2rc
-#dotfiles/fvwmrc		.fvwmrc
-dotfiles/cshrc			.cshrc
-dotfiles/login			.login
-dotfiles/logout			.logout
-dotfiles/inputrc		.inputrc
-dotfiles/indent.pro		.indent.pro
-emacs/emacs.el			.emacs
+afterstep/steprc		~/	.steprc
+dotfiles/Xresources		~/	.Xresources
+dotfiles/bash_profile		~/	.bash_profile
+dotfiles/bashrc			~/	.bashrc
+dotfiles/canna			~/	.canna
+#dotfiles/emacs			~/	.emacs
+#dotfiles/fvwm2rc		~/	.fvwm2rc
+#dotfiles/fvwm2rc95		~/	.fvwm2rc95
+#dotfiles/fvwm2rc.portable	~/	.fvwm2rc
+#dotfiles/fvwmrc		~/	.fvwmrc
+dotfiles/cshrc			~/	.cshrc
+dotfiles/login			~/	.login
+dotfiles/logout			~/	.logout
+dotfiles/inputrc		~/	.inputrc
+dotfiles/indent.pro		~/	.indent.pro
+dotfiles/cvsrc			~/	.cvsrc
+dotfiles/xlocktext		~/	.xlocktext
+dotfiles/guile			~/	.guile
+#dotfiles/emacs_bash		~/	.emacs_bash
+emacs/emacs.el			~/	.emacs
+signature/phys.formal		~/	.signature
+perl				~/lib	perl
+guile				~/lib	guile

@@ -17,9 +17,9 @@ if [ -n "$PS1" ]; then
 #    tty cs8 -istrip -parenb
     eval `dircolors -b`
     if [ "$LS_COLORS" == "" ]; then
-	alias  ls='\ls -FNB'
+	alias  ls='\/bin/ls -FNB'
     else
-	alias  ls='\ls -FNB --color=auto'
+	alias  ls='\/bin/ls -FNB --color=auto'
     fi
 
     if [ "$EMACS" == "t" -a "$TERM" == "dumb" ]; then

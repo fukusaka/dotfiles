@@ -35,14 +35,17 @@
 	      (its-defrule "O" "ぉ" nil nil "roma-kana")
 	      ))
 	)))
- ;; Ver.20 の場合(不十分)
- ((string-match "^20.3" emacs-version)
-  ;; 常に『かんな/emacs』なので、、、。
-  (set-input-method "japanese-canna")
-  ;; とっても簡単になったもんだ〜ぁ。
-  )
- ((string-match "^20.4" emacs-version)
-  ;; かんなよ戻って来てくれ！
-  (load "yc")
-  )
+ ;; Ver.20 の場合(不十分？)
+ ((string-match "^20" emacs-version)
+  (if (featurep 'canna-leim)
+      (progn
+	;; 常に『かんな/emacs』なので、、、。
+	(set-input-method "japanese-canna")
+	;; とっても簡単になったもんだ〜ぁ。
+	)
+    ;; かんなよ戻って来てくれ！
+    (load "yc")
+    (define-key yc-fence-mode-map "\C-j" 'yc-modeless-next)
+    (setq yc-stop-chars "(){}<>$\"\'")
+    ))
  )

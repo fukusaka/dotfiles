@@ -48,9 +48,9 @@
   (if (not moi::make-frame-6-alist)
       (setq moi::make-frame-6-alist
 	    (list
-	     (moi::make-frame -800 0)
-	     (moi::make-frame 0 -600)
-	     (moi::make-frame -800 -600)
+	     (moi::make-frame 800 0)
+	     (moi::make-frame 0 600)
+	     (moi::make-frame 800 600)
 	     ))))
 
 (defun moi::make-frame-6 ()
@@ -77,11 +77,13 @@
 ;;
 ;; moi-skel-make.el
 ;;
-(autoload 'moi::find-file "moi-skel-make")
-
-(global-set-key "\C-x\C-f" 'moi::find-file)
-(global-set-key "\C-z\C-f" 'moi::find-file)
-
+(cond
+ ((string-match "^20" emacs-version)
+  (autoload 'moi::find-file "moi-skel-make")
+  (global-set-key "\C-x\C-f" 'moi::find-file)
+  (global-set-key "\C-z\C-f" 'moi::find-file)
+  )
+ )
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし
 (defun toggle-shell-default ()

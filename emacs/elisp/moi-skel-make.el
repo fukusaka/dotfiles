@@ -47,7 +47,15 @@
     ("\\.html\\'" . "skel.html")
     ("\\.scm\\'" . "skel.scm")
     ("Makefile.am" . "Makefile.am")
+    ("autogen.sh" . "autogen.sh")
     ))
+
+(if (fboundp 'match-string) t
+  (defun match-string (num &optional string)
+    (if (match-beginning num)
+	(if string
+	    (substring string (match-beginning num) (match-end num))
+	  (buffer-substring (match-beginning num) (match-end num))))))
 
 (provide 'moi-skel-file)
 (defun moi::find-file (filename)
@@ -79,7 +87,8 @@
 
 (defun moi::insert-skel-file-real (file-name dir-name skel-file)
   (insert-file skel-file)
-  (font-lock-unfontify-buffer)
+  (if (featurep 'font-lock)
+      (font-lock-unfontify-region (point-min) (point-max)))
   (if (re-search-forward "^@@@@$" nil t)
       (let ((h (match-beginning 0))
 	    (vlist nil))
@@ -113,7 +122,8 @@
 		  (insert (concat (cdr vl)))))))
 	(goto-char (point-min))
 	))
-  (font-lock-fontify-buffer)
+  (if (featurep 'font-lock)
+      (font-lock-fontify-buffer))
   )
 
 (setq moi::license-list

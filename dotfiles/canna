@@ -36,11 +36,11 @@
 ;
 
 (cond
- ((equal canna-version "3.2")
+ ((= canna-version 3.2)
   (setq romkana-table "default.kp")
   (setq english-table "english.kp")
   )
- ;; (( canna-version 3.5)
+ ;; ((= canna-version 3.5)
  (t
   ;;(setq romkana-table "unix.cbp")
   (setq romkana-table "default.cbp")

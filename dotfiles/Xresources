@@ -42,7 +42,6 @@ emacs20.geometry: 80x34+0+0
 editres.geometry: 700x572+0+0
 Xftp.geometry: 700x572+0+0
 Viewres.geometry: 700x572+0+0
-Tgif.Geometry:	680x400+0+0
 mosaic.geometry: 700x570+0+0
 chimera.geometry: 700x570+0+0
 #endif
@@ -130,7 +129,9 @@ XDvi*paper:		a4
 XDvi*grey:		true
 XDvi*gamma:		2
 XDvi*geometry:		734x575+0+0
-!XDvi*ghostscript:	off
+XDvi*postscript:	off
+XDvi*gsAlpha:		true
+!XDvi*shrinkFactor:	13
 
 Gv.antialias:		True
 
@@ -237,3 +238,37 @@ Chimera*FontSet:\
 
 Tgif.ReverseVideo:		off
 Tgif.Background:		AntiqueWhite
+Tgif.GridSystem:		Metric
+Tgif.Geometry:			655x420+0+0
+Tgif.BorderColor:		DarkSlateGray
+Tgif.RubberBandColor:		DarkSlateGray
+
+Tgif.DoubleByteInputMethod:	kinput2
+
+Tgif.RyuminShowFontChar: 244242
+Tgif.SquareDoubleByteFonts: \n\
+       -jis-fixed-*-*-*--%d-*-*-*-*-*-jisx0208.1983-* \n\
+               H \n\
+               Ryumin-Light-EUC-H \n\
+       -jis-fixed-*-*-*--%d-*-*-*-*-*-jisx0208.1983-* \n\
+               H \n\
+               Ryumin-Light-EUC-H \n\
+       -jis-fixed-*-*-*--%d-*-*-*-*-*-jisx0208.1983-* \n\
+               H \n\
+               Ryumin-Light-EUC-H \n\
+       -jis-fixed-*-*-*--%d-*-*-*-*-*-jisx0208.1983-* \n\
+               H \n\
+               Ryumin-Light-EUC-H \n\
+       \n\
+       -jis-fixed-*-*-*--%d-*-*-*-*-*-jisx0208.1983-* \n\
+               V \n\
+               Ryumin-Light-EUC-V \n\
+       -jis-fixed-*-*-*--%d-*-*-*-*-*-jisx0208.1983-* \n\
+               V \n\
+               Ryumin-Light-EUC-V \n\
+       -jis-fixed-*-*-*--%d-*-*-*-*-*-jisx0208.1983-* \n\
+               V \n\
+               Ryumin-Light-EUC-V \n\
+       -jis-fixed-*-*-*--%d-*-*-*-*-*-jisx0208.1983-* \n\
+               V \n\
+               Ryumin-Light-EUC-V

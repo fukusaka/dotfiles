@@ -1,22 +1,18 @@
-TARBALL=../conf.tar.gz
+TARBALL=conf.tar.gz
 
-OWNDIR=lib/conf
+CONFDIR=~/lib/conf
 
 all:
-	@ echo "link -- "
-	@ echo "pack -- "
+	@ echo "link -- リンクを張り巡らす"
+	@ echo "pack -- tarball に固める"
 
 link:
-	@( cd ~ ; 			\
-	   awk -v PWD="${OWNDIR}/" '!/^#/ { print "ln -sf",PWD $$1,$$2}' \
-	   ${OWNDIR}/link-list	\
-	   | sh			\
-	 )
+	@ grep -v '^#' link-list | \
+	  awk '!/^#/ { printf("cd %s && ln -sf %s/%s %s\n",$$2,"${CONFDIR}",$$1,$$3)}' | cat
 
 pack:
-	find . -type f  -not -name '*~' \
+	cd .. ; find conf -type f  -not -name '*~' \
 			-not -name '*.elc' \
-	| sed -n '/.\//s///p' \
 	| tar cfz ${TARBALL} -T -
 clean:
 	find . -name '*~' | xargs rm -f

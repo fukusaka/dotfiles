@@ -18,7 +18,7 @@
       )
     (if (not (= n w))
 	(setq estrl (cdr estrl)))
-    (char-list-to-string (reverse estrl))
+    (mapconcat 'char-to-string (reverse estrl) nil)
     ))
 
 (require 'poem)

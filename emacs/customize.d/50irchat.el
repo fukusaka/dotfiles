@@ -1,10 +1,13 @@
 
 ;; 普段利用するサーバ
-(setq irchat-server "comicsrv.microsoft.com")
+;;(setq irchat-server "comicsrv.microsoft.com")
+;;(setq irchat-server "localhost")
 
 ;; IRCサーバのリスト
 (setq irchat-server-alist
-      '(("irc.kyoto.wide.ad.jp")
+      '(
+	("comicsrv.microsoft.com")
+	("irc.kyoto.wide.ad.jp")
         ("irc.tokyo.wide.ad.jp")
         ("irc.race.u-tokyo.ac.jp")
         ("irc.huie.hokudai.ac.jp")
@@ -31,7 +34,7 @@
 (setq irchat-global-names nil)
 
 ;; サーバとの接続がきれた場合, 自動的に再接続する
-(setq irchat-reconnect-automagic t)
+(setq irchat-reconnect-automagic nil)
 
 ;; チャネルごとにバッファを作る
 (setq irchat-channel-buffer-mode t)
@@ -47,15 +50,15 @@
 (setq irchat-beep-on-bells 'always)
 
 ;; 起動時に自動joinするチャネル
-(setq irchat-startup-channel-list
-	'("#GOLDENBEARS"))
+;;(setq irchat-startup-channel-list
+;;	'("#GOLDENBEARS"))
 
 ;; チャネル移動のキーバインド
 ;; 下の例だと, C-1 : #ちゃねる, C-2 : #ちゃねる:*.jp, C-3: #channel
 ;; この設定がなければ, C-(数字) は irchat が適当に割り振る
 ;; なお, #ちゃねる:*.jp というチャネルは, %ちゃねる と書くことができます.
-(setq irchat-default-channel-binding
-	'("#GOLDENBEARS"))
+;;(setq irchat-default-channel-binding
+;;	'("#GOLDENBEARS"))
 
 ;; 終了時にすべてのバッファを削除する
 (add-hook 'irchat-Exit-hook
