@@ -31,57 +31,70 @@
       (define-key global-map [home] 'beginning-of-buffer)
       (define-key global-map [end] 'end-of-buffer)
       ))
+
 ;;
 ;; 6枚ものフレームを同時生成、同時削除。
 ;;
-(define-key global-map "\C-z51" 'moi::make-frame-3)
-(define-key global-map "\C-z52" 'moi::make-frame-6)
-(define-key global-map "\C-z50" 'moi::delete-frame-6)
+(if (featurep 'x-toolkit)
+    (progn
+      (define-key global-map "\C-z51" 'moi::make-frame-3)
+      (define-key global-map "\C-z52" 'moi::make-frame-6)
+      (define-key global-map "\C-z50" 'moi::delete-frame-6)
 
-(defun moi::make-frame (x y)
-  (let* ((fpar (frame-parameters))
-	 (bw   (cdr (assoc 'border-width fpar)))
-	 (left (+ x bw (eval (cdr (assoc 'left fpar)))))
-	 (top  (+ y bw (eval (cdr (assoc 'top fpar)))))
-	 (frame (make-frame)))
-    (sleep-for 0.03)
-    (modify-frame-parameters frame `((top + ,top) (left + ,left)))
-    (sleep-for 0.03)
-    frame))
+      (defun moi::make-frame (x y)
+	(let* ((fpar (frame-parameters))
+	       (bw   
+		(if (string-match "^20" emacs-version)
+		    (cdr (assoc 'border-width fpar))
+		  0))
+	       (left (+ x bw (eval (cdr (assoc 'left fpar)))))
+	       (top  (+ y bw (eval (cdr (assoc 'top fpar)))))
+	       (frame (make-frame)))
+	  (sleep-for 0.09)
+	  (modify-frame-parameters frame `((top + ,top) (left + ,left)))
+	  (sleep-for 0.09)
+	  frame))
 
-(defvar moi::make-frame-6-alist nil)
+      (defun moi::make-frame2 (x y)
+	(let* ((dh (x-display-pixel-height))
+	       (dw (x-display-pixel-width))
+	       (left (* dw x))
+	       (top (* dh y)))
+	  (moi::make-frame left top)))
 
-(defun moi::make-frame-3 ()
-  (interactive)
-  (if (not moi::make-frame-6-alist)
-      (setq moi::make-frame-6-alist
-	    (list
-	     (moi::make-frame 1280 0)
-	     (moi::make-frame 0 1024)
-	     (moi::make-frame 1280 1024)
-	     ))))
+      (defvar moi::make-frame-6-alist nil)
 
-(defun moi::make-frame-6 ()
-  (interactive)
-  (if (not moi::make-frame-6-alist)
-      (setq moi::make-frame-6-alist
-	    (list
-	     (moi::make-frame 1280 0)
-	     (moi::make-frame -1280 0)
-	     (moi::make-frame 0 1024)
-	     (moi::make-frame 0 -1024)
-	     (moi::make-frame 1280 1024)
-	     (moi::make-frame -1280 1024)
-	     ;;(moi::make-frame 1024 -768)
-	     (moi::make-frame -1280 -1024)
-	     ))))
+      (defun moi::make-frame-3 ()
+	(interactive)
+	(if (not moi::make-frame-6-alist)
+	    (setq moi::make-frame-6-alist
+		  (list
+		   (moi::make-frame2 1 0)
+		   (moi::make-frame2 0 1)
+		   (moi::make-frame2 1 1)
+		   ))))
 
-(defun moi::delete-frame-6 ()
-  (interactive)
-  (while moi::make-frame-6-alist
-    (delete-frame (car moi::make-frame-6-alist))
-    (setq moi::make-frame-6-alist (cdr moi::make-frame-6-alist))))
+      (defun moi::make-frame-6 ()
+	(interactive)
+	(if (not moi::make-frame-6-alist)
+	    (setq moi::make-frame-6-alist
+		  (list
+		   (moi::make-frame2 1 0)
+		   (moi::make-frame2 -1 0)
+		   (moi::make-frame2 0 1)
+		   (moi::make-frame2 0 -1)
+		   (moi::make-frame2 1 1)
+		   (moi::make-frame2 -1 1)
+		   ;;(moi::make-frame2 1 -1)
+		   (moi::make-frame2 -1 -1)
+		   ))))
 
+      (defun moi::delete-frame-6 ()
+	(interactive)
+	(while moi::make-frame-6-alist
+	  (delete-frame (car moi::make-frame-6-alist))
+	  (setq moi::make-frame-6-alist (cdr moi::make-frame-6-alist))))
+      ))
 ;;
 ;; moi-skel-make.el
 ;;
