@@ -52,7 +52,7 @@ sub read_config {
 
 ###############
 sub ftp_init {
-  $ftp = Net::FTP->new($ftphost,Passive=>1);
+  $ftp = Net::FTP->new($ftphost, Passive=>1);
   defined($ftp) || die "Not Connect $ftphost";
   $ftp->login($login,$password);
   $ftp->binary();
@@ -65,6 +65,7 @@ sub ignore_file {
 
   return 1 if ($file =~ /^\./);
   return 1 if ($file =~ /~$/ );
+  return 1 if ($file =~ /^#/ );
 
   return 0;
 }
