@@ -1,3 +1,6 @@
+cvs -z3
+update -d -P
+checkout -P
 diff -u -kk
 rdiff -u -kk
 import -d
