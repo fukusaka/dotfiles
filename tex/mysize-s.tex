@@ -1,0 +1,143 @@
+%%% 任意のサイズのフォントを利用できるようにする \mysize マクロ
+%%% ドキュメントは 25 行目までです. (\version{1999/02/21})
+% タイトルページなどでは, \Huge サイズよりも大きなサイズの文字を用いたい
+% ということはしばしばあります. この \mysize マクロは, そのようなときに
+% 任意のサイズの文字を利用できるようにするために作りました. 
+%
+% (使用法)
+% このファイルを文書ファイルのプリアンブルで \input してください. 
+% そうすると, {\mysize{size} ...} のように記述することで, ... の部分を
+% size で指定したサイズの文字で出力できます. ここで, size は単位付きの
+% 長さです. (単位を省略した場合には単位として pt が用いられます. )
+%
+% (使用例)
+% {\mysize{40} 40point ４０ポイント $\sum_{n=0}^{\infty}\sigma_n^{\ast}$}\par
+% {\mysize{30} 30point ３０ポイント $\sum_{n=0}^{\infty}\sigma_n^{\ast}$}
+%
+% (注意)
+% (1) このコマンドを用いた場合に限らず, LaTeX で標準的に提供されている
+%     文字サイズ以外のサイズの文字を用いた場合には, METAFONT がないと
+%     正しくプレビューまたは印刷ができないことが多いようです. 
+% (2) ここで定義されているマクロを用いると, \large などの (LaTeX ですでに
+%     用意されている) サイズ変更コマンドを用いた際にも文字サイズの調整を
+%     強制的に行うようになります. \mysize コマンドを用いたときだけに
+%     文字サイズの調整を行わせるようにするには, このファイルを \input した
+%     後に \AdjustSizeIfUndefined と書いてください. 
+%
+\makeatletter
+\@ifundefined{mysize}{}{\makeatother\endinput}
+%%% introduce new switches
+\newif\if@mysize
+\newif\if@mysize@replaced
+\def\AdjustSizeIfUndefined{\global\@mysizefalse}
+%
+%%% redefine some NFSS macros
+\def\get@external@font{%
+   \let\external@font\@empty
+   \edef\font@info{\expandafter\expandafter\expandafter\string
+        \csname \curr@fontshape \endcsname}%
+   \@mysize@replacedfalse
+   \try@size@range
+   \ifx\external@font\@empty
+      \try@size@substitution
+      \ifx\external@font\@empty
+         \@latex@error{Font \expandafter \string\font@name\space
+                     not found}\@eha
+         \error@fontshape
+         \get@external@font
+   \fi\fi
+   \if@mysize
+      \if@mysize@replaced\else
+         \let\f@user@size\f@size
+         \@mysize@use@user@size
+      \fi
+   \fi}
+\def\tryif@simple#1-#2\tryif@simple{%
+   \let \reserved@f \try@simples
+   \if>#2%
+      \dimen@ #1\p@
+      \ifdim \dimen@<\@M\p@
+         \ifdim \f@size\p@<\dimen@
+           \@tempdimc \dimen@
+           \advance\@tempdimc -\f@size\p@
+         \else
+           \@tempdimc \f@size\p@
+           \advance\@tempdimc -\dimen@
+         \fi
+         \ifdim \@tempdimc<\@tempdimb
+           \@tempdimb \@tempdimc
+           \def \best@size{#1}%
+         \fi
+      \else
+         \ifx \external@font\@empty
+            \ifx \best@size\@empty
+            \else
+               \let \f@user@size \f@size
+               \let \f@size \best@size
+               \if@mysize
+                  \try@simple@size
+                  \@mysize@use@user@size
+               \else
+                  \execute@size@substitition
+               \fi
+            \fi
+         \fi
+         \let \reserved@f \remove@to@nnil
+      \fi
+   \fi
+   \reserved@f}
+\def\execute@size@substitition{%
+   \ifdim \@tempdimb>\font@submax \relax
+      \xdef \font@submax {\the\@tempdimb}%
+   \fi
+   \ifdim \@tempdimb>\fontsubfuzz\relax
+     \@font@warning{Font\space shape\space
+         `\curr@fontshape'\space in\space size\space
+          <\f@user@size>\space not\space available\MessageBreak
+          size\space <\f@size>\space substituted}%
+   \fi
+   \try@simple@size
+   \do@subst@correction}
+\def\@mysize@use@user@size{%
+   \ifx\external@font\@empty\else
+      \edef\@mysize@use@user@size@temp{\external@font\space}%
+      \expandafter\@mysize@use@user@size@\@mysize@use@user@size@temp\@nil
+      \edef\external@font{%
+         \@mysize@use@user@size@temp\space at\f@user@size pt}%
+   \fi
+   \@mysize@replacedtrue}
+\def\@mysize@use@user@size@#1 #2\@nil{\def\@mysize@use@user@size@temp{#1}}
+\def\fixed@sfcnt#1{%
+   \ifx\optional@arg\@empty
+      \let\external@font\mandatory@arg
+   \else
+      \edef\external@font{\mandatory@arg\space at\optional@arg pt}%
+   \fi
+   \if@mysize\else
+      #1{External\space font\space `\external@font'\space loaded\space
+         for\space size\MessageBreak
+         <\f@size>}%
+   \fi}
+%
+%%% define \mysize
+\def\mysize#1{%
+   \@mysizetrue
+   \@defaultunits\@tempdimb#1pt\relax\@nnil
+   \edef\f@size{\strip@pt\@tempdimb}%
+   \@tempdimb\@mysize@canonical@expand@ratio\@tempdimb
+   \edef\f@baselineskip{\the\@tempdimb}%
+   \baselineskip\f@baselineskip\relax
+   \baselineskip\f@linespread\baselineskip
+   \normalbaselineskip\baselineskip
+   \setbox\strutbox\hbox{\vrule\@height.7\baselineskip
+      \@depth.3\baselineskip\@width\z@}%
+   \selectfont}
+\def\@mysize@canonical@expand@ratio{1.2}%%% default
+\expandafter\ifx\csname pfmtname\endcsname\relax\else
+\def\@mysize@canonical@expand@ratio{1.4}%%% pTeX-case
+\fi
+\expandafter\ifx\csname jfmtname\endcsname\relax\else
+\def\@mysize@canonical@expand@ratio{1.66}%%% jTeX-case
+\fi
+\global\@mysizetrue
+\makeatother
