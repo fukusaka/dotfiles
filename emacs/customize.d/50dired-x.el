@@ -12,6 +12,8 @@
 (define-key global-map "\C-x\C-j" 'dired-jump)
 (define-key global-map "\C-x4\C-j" 'dired-jump-other-window)
 
+(if (featurep 'xemacs) nil
+
 (autoload 'dired-jump "dired-x" nil t nil)
 (autoload 'dired-jump-other-window "dired-x" nil t nil)
 
@@ -60,3 +62,4 @@
 	     (setq dired-omit-files-p t)
 	     )))
 
+)
