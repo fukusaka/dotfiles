@@ -57,12 +57,12 @@
       (append
        '(
 	 ("\\.h$" . c++-mode)
-	 ("\\.pl$" . cperl-mode)
+	 ("\\.pl$" . perl-mode)
 	 ("\\.mht$" . html-mode)
 	 ("\\.po[tx]?\\'\\|\\.po\\." . po-mode)
 	 ("ChangeLog" . change-log-mode)
-	 ;;("patch" . moi-patch-view-mode)
-	 ;;("\\.diff" . moi-patch-view-mode)
+	 ("patch" . moi-patch-view-mode)
+	 ("\\.diff" . moi-patch-view-mode)
 	 ("\\.pgc$" . c-mode)
 	 ("\\.pgcc$" . c++-mode)
 	 ("\\.CPP$" . c++-mode)
