@@ -69,6 +69,8 @@ Netscape*useStderrDialog:	false
 Mozilla.geometry: 700x570+0+0
 
 !Emacs*xnlLanguage: C
+Emacs.menu*.font:	8x16
+
 Emacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
 XEmacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-*
 
@@ -120,6 +122,7 @@ KTerm*scrollKey:	false
 KTerm*reverseWrap:	true
 KTerm*loginShell:	false
 KTerm*fontList:		-*-fixed-medium-r-normal--16-*
+KTerm*openIm: true
 !kterm*boldFontList:	-alias-fixed-bold-r-normal--16-*
 !kterm*font:			-*-fixed-medium-r-normal--16-*-iso8859-1
 !kterm*romanKanjiFont:		-*-fixed-medium-r-normal--16-*-iso8859-1
