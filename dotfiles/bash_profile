@@ -41,6 +41,7 @@ export MANOPT=-7
 
 # proxy サーバごしに WWW を見る場合に lynx や www.el に必要な設定
 # export http_proxy=http://localhost:3128/
+export http_proxy=http://localhost:8080/
 # export ftp_proxy=http://proxy.hoge.hoge.ac.jp:999/
 # export wais_proxy=http://proxy.hoge.hoge.ac.jp:999/
 # export gopher_proxy=http://proxy.hoge.hoge.ac.jp:999/

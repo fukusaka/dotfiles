@@ -28,14 +28,16 @@
 	     ;; (setq dired-x-hands-off-my-keys nil)
 	     (setq dired-guess-shell-alist-user
 		   '(
-		     ("\\.ps$" "gv")
-		     ("\\.eps$" "gv")
-		     ("\\.dvi.gz$" "zcat * | xdvi -")
+		     ("\\.ps$" "gv * &")
+		     ("\\.eps$" "gv * &")
+		     ("\\.dvi.gz$" "zcat * | xdvi-from-stdin &")
 		     ( "\\.au$" "aplay -m -u -q")
 		     ( "\\.wav$" "aplay -m -w -q")
-		     ( "\\.xpm$" "xv")
-		     ( "\\.jpeg$" "xv")
-		     ( "\\.png$" "xv")
+		     ( "\\.xpm$" "xv * &")
+		     ( "\\.jpeg$" "xv * &")
+		     ( "\\.png$" "xv * &")
+		     ("\\.gif$" "xv * &")
+		     ("\\.e?ps.g?z$" "zcat * | gv - &")
 		     ))
 	     ;;
 	     ;; 表示を省略するファイルと拡張子の設定

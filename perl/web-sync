@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # $Id$
 
-# test.pl --
+# web-sync.pl --
 #
 # Copyright (C) 1999 Moimoi(Shoichi Fukusaka)
 #
@@ -125,6 +125,7 @@ sub get_ftplist {
 
   @list_ftp = $ftp->ls;
   @dir_ftp = $ftp->dir; shift @dir_ftp;
+
   foreach $file_long (@dir_ftp) {
     @vars = split("[ ]+",$file_long);
     $file = $vars[$#vars];      
@@ -134,6 +135,7 @@ sub get_ftplist {
     for ($i=0;$i<9;$i++) {
       $mode |= (1 << (8-$i)) if (substr($rmode,$i+1,1) ne "-");
     }
+    next if ($file eq "." || $file eq "..");
     # printf("%s %3o %d %s\n",$rmode,$mode,$length,$file);
     push(@filelist_ftp,{ file => $file,
 			 mode => $mode,
