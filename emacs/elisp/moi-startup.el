@@ -11,8 +11,11 @@
 
 (defvar moi::hostname-nohost "localhost")
 
+;;(defvar moi::hostname (let* ((envhost (getenv "HOSTNAME")))
+;;			(if envhost envhost moi::hostname-nohost)))
 ;; (getenv "HOSTNAME") で何故だか nil を返すようになってしまったので、、、。
-(defvar moi::hostname (let* ((envhost (shell-command-to-string "echo -n `hostname -s`")))
+(defvar moi::hostname (let* ((envhost
+			      (shell-command-to-string "echo -n `hostname -s`")))
 			(if envhost envhost moi::hostname-nohost)))
 
 (defvar moi::host-customize-dir
