@@ -21,10 +21,10 @@
 
 
 
-Kinput2*KinputProtocol.XlcConversionStartKey:	Ctrl<Key>backslash
-Kinput2*ConversionStartKeys: \
-	Ctrl<Key>backslash \n\
-	Ctrl<Key>Kanji
+!Kinput2*KinputProtocol.XlcConversionStartKey:	Ctrl<Key>backslash
+!Kinput2*ConversionStartKeys: \
+!	Ctrl<Key>backslash \n\
+!	Ctrl<Key>Kanji
 
 Emacs*background:	AntiqueWhite
 KTerm*background:	AntiqueWhite
@@ -108,7 +108,6 @@ XTerm*VT100.Translations:	#override\n\
 	<KeyPress>Prior: scroll-back(1,page)\n\
 	<KeyPress>Next: scroll-forw(1,page)
 
-
 KTerm*fullCursor:	true
 KTerm*visualBell:	true
 KTerm*kanjiMode:	euc
@@ -128,8 +127,8 @@ KTerm*fontList:		-alias-fixed-medium-r-normal--16-*
 !kterm*kanjiFont:		-*-fixed-medium-r-normal--16-*-jisx0208.1983-0
 !kterm*romanKanjiBoldFont:	-*-fixed-bold-r-normal--16-*-iso8859-1
 !kterm*kanjiBoldFont:		-*-fixed-bold-r-normal--16-*-jisx0208.1983-0
-KTerm*VT100.Translations:	#override	\n\
-	Ctrl<Key>backslash:begin-conversion(JAPANESE_CONVERSION)
+!KTerm*VT100.Translations:	#override	\n\
+!	Ctrl<Key>backslash:begin-conversion(JAPANESE_CONVERSION)
 
 !XDvi*shrinkFactor:	4
 !XDvi*mfMode:		cx
