@@ -4,11 +4,18 @@
 
 ;; $Id$
 
-(defvar moi::customize-dir "~/lib/conf/emacs/customize.d")
-(defvar moi::elisp-path "~/lib/conf/emacs/elisp/")
+(defvar moi::conf-top-dir "~/lib/conf/emacs/")
+
+(defvar moi::customize-dir (concat this-conf-top-dir "customize.d/"))
+(defvar moi::elisp-path    (concat this-conf-top-dir "elisp/"))
+
+(defvar moi::hostname-nohost "localhost")
+
+(defvar moi::hostname (let* ((envhost (getenv "HOSTNAME")))
+			(if envhost envhost moi::hostname-nohost)))
 
 (defvar moi::host-customize-dir
-  (concat moi::customize-dir "H" (getenv "HOSTNAME") "/"))
+  (concat moi::customize-dir "H" moi::hostname "/"))
 
 (defvar moi::elc-dir-prefix
   (if (featurep 'xemacs)
@@ -21,7 +28,7 @@
 	  (t "emacsxx/"))))
 
 (defun moi::domain-customize-dir ()
-  (let* ((hostname (getenv "HOSTNAME"))
+  (let* ((hostname moi::hostname)
 	 (alist (let ((buf (generate-new-buffer "temp")) data)
 		  (save-excursion
 		    (set-buffer buf)
@@ -35,7 +42,7 @@
       (if (string-match (car (car alist)) hostname)
 	  (setq domain (cdr (car alist))))
       (setq alist (cdr alist)))
-    domain))
+    (if domain (concat moi::customize-dir "D" domain "/"))))
 
 (defun moi::unique-strings (list)
   (if (null list)
@@ -72,11 +79,11 @@
 			(directory-files dir t "^[0-9][0-9].*\\.el$" t)))
 		  (let ((domain (moi::domain-customize-dir)))
 		    (if domain
-			(list moi::host-customize-dir
+			(list moi::customize-dir
 			      domain
-			      moi::customize-dir)
-		      (list moi::host-customize-dir
-			    moi::customize-dir)))
+			      moi::host-customize-dir)
+		      (list moi::customize-dir
+			    moi::host-customize-dir)))
 		  ))
 	 (files
 	  (let ((files))
