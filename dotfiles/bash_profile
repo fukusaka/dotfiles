@@ -34,7 +34,7 @@ export LESSCHARSET=japanese-euc
 #}
 
 # プリンターの指定
-export PRINTER="gs360"
+# export PRINTER="gs360"
 
 # News Server の設定
 # setenv NNTPSERVER news.hoge.hoge.ac.jp

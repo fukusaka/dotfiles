@@ -28,7 +28,6 @@
 (setq mew-use-overlay-keymap nil)
 
 (setq mew-fcc "+send")
-(setq mew-reply-to nil)
 (setq mew-ask-subject t)
 (setq mew-demo nil)
 (setq mew-signature-insert-last t)
@@ -70,6 +69,10 @@
 	 ("^>.*$" nil msg-quote)
 	 ("^[A-Za-z][A-Za-z0-9-]+:" nil msg-header)))
       (add-hook 'mew-draft-mode-hook 'hilit-rehighlight-buffer)
+      ;;(defun mew-summary-nkf ()
+      ;;  (shell-command-on-region (point-min) (point-max) "nkf -m" t)
+      ;;  )
+      ;;(add-hook 'mew-summary-mode-hook 'mew-summary-nkf)
       (hilit-set-mode-patterns 
        '(mew-draft-mode)
        '(("^Subject:.*$" nil msg-subject)

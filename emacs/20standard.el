@@ -86,10 +86,3 @@
 ;;
 
 (setq gnus-init-file (concat moi::host-conf-dir "gnus"))
-
-(let ((el  (concat gnus-init-file ".el"))
-      (elc (concat gnus-init-file ".elc")))
-  (if (file-newer-than-file-p el elc)
-      (byte-compile-file el)
-    )
-  )

@@ -13,6 +13,6 @@
 ;;
 (setq latex-run-command "platex *")
 (setq tex-dvi-view-command "xdvi -geometry +0+0 *")
-(setq tex-dvi-print-command "dvi2ps * | lpr -Pgs360")
+(setq tex-dvi-print-command "dvips -Plw230d * ")
 
 (setq texinfo-tex-comand "ptex")

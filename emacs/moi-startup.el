@@ -9,6 +9,13 @@
 (defvar moi::host-conf-dir
   (concat moi::conf-dir "T" (getenv "HOSTNAME") "/"))
 
+(defvar moi::elc-dir-prefix
+  (cond ((string< emacs-version "19") "emacs18/")
+	((string< emacs-version "20") "emacs19/")
+	((string< emacs-version "21") "emacs20/")
+	(t "emacsxx/")))
+
+
 (defun moi::unique-strings (list)
   (if (null list)
       '()
@@ -17,33 +24,34 @@
       (cons (car list) (moi::unique-strings (cdr list))))))
 
 (defun moi::run-conf (file)
-  (let ((el  (concat file ".el"))
-	(elc (concat file ".elc")))
+  (let* ((el  (concat file ".el"))
+	 (elc-dir (concat (file-name-directory file) moi::elc-dir-prefix))
+	 (elc (concat elc-dir (file-name-nondirectory file) ".elc")))
+    (if (not (file-directory-p elc-dir))
+	(make-directory elc-dir))
     (if (file-newer-than-file-p el elc)
-	(byte-compile-file el)
+	(progn
+	  (byte-compile-file el)
+	  (rename-file (concat el "c") elc t) 
+	)
       )
-    (load file)
+    (load elc)
     ))
 
 (defun moi::startup ()
   (let* ((files
 	  (append
-	   (directory-files moi::conf-dir t "^[0-9][0-9].*\\.elc?$" t)
-	   (directory-files moi::host-conf-dir t "^[0-9][0-9].*\\.elc?$" t)
+	   (directory-files moi::conf-dir t "^[0-9][0-9].*\\.el$" t)
+	   (directory-files moi::host-conf-dir t "^[0-9][0-9].*\\.el$" t)
 	   ))
 	 (s-files
 	  (moi::unique-strings
 	   (sort
-	    (mapcar (lambda (file)
-		      (cond ((string-match "\\.el$" file)
-			     (substring file 0 -3))
-			    ((string-match "\\.elc$" file)
-			     (substring file 0 -4))
-			    ))
+	    (mapcar (lambda (file) (substring file 0 -3))
 		    files)
 	    'string<)))
 	 (d-files
-	  (mapcar 'cadr
+	  (mapcar (lambda (x) (car (cdr x)))
 		  (sort
 		   (mapcar (lambda (file)
 			     (list (file-name-nondirectory file) file))
