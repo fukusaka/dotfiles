@@ -13,3 +13,7 @@ pack:
 	| tar cfz ${TARBALL} -T -
 clean:
 	find . -name '*~' | xargs rm -f
+
+distclean: clean
+	find . -name 'emacs19' | xargs rm -rf
+	find . -name 'emacs20' | xargs rm -rf
