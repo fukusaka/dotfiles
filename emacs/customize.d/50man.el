@@ -40,7 +40,14 @@
 	(put-text-property (1- (point)) (point) 'face Man-overstrike-face)))
   (goto-char (point-min)))
   
-
 (add-hook 'Man-cooked-hook 'Man-cooked-2-backspace-code)
+
+
+(defadvice man (around man-around)
+  (let* ((coding-system 'iso-2022-jp)
+	 (coding-system-for-read coding-system))
+    ad-do-it))
+
+(ad-activate 'man)
 
 ;;; 70man.el ends here
