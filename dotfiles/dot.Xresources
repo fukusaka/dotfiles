@@ -98,10 +98,11 @@ kterm*VT100.Translations:	#override	\n\
 XDvi*paper:		a4
 XDvi*grey:		true
 XDvi*gamma:		2
-XDvi*geometry:		640x570+60+0
+XDvi*geometry:		734x575+0+0
 
 
 Gv.antialias:		True
+
 
 Xtetris*Canvas.accelerators:	#override 	<Key>space:Drop() \n	<Key>h:MoveLeft() \n	<Key>q:Quit() \n	<Key>p:Pause() \n	<Key>s:Start() \n	<Key>r:NewGame() \n	<Key>Left:MoveLeft() \n	<Key>j:RotateCW() \n	<Key>Down:RotateCW() \n	<Key>Begin:RotateCW() \n	<Key>k:RotateCCW() \n	<Key>Up:RotateCCW() \n	<Key>l:MoveRight() \n	<Key>Right:MoveRight() \n	<Key>End:Drop()
 
