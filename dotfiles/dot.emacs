@@ -714,16 +714,19 @@
 ;; JISだけうまく表示出来る、、、そらそうだ。
 ;; ver19 ではコケル、、、
 
-(auto-compression-mode)
+(cond
+ ((string-match "^20" emacs-version)
+  (auto-compression-mode)
 
-;; bzip2, a block-sorting file compressor.  Version 0.9.0, 30-Aug-98.
-(setq jka-compr-compression-info-list 
-      (append
-       '(["\\.bz2\\'"
-	  "bzip2ing"        "bzip2"         ()
-	  "bunzip2ing"      "bzip2"         ("-d")
-	  nil t])
-       jka-compr-compression-info-list))
+  ;; bzip2, a block-sorting file compressor.  Version 0.9.0, 30-Aug-98.
+  (setq jka-compr-compression-info-list 
+	(append
+	 '(["\\.bz2\\'"
+	    "bzip2ing"        "bzip2"         ()
+	    "bunzip2ing"      "bzip2"         ("-d")
+	    nil t])
+	 jka-compr-compression-info-list))
+  ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;

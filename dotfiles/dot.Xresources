@@ -107,9 +107,9 @@ Gv.antialias:		True
 Xtetris*Canvas.accelerators:	#override 	<Key>space:Drop() \n	<Key>h:MoveLeft() \n	<Key>q:Quit() \n	<Key>p:Pause() \n	<Key>s:Start() \n	<Key>r:NewGame() \n	<Key>Left:MoveLeft() \n	<Key>j:RotateCW() \n	<Key>Down:RotateCW() \n	<Key>Begin:RotateCW() \n	<Key>k:RotateCCW() \n	<Key>Up:RotateCCW() \n	<Key>l:MoveRight() \n	<Key>Right:MoveRight() \n	<Key>End:Drop()
 
 
-#
-#  Sample ~/.Xdefaults for use on Note PC with VGA or 800x600 pixel
-#
+!
+!  Sample ~/.Xdefaults for use on Note PC with VGA or 800x600 pixel
+!
 
 Ugs*width       : 576
 Ugs*height      : 440
