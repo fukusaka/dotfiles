@@ -29,7 +29,7 @@
       (custom-set-variables '(font-lock-mode t t (font-lock)))
       )
      ;; それ以外(emacs20,xemacs) では font-lock を使う
-     ((string-match "^20" emacs-version)
+     ((string-match "^2[01]" emacs-version)
       (global-font-lock-mode t)
       (setq font-lock-support-mode
 	    '(;(c-mode . fast-lock-mode)

@@ -23,7 +23,7 @@
 	))
   )
  ;; Ver.20 の場合(不十分かなぁ)
- ((string-match "^20" emacs-version)
+ ((string-match "^2[01]" emacs-version)
   (set-language-environment          'Japanese)
   ;; ほとんどの場合 euc-japan-unix を使う
   (set-default-coding-systems       'euc-japan-unix)
@@ -36,7 +36,8 @@
   ;; (set-default-font "fontset-standard")
   ;; (set-default-font "-*-fixed-*-r-normal-*-16-*-*-*-*-*-fontset-standard")
   ;; scroll bar を右にする設定。
-  (set-scroll-bar-mode 'right)
+  (if (fboundp 'set-scroll-bar-mode)
+      (set-scroll-bar-mode 'right))
   (if nil
   (if (not window-system)
       (progn
