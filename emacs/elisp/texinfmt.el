@@ -1205,15 +1205,22 @@ Leave point after argument."
         (insert (or fname (car args)) ": ")
         (if (nth 3 args)
             (insert "(" (nth 3 args) ")"))
-        (insert (car args))))))
+        (insert (car args))
+	;; modified by Moimoi
+	(if (not (looking-at "[ \n\t]*\\."))
+	    (insert "."))
+	))))
 
 (put 'pxref 'texinfo-format 'texinfo-format-pxref)
-(defun texinfo-format-pxref ()
-  (texinfo-format-xref)
-  (or (save-excursion
-        (forward-char -2)
-        (looking-at "::"))
-      (insert ".")))
+;;(defun texinfo-format-pxref ()
+;;  (texinfo-format-xref)
+;;  (or (save-excursion
+;;	  (forward-char -2)
+;;	  (looking-at "::"))
+;;	(insert ".")))
+
+;; modified by Moimoi
+(defun texinfo-format-pxref () (texinfo-format-xref))
 
 ;; @inforef{NODE, FNAME, FILE}
 ;; Like @xref{NODE, FNAME,,FILE} in texinfo.
@@ -2796,38 +2803,104 @@ Default is to leave paragraph indentation as is."
 
 (put 'printindex 'texinfo-format 'texinfo-format-printindex)
 
+;;(defun texinfo-format-printindex ()
+;;  (let ((indexelts (symbol-value
+;;		      (cdr (assoc (texinfo-parse-arg-discard)
+;;				  texinfo-indexvar-alist))))
+;;	  opoint)
+;;    (insert "\n* Menu:\n\n")
+;;    (setq opoint (point))
+;;    (texinfo-print-index nil indexelts)
+;;
+;;    (if (memq system-type '(vax-vms windows-nt ms-dos))
+;;	  (texinfo-sort-region opoint (point))
+;;	(shell-command-on-region opoint (point) "sort -fd" 1))))
+;;
+;;(defun texinfo-print-index (file indexelts)
+;;  (while indexelts
+;;    (if (stringp (car (car indexelts)))
+;;	  (progn
+;;	    (insert "* " (car (car indexelts)) ": " )
+;;	    (indent-to 32)
+;;	    (insert
+;;	     (if file (concat "(" file ")") "")
+;;	     (nth 1 (car indexelts)) ".")
+;;	    (indent-to 54)
+;;	    (insert
+;;	     (if (nth 2 (car indexelts))
+;;		 (format "  %d." (nth 2 (car indexelts)))
+;;	       "")
+;;	     "\n"))
+;;	;; index entries from @include'd file
+;;	(texinfo-print-index (nth 1 (car indexelts))
+;;			     (nth 2 (car indexelts))))
+;;    (setq indexelts (cdr indexelts))))
+
+;; modified by Moimoi
+;;
+;; @cindex 項目[よみ] をちょとだけサポート。
+;;  (あまりかっこよくないかも、、、)
+;;
+
 (defun texinfo-format-printindex ()
   (let ((indexelts (symbol-value
-                    (cdr (assoc (texinfo-parse-arg-discard)
-                                texinfo-indexvar-alist))))
-        opoint)
+		    (cdr (assoc (texinfo-parse-arg-discard)
+				texinfo-indexvar-alist))))
+	opoint)
     (insert "\n* Menu:\n\n")
     (setq opoint (point))
-    (texinfo-print-index nil indexelts)
+    (moi::texinfo-print-index nil (moi::texinfo-index-sort indexelts))
+    ))
+      
+(defun moi::texinfo-index-sort (idx)
+  (let (s-index)
+    (while idx
+      (let* (yomi
+	     (key (nth 0 (car idx)))
+	     (other (nthcdr 1 (car idx))))		
+	(if (string-match "\\[\\([^]]*\\)\\]" key)
+	    (progn
+	      (setq yomi (match-string 1 key))
+	      (setq key (substring key 0 (match-beginning 0)))
+	      )
+	  )
+	(if (not yomi) (setq yomi key))
+	(setq s-index
+	      (cons (append (list yomi key) other) s-index))
+	)
+      (setq idx (cdr idx)))
+    (sort s-index '(lambda (x y) (string< (car x) (car y))))
+    ))
 
-    (if (memq system-type '(vax-vms windows-nt ms-dos))
-        (texinfo-sort-region opoint (point))
-      (shell-command-on-region opoint (point) "sort -fd" 1))))
-
-(defun texinfo-print-index (file indexelts)
+(defun moi::texinfo-print-index (file indexelts)
   (while indexelts
-    (if (stringp (car (car indexelts)))
-        (progn
-          (insert "* " (car (car indexelts)) ": " )
-          (indent-to 32)
-          (insert
-           (if file (concat "(" file ")") "")
-           (nth 1 (car indexelts)) ".")
-          (indent-to 54)
-          (insert
-           (if (nth 2 (car indexelts))
-               (format "  %d." (nth 2 (car indexelts)))
-             "")
-           "\n"))
-      ;; index entries from @include'd file
-      (texinfo-print-index (nth 1 (car indexelts))
-                           (nth 2 (car indexelts))))
-    (setq indexelts (cdr indexelts))))
+    (let ((key (nth 1 (car indexelts)))
+	  (node (nth 2 (car indexelts))))
+      (if (stringp key)
+	  (progn
+	    (insert "* " key ": " )
+;;;	    (indent-to 32)
+	    (indent-to 41)
+	    (insert
+	     (if file (concat "(" file ")") "")
+	     node ".")
+;;;	    (indent-to 54)
+	    (insert
+;;;	     (if (nth 3 (car indexelts))
+;;;	         (format "  %d." (nth 3 (car indexelts)))
+;;;	       "")
+	     "\n"))
+	;; index entries from @include'd file
+	;; ???
+	(texinfo-print-index (nth 2 (car indexelts))
+			     (nth 3 (car indexelts))))
+      (while (progn
+	       (setq indexelts (cdr indexelts))
+	       (and indexelts
+		    (string= key  (nth 1 (car indexelts)))
+		    (string= node (nth 2 (car indexelts))))))
+      )
+    ))
 
 
 ;;; Glyphs: @equiv, @error, etc
@@ -3838,6 +3911,12 @@ The command  `@value{foo}'  expands to the value."
       ;; In this case flag is neither set nor cleared.  
       ;; Act as if clear, i.e. do nothing.
       ()))))
+
+;; add by Moimoi
+(put 'info 'texinfo-whether-setp 'flag-set)
+(put 'html 'texinfo-whether-setp 'flag-cleared)
+(put 'tex  'texinfo-whether-setp 'flag-cleared)
+
 
 ;;; @ifeq
 
