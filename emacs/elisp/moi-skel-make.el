@@ -33,7 +33,7 @@
 
 ;;; Code:
 
-(defvar moi::skel-file-dir "~/lib/conf/skel/")
+(defvar moi::skel-file-dir "~/common/conf/skel/")
 
 (defvar moi::skel-file-name-alist
   '(
