@@ -19,5 +19,3 @@ fi
 
 unset i
 unset MYCONFDIR
-
-cd ${HOME}
