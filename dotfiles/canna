@@ -35,13 +35,20 @@
 ; の順にサーチされます。
 ;
 
-;(setq romkana-table "unix.cbp")
-(setq romkana-table "default.cbp")
-
-;; 外来語変換
-(setq english-table "english.cbp")
-
-
+(cond
+ ((= canna-version 3.2)
+  (setq romkana-table "default.kp")
+  (setq english-table "english.kp")
+  )
+ ;; ((= canna-version 3.5)
+ (t
+  ;;(setq romkana-table "unix.cbp")
+  (setq romkana-table "default.cbp")
+  
+  ;; 外来語変換
+  (setq english-table "english.cbp")
+  )
+ )
 ;;; 利用する辞書
 ;
 ; ただ単に書き並べているのは単語登録を行わない辞書でシステム辞書などが

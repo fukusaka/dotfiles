@@ -17,3 +17,4 @@ clean:
 distclean: clean
 	find . -name 'emacs19' | xargs rm -rf
 	find . -name 'emacs20' | xargs rm -rf
+	find . -name '*.elc' | xargs rm -rf

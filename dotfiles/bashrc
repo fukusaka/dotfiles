@@ -1,5 +1,4 @@
 # ~/.bashrc: -*-shell-script-*-
-
 # $Id$
 
 if [ -n "$PS1" ]; then

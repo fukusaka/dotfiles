@@ -59,8 +59,25 @@ Netscape*useStdoutDialog:	false
 Netscape*useStderrDialog:	false
 
 
-
 Emacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
+
+Emacs*FontSetList: 14,16,18,24
+Emacs*FontSet-14:\
+        -*-fixed-medium-r-*--14-*-iso8859-1,\
+        -*-fixed-medium-r-*--14-*-jisx0201.1976-*,\
+        -*-fixed-medium-r-*--14-*-jisx0208.1983-*
+Emacs*FontSet-16:\
+        -*-fixed-medium-r-*--16-*-iso8859-1,\
+        -*-fixed-medium-r-*--16-*-jisx0201.1976-*,\
+        -*-fixed-medium-r-*--16-*-jisx0208.1983-*
+Emacs*FontSet-18:\
+        -*-fixed-medium-r-*--18-*-iso8859-1,\
+        -*-fixed-medium-r-*--18-*-jisx0201.1976-*,\
+        -*-fixed-medium-r-*--18-*-jisx0208.1983-*
+Emacs*FontSet-24:\
+        -*-fixed-medium-r-*--24-*-iso8859-1,\
+        -*-fixed-medium-r-*--24-*-jisx0201.1976-*,\
+        -*-fixed-medium-r-*--24-*-jisx0208.1983-*
 
 Scrollbar.JumpCursor:	True
 
@@ -120,6 +137,7 @@ Xtetris*Canvas.accelerators:	#override 	<Key>space:Drop() \n	<Key>h:MoveLeft() \
 !  Sample ~/.Xdefaults for use on Note PC with VGA or 800x600 pixel
 !
 
+#if WIDTH==800 && HEIGHT==600
 Ugs*width       : 576
 Ugs*height      : 440
 Ugs*geometry	: +0+0
@@ -134,6 +152,7 @@ Polly.hist*Listbox.height   : 12
 Polly.macro*Text.height     :  6
 Polly.macro*Text.width      : 50
 Polly.recall*Listbox.height :  6
+#endif
 
 Xarchie*archieHost:	archie.kyoto-u.ac.jp
 Xarchie*ftpMailAddress:	fukusaka@xa2.so-net.ne.jp
@@ -151,55 +170,55 @@ Xman*inputMethod: none
 
 !! Netscape Communicator 4.xx
 
-Netscape*drawingArea.translations:  #replace\
- <Btn1Down>:  ArmLink()\n\
- <Btn2Down>:  ArmLink()\n\
- ~Shift<Btn1Up>:  ActivateLink()\n\
- ~Shift<Btn2Up>:  ActivateLink(new-window)DisarmLink()\n\
- Shift<Btn1Up>:  ActivateLink(save-only)DisarmLink()\n\
- Shift<Btn2Up>:  ActivateLink(save-only)DisarmLink()\n\
- <Btn1Motion>:  DisarmLinkIfMoved()\n\
- <Btn2Motion>:  DisarmLinkIfMoved()\n\
- <Btn3Motion>:  DisarmLinkIfMoved()\n\
- <Motion>:  DescribeLink()\n\
- <Btn3Down>:  xfeDoPopup()\n\
- <Btn3Up>:  ActivatePopup()\n\
- \
- None<Btn4Down>:  LineUp()LineUp()LineUp()LineUp()LineUp()\n\
- None<Btn5Down>:  LineDown()LineDown()LineDown()LineDown()LineDown()\n\
- Shift<Btn4Down>:  ColumnLeft()\n\
- Shift<Btn5Down>:  ColumnRight()\n\
- Ctrl<Btn4Down>:  PageUp()\n\
- Ctrl<Btn5Down>:  PageDown()\n\
- Alt<Btn4Down>:  xfeDoCommand(back)\n\
- Alt<Btn5Down>:  xfeDoCommand(forward)
-
-Netscape*globalNonTextTranslations: #override\
- ~Meta ~Alt ~Ctrl<Key>space:  xfeDoCommand(spacebar)\n\
- ~Meta ~Alt ~Ctrl<Key>Delete:  PageUp()\n\
- ~Meta ~Alt ~Ctrl<Key>BackSpace:  PageUp()\n\
- ~Meta ~Alt ~Ctrl<Key>Up:  LineUp()\n\
- ~Meta ~Alt ~Ctrl<Key>Down:  LineDown()\n\
- ~Meta ~Alt ~Ctrl<Key>Left:  ColumnLeft()\n\
- ~Meta ~Alt ~Ctrl<Key>Right:  ColumnRight()\n\
- ~Meta ~Alt ~Ctrl<Key>osfDelete:  PageUp()\n\
- ~Meta ~Alt ~Ctrl<Key>osfBackSpace:  PageUp()\n\
-  Meta  Ctrl<Key>f:  fishcam()\n\
-   Alt  Ctrl<Key>f:  fishcam()\n\
-  Meta  Ctrl<Key>t:  net_showstatus()\n\
-   Alt  Ctrl<Key>t:  net_showstatus()\n\
- ~Meta ~Alt ~Ctrl<Key>osfUp:  LineUp()\n\
- ~Meta ~Alt ~Ctrl<Key>osfDown:  LineDown()\n\
- ~Meta ~Alt ~Ctrl<Key>osfLeft:  ColumnLeft()\n\
- ~Meta ~Alt ~Ctrl<Key>osfRight:  ColumnRight()\n\
- ~Meta ~Alt ~Ctrl<Key>Prior:  PageUp()\n\
- ~Meta ~Alt ~Ctrl<Key>Next:  PageDown()\n\
- ~Meta ~Alt ~Ctrl<Key>osfPageUp:  PageUp()\n\
- ~Meta ~Alt ~Ctrl<Key>osfPageDown:  PageDown()\n\
- \
- None<Btn4Down>:  LineUp()LineUp()LineUp()\n\
- None<Btn5Down>:  LineDown()LineDown()LineDown()\n\
- Shift<Btn4Down>:  ColumnLeft()\n\
- Shift<Btn5Down>:  ColumnRight()\n\
- Alt<Btn4Down>:  xfeDoCommand(back)\n\
- Alt<Btn5Down>:  xfeDoCommand(forward)
+!Netscape*drawingArea.translations:  #replace\
+! <Btn1Down>:  ArmLink()\n\
+! <Btn2Down>:  ArmLink()\n\
+! ~Shift<Btn1Up>:  ActivateLink()\n\
+! ~Shift<Btn2Up>:  ActivateLink(new-window)DisarmLink()\n\
+! Shift<Btn1Up>:  ActivateLink(save-only)DisarmLink()\n\
+! Shift<Btn2Up>:  ActivateLink(save-only)DisarmLink()\n\
+! <Btn1Motion>:  DisarmLinkIfMoved()\n\
+! <Btn2Motion>:  DisarmLinkIfMoved()\n\
+! <Btn3Motion>:  DisarmLinkIfMoved()\n\
+! <Motion>:  DescribeLink()\n\
+! <Btn3Down>:  xfeDoPopup()\n\
+! <Btn3Up>:  ActivatePopup()\n\
+! \
+! None<Btn4Down>:  LineUp()LineUp()LineUp()LineUp()LineUp()\n\
+! None<Btn5Down>:  LineDown()LineDown()LineDown()LineDown()LineDown()\n\
+! Shift<Btn4Down>:  ColumnLeft()\n\
+! Shift<Btn5Down>:  ColumnRight()\n\
+! Ctrl<Btn4Down>:  PageUp()\n\
+! Ctrl<Btn5Down>:  PageDown()\n\
+! Alt<Btn4Down>:  xfeDoCommand(back)\n\
+! Alt<Btn5Down>:  xfeDoCommand(forward)
+!
+!Netscape*globalNonTextTranslations: #override\
+! ~Meta ~Alt ~Ctrl<Key>space:  xfeDoCommand(spacebar)\n\
+! ~Meta ~Alt ~Ctrl<Key>Delete:  PageUp()\n\
+! ~Meta ~Alt ~Ctrl<Key>BackSpace:  PageUp()\n\
+! ~Meta ~Alt ~Ctrl<Key>Up:  LineUp()\n\
+! ~Meta ~Alt ~Ctrl<Key>Down:  LineDown()\n\
+! ~Meta ~Alt ~Ctrl<Key>Left:  ColumnLeft()\n\
+! ~Meta ~Alt ~Ctrl<Key>Right:  ColumnRight()\n\
+! ~Meta ~Alt ~Ctrl<Key>osfDelete:  PageUp()\n\
+! ~Meta ~Alt ~Ctrl<Key>osfBackSpace:  PageUp()\n\
+!  Meta  Ctrl<Key>f:  fishcam()\n\
+!   Alt  Ctrl<Key>f:  fishcam()\n\
+!  Meta  Ctrl<Key>t:  net_showstatus()\n\
+!   Alt  Ctrl<Key>t:  net_showstatus()\n\
+! ~Meta ~Alt ~Ctrl<Key>osfUp:  LineUp()\n\
+! ~Meta ~Alt ~Ctrl<Key>osfDown:  LineDown()\n\
+! ~Meta ~Alt ~Ctrl<Key>osfLeft:  ColumnLeft()\n\
+! ~Meta ~Alt ~Ctrl<Key>osfRight:  ColumnRight()\n\
+! ~Meta ~Alt ~Ctrl<Key>Prior:  PageUp()\n\
+! ~Meta ~Alt ~Ctrl<Key>Next:  PageDown()\n\
+! ~Meta ~Alt ~Ctrl<Key>osfPageUp:  PageUp()\n\
+! ~Meta ~Alt ~Ctrl<Key>osfPageDown:  PageDown()\n\
+! \
+! None<Btn4Down>:  LineUp()LineUp()LineUp()\n\
+! None<Btn5Down>:  LineDown()LineDown()LineDown()\n\
+! Shift<Btn4Down>:  ColumnLeft()\n\
+! Shift<Btn5Down>:  ColumnRight()\n\
+! Alt<Btn4Down>:  xfeDoCommand(back)\n\
+! Alt<Btn5Down>:  xfeDoCommand(forward)
