@@ -48,9 +48,9 @@
   (if (not moi::make-frame-6-alist)
       (setq moi::make-frame-6-alist
 	    (list
-	     (moi::make-frame 800 0)
-	     (moi::make-frame 0 600)
-	     (moi::make-frame 800 600)
+	     (moi::make-frame 1024 0)
+	     (moi::make-frame 0 768)
+	     (moi::make-frame 1024 768)
 	     ))))
 
 (defun moi::make-frame-6 ()
@@ -58,14 +58,14 @@
   (if (not moi::make-frame-6-alist)
       (setq moi::make-frame-6-alist
 	    (list
-	     (moi::make-frame 800 0)
-	     (moi::make-frame -800 0)
-	     (moi::make-frame 0 600)
-	     (moi::make-frame 0 -600)
-	     (moi::make-frame 800 600)
-	     (moi::make-frame -800 600)
-	     ;;(moi::make-frame 800 -600)
-	     (moi::make-frame -800 -600)
+	     (moi::make-frame 1024 0)
+	     (moi::make-frame -1024 0)
+	     (moi::make-frame 0 768)
+	     (moi::make-frame 0 -768)
+	     (moi::make-frame 1024 768)
+	     (moi::make-frame -1024 768)
+	     ;;(moi::make-frame 1024 -768)
+	     (moi::make-frame -1024 -768)
 	     ))))
 
 (defun moi::delete-frame-6 ()
