@@ -1,19 +1,15 @@
-MYCONFDIR=${HOME}/lib/conf/shell/bashrc.d
+# ~/.bashrc
+# $Id$
 
-for i in ${MYCONFDIR}/*.sh ; do
-	if [ -x $i ]; then
-		. $i
-	fi
+. ${HOME}/.default/sh
+
+#
+for i in ${SHCONFDIR}/bashrc.d/*.sh; do
+    if [ -x $i ]; then
+	. $i ${CONFDOMAIN}
+    fi
 done
-
-if [ -d ${MYCONFDIR}/`hostname -s` ]; then
-	for i in ${MYCONFDIR}/`hostname -s`/*.sh ; do
-		if [ -x $i ]; then
-			. $i
-		fi
-	done
-fi
-
-
 unset i
-unset MYCONFDIR
+# Local Variables:
+# mode: shell-script
+# End:

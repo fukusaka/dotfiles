@@ -1,21 +1,16 @@
-if [ -f ${HOME}/.bashrc ]; then . ${HOME}/.bashrc; fi
+# ~/.bash_profile
+# $Id$
 
-MYCONFDIR=${HOME}/lib/conf/shell/profile.d
+. ${HOME}/.default/sh
 
-for i in ${MYCONFDIR}/*.sh ; do
-	if [ -x $i ]; then
-		. $i
-	fi
+#
+for i in ${SHCONFDIR}/profile.d/*.sh; do
+    if [ -x $i ]; then
+	. $i ${CONFDOMAIN}
+    fi
 done
-
-if [ -d ${MYCONFDIR}/`hostname -s` ]; then
-	for i in ${MYCONFDIR}/`hostname -s`/*.sh ; do
-		if [ -x $i ]; then
-			. $i
-		fi
-	done
-fi
-
-
 unset i
-unset MYCONFDIR
+
+# Local Variables:
+# mode: shell-script
+# End:

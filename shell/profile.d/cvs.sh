@@ -1,4 +1,10 @@
 # CVS Repository
 
-CVSROOT=":pserver:${USER}@cvshost:/home/cvs/develop"
+case "$1" in
+    home)
+	CVSROOT=":ext:${USER}@cvshost:/data/cvs"
+	;;
+    *)
+esac
+
 export CVSROOT

@@ -1,32 +1,33 @@
 # ~/.bash_profile: -*-shell-script-*-
 # $Id$
 
-umask 002
+case "$1" in
+    home*)
+	umask 022
 
-# パスの指定
-export PATH=${HOME}/bin:${PATH}:/usr/local/sun/jdk/bin
-export CONFDIR=${HOME}/lib/conf
-export INFOPATH=~/info:/usr/info:/usr/share/info
-export TEXINPUTS=.//:${CONFDIR}/tex//:
+    # 言語の指定
+	export LANG=ja_JP.eucJP
+	export LC_TIME=C
 
-export LD_LIBRARY_PATH=/home/fukusaka/lib
-export LD_RUN_PATH=/home/fukusaka/lib
+    # パスの指定
+       	export PATH=${HOME}/bin:${PATH}
+	export INFOPATH=~/info:/usr/info:/usr/share/info
 
-export CLASSPATH=.:/usr/share/java/postgresql.jar
+    # コマンドの指定
+	export CC=gcc
+	export EDITOR=/usr/bin/vi
+	export PAGER=/usr/bin/pager
 
-# コマンドの指定
-export TEX=ptex
-export CC=gcc
+    # less/lv の指定
+	unset LESSCHARSET
+	LESSCHARDEF=8bcccbcc18b95.8bcccbcc18b95.
+	JLESSCHARSET=japanese-euc
+	LV=-Oej
+	export LESSCHARSET LESSCHARDEF JLESSCHARSET LV
 
-#export EDITOR=/usr/bin/vi
-#export PAGER=/usr/bin/less	
-#export TEXEDIT='/usr/bin/vi %s'
+    # その他
+	#export CANNAHOST=localhost
 
-# 言語の指定
-#export LANG=ja_JP.ujis
-export LANG=ja_JP.eucJP
-export LC_TIME=C
-#export LC_ALL=ja_JP.ujis
-#export LC_COLLATE=ja_JP.ujis
-#export LC_MESSAGES=ja_JP.ujis
-export OUTPUT_CHARSET=EUC-JP
+	;;
+    *)
+esac
