@@ -33,7 +33,7 @@
   ;; フォント設定(Xリソースで設定するのがベスト)
   ;; ~/.Xresources -->
   ;;   Emacs.Font: -*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
-  ;; (set-default-font "fontset-standard")
+  (set-default-font "fontset-standard")
   ;; (set-default-font "-*-fixed-*-r-normal-*-16-*-*-*-*-*-fontset-standard")
   ;; scroll bar を右にする設定。
   (if (fboundp 'set-scroll-bar-mode)

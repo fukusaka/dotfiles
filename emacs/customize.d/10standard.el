@@ -32,6 +32,12 @@
     (setq visible-bell t)
   )
 
+(if (string-match "^21" emacs-version)
+    (progn
+      (tool-bar-mode -1)
+      (blink-cursor-mode 0)
+      (setq initial-frame-alist '((top . 1) (left . 1) (width . 80) (height . 55)))
+      ))
 ;;
 ;; ディフォルトModeの設定
 ;;
@@ -85,7 +91,7 @@
 ;; ver19 ではコケル、、、
 
 (cond
- ((string-match "^20" emacs-version)
+ ((string-match "^2[01]" emacs-version)
   (auto-compression-mode)
 
   ;; bzip2, a block-sorting file compressor.  Version 0.9.0, 30-Aug-98.
