@@ -36,9 +36,13 @@
 	      ))
 	)))
  ;; Ver.20 の場合(不十分)
- ((string-match "^20" emacs-version)
+ ((string-match "^20.3" emacs-version)
   ;; 常に『かんな/emacs』なので、、、。
-  (require 'canna)
-  (canna)
-  ))
-
+  (set-input-method "japanese-canna")
+  ;; とっても簡単になったもんだ〜ぁ。
+  )
+ ((string-match "^20.4" emacs-version)
+  ;; かんなよ戻って来てくれ！
+  (load "yc")
+  )
+ )

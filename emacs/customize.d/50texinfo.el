@@ -12,6 +12,23 @@
   (interactive "fInfo file:")
   (info file))
 
+(add-hook 'Info-mode-hook
+	  (function (lambda ()
+		      (define-key Info-mode-map "\C-c\C-l"
+			'Info-reload)
+		      )))
+(defun Info-reload ()
+  (interactive)
+  (if (eq major-mode 'Info-mode)
+      (let ((file Info-current-file)
+	    (node Info-current-node)
+	    (lineno (count-lines (point-min) (point))))
+	(kill-buffer "*info*")
+	(info file)
+	(Info-goto-node node)
+	(forward-line lineno)
+	)))
+
 (add-hook 'texinfo-mode-hook
 	  (function (lambda ()
 		      (define-key texinfo-mode-map "\C-c\C-v"

@@ -29,6 +29,7 @@
   (set-default-coding-systems       'euc-japan-unix)
   ;; emacs -nw では、上では遅すぎなので、、、本当か？
   (set-terminal-coding-system       'euc-japan-unix)
+  ;;(setq default-process-coding-system '(euc-jp . euc-jp))
   ;; フォント設定(Xリソースで設定するのがベスト)
   ;; ~/.Xresources -->
   ;;   Emacs.Font: -*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard

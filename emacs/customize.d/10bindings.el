@@ -4,7 +4,7 @@
 
 ;; $Id$
 
-(define-key global-map "\C-j" 'goto-line)
+;;(define-key global-map "\C-j" 'goto-line)
 (define-key global-map "\M-c" 'compile)
 (define-key global-map "\M-m" 'man)
 (define-key global-map "\C-xm" 'mew)
@@ -23,14 +23,54 @@
 (define-key global-map "\C-zm" 'man)
 
 ;;
+;; 6枚ものフレームを同時生成、同時削除。
+;;
+(define-key global-map "\C-z52" 'moi::make-frame-6)
+(define-key global-map "\C-z50" 'moi::delete-frame-6)
+
+(defun moi::make-frame (x y)
+  (let* ((fpar (frame-parameters))
+	 (bw   (cdr (assoc 'border-width fpar)))
+	 (left (+ x bw (eval (cdr (assoc 'left fpar)))))
+	 (top  (+ y bw (eval (cdr (assoc 'top fpar)))))
+	 (frame (make-frame)))
+    (modify-frame-parameters
+     frame
+     (list
+      (list 'top '+ top)
+      (list 'left '+ left)))
+    frame))
+
+(defvar moi::make-frame-6-alist nil)
+
+(defun moi::make-frame-6 ()
+  (interactive)
+  (if (not moi::make-frame-6-alist)
+      (setq moi::make-frame-6-alist
+	    (list
+	     (moi::make-frame 800 0)
+	     (moi::make-frame -800 0)
+	     (moi::make-frame 0 600)
+	     (moi::make-frame 0 -600)
+	     (moi::make-frame 800 600)
+	     (moi::make-frame -800 600)
+	     ;;(moi::make-frame 800 -600)
+	     (moi::make-frame -800 -600)
+	     ))))
+
+(defun moi::delete-frame-6 ()
+  (interactive)
+  (while moi::make-frame-6-alist
+    (delete-frame (car moi::make-frame-6-alist))
+    (setq moi::make-frame-6-alist (cdr moi::make-frame-6-alist))))
+
+;;
 ;; moi-skel-make.el
 ;;
 (autoload 'moi::find-file "moi-skel-make")
 
 (global-set-key "\C-x\C-f" 'moi::find-file)
 (global-set-key "\C-z\C-f" 'moi::find-file)
-
-
 
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし

@@ -54,12 +54,15 @@
 (setq auto-mode-alist
       (append
        '(
+	 ("\\.h$" . c++-mode)
 	 ("\\.pl$" . cperl-mode)
 	 ("\\.mht$" . html-mode)
 	 ("\\.po[tx]?\\'\\|\\.po\\." . po-mode)
 	 ("ChangeLog" . change-log-mode)
 	 ("patch" . moi-patch-view-mode)
 	 ("\\.diff" . moi-patch-view-mode)
+	 ("\\.pgc$" . c-mode)
+	 ("\\.pgcc$" . c++-mode)
 	 )
        auto-mode-alist))
 
@@ -102,3 +105,22 @@
 ;;
 
 (setq gnus-init-file (concat moi::host-customize-dir "gnus"))
+
+;;
+;; compile-mode
+;;
+(setq compilation-ask-about-save nil)
+(setq compilation-window-height 0)
+
+;;
+;;(setq ange-ftp-smart-gateway-port "16021")
+
+
+(cond
+ ((string-match "^20.4" emacs-version)
+  (defun char-list-to-string (lst)
+    (eval (cons 'concat (mapcar 'char-to-string lst))))
+  ))
+
+;;
+(autoload 'moi::sample-ascii "moi-sample-ascii" "" t)
