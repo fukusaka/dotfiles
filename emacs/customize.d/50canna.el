@@ -37,7 +37,7 @@
 	)))
  ;; Ver.20 の場合(不十分？)
  ((string-match "^20" emacs-version)
-  (if (featurep 'canna-leim)
+  (cond ((featurep 'canna-leim)
       (progn
 	;; 常に『かんな/emacs』なので、、、。
 	(set-input-method "japanese-canna")
@@ -48,21 +48,7 @@
     ;;(load "yc")
     ;;(define-key yc-fence-mode-map "\C-j" 'yc-modeless-next)
     ;;(setq yc-stop-chars "(){}<>$\"\'")
-    ))
- ;; Ver.20 の場合(不十分？)
- ((string-match "^21" emacs-version)
-  (if (featurep 'canna-leim)
-      (progn
-	;; 常に『かんな/emacs』なので、、、。
-	(set-input-method "japanese-canna")
-	;; とっても簡単になったもんだ〜ぁ。
-	)
-    (setq default-input-method "japanese-egg-canna")
-    ;; かんなよ戻って来てくれ！
-    ;;(load "yc")
-    ;;(define-key yc-fence-mode-map "\C-j" 'yc-modeless-next)
-    ;;(setq yc-stop-chars "(){}<>$\"\'")
-    ))
+    )))
  ((featurep 'xemacs)
   (if (featurep 'canna-leim)
       (select-input-method "japanese-canna")

@@ -24,7 +24,12 @@
   )
  ;; Ver.20 の場合(不十分かなぁ)
  ((string-match "^2[01]" emacs-version)
+  (defun my-japanese-setup ()
+    (if (equal current-language-environment "Japanese")
+	(setq default-input-method "japanese-egg-canna")))
+  (add-hook 'set-language-environment-hook 'my-japanese-setup)
   (set-language-environment          'Japanese)
+
   ;; ほとんどの場合 euc-japan-unix を使う
   (set-default-coding-systems       'euc-japan-unix)
   ;; emacs -nw では、上では遅すぎなので、、、本当か？
