@@ -85,4 +85,4 @@
 ;; semi-gnus 初期化ファイルの指定
 ;;
 
-(setq gnus-init-file (concat moi::host-conf-dir "gnus"))
+(setq gnus-init-file (concat moi::host-customize-dir "gnus"))

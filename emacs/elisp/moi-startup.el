@@ -4,10 +4,10 @@
 
 ;; $Id$
 
-(defvar moi::conf-dir "~/lib/conf/emacs/")
+(defvar moi::customize-dir "~/lib/conf/emacs/customize.d")
 
-(defvar moi::host-conf-dir
-  (concat moi::conf-dir "T" (getenv "HOSTNAME") "/"))
+(defvar moi::host-customize-dir
+  (concat moi::customize-dir "T" (getenv "HOSTNAME") "/"))
 
 (defvar moi::elc-dir-prefix
   (cond ((string< emacs-version "19") "emacs18/")
@@ -23,7 +23,7 @@
         (moi::unique-strings (cdr list))
       (cons (car list) (moi::unique-strings (cdr list))))))
 
-(defun moi::run-conf (file)
+(defun moi::load-file (file)
   (let* ((el  (concat file ".el"))
 	 (elc-dir (concat (file-name-directory file) moi::elc-dir-prefix))
 	 (elc (concat elc-dir (file-name-nondirectory file) ".elc")))
@@ -41,8 +41,8 @@
 (defun moi::startup ()
   (let* ((files
 	  (append
-	   (directory-files moi::conf-dir t "^[0-9][0-9].*\\.el$" t)
-	   (directory-files moi::host-conf-dir t "^[0-9][0-9].*\\.el$" t)
+	   (directory-files moi::customize-dir t "^[0-9][0-9].*\\.el$" t)
+	   (directory-files moi::host-customize-dir t "^[0-9][0-9].*\\.el$" t)
 	   ))
 	 (s-files
 	  (moi::unique-strings
@@ -59,5 +59,5 @@
 		   (lambda (x y) (string< (car x) (car y)))
 		   )))
 	 )
-    (mapcar 'moi::run-conf d-files)
+    (mapcar 'moi::load-file d-files)
     ))

@@ -4,8 +4,14 @@
 
 ;; $Id$
 
-(defvar moi::conf-dir "~/lib/conf/emacs/")
+(defvar this-conf-top-dir
+  (expand-file-name "~/lib/conf/emacs/"))
 
-(load (concat moi::conf-dir "moi-startup.el"))
+(setq load-path (cons (concat this-conf-top-dir "elisp")
+		      load-path))
+
+(setq moi::customize-dir (concat this-conf-top-dir "customize.d/"))
+
+(load "moi-startup")
 
 (moi::startup)
