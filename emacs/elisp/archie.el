@@ -9,10 +9,10 @@
 ;;       from a magic list which one you want to FTP into an Emacs buffer.
 ;;
 
-(defvar archie-program "/usr/local/bin/archie"
+(defvar archie-program "/usr/bin/archie"
   "Program that queries archie servers.")
 
-(defvar archie-server "archie.sura.net"
+(defvar archie-server "archie.kyoto-u.ac.jp"
   "Server for \\[archie] searches.
 
 Known archie servers:

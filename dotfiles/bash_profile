@@ -13,13 +13,13 @@ export PATH INFOPATH
 
 # コマンドの指定
 export TEX=ptex
-#export CC=egcc
+export CC=egcc
 
 # 言語の指定
 LANG=ja_JP.ujis
-LC_ALL=ja_JP.ujis
-LC_COLLATE=ja_JP.ujis
-LC_MESSAGES=ja_JP.ujis
+#LC_ALL=ja_JP.ujis
+#LC_COLLATE=ja_JP.ujis
+#LC_MESSAGES=ja_JP.ujis
 export LANG LC_ALL LC_COLLATE LC_MESSAGES
 
 export LESSCHARSET=japanese-euc

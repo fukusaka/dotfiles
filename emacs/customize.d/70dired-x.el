@@ -27,11 +27,16 @@
 	     ;; (setq dired-guess-shell-znew-switches t)
 	     ;; (setq dired-x-hands-off-my-keys nil)
 	     (setq dired-guess-shell-alist-user
-		   (list
-		    (list "\\.ps$" "gv")
-		    (list "\\.eps$" "gv")
-		    (list "\\.dvi.gz$" "zcat * | xdvi -")
-		    ))
+		   '(
+		     ("\\.ps$" "gv")
+		     ("\\.eps$" "gv")
+		     ("\\.dvi.gz$" "zcat * | xdvi -")
+		     ( "\\.au$" "aplay -m -u -q")
+		     ( "\\.wav$" "aplay -m -w -q")
+		     ( "\\.xpm$" "xv")
+		     ( "\\.jpeg$" "xv")
+		     ( "\\.png$" "xv")
+		     ))
 	     ;;
 	     ;; 表示を省略するファイルと拡張子の設定
 	     ;;

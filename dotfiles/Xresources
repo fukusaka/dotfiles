@@ -129,7 +129,6 @@ XDvi*geometry:		734x575+0+0
 
 Gv.antialias:		True
 
-
 Xtetris*Canvas.accelerators:	#override 	<Key>space:Drop() \n	<Key>h:MoveLeft() \n	<Key>q:Quit() \n	<Key>p:Pause() \n	<Key>s:Start() \n	<Key>r:NewGame() \n	<Key>Left:MoveLeft() \n	<Key>j:RotateCW() \n	<Key>Down:RotateCW() \n	<Key>Begin:RotateCW() \n	<Key>k:RotateCCW() \n	<Key>Up:RotateCCW() \n	<Key>l:MoveRight() \n	<Key>Right:MoveRight() \n	<Key>End:Drop()
 
 

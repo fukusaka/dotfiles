@@ -22,6 +22,15 @@
 (define-key global-map "\C-zd" 'gdb)
 (define-key global-map "\C-zm" 'man)
 
+;;
+;; moi-skel-make.el
+;;
+(autoload 'moi::find-file "moi-skel-make")
+
+(global-set-key "\C-x\C-f" 'moi::find-file)
+(global-set-key "\C-z\C-f" 'moi::find-file)
+
+
 
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし

@@ -12,6 +12,9 @@
 (setq column-number-mode t)
 (setq scroll-step 1)
 
+;;(if window-system
+;;    (transient-mark-mode t))
+
 (if (not window-system)
     (menu-bar-mode 0))
 
@@ -62,8 +65,8 @@
 
 (autoload 'po-mode "po-mode")
 (autoload 'moi-patch-view-mode "moi-patch-view")
-(load "moi-skel-make")
 
+;;(which-function-mode)
 ;;
 (setq vc-follow-symlinks t)
 
@@ -71,7 +74,7 @@
 ;; 圧縮ファイルを自動に展開、圧縮
 ;;
 ;; tar-mode と組み合わせるとEUCが化けるんだが、、、。
-;; JISだけうまく表示出来る、、、detect-coding-region/stringのバグ?。
+;; JISだけうまく表示出来る、、、detect-coding-regionのバグ?。
 ;; ver19 ではコケル、、、
 
 (cond

@@ -228,7 +228,7 @@ Module Wharf
 
   # Examine your computer's load (48x48-1-1)
 *Wharf xload nil  MaxSwallow "xload" xload -nolabel -hl black -bg "#8e8a9e" &
-*Wharf xload nil  Exec "" xterm -ut -T top -e top &
+*Wharf xload nil  Exec "" kterm -geometry 80x50 -fn 5x7 -ut -T top -e top &
 
 # Tools Box
 *Wharf Tools monalisa.xpm Folder
@@ -274,7 +274,7 @@ Function "InitFunction"
         # Wait until Wharf is done loading so that our xterm will have 
         # the focus when it is first created
 	Wait	"I"	Wharf
-	Exec	"I"	exec xterm -geometry 143x81+2400+0 -fn 5x7 -ut -T top -e top&
+	Exec	"I"	exec kterm -geometry 92x59+2400+0 -fn 5x7 -ut -T top -e top&
 	Exec	"I"	exec kterm -geometry +2400+600 &
 	Exec	"I"	exec emacs -geometry +800+600 &
 	Wait	"I"	emacs
@@ -655,7 +655,7 @@ Key F9		A	N	Iconify
 Key F10		A	N	Lower
 Key F11		A	N	Raise
 # Alt(Meta)-Tab pages through open, bordered windows
-Key Tab		A	M	CirculateUp
+#Key Tab		A	M	CirculateUp
 
 #Page Up/Dapge Down keys are used to scroll by one desktop page
 # in any context, press page up/down + control

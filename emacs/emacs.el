@@ -7,11 +7,9 @@
 (defvar this-conf-top-dir
   (expand-file-name "~/lib/conf/emacs/"))
 
-(setq load-path (cons (concat this-conf-top-dir "elisp")
-		      load-path))
-
+(setq moi::elisp-path (concat this-conf-top-dir "elisp/"))
 (setq moi::customize-dir (concat this-conf-top-dir "customize.d/"))
 
-(load "moi-startup")
+(load (concat moi::elisp-path "moi-startup"))
 
 (moi::startup)

@@ -5,6 +5,7 @@
 ;; $Id$
 
 (defvar moi::customize-dir "~/lib/conf/emacs/customize.d")
+(defvar moi::elisp-path "~/lib/conf/emacs/elisp/")
 
 (defvar moi::host-customize-dir
   (concat moi::customize-dir "T" (getenv "HOSTNAME") "/"))
@@ -23,22 +24,28 @@
         (moi::unique-strings (cdr list))
       (cons (car list) (moi::unique-strings (cdr list))))))
 
-(defun moi::load-file (file)
-  (let* ((el  (concat file ".el"))
+(defun moi::compile-file (file)
+  (let* ((base (if (string-match ".el$" file)
+		   (replace-match "" t t file)
+		 file))
+	 (el  (concat base ".el"))
 	 (elc-dir (concat (file-name-directory file) moi::elc-dir-prefix))
-	 (elc (concat elc-dir (file-name-nondirectory file) ".elc")))
+	 (elc (concat elc-dir (file-name-nondirectory base) ".elc")))
     (if (not (file-directory-p elc-dir))
 	(make-directory elc-dir))
     (if (file-newer-than-file-p el elc)
 	(progn
 	  (byte-compile-file el)
 	  (rename-file (concat el "c") elc t) 
-	)
+	  )
       )
-    (load elc)
+    elc
     ))
 
-(defun moi::startup ()
+(defun moi::load-file (file)
+  (load (moi::compile-file file)))
+
+(defun moi::startup-customize ()
   (let* ((files
 	  (append
 	   (directory-files moi::customize-dir t "^[0-9][0-9].*\\.el$" t)
@@ -62,3 +69,13 @@
 	 )
     (mapcar 'moi::load-file d-files)
     ))
+
+(defun moi::startup ()
+  (setq load-path
+	(append
+	 (list
+	  (concat moi::elisp-path
+		  (format "%d.%d" emacs-major-version emacs-minor-version))
+	  moi::elisp-path)
+	 load-path))
+  (moi::startup-customize))

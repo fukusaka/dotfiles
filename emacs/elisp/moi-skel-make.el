@@ -10,25 +10,25 @@
 
 ;; This file is part of ...
 
-;; GNU Emacs is free software; you can redistribute it and/or modify
+;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation; either version 2, or (at your option)
 ;; any later version.
 
-;; GNU Emacs is distributed in the hope that it will be useful,
+;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs; see the file COPYING.  If not, write to the
-;; Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-;; Boston, MA 02111-1307, USA.
+;; along with this program; if not, write to the Free Software
+;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+;; 02111-1307, USA.
 
 ;;; Commentary:
 ;;
-;; ファイルを開く時
-;;     新規のファイルであればスケルトンファイルを読み込む。
+;; (autoload 'moi::find-file "moi-skel-make")
+;; (global-set-key "\C-x\C-f" 'moi::find-file)
 ;;
 
 ;;; Code:
@@ -48,6 +48,33 @@
     ("Makefile.am" . "Makefile.am")
     ))
 
+(provide 'moi-skel-file)
+(defun moi::find-file (filename)
+  (interactive "FMoi::Find file: ")
+  (switch-to-buffer (find-file-noselect filename))
+  (let ((fname buffer-file-name))
+    (if (and fname (not (file-exists-p fname)))
+	(moi::insert-skel-file))))
+
+(defun moi::insert-skel-file ()
+  (let* ((pname buffer-file-name)
+	 (fname (file-name-nondirectory pname))
+	 (dname (file-name-directory pname))
+	 (alist moi::skel-file-name-alist)
+	 (skel-file nil))
+    (while (and (not skel-file) alist)
+      (if (string-match (car (car alist)) fname)
+	  (setq skel-file (cdr (car alist))))
+      (setq alist (cdr alist)))
+    (if skel-file
+	(if (not (stringp skel-file))
+	    (eval skel-file)
+	  (let ((skel-file-real (concat moi::skel-file-dir skel-file)))
+	    (if (file-readable-p skel-file-real)
+		(moi::insert-skel-file-real fname dname skel-file-real)))))
+	    
+    ))
+
 (defun moi::insert-skel-file-real (file-name dir-name skel-file)
   (insert-file skel-file)
   (font-lock-unfontify-buffer)
@@ -57,12 +84,13 @@
 	(while (re-search-forward "^\\([a-zA-Z_][a-zA-Z_0]*\\):" nil t)
 	  (let ((v (match-string 1))
 		(s (match-end 0)) e r)
-	    (while (re-search-forward "^[ \t].*$" nil t)
-	      (setq e (match-end 0)))
-	    (if (not (integer-or-marker-p e)) (setq e (point-max)))
+	    (end-of-line)
+	    (while (looking-at "\n[ \t]")
+	      (forward-line) (end-of-line))
+	    (setq e (point))
 	    (let ((rs (buffer-substring s e)))
 	      (setq r (eval (car (read-from-string rs))))
-	      (setq vlist (cons (cons v r) vlist)))	      
+	      (setq vlist (cons (cons v r) vlist)))      
 	    ))
 	(print vlist)
 	(delete-region
@@ -86,30 +114,55 @@
   (font-lock-fontify-buffer)
   )
 
-(defun moi::insert-skel-file-0 ()
-  (let* ((pname buffer-file-name)
-	 (fname (file-name-nondirectory pname))
-	 (dname (file-name-directory pname))
-	 (alist moi::skel-file-name-alist)
-	 (skel-file nil))
-    (while (and (not skel-file) alist)
-      (if (string-match (car (car alist)) fname)
-	  (setq skel-file (cdr (car alist))))
-      (setq alist (cdr alist)))
-    (if skel-file
-	(if (not (stringp skel-file))
-	    (eval skel-file)
-	  (let ((skel-file-real (concat moi::skel-file-dir skel-file)))
-	    (if (file-readable-p skel-file-real)
-		(moi::insert-skel-file-real fname dname skel-file-real)))))
-	    
+(setq moi::license-list
+      '(
+	(GPL
+"This program is free software; you can redistribute it and/or modify"
+"it under the terms of the GNU General Public License as published by"
+"the Free Software Foundation; either version 2, or (at your option)"
+"any later version."
+""
+"This program is distributed in the hope that it will be useful,"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
+"GNU General Public License for more details."
+""
+"You should have received a copy of the GNU General Public License"
+"along with this program; if not, write to the Free Software"
+"Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA"
+"02111-1307, USA."
+	 )
+	(LGPL
+"This library is free software; you can redistribute it and/or"
+"modify it under the terms of the GNU Library General Public"
+"License as published by the Free Software Foundation; either"
+"version 2 of the License, or (at your option) any later version."
+""
+"This library is distributed in the hope that it will be useful,"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the "
+"GNU Library General Public License for more details."
+""
+"You should have received a copy of the GNU Library General Public"
+"License along with this library; if not, write to the"
+"Free Software Foundation, Inc., 59 Temple Place - Suite 330,"
+"Boston, MA 02111-1307, USA."
+	 )
+	(BSD
+	 )
+	))
+
+(defun moi::license-string (type head &optional flag)
+  (let ((l-list (assoc type moi::license-list))
+	str)
+    (if l-list
+	(progn
+	  (setq l-list (cdr l-list))
+	  (while l-list
+	    (let* ((a (car l-list))
+		   (b (if (not (and flag (string= "" a)))
+			  (concat head a ))))
+	      (setq str (concat str (if str "\n") b)))
+	    (setq l-list (cdr l-list)))
+	  str))
     ))
-
-(defun moi::insert-skel-file ()
-  (let ((fname buffer-file-name))
-    (if (and fname (not (file-exists-p fname)))
-	(moi::insert-skel-file-0))))
-
-(add-hook 'find-file-hooks 'moi::insert-skel-file)
-
-(provide 'moi-skel-file)
