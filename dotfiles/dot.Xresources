@@ -1,0 +1,138 @@
+! $Id$
+
+!*basicLocale:	C
+!*displayLang:	C
+!*inputLang:	C
+!*numeric:	C
+!*timeFormat:	C
+
+*basicLocale:	japanese
+*displayLang:	japanese
+*inputLang:	japanese
+*numeric:	japanese
+*timeFormat:	japanese
+
+! Xaw3d
+*shapeStyle:        Rectangle
+*beNiceToColormap:  False
+!*Label*shadowWidth: 2
+
+
+!*international:         true
+!*inputMethod:           kinput2
+
+Kinput2*KinputProtocol.XlcConversionStartKey:	Ctrl<Key>backslash
+Kinput2*ConversionStartKeys: \
+	Ctrl<Key>backslash \n\
+	Ctrl<Key>Kanji
+
+emacs*background:	AntiqueWhite
+mule*background:	AntiqueWhite
+kterm*background:	AntiqueWhite
+xterm*background:	AntiqueWhite
+xbiff*background:	AntiqueWhite
+xload*background:	AntiqueWhite
+xman*background:	AntiqueWhite
+
+mule.geometry:	80x30+0+0
+emacs.geometry:	80x34+0+0
+editres.geometry: 700x572+0+0
+Xftp.geometry: 700x572+0+0
+Viewres.geometry: 700x572+0+0
+
+Netscape.Navigator.geometry: 732x569+0+0
+Netscape.bookmarks.geometry: 680x569+25+0
+Netscape.MailThread.geometry: 680x569+25+0
+Netscape.MailFolder.geometry: 680x569+25+0
+Netscape.Composition.geometry: 680x569+25+0
+Netscape*international:         true
+Netscape*inputMethod:           kinput2
+
+
+mosaic.geometry: 700x570+0+0
+
+Emacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
+
+Scrollbar.JumpCursor:	True
+
+xterm*VT100.Translations:	#override\n\
+	<KeyPress>Prior: scroll-back(1,page)\n\
+	<KeyPress>Next: scrool-forw(1,page)
+
+xterm*fullCursor:	true
+xterm*visualBell:	true
+xterm*scrollTtyOutput:	off
+xterm*reverseVideo:	false
+xterm*saveLines:	1000
+xterm*UtmpInhibit:	true
+xterm*scrollBar:	true
+xterm*titleBar:		false
+xterm*reverseWrap:	true
+xterm*loginShell:	false
+xterm*scrollKey:	false
+
+kterm*fullCursor:	true
+kterm*visualBell:	true
+kterm*kanjiMode:	euc
+kterm*scrollTtyOutput:	off
+kterm*reverseVideo:	false
+kterm*UtmpInhibit:	true
+kterm*scrollBar:	true
+kterm*saveLines:	1000
+kterm*titleBar:		false
+kterm*scrollKey:	false
+kterm*reverseWrap:	true
+kterm*loginShell:	false
+kterm*fontList:			-*-fixed-medium-r-normal--16-*
+!kterm*font:			-*-fixed-medium-r-normal--16-*-iso8859-1
+!kterm*romanKanjiFont:		-*-fixed-medium-r-normal--16-*-iso8859-1
+!kterm*kanjiFont:		-*-fixed-medium-r-normal--16-*-jisx0208.1983-0
+!kterm*romanKanjiBoldFont:	-*-fixed-bold-r-normal--16-*-iso8859-1
+!kterm*kanjiBoldFont:		-*-fixed-bold-r-normal--16-*-jisx0208.1983-0
+kterm*VT100.Translations:	#override	\n\
+	Ctrl<Key>backslash:begin-conversion(JAPANESE_CONVERSION)
+
+!XDvi*shrinkFactor:	4
+!XDvi*mfMode:		cx
+!XDvi*pixelsPerInch:	300
+XDvi*paper:		a4
+XDvi*grey:		true
+XDvi*gamma:		2
+XDvi*geometry:		640x570+60+0
+
+
+Gv.antialias:		True
+
+Xtetris*Canvas.accelerators:	#override 	<Key>space:Drop() \n	<Key>h:MoveLeft() \n	<Key>q:Quit() \n	<Key>p:Pause() \n	<Key>s:Start() \n	<Key>r:NewGame() \n	<Key>Left:MoveLeft() \n	<Key>j:RotateCW() \n	<Key>Down:RotateCW() \n	<Key>Begin:RotateCW() \n	<Key>k:RotateCCW() \n	<Key>Up:RotateCCW() \n	<Key>l:MoveRight() \n	<Key>Right:MoveRight() \n	<Key>End:Drop()
+
+
+#
+#  Sample ~/.Xdefaults for use on Note PC with VGA or 800x600 pixel
+#
+
+Ugs*width       : 576
+Ugs*height      : 440
+Ugs*geometry	: +0+0
+
+Polly*font            : -Adobe-Helvetica-Bold-R-Normal--*-100-*
+Polly*Text.font       : -Misc-Fixed-Medium-R-Normal--*-100-*
+Polly*Listbox.font    : -Misc-Fixed-Medium-R-Normal--*-100-*
+Polly*Entry.font      : -Misc-Fixed-Medium-R-Normal--*-100-*
+Polly*Scrollbar.width : 10
+Polly*Scale.width     : 10
+Polly.hist*Listbox.height   : 12
+Polly.macro*Text.height     :  6
+Polly.macro*Text.width      : 50
+Polly.recall*Listbox.height :  6
+
+Xarchie*archieHost:	archie.kyoto-u.ac.jp
+Xarchie*ftpMailAddress:	fukusaka@xa2.so-net.ne.jp
+Xarchie*searchType:	substr
+Xarchie*hostMenuItem27.label: archie.kyoto-u.ac.jp Local
+Xarchie*numHosts:               28
+
+Xman*manualBrowser.geometry: 600x570+80+0
+Xman*FontSet: -*-fixed-*-r-*-*-12-*-*-*-*-*-jisx0208.1983-*,\
+              -*-fixed-*-r-*-*-12-*-*-*-*-*-iso8859-1
+Xman*inputMethod: none
+
