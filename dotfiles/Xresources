@@ -14,17 +14,13 @@
 *international:         true
 *inputMethod:           kinput2
 
+Kinput2*conversionStartKeys: Shift<Key>space
+!Kinput2*ConversionStartKeys: Ctrl<Key>backslash \nCtrl<Key>Kanji
+
 ! Xaw3d
 *shapeStyle:        Rectangle
 *beNiceToColormap:  False
 !*Label*shadowWidth: 2
-
-
-
-!Kinput2*KinputProtocol.XlcConversionStartKey:	Ctrl<Key>backslash
-!Kinput2*ConversionStartKeys: \
-!	Ctrl<Key>backslash \n\
-!	Ctrl<Key>Kanji
 
 Emacs*background:	AntiqueWhite
 KTerm*background:	AntiqueWhite
@@ -35,6 +31,9 @@ emacs20*background:	AntiqueWhite
 mule*background:	AntiqueWhite
 xbiff*background:	AntiqueWhite
 xload*background:	AntiqueWhite
+
+emacs*geometry: 80x40+0+24
+
 
 #if WIDTH==800 && HEIGHT==600
 mule.geometry:	80x30+0+0
@@ -120,7 +119,7 @@ KTerm*titleBar:		false
 KTerm*scrollKey:	false
 KTerm*reverseWrap:	true
 KTerm*loginShell:	false
-KTerm*fontList:		-alias-fixed-medium-r-normal--16-*
+KTerm*fontList:		-*-fixed-medium-r-normal--16-*
 !kterm*boldFontList:	-alias-fixed-bold-r-normal--16-*
 !kterm*font:			-*-fixed-medium-r-normal--16-*-iso8859-1
 !kterm*romanKanjiFont:		-*-fixed-medium-r-normal--16-*-iso8859-1
@@ -129,6 +128,10 @@ KTerm*fontList:		-alias-fixed-medium-r-normal--16-*
 !kterm*kanjiBoldFont:		-*-fixed-bold-r-normal--16-*-jisx0208.1983-0
 !KTerm*VT100.Translations:	#override	\n\
 !	Ctrl<Key>backslash:begin-conversion(JAPANESE_CONVERSION)
+
+KTerm*VT100*translations: #override \
+  Shift<Key>space: open-im(XMODIFIERS) \n\
+
 
 !XDvi*shrinkFactor:	4
 !XDvi*mfMode:		cx
@@ -168,7 +171,7 @@ Polly.recall*Listbox.height :  6
 #endif
 
 Xarchie*archieHost:	archie1.iij.ad.jp
-#Xarchie*archieHost:	archie.kyoto-u.ac.jp
+!Xarchie*archieHost:	archie.kyoto-u.ac.jp
 Xarchie*ftpMailAddress:	fukusaka@xa2.so-net.ne.jp
 Xarchie*searchType:	substr
 Xarchie*hostMenuItem27.label: archie.kyoto-u.ac.jp Local
@@ -290,3 +293,14 @@ Tgif.SquareDoubleByteFonts: \n\
        -jis-fixed-*-*-*--%d-*-*-*-*-*-jisx0208.1983-* \n\
                V \n\
                Ryumin-Light-EUC-V
+
+
+! The default font
+Srvbuild*fontList:\
+       -*-fixed-medium-r-*--14-*-iso8859-1,\
+        -*-fixed-medium-r-*--14-*-jisx0201.1976-*,\
+        -*-fixed-medium-r-*--14-*-jisx0208.1983-*
+! Font for labels
+!Srvbuild*XmLabel.fontList:     -*-fixed-medium-r-normal--14-*
+! Font for text fields (user editable)
+!Srvbuild*XmText.fontList:      -*-fixed-medium-r-normal--14-*
