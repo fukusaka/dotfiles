@@ -3,4 +3,4 @@ update -d -P
 checkout -P
 diff -u -kk
 rdiff -u -kk
-import -d
+import -d -I ! -ko
