@@ -1,0 +1,21 @@
+MYCONFDIR=${HOME}/lib/conf/shell/bashrc.d
+
+for i in ${MYCONFDIR}/*.sh ; do
+	if [ -x $i ]; then
+		. $i
+	fi
+done
+
+if [ -d ${MYCONFDIR}/`hostname -s` ]; then
+	for i in ${MYCONFDIR}/`hostname -s`/*.sh ; do
+		if [ -x $i ]; then
+			. $i
+		fi
+	done
+fi
+
+
+unset i
+unset MYCONFDIR
+
+cd ${HOME}
