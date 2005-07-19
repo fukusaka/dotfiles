@@ -1,17 +1,14 @@
 # ~/.bash_profile
 # $Id$
 
-if [ -f ${HOME}/.bashrc ]; then . ${HOME}/.bashrc; fi
-
 . ${HOME}/.default/sh
 
 #
-for i in ${SHCONFDIR}/profile.d/*.sh; do
-    if [ -x $i ]; then
-	. $i ${CONFDOMAIN}
-    fi
-done
-unset i
+if [ -x ${SHCONFDIR}/bash_profile.${CONFDOMAIN}.sh ]; then
+    . ${SHCONFDIR}/bash_profile.${CONFDOMAIN}.sh
+else
+    . ${SHCONFDIR}/bash_profile.default.sh
+fi
 
 # Local Variables:
 # mode: shell-script

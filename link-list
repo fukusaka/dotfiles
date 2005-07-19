@@ -12,5 +12,5 @@ dotfiles/guile			~/	.guile
 signature/persional		~/	.signature
 shell/bash_profile		~/	.bash_profile
 shell/bashrc			~/	.bashrc
-shell/emacs_bash		~/	.emacs_bash
+shell/bashrc.emacs.sh		~/	.emacs_bash
 emacs/emacs.el			~/	.emacs

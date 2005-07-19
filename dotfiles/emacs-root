@@ -16,6 +16,8 @@
 	   (cond ((string< emacs-version "19") "~/.emacs18.elc")
 		 ((string< emacs-version "20") "~/.emacs19.elc")
 		 ((string< emacs-version "21") "~/.emacs20.elc")
+		 ((string< emacs-version "22") "~/.emacs21.elc")
+		 ((string< emacs-version "23") "~/.emacs22.elc")
 		 (t "~/.emacsxx.elc"))))
       (if (file-newer-than-file-p "~/.emacs" elc-filename)
           (progn
