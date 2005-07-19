@@ -3,8 +3,8 @@ TARBALL=conf.tar.gz
 CONFDIR=~/common/conf
 
 all:
-	@ echo "link -- ��󥯤�ĥ���餹"
-	@ echo "pack -- tarball �˸Ǥ��"
+	@ echo "link -- リンクを張り巡らす"
+	@ echo "pack -- tarball に固める"
 
 link:
 	@ grep -v '^#' link-list | \

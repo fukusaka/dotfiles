@@ -51,7 +51,7 @@
 	       (top  (+ y bw (eval (cdr (assoc 'top fpar)))))
 	       (frame (make-frame)))
 	  (sleep-for 0.09)
-	  (modify-frame-parameters frame `((top + ,top) (left + ,left)))
+	  (modify-frame-parameters frame `((top + ,top) (left + ,left) ,(cons 'font "fontset-standard")))
 	  (sleep-for 0.09)
 	  frame))
 

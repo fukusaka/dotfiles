@@ -36,7 +36,7 @@
     (progn
       (tool-bar-mode -1)
       (blink-cursor-mode 0)
-      (setq initial-frame-alist '((top . 1) (left . 1) (width . 80) (height . 55)))
+      (setq initial-frame-alist '((top . 26) (left . 0) (width . 80) (height . 39)))
       ))
 ;;
 ;; ディフォルトModeの設定

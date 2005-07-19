@@ -12,8 +12,9 @@
 *numeric:	ja_JP.eucJP
 *timeFormat:	ja_JP.eucJP
 *international:         true
-*inputMethod:           kinput2
+*inputMethod:           htt_xbe
 
+!*conversionOnKeys: Zenkaku_Hankaku Shift<Key>space
 Kinput2*conversionStartKeys: Shift<Key>space
 !Kinput2*ConversionStartKeys: Ctrl<Key>backslash \nCtrl<Key>Kanji
 
@@ -58,7 +59,6 @@ Netscape.Navigator.geometry: 950x680+0+0
 Mozilla*geometry: +0+0
 #endif
 Netscape*international:         true
-Netscape*inputMethod:           kinput2
 !Netscape*international:         false
 !Netscape*inputMethod:           none
 Netscape*useStdoutDialog:	false
@@ -267,7 +267,6 @@ Tgif.Geometry:			655x420+0+0
 Tgif.BorderColor:		DarkSlateGray
 Tgif.RubberBandColor:		DarkSlateGray
 
-Tgif.DoubleByteInputMethod:	kinput2
 
 Tgif.RyuminShowFontChar: 244242
 Tgif.SquareDoubleByteFonts: \n\

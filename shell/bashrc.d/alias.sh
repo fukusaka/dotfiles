@@ -1,12 +1,17 @@
-eval `dircolors -b`
-alias l='/bin/ls -FNB --color=auto --format=long'
-alias ls='/bin/ls -FNB --color=auto'
-alias ll='/bin/ls -FNB --color=auto --format=long --full-time'
-alias dir='/bin/ls -FNB --color=auto --format=vertical';
-alias vdir='/bin/ls -FNB --color=auto --format=long';
-alias ols='/bin/ls';
-alias p='/bin/ps aux'
-
+if [ "x`uname`" = "xLinux" ]; then
+	eval `dircolors -b`
+	alias l='/bin/ls -FNB --color=auto --format=long'
+	alias ls='/bin/ls -FNB --color=auto'
+	alias ll='/bin/ls -FNB --color=auto --format=long --full-time'
+	alias dir='/bin/ls -FNB --color=auto --format=vertical';
+	alias vdir='/bin/ls -FNB --color=auto --format=long';
+	alias ols='/bin/ls';
+	alias p='/bin/ps aux'
+else
+	alias l='/bin/ls -l -FB'
+	alias ls='/bin/ls -FB'
+	alias p='/bin/ps aux'
+fi
 #alias l='/bin/ls -l -F'
 #alias ls='/bin/ls -F'
 #alias ll='/bin/ls -l -F'

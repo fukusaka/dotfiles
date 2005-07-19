@@ -23,18 +23,20 @@
 	))
   )
  ;; Ver.20 の場合(不十分かなぁ)
- ((string-match "^2[01]" emacs-version)
+ ((string-match "^20" emacs-version)
   (defun my-japanese-setup ()
     (if (equal current-language-environment "Japanese")
-	(setq default-input-method "japanese-egg-canna")))
+	(setq default-input-method "japanese-canna")))
   (add-hook 'set-language-environment-hook 'my-japanese-setup)
   (set-language-environment          'Japanese)
-
+  
   ;; ほとんどの場合 euc-japan-unix を使う
   (set-default-coding-systems       'euc-japan-unix)
   ;; emacs -nw では、上では遅すぎなので、、、本当か？
   (set-terminal-coding-system       'euc-japan-unix)
   ;;(setq default-process-coding-system '(euc-jp . euc-jp))
+  (setq default-file-name-coding-system 'utf-8-unix)
+
   ;; フォント設定(Xリソースで設定するのがベスト)
   ;; ~/.Xresources -->
   ;;   Emacs.Font: -*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
@@ -54,4 +56,37 @@
        ))
   )
   )
+ ((string-match "^21" emacs-version)
+  (defun my-japanese-setup ()
+    (if (equal current-language-environment "Japanese")
+	(setq default-input-method "japanese-egg-anthy")))
+  (add-hook 'set-language-environment-hook 'my-japanese-setup)
+  (set-language-environment          'Japanese)
+  
+  ;; ほとんどの場合 euc-japan-unix を使う
+  (set-default-coding-systems       'utf-8-unix)
+  ;; emacs -nw では、上では遅すぎなので、、、本当か？
+  (set-terminal-coding-system       'utf-8-unix)
+  (setq default-file-name-coding-system 'utf-8-unix)
+
+  ;; フォント設定(Xリソースで設定するのがベスト)
+  ;; ~/.Xresources -->
+  ;;   Emacs.Font: -*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
+  (set-default-font "fontset-standard")
+  ;; (set-default-font "-*-fixed-*-r-normal-*-16-*-*-*-*-*-fontset-standard")
+  ;; scroll bar を右にする設定。
+  (if (fboundp 'set-scroll-bar-mode)
+      (set-scroll-bar-mode 'right))
+  (if nil
+  (if (not window-system)
+      (progn
+	;; Translate `C-h' to <DEL>.
+	;;(keyboard-translate ?\C-h ?\C-?)
+	
+	;; Translate <DEL> to `C-h'.
+	;;(keyboard-translate ?\C-? ?\C-h)
+       ))
+  )
+  )
+ 
  )
