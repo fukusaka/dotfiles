@@ -64,4 +64,25 @@
       (setq c-font-lock-extra-types (append c-font-lock-extra-types glib-types))
       (setq c++-font-lock-extra-types (append c++-font-lock-extra-types glib-types))
       )
+
+     ((string-match "^2[2]" emacs-version)
+      (global-font-lock-mode t)
+      (setq font-lock-support-mode
+	    '(;(c-mode . fast-lock-mode)
+	      ;(c++-mode . fast-lock-mode)
+	      ;(cc-mode . fast-lock-mode)
+	      ;(perl-mode . fast-lock-mode)
+	      ;(cperl-mode . fast-lock-mode)
+	      (t . jit-lock-mode)
+	      ))
+
+      (setq glib-types
+	    '("gboolean" "gpointer" "gconstpointer"
+	      "gchar" "guchar" "gint" "guint" "gshort" "gushort" "glong" "gulong"
+	      "gint8" "guint8" "gint16" "guint16" "gint32" "guint32" "gint64" "guint64"
+	      "gfloat" "gdouble" "gsize" "gssize"))
+
+      ;;(setq c-font-lock-extra-types (append c-font-lock-extra-types glib-types))
+      ;;(setq c++-font-lock-extra-types (append c++-font-lock-extra-types glib-types))
+      )
      ))
