@@ -36,6 +36,14 @@
 
 ;;(setq initial-frame-alist '((top . 26) (left . 0) (width . 80) (height . 39)))
 
+;; 
+
+(if (featurep 'mac-carbon)
+    (setq default-frame-alist
+	  (append (list '(active-alpha . 0.95) ;; active frame
+			'(inactive-alpha . 0.4) ;; non active frame
+			) default-frame-alist) ))
+
 ;; 時計の表示
 ;;(setq display-time-day-and-date nil)
 ;;(display-time)

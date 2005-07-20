@@ -4,7 +4,7 @@
 . ${HOME}/.default/sh
 
 #
-if [ -x ${SHCONFDIR}/bash_profile.${CONFDOMAIN}.sh ]; then
+if [ -f ${SHCONFDIR}/bash_profile.${CONFDOMAIN}.sh ]; then
     . ${SHCONFDIR}/bash_profile.${CONFDOMAIN}.sh
 else
     . ${SHCONFDIR}/bash_profile.default.sh

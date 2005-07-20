@@ -55,4 +55,27 @@
 
   ;; フォント設定(Xリソースで設定するのがベスト)
   (set-default-font "fontset-standard")
- ))
+ )
+
+ ;; Ver.22 の場合 UTF-8
+ ((string-match "^22" emacs-version)
+  (defun my-japanese-setup ()
+    (if (equal current-language-environment "Japanese")
+	(setq default-input-method "japanese-egg-anthy")))
+  (add-hook 'set-language-environment-hook 'my-japanese-setup)
+  (set-language-environment          'Japanese)  
+  (set-default-coding-systems       'utf-8-unix)
+  (set-terminal-coding-system       'utf-8-unix)
+  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+  (setq default-file-name-coding-system 'utf-8-unix)
+
+  (cond
+   ((featurep 'mac-carbon)
+    (setq mac-allow-anti-aliasing t)
+    (set-default-font "fontset-hiraginokaku12")
+    )
+   (t (set-default-font "fontset-standard")))
+
+  )
+ )
+

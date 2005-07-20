@@ -7,7 +7,7 @@
 . ${HOME}/.default/sh
 
 #
-if [ -x ${SHCONFDIR}/bashrc.${CONFDOMAIN}.sh ]; then
+if [ -f ${SHCONFDIR}/bashrc.${CONFDOMAIN}.sh ]; then
     . ${SHCONFDIR}/bashrc.${CONFDOMAIN}.sh
 else
     . ${SHCONFDIR}/bashrc.default.sh
