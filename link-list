@@ -14,3 +14,4 @@ shell/bash_profile		~/	.bash_profile
 shell/bashrc			~/	.bashrc
 shell/bashrc.emacs.sh		~/	.emacs_bash
 emacs/emacs.el			~/	.emacs
+emacs/emacs.el			~/	.xemacs/init.el

@@ -71,6 +71,8 @@
 (autoload 'moi-patch-view-mode "moi-patch-view")
 (autoload 'moi::sample-ascii "moi-sample-ascii" "" t)
 
+(auto-compression-mode)
+
 ;;
 ;; EDITOR=emacsclientで emacs で開く
 ;; PAGER=emacsclientで emacs で開く

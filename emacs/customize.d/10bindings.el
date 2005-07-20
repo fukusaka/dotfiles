@@ -32,6 +32,12 @@
       (define-key global-map [end] 'end-of-buffer)
       ))
 
+(if (featurep 'xemacs)
+    (progn
+      (define-key global-map "\M-m" 'manual-entry)
+      (define-key global-map "\C-zm" 'manual-entry)
+      ))
+
 ;;
 ;; 6枚ものフレームを同時生成、同時削除。
 ;;

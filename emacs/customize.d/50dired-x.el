@@ -7,15 +7,16 @@
 (define-key global-map "\C-x4\C-j" 'dired-jump-other-window)
 
 (if (featurep 'xemacs) nil
-
-(autoload 'dired-jump "dired-x" nil t nil)
-(autoload 'dired-jump-other-window "dired-x" nil t nil)
+  (autoload 'dired-jump "dired-x" nil t nil)
+  (autoload 'dired-jump-other-window "dired-x" nil t nil))
 
 (add-hook 'dired-load-hook
 	  (function
 	   (lambda ()
-	     (load "dired-x")
+	     (if (not (featurep 'xemacs))
+		 (load "dired-x"))
 	     ;; モードキーの設定
+	     (define-key dired-mode-map "\M-o" 'dired-omit-toggle)
 	     (define-key dired-mode-map "f" 'dired-do-shell-command)
 	     (define-key dired-mode-map "U" 'dired-unmark-all-files-no-query)
 	     ;; Set dired-x variables here.  For example:
@@ -40,20 +41,21 @@
 	     ;;
 	     (setq dired-omit-files "^#\\|^\\.")
 	     (setq dired-omit-extensions
-		   (append 
+		   (append
 		    '(".o" ".elc" "~" ".bin" ".lbin" ".fasl"
 		      ".a" ".ln" ".fmt" ".lo" ".flc" ".flh" )
-		    dired-tex-unclean-extensions
-		    dired-latex-unclean-extensions
-		    dired-bibtex-unclean-extensions
-		    dired-texinfo-unclean-extensions
-		    ))
-	     )))
+		    dired-omit-extensions)
+		   ))
+	   ))
 
-(add-hook 'dired-mode-hook
-	  (function
-	   (lambda ()
-	     (setq dired-omit-files-p t)
-	     )))
-
-)
+(cond
+ ((featurep 'xemacs)
+  (add-hook 'dired-after-readin-hook
+	    (function
+	     (lambda ()
+	       (dired-omit-toggle)))))
+ (t
+  (add-hook 'dired-mode-hook
+	    (function
+	     (lambda ()
+	       (setq dired-omit-files-p t))))))

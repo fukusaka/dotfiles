@@ -34,6 +34,13 @@
   (setq default-process-coding-system '(euc-jp . euc-jp))
   (set-default-font "fontset-standard"))
 
+ ;; XEmacs 21
+ ((featurep 'xemacs)
+  (set-language-environment          'Japanese)  
+  (set-default-coding-systems       'utf-8-unix)
+  (setq coding-system-for-read      'utf-8-unix)
+  )
+
  ;; Ver.21 の場合 UTF-8
  ((string-match "^21" emacs-version)
   (defun my-japanese-setup ()
@@ -47,6 +54,5 @@
   (setq default-file-name-coding-system 'utf-8-unix)
 
   ;; フォント設定(Xリソースで設定するのがベスト)
-  (if (featurep 'xemacs) nil
-    (set-default-font "fontset-standard")))
- )
+  (set-default-font "fontset-standard")
+ ))
