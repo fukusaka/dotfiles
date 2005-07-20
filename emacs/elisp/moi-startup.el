@@ -30,6 +30,7 @@
 	  ((string< emacs-version "20") "emacs19/")
 	  ((string< emacs-version "21") "emacs20/")
 	  ((string< emacs-version "22") "emacs21/")
+	  ((string< emacs-version "23") "emacs22/")
 	  (t "emacsxx/"))))
 
 (defun moi::domain-customize-dir ()

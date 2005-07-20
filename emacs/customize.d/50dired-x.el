@@ -3,12 +3,6 @@
 ;; Dired-X を使う設定
 ;;
 
-(cond
- ((string-match "^19" emacs-version)
-  ;; 何でだろう？
-  (setq dired-chown-program "chown")
-  ))
-
 (define-key global-map "\C-x\C-j" 'dired-jump)
 (define-key global-map "\C-x4\C-j" 'dired-jump-other-window)
 

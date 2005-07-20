@@ -49,25 +49,3 @@
     
     (info (concat (file-name-directory buffer-file-name) filename))
     ))
-
-(cond
- ((string-match "^20" emacs-version)
-  ;; Info 君に色が付いていないなんて!!!
-  ;; それも font-lock 君との仲良しでないなんて、、、
-  (defface info-node
-    '((t (:bold t :italic t)))
-    nil)
-  
-  (defface info-menu-5
-    '((t (:underline t)))
-    nil)
-  
-  (defface info-xref
-    '((((class color) (background light)) (:foreground "Blue" :bold t))
-      (((class color) (background dark)) (:foreground "LightSkyBlue" :bold t))
-      (t (:bold t :italic t))
-      )
-    nil)
-
-  )
- )

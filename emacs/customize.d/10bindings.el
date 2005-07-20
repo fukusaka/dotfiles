@@ -26,7 +26,7 @@
 (define-key global-map "\C-zl" 'scratch)
 
 
-(if (string-match "^21" emacs-version)
+(if (string-match "^2[12]" emacs-version)
     (progn
       (define-key global-map [home] 'beginning-of-buffer)
       (define-key global-map [end] 'end-of-buffer)
@@ -95,16 +95,7 @@
 	  (delete-frame (car moi::make-frame-6-alist))
 	  (setq moi::make-frame-6-alist (cdr moi::make-frame-6-alist))))
       ))
-;;
-;; moi-skel-make.el
-;;
-(cond
- ((string-match "^20" emacs-version)
-  (autoload 'moi::find-file "moi-skel-make")
-  (global-set-key "\C-x\C-f" 'moi::find-file)
-  (global-set-key "\C-z\C-f" 'moi::find-file)
-  )
- )
+
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし
 (defun toggle-shell-default ()
@@ -163,26 +154,24 @@
 ;;
 ;; wheel mouse
 ;;
+(cond
+ ;; XEmacs
+ ((featurep 'xemacs) nil)
 
-(if (featurep 'xemacs)
-    ;; XEmacs
-    nil
-  ;; Emacs
-  (cond
-   ((string-match "^20" emacs-version)
-    (defun up-slightly () (interactive) (scroll-up 5))
-    (defun down-slightly () (interactive) (scroll-down 5))
-    (global-set-key [mouse-4] 'down-slightly)
-    (global-set-key [mouse-5] 'up-slightly)
+ ;; Emacs
+ ((string-match "^2[01]" emacs-version)
+  (defun up-slightly () (interactive) (scroll-up 5))
+  (defun down-slightly () (interactive) (scroll-down 5))
+  (global-set-key [mouse-4] 'down-slightly)
+  (global-set-key [mouse-5] 'up-slightly)
     
-    (defun up-one () (interactive) (scroll-up 1))
-    (defun down-one () (interactive) (scroll-down 1))
-    (global-set-key [S-mouse-4] 'down-one)
-    (global-set-key [S-mouse-5] 'up-one)
-    
-    (defun up-a-lot () (interactive) (scroll-up))
-    (defun down-a-lot () (interactive) (scroll-down))
-    (global-set-key [C-mouse-4] 'down-a-lot)
-    (global-set-key [C-mouse-5] 'up-a-lot)
-    ))
-  )
+  (defun up-one () (interactive) (scroll-up 1))
+  (defun down-one () (interactive) (scroll-down 1))
+  (global-set-key [S-mouse-4] 'down-one)
+  (global-set-key [S-mouse-5] 'up-one)
+  
+  (defun up-a-lot () (interactive) (scroll-up))
+  (defun down-a-lot () (interactive) (scroll-down))
+  (global-set-key [C-mouse-4] 'down-a-lot)
+  (global-set-key [C-mouse-5] 'up-a-lot)
+  ))

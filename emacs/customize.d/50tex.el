@@ -1,15 +1,5 @@
-;; ¥×¥í¥°¥é¥à
-
-;; Author: Shoichi Fukusaka <fukusaka@xa2.so-net.ne.jp>
-
-;; $Id$
-
 ;;
-;; Guile ¤ò¤Ä¤«¤¦ÀßÄê
-(setq scheme-program-name "/usr/bin/guile")
-
-;;
-;; Latex ¤ò»È¤¦ÀßÄê
+;; Latex ã‚’ä½¿ã†è¨­å®š
 ;;
 (setq tex-run-command "ptex *")
 (setq latex-run-command "platex *")

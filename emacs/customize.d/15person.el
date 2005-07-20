@@ -2,7 +2,7 @@
 
 ;; Author: Shoichi Fukusaka <fukusaka@xa2.so-net.ne.jp>
 
-;; $Id$
+;; $Id: 15person.el 114 2003-09-14 15:48:46Z fukusaka $
 
 ;; 個人情報を設定
 
