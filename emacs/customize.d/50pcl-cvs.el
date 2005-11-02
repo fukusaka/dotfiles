@@ -33,4 +33,7 @@
 
 (setq cvs-diff-flags '("-u"))
 
+(if (not (fboundp 'svn-status))
+    (autoload 'svn-status "mac-psvn" nil t))
+
 ;;; 50pcl-cvs.el ends here
