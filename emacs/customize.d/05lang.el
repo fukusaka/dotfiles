@@ -72,7 +72,8 @@
   (cond
    ((featurep 'mac-carbon)
     (setq mac-allow-anti-aliasing t)
-    (set-default-font "fontset-hiraginokaku12")
+    (require 'carbon-font)
+    ;;(set-default-font "fontset-hiraginokaku")
     )
    (t (set-default-font "fontset-standard")))
 
