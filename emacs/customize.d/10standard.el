@@ -41,7 +41,7 @@
 (if (featurep 'mac-carbon)
     (setq default-frame-alist
 	  (append (list '(active-alpha . 0.95) ;; active frame
-			'(inactive-alpha . 0.4) ;; non active frame
+			'(inactive-alpha . 0.95) ;; non active frame
 			) default-frame-alist) ))
 
 ;; 時計の表示
