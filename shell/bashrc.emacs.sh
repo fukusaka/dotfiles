@@ -7,9 +7,9 @@
 PS1="% "
 
 # 色付け無し
-alias l='/usr/bin/ls -l -FB'
-alias ls='/usr/bin/ls -FB'
-alias ll='/usr/bin/ls -l -FB'
+alias l='/bin/ls -l -FB'
+alias ls='/bin/ls -FB'
+alias ll='/bin/ls -l -FB'
 alias p='/bin/ps aux'
 
 # ファイルオープンの修正
