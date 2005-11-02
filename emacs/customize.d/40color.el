@@ -43,7 +43,7 @@
 	  "gint8" "guint8" "gint16" "guint16" "gint32" "guint32" "gint64" "guint64"
 	  "gfloat" "gdouble" "gsize" "gssize"))
 
-  (if (string-match "^2[01]" emacs-version)
+  (if (string-match "^20" emacs-version)
       (progn (setq c-font-lock-extra-types (append c-font-lock-extra-types glib-types))
 	     (setq c++-font-lock-extra-types (append c++-font-lock-extra-types glib-types))))
   )
