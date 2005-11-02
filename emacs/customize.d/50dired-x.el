@@ -16,7 +16,9 @@
 	     (if (not (featurep 'xemacs))
 		 (load "dired-x"))
 	     ;; モードキーの設定
-	     (define-key dired-mode-map "\M-o" 'dired-omit-toggle)
+	     (if (fboundp 'dired-omit-toggle)
+		 (define-key dired-mode-map "\M-o" 'dired-omit-toggle)
+	       (define-key dired-mode-map "\M-o" 'dired-omit-mode))	       
 	     (define-key dired-mode-map "f" 'dired-do-shell-command)
 	     (define-key dired-mode-map "U" 'dired-unmark-all-files-no-query)
 	     ;; Set dired-x variables here.  For example:
