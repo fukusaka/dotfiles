@@ -7,3 +7,9 @@
 ;;(which-function-mode)
 
 (setq vc-follow-symlinks t)
+
+(add-hook 'c-mode-common-hook
+          '(lambda ()
+	     (c-set-style "bsd")))
+
+
