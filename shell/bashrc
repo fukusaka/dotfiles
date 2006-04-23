@@ -6,6 +6,8 @@
 
 . ${HOME}/.default/sh
 
+. ${SHCONFDIR}/bashrc.common.sh
+
 #
 if [ -f ${SHCONFDIR}/bashrc.${CONFDOMAIN}.sh ]; then
     . ${SHCONFDIR}/bashrc.${CONFDOMAIN}.sh

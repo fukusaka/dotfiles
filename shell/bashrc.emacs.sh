@@ -17,14 +17,6 @@ export EDITOR='emacsclient'
 export TEXEDIT='emacsclient +%d %s'
 export PAGER=${HOME}/bin/pageremacs
 
-# quick hack
-if [ "x`uname`" = "xDarwin" ]; then
-alias l='/sw/bin/ls -l -FB'
-alias ls='/sw/bin/ls -FB'
-alias ll='/sw/bin/ls -l -FB'
-unset LC_ALL
-fi
-
 # Local Variables:
 # mode: shell-script
 # End:

@@ -1,8 +1,5 @@
 . /sw/bin/init.sh
 
-# 標準設定
-PS1="% "
-
 # 色付け
 if [ -x /sw/bin/dircolors ]; then
     eval `/sw/bin/dircolors -b`
@@ -16,8 +13,3 @@ else
     alias ll='/bin/ls -l -FB'
     alias p='/bin/ps aux'
 fi
-
-export EDITOR=/usr/bin/vi
-export TEXEDIT='/usr/bin/vi %s'
-test -x /usr/bin/pager && export PAGER=/usr/bin/pager
-

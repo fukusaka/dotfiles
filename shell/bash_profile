@@ -1,14 +1,7 @@
 # ~/.bash_profile
 # $Id$
 
-. ${HOME}/.default/sh
-
-#
-if [ -f ${SHCONFDIR}/bash_profile.${CONFDOMAIN}.sh ]; then
-    . ${SHCONFDIR}/bash_profile.${CONFDOMAIN}.sh
-else
-    . ${SHCONFDIR}/bash_profile.default.sh
-fi
+if [ -f ${HOME}/.bashrc ]; then . ${HOME}/.bashrc; fi
 
 # Local Variables:
 # mode: shell-script
