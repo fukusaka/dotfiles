@@ -31,9 +31,11 @@
 
 ;;; Code:
 
+(if (not (functionp 'svn-status))
+    (autoload 'svn-status "mac-psvn" nil t))
+
 (setq cvs-diff-flags '("-u"))
 
-(if (not (fboundp 'svn-status))
-    (autoload 'svn-status "mac-psvn" nil t))
+(setq svn-status-svn-environment-var-list '("LC_MESSAGES=C"))
 
 ;;; 50pcl-cvs.el ends here

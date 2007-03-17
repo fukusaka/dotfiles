@@ -7,76 +7,46 @@
 ;;
 ;; ~/.login -->
 ;;   alias emacs "(setenv XMODIFIERS '@im=none'; exec /usr/bin/emacs )"
+
 (cond
- ;; Ver.19 の場合 EUC-JP
- ((string-match "^19" emacs-version)
-  (if (boundp 'MULE)
-      (progn
-	(set-primary-environment 'japanese)
-	(set-display-coding-system         *euc-japan*)
-	(set-keyboard-coding-system        *euc-japan*)
-	(set-default-file-coding-system    *euc-japan*)
-	(set-default-process-coding-system *euc-japan* *euc-japan*)	
-	(define-program-coding-system nil nil (cons *euc-japan* *euc-japan*))
-	;; モードコードの表示の設定
-	;; (setq mc-verbose-code t)
-	)))
+ ;; XEmacs 21
+ ((featurep 'xemacs)
+  (set-language-environment          'Japanese)  
+  (set-default-coding-systems       'utf-8-unix)
+  (setq coding-system-for-read      'utf-8-unix))
+
+ ;; Carbon Emacs
+ ((featurep 'mac-carbon)
+  (set-language-environment 'Japanese)
+  (let ((cs 'utf-8-unix))
+    (prefer-coding-system cs)
+    (set-keyboard-coding-system cs)
+    (set-terminal-coding-system cs))
+  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+  (setq default-file-name-coding-system 'utf-8) ;; locale に無関係に設定
+  (setq mac-allow-anti-aliasing t)
+  (require 'carbon-font)
+  ;;(set-default-font "fontset-hiraginokaku")
+  (set-default-font "fontset-standard")) ;; フォント設定(Xリソースで設定するのがベスト)
 
  ;; Ver.20 の場合 EUC-JP
  ((string-match "^20" emacs-version)
-  (defun my-japanese-setup ()
-    (if (equal current-language-environment "Japanese")
-	(setq default-input-method "japanese-canna")))
-  (add-hook 'set-language-environment-hook 'my-japanese-setup)
   (set-language-environment          'Japanese)
+  (set-input-method "japanese-canna")
   (set-default-coding-systems       'euc-japan-unix)
   (set-terminal-coding-system       'euc-japan-unix)
   (setq default-process-coding-system '(euc-jp . euc-jp))
   (set-default-font "fontset-standard"))
 
- ;; XEmacs 21
- ((featurep 'xemacs)
-  (set-language-environment          'Japanese)  
-  (set-default-coding-systems       'utf-8-unix)
-  (setq coding-system-for-read      'utf-8-unix)
-  )
-
  ;; Ver.21 の場合 UTF-8
- ((string-match "^21" emacs-version)
-  (defun my-japanese-setup ()
-    (if (equal current-language-environment "Japanese")
-	(setq default-input-method "japanese-egg-anthy")))
-  (add-hook 'set-language-environment-hook 'my-japanese-setup)
-  (set-language-environment          'Japanese)  
-  (set-default-coding-systems       'utf-8-unix)
-  (set-terminal-coding-system       'utf-8-unix)
-  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-  (setq default-file-name-coding-system 'utf-8-unix)
-
-  ;; フォント設定(Xリソースで設定するのがベスト)
-  (set-default-font "fontset-standard")
+ ((string-match "^2[12]" emacs-version)
+  (if (functionp 'un-define-debian) (un-define-debian)) ;; for Debian
+  (set-language-environment 'Japanese)
+  (set-input-method "japanese-egg-anthy")
+  (let ((cs locale-coding-system))
+    (prefer-coding-system cs)
+    (set-keyboard-coding-system cs)
+    (set-terminal-coding-system cs))
+  (setq default-file-name-coding-system 'utf-8) ;; locale に無関係に設定
+  (set-default-font "fontset-standard")) ;; フォント設定(Xリソースで設定するのがベスト)
  )
-
- ;; Ver.22 の場合 UTF-8
- ((string-match "^22" emacs-version)
-  (defun my-japanese-setup ()
-    (if (equal current-language-environment "Japanese")
-	(setq default-input-method "japanese-egg-anthy")))
-  (add-hook 'set-language-environment-hook 'my-japanese-setup)
-  (set-language-environment          'Japanese)  
-  (set-default-coding-systems       'utf-8-unix)
-  (set-terminal-coding-system       'utf-8-unix)
-  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-  (setq default-file-name-coding-system 'utf-8-unix)
-
-  (cond
-   ((featurep 'mac-carbon)
-    (setq mac-allow-anti-aliasing t)
-    (require 'carbon-font)
-    ;;(set-default-font "fontset-hiraginokaku")
-    )
-   (t (set-default-font "fontset-standard")))
-
-  )
- )
-
