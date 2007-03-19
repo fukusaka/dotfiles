@@ -11,6 +11,9 @@
 (cond
  ;; XEmacs 21
  ((featurep 'xemacs)
+  (if (functionp 'un-define-debian) (un-define-debian)) ;; for Debian
+  (custom-set-variables '(load-home-init-file t t))
+  (custom-set-faces)
   (set-language-environment          'Japanese)  
   (set-default-coding-systems       'utf-8-unix)
   (setq coding-system-for-read      'utf-8-unix))

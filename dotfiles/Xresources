@@ -6,11 +6,11 @@
 !*numeric:	C
 !*timeFormat:	C
 
-*basicLocale:	ja_JP.eucJP
-*displayLang:	ja_JP.eucJP
-*inputLang:	ja_JP.eucJP
-*numeric:	ja_JP.eucJP
-*timeFormat:	ja_JP.eucJP
+*basicLocale:	ja_JP.UTF-8
+*displayLang:	ja_JP.UTF-8
+*inputLang:	ja_JP.UTF-8
+*numeric:	ja_JP.UTF-8
+*timeFormat:	ja_JP.UTF-8
 *international:         true
 *inputMethod:           htt_xbe
 
@@ -24,6 +24,8 @@ Kinput2*conversionStartKeys: Shift<Key>space
 !*Label*shadowWidth: 2
 
 Emacs*background:	AntiqueWhite
+!Emacs*menubar*background:	Red
+
 KTerm*background:	AntiqueWhite
 XTerm*background:	AntiqueWhite
 XMan*background:	AntiqueWhite
@@ -72,7 +74,7 @@ Mozilla.geometry: 700x570+0+0
 Emacs.menu*.font:	8x16
 
 Emacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-fontset-standard
-XEmacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-*
+!XEmacs.Font:	-*-fixed-medium-r-normal-*-16-*-*-*-*-*-*
 
 Emacs*FontSetList: 14,16,18,24
 Emacs*FontSet-14:\

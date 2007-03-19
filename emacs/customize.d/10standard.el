@@ -20,6 +20,11 @@
 ;;   xset b off
 ;;(setq visible-bell t)
 
+(if window-system (progn
+   (set-face-background 'scroll-bar "AntiqueWhite")
+   (set-face-background 'tool-bar "AntiqueWhite")
+   ))
+
 (cond
  ((not window-system)
   (menu-bar-mode 0)
@@ -85,10 +90,10 @@
 ;; EDITOR=emacsclientで emacs で開く
 ;; PAGER=emacsclientで emacs で開く
 ;;
-(if (featurep 'xemacs)
-    nil
-  (server-start)
-  )
+;;;(if (featurep 'xemacs)
+;;;    nil
+;;;  (server-start)
+;;;  )
 
 (cond
  ((string-match "^20.4" emacs-version)

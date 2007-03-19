@@ -47,6 +47,8 @@
       (define-key global-map "\C-z52" 'moi::make-frame-6)
       (define-key global-map "\C-z50" 'moi::delete-frame-6)
 
+      (setq moi::desktop-max-x 4)
+
       (defun moi::make-frame (x y)
 	(let* ((fpar (frame-parameters))
 	       (bw   
@@ -61,12 +63,26 @@
 	  (sleep-for 0.09)
 	  frame))
 
+      (defun moi::move-frame (frame x y)
+	(let ((wid (frame-parameter (or frame (selected-frame)) 'outer-window-id))
+	      (desk (int-to-string (+ (* moi::desktop-max-x y) x))))
+	(call-process
+	 "wmctrl" nil nil nil "-i"
+	 "-r" wid "-t" desk)))
+
+      ;; for Virtual Desktop (sawfish etc)
+      ;;(defun moi::make-frame2 (x y)
+      ;;	(let* ((dh (x-display-pixel-height))
+      ;;	       (dw (x-display-pixel-width))
+      ;;	       (left (* dw x))
+      ;;	       (top (* dh y)))
+      ;;   (moi::make-frame left top)))
+
       (defun moi::make-frame2 (x y)
-	(let* ((dh (x-display-pixel-height))
-	       (dw (x-display-pixel-width))
-	       (left (* dw x))
-	       (top (* dh y)))
-	  (moi::make-frame left top)))
+	(let ((frame (moi::make-frame 0 0)))
+	  (moi::move-frame frame (+ x 1) (+ y 2))
+	  frame))
+	
 
       (defvar moi::make-frame-6-alist nil)
 
@@ -89,9 +105,9 @@
 		   (moi::make-frame2 -1 0)
 		   (moi::make-frame2 0 1)
 		   (moi::make-frame2 0 -1)
-		   (moi::make-frame2 1 1)
+		   ;;(moi::make-frame2 1 1)
 		   (moi::make-frame2 -1 1)
-		   ;;(moi::make-frame2 1 -1)
+		   (moi::make-frame2 1 -1)
 		   (moi::make-frame2 -1 -1)
 		   ))))
 
