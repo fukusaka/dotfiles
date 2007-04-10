@@ -34,8 +34,8 @@
 
  ;; Ver.20 の場合 EUC-JP
  ((string-match "^20" emacs-version)
+  (set-language-info "Japanese" 'input-method "japanese")
   (set-language-environment          'Japanese)
-  (set-input-method "japanese-canna")
   (set-default-coding-systems       'euc-japan-unix)
   (set-terminal-coding-system       'euc-japan-unix)
   (setq default-process-coding-system '(euc-jp . euc-jp))
@@ -44,8 +44,8 @@
  ;; Ver.21 の場合 UTF-8
  ((string-match "^2[12]" emacs-version)
   (if (functionp 'un-define-debian) (un-define-debian)) ;; for Debian
+  (set-language-info "Japanese" 'input-method "japanese-egg-anthy")
   (set-language-environment 'Japanese)
-  (set-input-method "japanese-egg-anthy")
   (let ((cs locale-coding-system))
     (prefer-coding-system cs)
     (set-keyboard-coding-system cs)

@@ -20,10 +20,13 @@
 ;;   xset b off
 ;;(setq visible-bell t)
 
-(if window-system (progn
-   (set-face-background 'scroll-bar "AntiqueWhite")
-   (set-face-background 'tool-bar "AntiqueWhite")
-   ))
+(if (and window-system (fboundp 'facep))
+    (progn
+      (if (facep 'scroll-bar)
+	  (set-face-background 'scroll-bar "AntiqueWhite"))
+      (if (facep 'tool-bar)
+	  (set-face-background 'tool-bar "AntiqueWhite"))
+      ))
 
 (cond
  ((not window-system)
@@ -36,7 +39,8 @@
  (t
   (if (fboundp 'set-scroll-bar-mode)
       (set-scroll-bar-mode 'right))
-  (tool-bar-mode -1)
+  (if (fboundp 'tool-bar-mode)
+      (tool-bar-mode -1))
   (setq blink-cursor-mode t)))
 
 ;;(setq initial-frame-alist '((top . 26) (left . 0) (width . 80) (height . 39)))
