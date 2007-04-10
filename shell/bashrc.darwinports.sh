@@ -1,5 +1,6 @@
 # Darwinportsの組み入れ
-export PATH=${PATH}:/opt/local/bin:/opt/local/sbin
+#export PATH=${PATH}:/opt/local/bin:/opt/local/sbin
+export PATH=/opt/local/bin:/opt/local/sbin:${PATH}
 
 ## 色付け
 if [ -x /opt/local/bin/gls ]; then

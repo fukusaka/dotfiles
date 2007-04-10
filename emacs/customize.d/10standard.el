@@ -20,28 +20,26 @@
 ;;   xset b off
 ;;(setq visible-bell t)
 
-(if (and window-system (fboundp 'facep))
-    (progn
-      (if (facep 'scroll-bar)
-	  (set-face-background 'scroll-bar "AntiqueWhite"))
-      (if (facep 'tool-bar)
-	  (set-face-background 'tool-bar "AntiqueWhite"))
-      ))
+;; メニューとツールの背景色
+(when (and window-system (fboundp 'facep))
+  (if (facep 'scroll-bar)
+      (set-face-background 'scroll-bar "AntiqueWhite"))
+  (if (facep 'tool-bar)
+      (set-face-background 'tool-bar "AntiqueWhite"))
+  )
 
-(cond
- ((not window-system)
-  (menu-bar-mode 0)
-  (blink-cursor-mode 0))
+;; 端末ではメニューバーを消す
+(if (not window-system)
+    (if (fboundp 'menu-bar-mode)
+	(menu-bar-mode 0)))
 
- ((featurep 'xemacs)
-  nil)
+;; scroll-bar は右側
+(if (fboundp 'set-scroll-bar-mode)
+    (set-scroll-bar-mode 'right))
 
- (t
-  (if (fboundp 'set-scroll-bar-mode)
-      (set-scroll-bar-mode 'right))
-  (if (fboundp 'tool-bar-mode)
-      (tool-bar-mode -1))
-  (setq blink-cursor-mode t)))
+;; tool-bar は消す
+(if (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1))
 
 ;;(setq initial-frame-alist '((top . 26) (left . 0) (width . 80) (height . 39)))
 
@@ -65,33 +63,6 @@
 	  'comint-watch-for-password-prompt)
 
 ;;
-;; 自動識別するモードの設定
-;;
-(setq auto-mode-alist
-      (append
-       '(
-	 ("\\.h$" . c++-mode)
-	 ("\\.pl$" . perl-mode)
-	 ("\\.mht$" . html-mode)
-	 ("\\.po[tx]?\\'\\|\\.po\\." . po-mode)
-	 ("ChangeLog" . change-log-mode)
-	 ("patch" . moi-patch-view-mode)
-	 ("\\.diff" . moi-patch-view-mode)
-	 ("\\.pgc$" . c-mode)
-	 ("\\.pgcc$" . c++-mode)
-	 ("\\.CPP$" . c++-mode)
-	 ("\\.gen_h$" . c++-mode)
-	 ("Rakefile" . ruby-mode)
-	 )
-       auto-mode-alist))
-
-(autoload 'po-mode "po-mode")
-(autoload 'moi-patch-view-mode "moi-patch-view")
-(autoload 'moi::sample-ascii "moi-sample-ascii" "" t)
-
-(auto-compression-mode)
-
-;;
 ;; EDITOR=emacsclientで emacs で開く
 ;; PAGER=emacsclientで emacs で開く
 ;;
@@ -99,10 +70,4 @@
 ;;;    nil
 ;;;  (server-start)
 ;;;  )
-
-(cond
- ((string-match "^20.4" emacs-version)
-  (defun char-list-to-string (lst)
-    (eval (cons 'concat (mapcar 'char-to-string lst))))
-  ))
 
