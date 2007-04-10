@@ -31,8 +31,9 @@
 
 ;;; Code:
 
-(if (not (functionp 'svn-status))
-    (autoload 'svn-status "mac-psvn" nil t))
+(when (featurep 'mac-carbon)
+  (autoload 'svn-status "mac-psvn" nil t)
+  (setq svn-status-svn-executable "/opt/local/bin/svn"))
 
 (setq cvs-diff-flags '("-u"))
 

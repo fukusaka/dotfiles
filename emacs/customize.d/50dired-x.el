@@ -39,7 +39,7 @@
 
 	     ;; 表示を省略するファイルと拡張子の設定
 	     (if (featurep 'mac-carbon)
-		 (setq dired-omit-files "^#\\|^\\.\\|^Desktop D[BF]$\\|ICON")
+		 (setq dired-omit-files "^#\\|^\\.\\|^Desktop D[BF]$\\|Icon\015")
 	       (setq dired-omit-files "^#\\|^\\."))
 
 	     (setq dired-omit-extensions
