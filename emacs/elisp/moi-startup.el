@@ -4,18 +4,14 @@
 
 ;; $Id$
 
-(defvar moi::conf-top-dir "~/lib/conf/emacs/")
+(defvar moi::emacs-conf-dir (concat top-conf-dir "emacs/"))
 
-(defvar moi::customize-dir (concat this-conf-top-dir "customize.d/"))
-(defvar moi::elisp-path    (concat this-conf-top-dir "elisp/"))
+(defvar moi::customize-dir (concat moi::emacs-conf-dir "customize.d/"))
+(defvar moi::elisp-path    (concat moi::emacs-conf-dir "elisp/"))
 
 (defvar moi::hostname-nohost "localhost")
 
-;;(defvar moi::hostname (let* ((envhost (getenv "HOSTNAME")))
-;;			(if envhost envhost moi::hostname-nohost)))
-;; (getenv "HOSTNAME") で何故だか nil を返すようになってしまったので、、、。
-(defvar moi::hostname (let* ((envhost
-			      (shell-command-to-string "echo -n `hostname -s`")))
+(defvar moi::hostname (let ((envhost (shell-command-to-string "echo -n `hostname -s`")))
 			(if envhost envhost moi::hostname-nohost)))
 
 (defvar moi::host-customize-dir
@@ -26,12 +22,7 @@
       (cond ((string< emacs-version "21") "xemacs20/")
 	    ((string< emacs-version "22") "xemacs21/")
 	    (t "xemacsxx/"))
-    (cond ((string< emacs-version "19") "emacs18/")
-	  ((string< emacs-version "20") "emacs19/")
-	  ((string< emacs-version "21") "emacs20/")
-	  ((string< emacs-version "22") "emacs21/")
-	  ((string< emacs-version "23") "emacs22/")
-	  (t "emacsxx/"))))
+    (format "emacs%d/" emacs-major-version)))
 
 (defun moi::domain-customize-dir ()
   (let* ((hostname moi::hostname)

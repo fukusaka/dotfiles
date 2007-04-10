@@ -4,9 +4,9 @@
 
 ;; $Id$
 
-(defvar this-conf-top-dir
-  (expand-file-name "~/common/conf/emacs/"))
+(defvar top-conf-dir
+  (expand-file-name "~/common/conf/"))
 
-(load (concat this-conf-top-dir "elisp/moi-startup"))
+(load (concat top-conf-dir "emacs/elisp/moi-startup"))
 
 (moi::startup)

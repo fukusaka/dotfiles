@@ -77,6 +77,7 @@
 	 ("\\.pgcc$" . c++-mode)
 	 ("\\.CPP$" . c++-mode)
 	 ("\\.gen_h$" . c++-mode)
+	 ("Rakefile" . ruby-mode)
 	 )
        auto-mode-alist))
 

@@ -35,13 +35,5 @@ ADDRESS: programmer-mail-address
 YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%d %b %Y")
 LICENSE: (moi::ask-license-string " * ")
-HEADER_DEFINDED: (let* ((fname (file-name-nondirectory buffer-file-name))
-			(ff (string-to-char-list (concat "_" fname)))
-			pp)
-		  (while ff
-		   (if (= ?. (car ff))
-		    (setq pp (cons ?_ pp))
-		    (setq pp (cons (car ff) pp)))
-		   (setq ff (cdr ff)))
-		  (upcase (char-list-to-string (reverse pp))))
+HEADER_DEFINDED: (moi::c-include-once-macro buffer-file-name)
 @@@@

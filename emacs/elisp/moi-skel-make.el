@@ -33,7 +33,7 @@
 
 ;;; Code:
 
-(defvar moi::skel-file-dir "~/common/conf/skel/")
+(defvar moi::skel-file-dir (concat top-conf-dir "skel/"))
 
 (defvar moi::skel-file-name-alist
   '(
@@ -50,6 +50,32 @@
     ("\\`autogen\\.sh\\'" . "autogen.sh")
     ))
 
+(provide 'moi-skel-file)
+(defun moi::find-file (filename)
+  (interactive "FMoi::Find file: ")
+  (let ((skelflag (not (or (file-exists-p filename)
+			   (get-file-buffer filename))))
+	buf)
+    (setq buf (set-buffer (find-file-noselect filename)))
+    (if skelflag (moi::insert-skel-file))
+    (switch-to-buffer buf)))
+
+(defun moi::insert-skel-file ()
+  (let ((fname (file-name-nondirectory buffer-file-name))
+	(alist moi::skel-file-name-alist)
+	skel-file)
+    (while (and alist (not skel-file))
+      (if (string-match (car (car alist)) fname)
+	  (setq skel-file (cdr (car alist))))
+      (setq alist (cdr alist)))
+    (if (and skel-file
+	     (stringp skel-file)
+	     (file-readable-p (setq skel-file (concat moi::skel-file-dir skel-file))))
+	(progn
+	  (insert-file skel-file-real)
+	  (moi::expand-skeleton-buffer))))
+  nil)
+
 (if (fboundp 'match-string) t
   (defun match-string (num &optional string)
     (if (match-beginning num)
@@ -57,35 +83,7 @@
 	    (substring string (match-beginning num) (match-end num))
 	  (buffer-substring (match-beginning num) (match-end num))))))
 
-(provide 'moi-skel-file)
-(defun moi::find-file (filename)
-  (interactive "FMoi::Find file: ")
-  (let* ((skelflag (and (not (file-exists-p filename))
-			(null (get-file-buffer filename))))
-	 (buf (set-buffer (find-file-noselect filename))))
-    (if skelflag (moi::insert-skel-file))
-    (switch-to-buffer buf)))
-
-(defun moi::insert-skel-file ()
-  (let* ((pname buffer-file-name)
-	 (fname (file-name-nondirectory pname))
-	 (dname (file-name-directory pname))
-	 (alist moi::skel-file-name-alist)
-	 (skel-file nil))
-    (while (and (not skel-file) alist)
-      (if (string-match (car (car alist)) fname)
-	  (setq skel-file (cdr (car alist))))
-      (setq alist (cdr alist)))
-    (if skel-file
-	(if (not (stringp skel-file))
-	    (eval skel-file)
-	  (let ((skel-file-real (concat moi::skel-file-dir skel-file)))
-	    (if (file-readable-p skel-file-real)
-		(moi::insert-skel-file-real fname dname skel-file-real)))))
-    ))
-
-(defun moi::insert-skel-file-real (file-name dir-name skel-file)
-  (insert-file skel-file)
+(defun moi::expand-skeleton-buffer ()
   (if (featurep 'font-lock)
       (font-lock-unfontify-region (point-min) (point-max)))
   (if (re-search-forward "^@@@@$" nil t)
@@ -222,4 +220,13 @@
    (completing-read "License: " moi::license-list nil t "GPL"
 		    'moi::ask-license-hist)
    head flag))
+
+(defun moi::c-include-once-macro (file)
+  (let* ((fname (file-name-nondirectory file)) (len (length fname)) (pos 0) str)
+    (while (and (< pos len)
+		(string-match "[\\.-]" fname pos))
+      (setq str (concat str (substring fname pos (match-beginning 0)) "_"))
+      (setq pos (match-end 0)))
+    (setq str (concat str (substring fname pos)))
+    (upcase str)))
 

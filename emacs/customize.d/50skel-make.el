@@ -1,6 +1,7 @@
 ;;
 ;; moi-skel-make.el
 ;;
+
 (cond
  ((string-match "^20" emacs-version)
   (autoload 'moi::find-file "moi-skel-make")

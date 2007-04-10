@@ -92,7 +92,7 @@
 	    (setq moi::make-frame-6-alist
 		  (list
 		   (moi::make-frame2 1 0)
-		   (moi::make-frame2 0 1)
+		   ;;(moi::make-frame2 0 1)
 		   (moi::make-frame2 1 1)
 		   ))))
 
@@ -103,9 +103,9 @@
 		  (list
 		   (moi::make-frame2 1 0)
 		   (moi::make-frame2 -1 0)
-		   (moi::make-frame2 0 1)
+		   ;;(moi::make-frame2 0 1)
 		   (moi::make-frame2 0 -1)
-		   ;;(moi::make-frame2 1 1)
+		   (moi::make-frame2 1 1)
 		   (moi::make-frame2 -1 1)
 		   (moi::make-frame2 1 -1)
 		   (moi::make-frame2 -1 -1)
