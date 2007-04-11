@@ -98,7 +98,7 @@
  ((>= emacs-major-version 20)
 
   (if (fboundp 'mouse-wheel-mode)
-      (mouse-wheel-mode)
+      (mouse-wheel-mode 1)
 
     (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 5)))
     (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up 5)))

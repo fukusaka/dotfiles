@@ -12,4 +12,4 @@
           '(lambda ()
 	     (c-set-style "bsd")))
 
-
+(setq cperl-indent-level 4)
