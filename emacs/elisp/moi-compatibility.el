@@ -28,14 +28,17 @@
 
 (if (not (fboundp 'when))
     (defmacro when (cond &rest body)
-      "If COND yields non-nil, do BODY, else return nil."
       (list 'if cond (cons 'progn body))))
 
 (if (not (fboundp 'unless))
     (defmacro unless (cond &rest body)
-      "If COND yields nil, do BODY, else return nil."
       (cons 'if (cons cond (cons nil body)))))
 
+(if (not (fboundp 'push))
+    (defmacro push (newelt listname)
+      (list 'setq listname
+	    (list 'cons newelt listname))))
+    
 (if (not (fboundp 'caar))
     (defsubst caar (x)
       (car (car x))))
@@ -51,6 +54,7 @@
 (if (not (fboundp 'cddr))
     (defsubst cddr (x)
       (cdr (cdr x))))
+
 
 (cond
  ((string-match "^20.4" emacs-version)

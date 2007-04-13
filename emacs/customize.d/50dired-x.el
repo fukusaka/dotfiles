@@ -3,15 +3,16 @@
 ;; Dired-X を使う設定
 ;;
 
+;; 追加の省略する拡張子
 (setq moi::dired-omit-extensions
       '(".o" ".elc" "~" ".bin" ".lbin" ".fasl"
 	".a" ".ln" ".fmt" ".lo" ".flc" ".flh" ))
 
-;; XEmacs の ls-dired 書式の不具合の対応
+;; XEmacs の ls-dired 書式の対応を回避
 (if (featurep 'xemacs)
     (setq dired-use-ls-dired nil))
 
-;; GNU Emacs
+;; GNU Emacs に追加バインド
 (unless (featurep 'xemacs)
   (autoload 'dired-jump "dired-x" nil t nil)
   (autoload 'dired-jump-other-window "dired-x" nil t nil)

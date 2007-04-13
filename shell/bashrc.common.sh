@@ -29,6 +29,12 @@ export TEXEDIT='/usr/bin/vi %s'
 #TEXEDIT=${EDITOR}
 #export TEX TEXINPUTS TEXEDIT
 
+# Bash Completion
+if [ -r /etc/bash_completion ]; then
+      # Source completion code.
+    . /etc/bash_completion
+fi
+
 # Local Variables:
 # mode: shell-script
 # End:

@@ -8,6 +8,7 @@
 
 (defvar moi::customize-dir (concat moi::emacs-conf-dir "customize.d/"))
 (defvar moi::elisp-path    (concat moi::emacs-conf-dir "elisp/"))
+(defvar moi::ext-lisp-path    (concat moi::emacs-conf-dir "ext-lisp/"))
 
 (defvar moi::hostname-nohost "localhost")
 
@@ -18,51 +19,39 @@
   (concat moi::customize-dir "H" moi::hostname "/"))
 
 (defvar moi::elc-dir-prefix
-  (if (featurep 'xemacs)
-      (cond ((string< emacs-version "21") "xemacs20/")
-	    ((string< emacs-version "22") "xemacs21/")
-	    (t "xemacsxx/"))
-    (format "emacs%d/" emacs-major-version)))
+  (let ((flavor (if (featurep 'xemacs) "xemacs" "emacs")))
+    (format "%s%d/" flavor emacs-major-version)))
 
-(defun moi::domain-customize-dir ()
-  (let* ((hostname moi::hostname)
-	 (alist (let ((buf (generate-new-buffer "temp")) data)
-		  (save-excursion
-		    (set-buffer buf)
-		    (insert-file-contents (concat moi::customize-dir
-						  "/cluster.el"))
-		    (setq data (read buf)))
-		  (kill-buffer buf)
-		  data))
-	 (domain nil))
-    (while (and (not domain) alist)
-      (if (string-match (car (car alist)) hostname)
-	  (setq domain (cdr (car alist))))
+(defvar moi::cluster-file 
+  (concat moi::customize-dir "/cluster.el"))
+
+(defvar moi::domain-customize-dir
+  (let ((hostname moi::hostname)
+	(alist (let ((buf (generate-new-buffer "temp")) data)
+		 (save-excursion
+		   (set-buffer buf)
+		   (insert-file-contents moi::cluster-file)
+		   (setq data (read buf)))
+		 (kill-buffer buf)
+		 data))
+	domain)
+    (while (and alist (not domain))
+      (if (string-match (caar alist) hostname)
+	  (setq domain (cdar alist)))
       (setq alist (cdr alist)))
     (if domain (concat moi::customize-dir "D" domain "/"))))
 
-(defun moi::unique-strings (list)
-  (if (null list)
-      '()
-    (if (string= (car list) (car (cdr list)))
-        (moi::unique-strings (cdr list))
-      (cons (car list) (moi::unique-strings (cdr list))))))
-
 (defun moi::compile-file (file)
-  (let* ((base (if (string-match ".el$" file)
-		   (replace-match "" t t file)
-		 file))
-	 (el  (concat base ".el"))
-	 (elc-dir (concat (file-name-directory file) moi::elc-dir-prefix))
-	 (elc (concat elc-dir (file-name-nondirectory base) ".elc")))
+  (let* ((el file)
+	 (el-dir (file-name-directory el))
+	 (elc-dir (concat el-dir moi::elc-dir-prefix))
+	 (elc (concat elc-dir (file-name-nondirectory (concat el "c")))))
     (if (not (file-directory-p elc-dir))
 	(make-directory elc-dir))
     (if (file-newer-than-file-p el elc)
 	(progn
 	  (byte-compile-file el)
-	  (rename-file (concat el "c") elc t) 
-	  )
-      )
+	  (rename-file (concat el "c") elc t)))
     elc
     ))
 
@@ -70,49 +59,22 @@
   (load (moi::compile-file file)))
 
 (defun moi::startup-customize ()
-  (let* ((files-list
-	  (mapcar (lambda (dir)
-		    (if (file-directory-p dir)
-			(directory-files dir t "^[0-9][0-9].*\\.el$" t)))
-		  (let ((domain (moi::domain-customize-dir)))
-		    (if domain
-			(list moi::customize-dir
-			      domain
-			      moi::host-customize-dir)
-		      (list moi::customize-dir
-			    moi::host-customize-dir)))
-		  ))
-	 (files
-	  (let ((files))
-	    (while files-list
-	      (setq files (append files (car files-list)))
-	      (setq files-list (cdr files-list)))
-	    files))
+  (let ((dir-list (list moi::customize-dir moi::domain-customize-dir moi::host-customize-dir))
+	file-list dir files)
 
-	 (s-files
-	  (moi::unique-strings
-	   (sort
-	    (mapcar (lambda (file) (substring file 0 -3))
-		    files)
-	    'string<)))
-	 (d-files
-	  (mapcar (lambda (x) (car (cdr x)))
-		  (sort
-		   (mapcar (lambda (file)
-			     (list (file-name-nondirectory file) file))
-			   s-files)
-		   (lambda (x y) (string< (car x) (car y)))
-		   )))
-	 )
-    (mapcar 'moi::load-file d-files)
-    ))
+    (while dir-list
+      (setq dir (car dir-list))
+      (setq dir-list (cdr dir-list))
+      (when (and dir (file-directory-p dir))
+	(setq files (directory-files dir t "^[0-9][0-9].*\\.el$" t))
+	(setq file-list (append file-list (sort files 'string<)))))
+
+    (mapcar 'moi::load-file file-list)))
 
 (defun moi::startup ()
   (setq load-path
-	(append
-	 (list
-	  (concat moi::elisp-path
-		  (format "%d.%d" emacs-major-version emacs-minor-version))
-	  moi::elisp-path)
-	 load-path))
+	(append (list moi::elisp-path moi::ext-lisp-path)
+		load-path))
+  (require 'moi-compatibility)
   (moi::startup-customize))
+
