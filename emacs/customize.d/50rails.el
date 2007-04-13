@@ -26,11 +26,6 @@
 
 ;;; Code:
 
-
-(setq load-path
-      (cons (concat moi::emacs-conf-dir "elisp/emacs-rails")
-            load-path))
-
 (defun try-complete-abbrev (old)
   (if (expand-abbrev) t nil))
 

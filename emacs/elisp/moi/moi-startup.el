@@ -7,8 +7,8 @@
 (defvar moi::emacs-conf-dir (concat top-conf-dir "emacs/"))
 
 (defvar moi::customize-dir (concat moi::emacs-conf-dir "customize.d/"))
+
 (defvar moi::elisp-path    (concat moi::emacs-conf-dir "elisp/"))
-(defvar moi::ext-lisp-path    (concat moi::emacs-conf-dir "ext-lisp/"))
 
 (defvar moi::hostname-nohost "localhost")
 
@@ -18,9 +18,12 @@
 (defvar moi::host-customize-dir
   (concat moi::customize-dir "H" moi::hostname "/"))
 
-(defvar moi::elc-dir-prefix
+(defvar moi::emacs-flavor
   (let ((flavor (if (featurep 'xemacs) "xemacs" "emacs")))
-    (format "%s%d/" flavor emacs-major-version)))
+    (format "%s%d" flavor emacs-major-version)))
+
+(defvar moi::elc-dir-prefix
+  (concat moi::emacs-flavor "/"))
 
 (defvar moi::cluster-file 
   (concat moi::customize-dir "/cluster.el"))
@@ -71,10 +74,24 @@
 
     (mapcar 'moi::load-file file-list)))
 
+(defun moi::add-to-load-path ()
+  (let (files dir subdirs)
+    (setq files (directory-files moi::elisp-path nil "^[^\\.]"))
+    (while files
+      (setq dir (car files))
+      (setq files (cdr files))
+      (if (and (file-directory-p (concat moi::elisp-path dir))
+	       (not (string-match "^x?emacs[0-9]+" dir)))
+	  (push dir subdirs)))
+
+    (push moi::emacs-flavor subdirs)
+    (push "." subdirs)
+
+    (let ((default-directory (concat top-conf-dir "emacs/elisp")))
+      (normal-top-level-add-to-load-path subdirs))))
+
+
 (defun moi::startup ()
-  (setq load-path
-	(append (list moi::elisp-path moi::ext-lisp-path)
-		load-path))
+  (moi::add-to-load-path)
   (require 'moi-compatibility)
   (moi::startup-customize))
-
