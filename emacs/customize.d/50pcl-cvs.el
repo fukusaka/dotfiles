@@ -32,7 +32,7 @@
 ;;; Code:
 
 (when (featurep 'mac-carbon)
-  (autoload 'svn-status "mac-psvn" nil t)
+  (autoload 'svn-status "psvn" nil t)
   (setq svn-status-svn-executable "/opt/local/bin/svn"))
 
 (setq cvs-diff-flags '("-u"))
