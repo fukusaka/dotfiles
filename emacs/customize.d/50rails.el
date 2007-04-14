@@ -26,17 +26,18 @@
 
 ;;; Code:
 
-(defun try-complete-abbrev (old)
-  (if (expand-abbrev) t nil))
+(when (>= emacs-major-version 22)
 
-(setq hippie-expand-try-functions-list
-      '(try-complete-abbrev
-        try-complete-file-name
-        try-expand-dabbrev))
+  (defun try-complete-abbrev (old)
+    (if (expand-abbrev) t nil))
 
-;;(defun define-button-type (name &rest properties) ())
-;;
-;;(require 'rails)
+  (setq hippie-expand-try-functions-list
+        '(try-complete-abbrev
+          try-complete-file-name
+          try-expand-dabbrev))
 
+  (setq rails-ws:default-server-type "webrick")
 
+  (require 'rails)
+  )
 ;;; 50rails.el ends here
