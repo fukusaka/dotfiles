@@ -43,7 +43,8 @@
 	       (left (cdr (assoc 'left fpar)))
 	       (top  (cdr (assoc 'top fpar)))
 	       (height (cdr (assoc 'height fpar)))
-	       (width  (cdr (assoc 'width fpar))))
+	       (width  (cdr (assoc 'width fpar)))
+	       (font (cdr (assoc 'font fpar))))
 	  (if (string-match "^20" emacs-version)
 	      (let ((bw (cdr (assoc 'border-width fpar))))
 		(setq left (+ left bw))
@@ -52,7 +53,7 @@
 	  (if y (setq top (+ top y)))
 	  (let ((default-frame-alist
 		  (append `((height . ,height) (width . ,width)
-			    (top . ,top) (left . ,left))
+			    (top . ,top) (left . ,left) (font . ,font))
 			  default-frame-alist)))
 	    (make-frame))))
 
@@ -101,7 +102,7 @@
 		   (moi::make-frame2 0 -1)
 		   (moi::make-frame2 1 1)
 		   (moi::make-frame2 -1 1)
-		   (moi::make-frame2 1 -1)
+		   ;;(moi::make-frame2 1 -1)
 		   (moi::make-frame2 -1 -1)
 		   ))))
 
