@@ -38,6 +38,7 @@
 
   (setq rails-ws:default-server-type "webrick")
 
-  (require 'rails)
+  (require 'rails nil t)
   )
+
 ;;; 50rails.el ends here
