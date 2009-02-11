@@ -1,12 +1,7 @@
 ;; $Id$
 ;;
-;; ÆüËÜ¸ì´Ä¶­¤ÇEUC¤ò¥á¥¤¥ó¤Ë¤¹¤ëÀßÄê
+;; æ—¥æœ¬èªç’°å¢ƒã§ UTF-8 ã‚’ãƒ¡ã‚¤ãƒ³ã«ã™ã‚‹è¨­å®š
 ;;
-;; ¤·¤«¤·¡¢.emacs ¤Î¤ß¤Ï iso-2022-jp (jis code?)¤Ç½ñ¤«¤Ê¤¤¤È
-;; Ê¸»úÎó¤¬²½¤±¤ë¡¢¡¢¡¢¤È¤Û¡£
-;;
-;; ~/.login -->
-;;   alias emacs "(setenv XMODIFIERS '@im=none'; exec /usr/bin/emacs )"
 
 (cond
  ;; XEmacs 21 UTF-8
@@ -26,13 +21,13 @@
     (set-keyboard-coding-system cs)
     (set-terminal-coding-system cs))
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-  (setq default-file-name-coding-system 'utf-8) ;; locale ¤ËÌµ´Ø·¸¤ËÀßÄê
+  (setq default-file-name-coding-system 'utf-8) ;; locale ã«ç„¡é–¢ä¿‚ã«è¨­å®š
   (setq mac-allow-anti-aliasing t)
   (require 'carbon-font)
   ;;(set-default-font "fontset-hiraginokaku")
-  (set-default-font "fontset-standard")) ;; ¥Õ¥©¥ó¥ÈÀßÄê(X¥ê¥½¡¼¥¹¤ÇÀßÄê¤¹¤ë¤Î¤¬¥Ù¥¹¥È)
+  (set-default-font "fontset-standard")) ;; ãƒ•ã‚©ãƒ³ãƒˆè¨­å®š(Xãƒªã‚½ãƒ¼ã‚¹ã§è¨­å®šã™ã‚‹ã®ãŒãƒ™ã‚¹ãƒˆ)
 
- ;; Ver.20 ¤Î¾ì¹ç EUC-JP
+ ;; Ver.20 ã®å ´åˆ EUC-JP
  ((= emacs-major-version 20)
   (set-language-info "Japanese" 'input-method "japanese")
   (set-language-environment          'Japanese)
@@ -41,7 +36,7 @@
   (setq default-process-coding-system '(euc-jp . euc-jp))
   (set-default-font "fontset-standard"))
 
- ;; Ver.21 °Ê¾å¤Î¾ì¹ç UTF-8
+ ;; Ver.21 ä»¥ä¸Šã®å ´åˆ UTF-8
  ((>= emacs-major-version 21)
   (if (functionp 'un-define-debian) (un-define-debian)) ;; for Debian
   (set-language-info "Japanese" 'input-method "japanese-egg-anthy")
@@ -50,6 +45,6 @@
     (prefer-coding-system cs)
     (set-keyboard-coding-system cs)
     (set-terminal-coding-system cs))
-  (setq default-file-name-coding-system 'utf-8) ;; locale ¤ËÌµ´Ø·¸¤ËÀßÄê
-  (set-default-font "fontset-standard")) ;; ¥Õ¥©¥ó¥ÈÀßÄê(X¥ê¥½¡¼¥¹¤ÇÀßÄê¤¹¤ë¤Î¤¬¥Ù¥¹¥È)
- )
+  (setq default-file-name-coding-system 'utf-8) ;; locale ã«ç„¡é–¢ä¿‚ã«è¨­å®š
+  (set-default-font "fontset-standard")
+  ))
