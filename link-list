@@ -1,17 +1,7 @@
 #$Id$
-dotfiles/Xresources		~/	.Xresources
-dotfiles/canna			~/	.canna
-dotfiles/cshrc			~/	.cshrc
-dotfiles/login			~/	.login
-dotfiles/logout			~/	.logout
-dotfiles/inputrc		~/	.inputrc
-dotfiles/indent.pro		~/	.indent.pro
-dotfiles/cvsrc			~/	.cvsrc
-dotfiles/xlocktext		~/	.xlocktext
-dotfiles/guile			~/	.guile
 signature/persional		~/	.signature
-shell/bash_profile		~/	.bash_profile
-shell/bashrc			~/	.bashrc
-shell/bashrc.emacs.sh		~/	.emacs_bash
+dotfiles/bash_aliases		~/	.bash_aliases
+dotfiles/bash_profile		~/	.bash_profile
+dotfiles/bashrc			~/	.bashrc
 emacs/emacs.el			~/	.emacs
-emacs/emacs.el			~/	.xemacs/init.el
+dotfiles/cvsrc			~/	.cvsrc

@@ -1,8 +1,0 @@
-# ~/.emacs_bash: -*-shell-script-*-
-# $Id$
-
-#if [ -f '~/.bashrc' ]; then . '~/.bashrc'; fi
-
-export EDITOR='emacsclient'
-export TEXEDIT='emacsclient +%d %s'
-export PAGER=${HOME}/bin/pageremacs
