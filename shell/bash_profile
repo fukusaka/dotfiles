@@ -1,8 +1,0 @@
-# ~/.bash_profile
-# $Id$
-
-if [ -f ${HOME}/.bashrc ]; then . ${HOME}/.bashrc; fi
-
-# Local Variables:
-# mode: shell-script
-# End:

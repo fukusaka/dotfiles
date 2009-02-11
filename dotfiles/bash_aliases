@@ -1,0 +1,37 @@
+# -*-shell-script-*-
+
+case `uname -s` in
+    Linux)
+	DIRCOLORS=/usr/bin/dircolors
+	LS=/bin/ls
+	;;
+    Solaris)
+	DIRCOLORS=/opt/sfw/bin/dircolors
+	LS=/opt/sfw/bin/ls
+	;;
+    Darwin)
+	# use MacPorts
+	DIRCOLORS=/opt/local/bin/gdircolors
+	LS=/opt/local/bin/gls
+	;;
+    *)
+	DIRCOLORS=/usr/bin/dircolors
+	LS=/bin/ls
+	;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ "$TERM" != "dumb" ] && [ -x $DIRCOLORS ]; then
+    eval "`$DIRCOLORS -b`"
+    alias ls="$LS --color=auto"
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+#alias dir='ls --format=vertical'
+#alias vdir='ls --format=long'
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
