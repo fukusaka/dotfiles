@@ -38,7 +38,7 @@
       (setq moi::desktop-center-x 1)
       (setq moi::desktop-center-y 2)
 
-      (defun moi::make-frame (&optional x y)
+      (defun moi::clone-frame (&optional x y)
 	(let* ((fpar (frame-parameters))
 	       (left (cdr (assoc 'left fpar)))
 	       (top  (cdr (assoc 'top fpar)))
@@ -51,29 +51,28 @@
 		(setq top (+ top bw))))
 	  (if x (setq left (+ left x)))
 	  (if y (setq top (+ top y)))
-	  (let ((default-frame-alist
-		  (append `((height . ,height) (width . ,width)
-			    (top . ,top) (left . ,left) (font . ,font))
-			  default-frame-alist)))
-	    (make-frame))))
+	  (make-frame `((height . ,height) (width . ,width)
+			(top . ,top) (left . ,left) (font . ,font)))))
 
-      (defun moi::move-frame (frame x y)
+      ;; use wmctrl
+      (defun moi::move-frame-wmctrl (frame x y)
 	(let ((wid (frame-parameter (or frame (selected-frame)) 'outer-window-id))
 	      (desk (int-to-string (+ (* moi::desktop-max-x y) x))))
-	(call-process
-	 "wmctrl" nil nil nil "-i"
-	 "-r" wid "-t" desk)))
+	  (call-process "wmctrl" nil nil nil "-i" "-r" wid "-t" desk)))
 
       ;; for Virtual Desktop (sawfish etc)
-      ;;(defun moi::make-frame2 (x y)
-      ;;	(let* ((dh (x-display-pixel-height))
-      ;;	       (dw (x-display-pixel-width))
-      ;;	       (left (* dw x))
-      ;;	       (top (* dh y)))
-      ;;   (moi::make-frame left top)))
+      (defun moi::move-frame-large-desktop (frame x y)
+	(let* ((fpar (frame-parameters frame))
+	       (left (+ (* (x-display-pixel-width) x) (assoc 'left fpar)))
+	       (top (+ (* (x-display-pixel-height) y) (assoc 'top fpar))))
+	  (set-frame-position frame left top)))
 
-      (defun moi::make-frame2 (x y)
-	(let ((frame (moi::make-frame)))
+      (defun moi::move-frame (frame x y)
+	(moi::move-frame-wmctrl frame x y))
+      ;;(moi::move-frame-large-desktop frame x y))
+
+      (defun moi::make-frame-at (x y)
+	(let ((frame (moi::clone-frame)))
 	  (moi::move-frame frame
 			   (+ x moi::desktop-center-x)
 			   (+ y moi::desktop-center-y))
@@ -86,9 +85,9 @@
 	(if (not moi::make-frame-list)
 	    (setq moi::make-frame-list
 		  (list
-		   (moi::make-frame2 1 0)
-		   ;;(moi::make-frame2 0 1)
-		   (moi::make-frame2 1 1)
+		   (moi::make-frame-at 1 0)
+		   (moi::make-frame-at 0 1)
+		   (moi::make-frame-at 1 1)
 		   ))))
 
       (defun moi::make-frame-6 ()
@@ -96,14 +95,14 @@
 	(if (not moi::make-frame-list)
 	    (setq moi::make-frame-list
 		  (list
-		   ;;(moi::make-frame2 1 0)
-		   (moi::make-frame2 -1 0)
-		   (moi::make-frame2 0 1)
-		   (moi::make-frame2 0 -1)
-		   (moi::make-frame2 1 1)
-		   (moi::make-frame2 -1 1)
-		   ;;(moi::make-frame2 1 -1)
-		   (moi::make-frame2 -1 -1)
+		   ;;(moi::make-frame-at 1 0)
+		   (moi::make-frame-at -1 0)
+		   (moi::make-frame-at 0 1)
+		   (moi::make-frame-at 0 -1)
+		   (moi::make-frame-at 1 1)
+		   (moi::make-frame-at -1 1)
+		   ;;(moi::make-frame-at 1 -1)
+		   (moi::make-frame-at -1 -1)
 		   ))))
 
       (defun moi::delete-frames ()
