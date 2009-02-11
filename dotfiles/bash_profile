@@ -1,35 +1,20 @@
 # ~/.bash_profile: -*-shell-script-*-
 # $Id$
 
-umask 002
+umask 022
 
-if [ -f '~/.bashrc' ]; then . '~/.bashrc'; fi
-
-cd ${HOME}
-export CVSROOT=":pserver:${USER}@cvshost:/home/cvs/develop"
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+	. "$HOME/.bashrc"
+    fi
+fi
 
 ################################################################
-
 # パスの指定
-export PATH=${HOME}/bin:${PATH}
-export CONFDIR=${HOME}/lib/conf
-export INFOPATH=~/info:/usr/info:/usr/share/info
-export TEXINPUTS=.//:${CONFDIR}/tex//:
 
-export LD_LIBRARY_PATH=/home/fukusaka/lib
-export LD_RUN_PATH=/home/fukusaka/lib
-
-#export JAVA_HOME=/usr/local/sun/jdk1.3.0_02
-#export PATH=${JAVA_HOME}/bin:${PATH}
-
-export CLASSPATH=.:/usr/share/java/postgresql.jar
-
-# X Application Resource Directory
-export XAPPLRESDIR=${CONFDIR}/X11/app-resources/
-
-#function emacs () {
-#    ( XMODIFIERS='@im=none' ; /usr/bin/emacs )
-#}
-
-export NO_NS_FIX_WCSMBS=yes
-export NO_NS_BOGUS_LOCALE=yes
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi

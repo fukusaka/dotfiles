@@ -1,30 +1,15 @@
 # ~/.bashrc: -*-shell-script-*-
 # $Id$
 
-export EDITOR=/usr/bin/vi
-export PAGER=/usr/bin/pager
-export TEXEDIT='/usr/bin/vi %s'
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
 
-if [ "$PS1" != "" ]; then
-# This shell is interactive
-    PS1="% "
-    # stty (tty type ¤ÎÀßÄê)
-    stty erase ^H
-    stty intr ^C
-    stty susp ^Z
-    stty start undef
-    stty stop undef
-#    tty cs8 -istrip -parenb
-    eval `dircolors -b`
-    if [ "$LS_COLORS" = "" ]; then
-	alias  ls='\/bin/ls -FNB'
-    else
-	alias  ls='\/bin/ls -FNB --color=auto'
-    fi
+PS1="% "
 
-    if [ "x$EMACS" = "xt" -a "x$TERM" = "xdumb" ]; then
-	export EDITOR='emacsclient'
-	export TEXEDIT='emacsclient +%d %s'
-	export PAGER=${HOME}/bin/pageremacs
-    fi
+if [ -f ${HOME}/.bash_aliases ]; then
+    . ${HOME}/.bash_aliases
+fi
+
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
 fi
