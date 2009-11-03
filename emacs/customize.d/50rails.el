@@ -26,7 +26,7 @@
 
 ;;; Code:
 
-(when (>= emacs-major-version 22)
+(when (>= emacs-major-version 23)
 
   (defun try-complete-abbrev (old)
     (if (expand-abbrev) t nil))

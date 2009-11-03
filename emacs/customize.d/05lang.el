@@ -36,8 +36,8 @@
   (setq default-process-coding-system '(euc-jp . euc-jp))
   (set-default-font "fontset-standard"))
 
- ;; Ver.21 以上の場合 UTF-8
- ((>= emacs-major-version 21)
+ ;; Ver.21 の場合 UTF-8
+ ((= emacs-major-version 21)
   (if (functionp 'un-define-debian) (un-define-debian)) ;; for Debian
   (set-language-info "Japanese" 'input-method "japanese-egg-anthy")
   (set-language-environment 'Japanese)
@@ -46,5 +46,18 @@
     (set-keyboard-coding-system cs)
     (set-terminal-coding-system cs))
   (setq default-file-name-coding-system 'utf-8) ;; locale に無関係に設定
-  (set-default-font "fontset-standard")
-  ))
+  (set-default-font "fontset-standard"))
+
+ ;; Ver.22 の場合 UTF-8
+ ((>= emacs-major-version 22)
+  (if (functionp 'un-define-debian) (un-define-debian)) ;; for Debian
+  (set-language-info "Japanese" 'input-method "japanese-anthy")
+  (set-language-environment 'Japanese)
+  (let ((cs locale-coding-system))
+    (prefer-coding-system cs)
+    (set-keyboard-coding-system cs)
+    (set-terminal-coding-system cs))
+  (setq default-file-name-coding-system 'utf-8) ;; locale に無関係に設定
+  ;;(set-default-font "fontset-12")
+  )
+ )

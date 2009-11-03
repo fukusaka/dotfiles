@@ -49,6 +49,6 @@
 (autoload 'moi-patch-view-mode "moi-patch-view")
 (autoload 'moi::sample-ascii "moi-sample-ascii" "" t)
 
-(auto-compression-mode)
+;;(auto-compression-mode)
 
 ;;; 15automode.el ends here
