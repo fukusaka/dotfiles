@@ -8,20 +8,25 @@
 
 (when (>= emacs-major-version 21)
   (define-key global-map [home] 'beginning-of-buffer)
-  (define-key global-map [end] 'end-of-buffer)
-  )
+  (define-key global-map [end] 'end-of-buffer))
 
 ;; for man
 (define-key global-map "\M-m" 'man)
 (define-key global-map "\C-zm" 'man)
 
-(if (featurep 'xemacs)
-    (defalias 'man 'manual-entry))
-
 ;; for program
 (define-key global-map "\M-c" 'compile)
 (define-key global-map "\C-zc" 'compile)
 (define-key global-map "\C-zd" 'gdb)
+
+;; 端末時のMacOSXのDELキー対策
+(when (and (featurep 'mac-carbon) (not window-system))
+  (global-set-key "\C-h" 'delete-backward-char)
+  (global-set-key "\e[3~" 'delete-char))
+
+;; フレーム時のMacOSXのIM呼び出し対応
+(when (and (featurep 'mac-carbon) window-system)
+  (global-unset-key "\C-\\"))
 
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし
@@ -65,8 +70,7 @@
 			    mode-list))))
       (switch-to-buffer (prog1 (other-buffer (current-buffer))
 			  (bury-buffer (current-buffer))))
-    (eval run-command)
-    ))
+    (eval run-command)))
 
 ;;
 ;; Scratchよ永遠に！
@@ -86,27 +90,4 @@
 	   (insert initial-scratch-message))
       (set-buffer-modified-p nil))
     )
-  (switch-to-buffer (get-buffer "*scratch*"))
-  )
-
-;; for wheel mouse
-(cond
- ;; XEmacs
- ((featurep 'xemacs) nil)
-
- ;; Emacs
- ((>= emacs-major-version 20)
-
-  (if (fboundp 'mouse-wheel-mode)
-      (mouse-wheel-mode 1)
-
-    (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 5)))
-    (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up 5)))
-    
-    (global-set-key [S-mouse-4] '(lambda () (interactive) (scroll-down 1)))
-    (global-set-key [S-mouse-5] '(lambda () (interactive) (scroll-up 1)))
-    
-    (global-set-key [C-mouse-4] '(lambda () (interactive) (scroll-down)))
-    (global-set-key [C-mouse-5] '(lambda () (interactive) (scroll-up)))
-    )
-  ))
+  (switch-to-buffer (get-buffer "*scratch*")))

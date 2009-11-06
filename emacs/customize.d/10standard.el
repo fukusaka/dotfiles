@@ -5,7 +5,7 @@
 ;; $Id$
 
 ;;
-;; É½¼¨¤ÎºÙ¤«¤¤ÀßÄê
+;; è¡¨ç¤ºã®ç´°ã‹ã„è¨­å®š
 ;;
 ;;(setq inhibit-startup-message t)
 (setq next-line-add-newlines nil)
@@ -15,59 +15,34 @@
 ;;(setq truncate-lines t)
 ;;(transient-mark-mode t)
 
-;; X¤ÎÀßÄê¤ÇÌÄ¤é¤µ¤Ê¤¤¤è¤¦¤Ë¤¹¤ë¤Î¤Ç¡¢¡¢¡£
+;; Xã®è¨­å®šã§é³´ã‚‰ã•ãªã„ã‚ˆã†ã«ã™ã‚‹ã®ã§ã€ã€ã€‚
 ;; ~/.xsession -->
 ;;   xset b off
 ;;(setq visible-bell t)
 
-;; ¥á¥Ë¥å¡¼¤È¥Ä¡¼¥ë¤ÎÇØ·Ê¿§
-(when (and window-system (fboundp 'facep))
-  (if (facep 'scroll-bar)
-      (set-face-background 'scroll-bar "AntiqueWhite"))
-  (if (facep 'tool-bar)
-      (set-face-background 'tool-bar "AntiqueWhite"))
-  )
+;; ç«¯æœ«ã§ã¯ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã‚’æ¶ˆã™
+(if (and (not window-system) (fboundp 'menu-bar-mode))
+    (menu-bar-mode 0))
 
-;; Ã¼Ëö¤Ç¤Ï¥á¥Ë¥å¡¼¥Ğ¡¼¤ò¾Ã¤¹
-(if (not window-system)
-    (if (fboundp 'menu-bar-mode)
-	(menu-bar-mode 0)))
-
-;; scroll-bar ¤Ï±¦Â¦
+;; scroll-bar ã¯å³å´
 (if (fboundp 'set-scroll-bar-mode)
     (set-scroll-bar-mode 'right))
 
-;; tool-bar ¤Ï¾Ã¤¹
+;; tool-bar ã¯æ¶ˆã™
 (if (fboundp 'tool-bar-mode)
     (tool-bar-mode -1))
 
-;;(setq initial-frame-alist '((top . 26) (left . 0) (width . 80) (height . 39)))
+;; æ™‚è¨ˆã®è¡¨ç¤º
+(setq display-time-day-and-date nil)
+(display-time)
 
-;; 
-
-(if (featurep 'mac-carbon)
-    (setq default-frame-alist
-	  (append (list '(active-alpha . 0.95) ;; active frame
-			'(inactive-alpha . 0.95) ;; non active frame
-			) default-frame-alist) ))
-
-;; »ş·×¤ÎÉ½¼¨
-;;(setq display-time-day-and-date nil)
-;;(display-time)
-
-;; ¥Ò¥¹¥È¥ê¿ô¤òÀßÄê¤¹¤ë¡£
+;; ãƒ’ã‚¹ãƒˆãƒªæ•°ã‚’è¨­å®šã™ã‚‹ã€‚
 (setq comint-input-ring-size 200)
 
-;; Password ¤ò±£¤·¤Ş¤Û¤¦
+;; Emacså†…éƒ¨ç«¯æœ«ã§ Password ã‚’éš ã—ã¾ã»ã†
 (add-hook 'comint-output-filter-functions
 	  'comint-watch-for-password-prompt)
 
-;;
-;; EDITOR=emacsclient¤Ç emacs ¤Ç³«¤¯
-;; PAGER=emacsclient¤Ç emacs ¤Ç³«¤¯
-;;
-;;;(if (featurep 'xemacs)
-;;;    nil
-;;;  (server-start)
-;;;  )
+;; EDITOR=emacsclientã§ emacs ã§é–‹ã
+;;(server-start)
 
