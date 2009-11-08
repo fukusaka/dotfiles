@@ -46,3 +46,15 @@
 ;; EDITOR=emacsclientで emacs で開く
 ;;(server-start)
 
+;; WindowsでCygwinのBashを使う
+(when (and (eq system-type 'windows-nt) (executable-find "bash"))
+  ;;(setq exec-path (cons "c:/App/cygwin/bin" exec-path))
+  ;;(setenv "PATH" (concat "C:\\App\cygwin\bni;" (getenv "PATH")))
+
+  (setq shell-file-name "bash")
+  (setenv "SHELL" shell-file-name)
+  (setenv "CYGWIN" "binmode nontsec tty")
+
+  (add-hook 'comint-output-filter-functions
+	    'comint-strip-ctrl-m)
+  )
