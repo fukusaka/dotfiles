@@ -21,3 +21,21 @@ distclean: clean
 	find . -name 'emacs19' | xargs rm -rf
 	find . -name 'emacs20' | xargs rm -rf
 	find . -name '*.elc' | xargs rm -rf
+
+
+SIMPLE_EMACS=\
+05lang.el 10standard.el \
+15automode.el \
+30frame.el 40color.el \
+50dired-x.el 50programming.el 50tramp.el
+
+SIMPLE_EMACS_ROOT=\
+05lang.el 10standard.el 40color.el
+
+simple-emacs:
+	@file=/tmp/tmp$$$$ ; \
+	( cd emacs/customize.d ; cat ${SIMPLE_EMACS} ) | sed -e "/^;;;/d" > $$file ; \
+	sed -e "/INSERT_DOT_EMACS/r$$file" emacs/wrap-dotemacs > dotfiles/emacs; \
+	( cd emacs/customize.d ; cat ${SIMPLE_EMACS_ROOT} ) | sed -e "/^;;;/d" > $$file ; \
+	sed -e "/INSERT_DOT_EMACS/r$$file" emacs/wrap-dotemacs > dotfiles/emacs-root; \
+	rm -f $$file

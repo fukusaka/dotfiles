@@ -1,4 +1,5 @@
-;; 30frame.el --- 
+;;
+;; フォント/フレーム初期位置の設定
 ;;
 
 (when window-system

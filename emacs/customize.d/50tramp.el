@@ -1,10 +1,6 @@
-;;; 50tramp.el --- 
-
-;; Copyright (C) 2009  Shoichi Fukusaka
-
-;; Author: Shoichi Fukusaka <fukusaka@xa2.so-net.ne.jp>
-;; Keywords: 
-
+;;
+;; tramp 設定
+;;
 
 (when (<= emacs-major-version 22)
   (autoload 'tramp-compile "tramp-util")
@@ -32,7 +28,3 @@
  ;; その他
  (t
   (setq tramp-default-method "ssh")))
-
-
-
-;;; 50tramp.el ends here

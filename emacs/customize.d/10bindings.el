@@ -1,7 +1,6 @@
+;;
 ;; キーの設定
-
-;; Author: Shoichi Fukusaka <fukusaka@xa2.so-net.ne.jp>
-;; $Id$
+;;
 
 (global-unset-key "\C-z")
 (define-key global-map "\C-zj" 'goto-line)
@@ -96,4 +95,3 @@
 ;; フレーム時のMacOSXのIM呼び出し対応
 (when (and (featurep 'mac-carbon) window-system)
   (global-unset-key "\C-\\"))
-

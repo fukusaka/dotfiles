@@ -1,0 +1,38 @@
+;;; -*-emacs-lisp-*-
+;;; $Id: emacs-root 132 2005-07-19 20:10:18Z fukusaka $
+
+;;; ニュースに流れていたソースでラップ。
+;;; Wrapper to make .emacs self-compiling.
+;;; (To recompile .emacs interactively, just reload it.)
+;;; Author: Bill Brodie <wbrodie@panix.com>   Last Rev: Fri Apr 7 10:19 1995
+;;; Changed by Kazushi Jam Marukawa <jam@pobox.com>
+
+(defvar init-top-level t)
+(defvar init-complete nil)
+
+(if init-top-level
+    (let ((init-top-level nil)
+	  (elc-filename
+	   (cond ((string< emacs-version "19") "~/.emacs18.elc")
+		 ((string< emacs-version "20") "~/.emacs19.elc")
+		 ((string< emacs-version "21") "~/.emacs20.elc")
+		 ((string< emacs-version "22") "~/.emacs21.elc")
+		 ((string< emacs-version "23") "~/.emacs22.elc")
+		 (t "~/.emacsxx.elc"))))
+      (if (file-newer-than-file-p "~/.emacs" elc-filename)
+          (progn
+            (or init-complete (load "~/.emacs" nil t t))
+            (byte-compile-file "~/.emacs")
+	    (if (file-exists-p "~/.emacsc")
+		(rename-file "~/.emacsc" elc-filename t))
+	    (if (file-exists-p "~/.emacs.elc")
+		(rename-file "~/.emacs.elc" elc-filename t)))
+        (or init-complete (load elc-filename nil t t))))
+(progn
+
+;;;     <Your current .emacs file here, unchanged>
+
+;;;;INSERT_DOT_EMACS
+
+;;; Matches IF from top of file
+))

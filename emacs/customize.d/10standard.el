@@ -1,8 +1,6 @@
-;; standard.el
-
-;; Author: Shoichi Fukusaka <fukusaka@xa2.so-net.ne.jp>
-
-;; $Id$
+;;
+;; 標準設定
+;;
 
 ;; 操作/表示の細かい設定
 (setq inhibit-startup-message nil)	;; オープニングは大事
@@ -17,7 +15,6 @@
 ;; ~/.xsession -->
 ;;   xset b off
 ;;(setq visible-bell t)
-
 
 ;; 端末ではメニューバーを消す
 (if (and (not window-system) (fboundp 'menu-bar-mode))
