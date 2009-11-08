@@ -31,12 +31,20 @@
 
 ;;; Code:
 
-(when (featurep 'mac-carbon)
-  (autoload 'svn-status "psvn" nil t)
-  (setq svn-status-svn-executable "/usr/bin/svn"))
+(unless (featurep 'psvn)
+  (autoload 'svn-status "psvn" nil t))
 
 (setq cvs-diff-flags '("-u"))
 
-(setq svn-status-svn-environment-var-list '("LC_MESSAGES=C"))
+(cond
 
+ ((featurep 'mac-carbon)
+  (setq svn-status-svn-executable "/usr/bin/svn"))
+
+ ((eq system-type 'windows-nt)
+  ;; svn のバイナリを http://subversion.tigris.org/ から取ってき、
+  ;; Emacs内のデフォルトを ShiftJIS を使う限り、追加の設定は無い。
+  ;; 対向のレポジトリのログメッセージはUTF-8で保存される。
+  )
+ )
 ;;; 50pcl-cvs.el ends here
