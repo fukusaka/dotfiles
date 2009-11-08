@@ -63,15 +63,13 @@
    ((and (eq window-system 'x)
 	 (= emacs-major-version 22))
 
-    (create-fontset-from-fontset-spec
-     "-*-fixed-medium-r-normal--12-*-*-*-*-*-fontset-12")
-    (create-fontset-from-fontset-spec
-     "-*-fixed-medium-r-normal--14-*-*-*-*-*-fontset-14")
-    (create-fontset-from-fontset-spec
-     "-*-fixed-medium-r-normal--16-*-*-*-*-*-fontset-16")
-    (create-fontset-from-fontset-spec
-     "-*-fixed-medium-r-normal--18-*-*-*-*-*-fontset-18")
-
+    (dolist (fspec '("-*-fixed-medium-r-normal--12-*-*-*-*-*-fontset-12"
+		     "-*-fixed-medium-r-normal--14-*-*-*-*-*-fontset-14"
+		     "-*-fixed-medium-r-normal--16-*-*-*-*-*-fontset-16"
+		     "-*-fixed-medium-r-normal--18-*-*-*-*-*-fontset-18"))
+      (unless (assoc fspec fontset-alias-alist)
+	(create-fontset-from-fontset-spec fspec)))
+    
     (add-to-list 'default-frame-alist '(font . "fontset-14"))
     )
 
