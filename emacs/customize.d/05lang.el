@@ -20,4 +20,4 @@
 
 ;; GNU/Linux で egg-anthy を使う設定
 (if (eq system-type 'gnu/linux)
-    (set-language-info "Japanese" 'input-method "japanese-egg-anthy"))
+    (set-language-info "Japanese" 'input-method "japanese-anthy"))
