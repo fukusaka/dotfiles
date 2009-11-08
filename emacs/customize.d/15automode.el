@@ -30,25 +30,17 @@
 (setq auto-mode-alist
       (append
        '(
-	 ("\\.h$" . c++-mode)
-	 ("\\.pl$" . perl-mode)
-	 ("\\.mht$" . html-mode)
-	 ("\\.po[tx]?\\'\\|\\.po\\." . po-mode)
-	 ("ChangeLog" . change-log-mode)
+	 ("\\.h\\'" . c++-mode)
+	 ("\\.pl\\'" . perl-mode)
+	 ("\\.CPP\\'" . c++-mode)
 	 ("patch" . moi-patch-view-mode)
 	 ("\\.diff" . moi-patch-view-mode)
-	 ("\\.pgc$" . c-mode)
-	 ("\\.pgcc$" . c++-mode)
-	 ("\\.CPP$" . c++-mode)
-	 ("\\.gen_h$" . c++-mode)
-	 ("Rakefile" . ruby-mode)
+	 ("\\.pgc\\'" . c-mode)
+	 ("\\.pgcc\\'" . c++-mode)
 	 )
        auto-mode-alist))
 
-(autoload 'po-mode "po-mode")
 (autoload 'moi-patch-view-mode "moi-patch-view")
 (autoload 'moi::sample-ascii "moi-sample-ascii" "" t)
-
-;;(auto-compression-mode)
 
 ;;; 15automode.el ends here

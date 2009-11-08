@@ -1,23 +1,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Dired-X ¤ò»È¤¦ÀßÄê
+;; Dired-X ã‚’ä½¿ã†è¨­å®š
 ;;
 
-;; ÄÉ²Ã¤Î¾ÊÎ¬¤¹¤ë³ÈÄ¥»Ò
+;; è¿½åŠ ã®çœç•¥ã™ã‚‹æ‹¡å¼µå­
 (setq moi::dired-omit-extensions
       '(".o" ".elc" "~" ".bin" ".lbin" ".fasl"
 	".a" ".ln" ".fmt" ".lo" ".flc" ".flh" ))
 
-;; XEmacs ¤Î ls-dired ½ñ¼°¤ÎÂĞ±ş¤ò²óÈò
-(if (featurep 'xemacs)
-    (setq dired-use-ls-dired nil))
+;; è¡¨ç¤ºã‚’çœç•¥ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã¨æ‹¡å¼µå­ã®è¨­å®š
+(cond
+ ((featurep 'mac-carbon)
+  (setq moi::dired-omit-files "^#\\|^\\.\\|^Desktop D[BF]$\\|Icon\015"))
+ (t
+  (setq moi::dired-omit-files "^#\\|^\\.")))
 
-;; GNU Emacs ¤ËÄÉ²Ã¥Ğ¥¤¥ó¥É
-(unless (featurep 'xemacs)
-  (autoload 'dired-jump "dired-x" nil t nil)
-  (autoload 'dired-jump-other-window "dired-x" nil t nil)
-  (define-key global-map "\C-x\C-j" 'dired-jump)
-  (define-key global-map "\C-x4\C-j" 'dired-jump-other-window))
+;; GNU Emacs ã«è¿½åŠ ãƒã‚¤ãƒ³ãƒ‰
+(autoload 'dired-jump "dired-x" nil t nil)
+(autoload 'dired-jump-other-window "dired-x" nil t nil)
+(define-key global-map "\C-x\C-j" 'dired-jump)
+(define-key global-map "\C-x4\C-j" 'dired-jump-other-window)
 
 ;; for emacs 22
 (if (>= emacs-major-version 22)
@@ -26,29 +28,23 @@
 ;; 
 (add-hook 'dired-load-hook
 	  '(lambda ()
-	     (unless (featurep 'xemacs) (require 'dired-x))
+	     (require 'dired-x)
 
-	     ;; ¥â¡¼¥É¥­¡¼¤ÎÀßÄê
+	     ;; ãƒ¢ãƒ¼ãƒ‰ã‚­ãƒ¼ã®è¨­å®š
 	     (define-key dired-mode-map "\M-o" 'dired-omit-toggle)
 	     (define-key dired-mode-map "f" 'dired-do-shell-command)
 	     (define-key dired-mode-map "U" 'dired-unmark-all-files-no-query)
 	     
 	     ;; Set dired-x variables here.  For example:
-	     (setq dired-guess-shell-gnutar "tar")
-	     ;; (setq dired-guess-shell-znew-switches t)
-	     ;; (setq dired-x-hands-off-my-keys nil)
+	     ;;(setq dired-guess-shell-gnutar "tar")
+	     ;;(setq dired-guess-shell-znew-switches t)
+	     ;;(setq dired-x-hands-off-my-keys nil)
 
-	     ;; É½¼¨¤ò¾ÊÎ¬¤¹¤ë¥Õ¥¡¥¤¥ë¤È³ÈÄ¥»Ò¤ÎÀßÄê
-	     (if (featurep 'mac-carbon)
-		 (setq dired-omit-files "^#\\|^\\.\\|^Desktop D[BF]$\\|Icon\015")
-	       (setq dired-omit-files "^#\\|^\\."))
-
+	     (setq dired-omit-files moi::dired-omit-files)
 	     (setq dired-omit-extensions
 		   (append moi::dired-omit-extensions
 			   dired-omit-extensions))
 	     ))
 
-;; ½é´ü¤Ç omit ¾õÂÖ
-(if (featurep 'xemacs)
-    (add-hook 'dired-after-readin-hook '(lambda () (dired-omit-toggle)))
-  (add-hook 'dired-mode-hook '(lambda () (dired-omit-toggle))))
+;; åˆæœŸã§ omit çŠ¶æ…‹
+(add-hook 'dired-mode-hook '(lambda () (dired-omit-toggle)))

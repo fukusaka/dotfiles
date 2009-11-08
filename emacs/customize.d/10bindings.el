@@ -1,14 +1,11 @@
-;; ¥­¡¼¤ÎÀßÄê
+;; ã‚­ãƒ¼ã®è¨­å®š
 
 ;; Author: Shoichi Fukusaka <fukusaka@xa2.so-net.ne.jp>
 ;; $Id$
 
 (global-unset-key "\C-z")
 (define-key global-map "\C-zj" 'goto-line)
-
-(when (>= emacs-major-version 21)
-  (define-key global-map [home] 'beginning-of-buffer)
-  (define-key global-map [end] 'end-of-buffer))
+(define-key global-map "\C-z\C-j" 'goto-line)
 
 ;; for man
 (define-key global-map "\M-m" 'man)
@@ -19,17 +16,8 @@
 (define-key global-map "\C-zc" 'compile)
 (define-key global-map "\C-zd" 'gdb)
 
-;; Ã¼Ëö»ş¤ÎMacOSX¤ÎDEL¥­¡¼ÂĞºö
-(when (and (featurep 'mac-carbon) (not window-system))
-  (global-set-key "\C-h" 'delete-backward-char)
-  (global-set-key "\e[3~" 'delete-char))
-
-;; ¥Õ¥ì¡¼¥à»ş¤ÎMacOSX¤ÎIM¸Æ¤Ó½Ğ¤·ÂĞ±ş
-(when (and (featurep 'mac-carbon) window-system)
-  (global-unset-key "\C-\\"))
-
-;; ¥ï¥ó¥¿¥Ã¥Á¤Ç¥·¥§¥ë¤Ë¹Ô¤±¤ë
-;; ¥È¥ë¥°¤Ë¤·¤¿¤¤¤â¤·
+;; ãƒ¯ãƒ³ã‚¿ãƒƒãƒã§ã‚·ã‚§ãƒ«ã«è¡Œã‘ã‚‹
+;; ãƒˆãƒ«ã‚°ã«ã—ãŸã„ã‚‚ã—
 ;;
 (define-key global-map "\C-zz" 'toggle-shell-default)
 (define-key global-map "\C-z\C-z" 'toggle-shell-default)
@@ -37,8 +25,8 @@
 (define-key global-map "\C-zs" 'toggle-shell)
 (define-key global-map "\C-z\C-s" 'toggle-shell)
 
-(define-key global-map "\C-zr" 'toggle-scheme)
-(define-key global-map "\C-z\C-r" 'toggle-scheme)
+(define-key global-map "\C-ze" 'toggle-eshell)
+(define-key global-map "\C-z\C-e" 'toggle-eshell)
 
 (defun toggle-shell-default ()
   (interactive)
@@ -48,17 +36,17 @@
   (interactive)
   (toggle-run-mode '(shell) "*shell*"))
 
-(defun toggle-scheme ()
+(defun toggle-eshell ()
   (interactive)
-  (toggle-run-mode '(run-scheme "/usr/bin/guile") "*scheme*"))
+  (toggle-run-mode '(eshell) "*eshell*"))
 
 (defvar toggle-run-mode-list
   '("*shell*"
-    "*scheme*"
+    "*eshell*"
     "*tex-shell*"))
 
-;; ÌÀ¼¨Åª¤Ë¡¢toggle-run-mode ¤ò»È¤ï¤Ê¤±¤ì¤Ğ¡¢toggle-run-mode-list ¤ò
-;; »È¤¦¡£
+;; æ˜ç¤ºçš„ã«ã€toggle-run-mode ã‚’ä½¿ã‚ãªã‘ã‚Œã°ã€toggle-run-mode-list ã‚’
+;; ä½¿ã†ã€‚
 (defun toggle-run-mode (run-command &optional toggle-run-mode)
   (if (let ((mode-list (if (stringp toggle-run-mode)
 			   (list toggle-run-mode)
@@ -73,7 +61,7 @@
     (eval run-command)))
 
 ;;
-;; Scratch¤è±Ê±ó¤Ë¡ª
+;; Scratchã‚ˆæ°¸é ã«ï¼
 ;;
 (define-key global-map "\C-zl" 'scratch)
 (define-key global-map "\C-z\C-l" 'scratch)
@@ -91,3 +79,21 @@
       (set-buffer-modified-p nil))
     )
   (switch-to-buffer (get-buffer "*scratch*")))
+
+
+;; key bindings fixup
+
+;; ver.21 ä»¥é™ HOME/END ã‚­ãƒ¼å¯¾ç­–
+(when (>= emacs-major-version 21)
+  (define-key global-map [home] 'beginning-of-buffer)
+  (define-key global-map [end] 'end-of-buffer))
+
+;; ç«¯æœ«æ™‚ã®MacOSXã®DELã‚­ãƒ¼å¯¾ç­–
+(when (and (featurep 'mac-carbon) (not window-system))
+  (global-set-key "\C-h" 'delete-backward-char)
+  (global-set-key "\e[3~" 'delete-char))
+
+;; ãƒ•ãƒ¬ãƒ¼ãƒ æ™‚ã®MacOSXã®IMå‘¼ã³å‡ºã—å¯¾å¿œ
+(when (and (featurep 'mac-carbon) window-system)
+  (global-unset-key "\C-\\"))
+

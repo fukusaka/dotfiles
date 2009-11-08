@@ -4,9 +4,9 @@
 
 ;; $Id: 15person.el 114 2003-09-14 15:48:46Z fukusaka $
 
-;; ¸Ä¿Í¾ğÊó¤òÀßÄê
+;; å€‹äººæƒ…å ±ã‚’è¨­å®š
 
-(setq user-full-name:ja "Ê¡ºä¾­°ì")
+(setq user-full-name:ja "ç¦å‚å°†ä¸€")
 (setq user-full-name "Shoichi Fukusaka")
 (setq user-mail-address "fukusaka@xa2.so-net.ne.jp")
 

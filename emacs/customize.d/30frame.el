@@ -47,8 +47,8 @@
     	  ;;(ff "MSGothic")
     	  (sz 12))
       (set-fontset-font fs
-    			'japanese-jisx0208
-    			(font-spec :family ff :size sz))
+			'japanese-jisx0208
+			(font-spec :family ff :size sz))
       (set-fontset-font fs
     			'katakana-jisx0201
     			(font-spec :family ff :size sz))
@@ -57,33 +57,28 @@
     ;; IPA
     ;;(set-frame-font "IPAGothic-12")
     )
-   ;; X
-   ((eq window-system 'x)
 
-    (if (< emacs-major-version 23)
-	(progn
-	  (create-fontset-from-fontset-spec
-	   "-*-fixed-medium-r-normal--12-*-*-*-*-*-fontset-12")
-	  (create-fontset-from-fontset-spec
-	   "-*-fixed-medium-r-normal--14-*-*-*-*-*-fontset-14")
-	  (create-fontset-from-fontset-spec
-	   "-*-fixed-medium-r-normal--16-*-*-*-*-*-fontset-16")
-	  (create-fontset-from-fontset-spec
-	   "-*-fixed-medium-r-normal--18-*-*-*-*-*-fontset-18")
+   ;; X / emacs22
+   ((and (eq window-system 'x)
+	 (= emacs-major-version 22))
 
-	  (set-default-font "fontset-14")
-	  (add-to-list 'default-frame-alist '(font . "fontset-14"))
-	  )
-      (set-default-font "VL Gothic-10"))
-    )
-   )
- 
-  ;; メニューとツールの背景色
-  (when (and window-system (fboundp 'facep))
-    (if (facep 'scroll-bar)
-	(set-face-background 'scroll-bar "AntiqueWhite"))
-    (if (facep 'tool-bar)
-	(set-face-background 'tool-bar "AntiqueWhite"))
+    (create-fontset-from-fontset-spec
+     "-*-fixed-medium-r-normal--12-*-*-*-*-*-fontset-12")
+    (create-fontset-from-fontset-spec
+     "-*-fixed-medium-r-normal--14-*-*-*-*-*-fontset-14")
+    (create-fontset-from-fontset-spec
+     "-*-fixed-medium-r-normal--16-*-*-*-*-*-fontset-16")
+    (create-fontset-from-fontset-spec
+     "-*-fixed-medium-r-normal--18-*-*-*-*-*-fontset-18")
+
+    (add-to-list 'default-frame-alist '(font . "fontset-14"))
     )
 
-  )
+   ;; X / emacs23
+   ((and (eq window-system 'x)
+	 (= emacs-major-version 23))
+
+    (add-to-list 'default-frame-alist '(font . "VL Gothic-10"))
+    )
+
+   ))

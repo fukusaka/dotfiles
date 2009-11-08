@@ -31,8 +31,8 @@
 
 ;;; Code:
 
-(unless (featurep 'psvn)
-  (autoload 'svn-status "psvn" nil t))
+
+(autoload 'svn-status "psvn" nil t)
 
 (setq cvs-diff-flags '("-u"))
 
@@ -42,9 +42,10 @@
   (setq svn-status-svn-executable "/usr/bin/svn"))
 
  ((eq system-type 'windows-nt)
-  ;; svn ‚ÌƒoƒCƒiƒŠ‚ğ http://subversion.tigris.org/ ‚©‚çæ‚Á‚Ä‚«A
-  ;; Emacs“à‚ÌƒfƒtƒHƒ‹ƒg‚ğ ShiftJIS ‚ğg‚¤ŒÀ‚èA’Ç‰Á‚Ìİ’è‚Í–³‚¢B
-  ;; ‘ÎŒü‚ÌƒŒƒ|ƒWƒgƒŠ‚ÌƒƒOƒƒbƒZ[ƒW‚ÍUTF-8‚Å•Û‘¶‚³‚ê‚éB
+  ;; svn ã®ãƒã‚¤ãƒŠãƒªã‚’ http://subversion.tigris.org/ ã‹ã‚‰å–ã£ã¦ãã€
+  ;; Emacså†…ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚’ ShiftJIS ã‚’ä½¿ã†é™ã‚Šã€è¿½åŠ ã®è¨­å®šã¯ç„¡ã„ã€‚
+  ;; å¯¾å‘ã®ãƒ¬ãƒã‚¸ãƒˆãƒªã®ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯UTF-8ã§ä¿å­˜ã•ã‚Œã‚‹ã€‚
   )
  )
+
 ;;; 50pcl-cvs.el ends here

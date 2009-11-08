@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; ¿§¤òÉÕ¤±¤ë¶¦ÄÌÀßÄê
+;; è‰²ã‚’ä»˜ã‘ã‚‹å…±é€šè¨­å®š
 ;;
 ;; Author: Shoichi Fukusaka <fukusaka@xa2.so-net.ne.jp>
 ;;
@@ -9,7 +9,7 @@
 
 (global-font-lock-mode t)
 
-;; jit-lock-mode ¤ò»È¤¦
+;; jit-lock-mode ã‚’ä½¿ã†
 (setq font-lock-support-mode 'jit-lock-mode)
 
 (defface moi-string-face
