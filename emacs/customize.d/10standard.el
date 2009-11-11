@@ -11,10 +11,10 @@
 (setq truncate-lines nil)		;; 継続行は使わない
 (setq transient-mark-mode nil)		;; Region に色付けない
 
-;; Xの設定で鳴らさないようにするので、、。
-;; ~/.xsession -->
-;;   xset b off
+;; Beep 音を鳴らさない
 ;;(setq visible-bell t)
+(setq ring-bell-function '(lambda ()))
+;; ~/.xsession -->  xset b off
 
 ;; 端末ではメニューバーを消す
 (if (and (not window-system) (fboundp 'menu-bar-mode))
