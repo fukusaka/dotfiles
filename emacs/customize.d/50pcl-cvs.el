@@ -2,9 +2,21 @@
 ;; PCL-CVS/PSVN の設定
 ;;
 
+;; for CVS
+(setq cvs-diff-flags '("-u"))
+
+;; for Subversion
 (autoload 'svn-status "psvn" nil t)
 
-(setq cvs-diff-flags '("-u"))
+;; for Git
+(autoload 'git-status "git" nil t)
+(autoload 'git-blame-mode "git-blame" nil t)
+
+(require 'vc-git)
+(add-to-list 'vc-handled-backends 'GIT)
+
+;; for MaGit
+(autoload 'magit-status "magit" nil t)
 
 (cond
 
