@@ -9,7 +9,7 @@
 (cond
 
  ((featurep 'mac-carbon)
-  (setq svn-status-svn-executable "/usr/bin/svn"))
+  (setq svn-status-svn-executable "/opt/local/bin/svn"))
 
  ((eq system-type 'windows-nt)
   ;; svn のバイナリを http://subversion.tigris.org/ から取ってき、
