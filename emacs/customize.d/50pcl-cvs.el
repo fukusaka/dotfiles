@@ -8,6 +8,7 @@
 
 (cond
 
+ ;; MacPorts の Subversion 1.5系を使う
  ((featurep 'mac-carbon)
   (setq svn-status-svn-executable "/opt/local/bin/svn"))
 
