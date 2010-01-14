@@ -5,22 +5,22 @@ CONFDIR=common/conf
 all:
 	@ echo "link -- リンクを張り巡らす"
 	@ echo "pack -- tarball に固める"
+	@ echo "clean -- ゴミ削除"
+	@ echo "simple-emacs -- emacs.el の生成"
 
 link:
-	@ grep -v '^#' link-list | \
-	  awk '!/^#/ { printf("cd %s && ln -sf %s/%s %s\n",$$2,"${CONFDIR}",$$1,$$3)}' | cat
+	@ awk '!/^#/ { printf("ln -sf ${CONFDIR}/%s %s\n", $$1,$$2) }' link-list
 
 pack:
-	cd .. ; find conf -type f  -not -name '*~' \
-			-not -name '*.elc' \
+	cd .. ; find conf -type f  -not -name '*~' -not -name '*.elc' \
 	| tar cfz ${TARBALL} -T -
+
 clean:
-	find . -name '*~' | xargs rm -f
+	find . -name '*~' -exec rm -f {} \;
 
 distclean: clean
-	find . -name 'emacs19' | xargs rm -rf
-	find . -name 'emacs20' | xargs rm -rf
-	find . -name '*.elc' | xargs rm -rf
+	rm -rf emacs/customize.d/emacs{20,21,22,xx}
+	find emacs -name '*.elc' -exec rm -f {} \;
 
 
 SIMPLE_EMACS=\
