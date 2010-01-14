@@ -1,0 +1,14 @@
+# -*-shell-script-*-
+
+if [ "$SHLVL" = 1 ]; then
+
+    # for MacPorts
+    if [ $(uname -s) = Darwin -a -d "/opt/local" ]; then
+	PATH="/opt/local/bin:$PATH"
+	MANPATH="/opt/local/man:$MANPATH"
+    fi
+
+fi
+
+export DEBFULLNAME='Shoichi Fukusaka'
+export DEBEMAIL='fukusaka@xa2.so-net.ne.jp'

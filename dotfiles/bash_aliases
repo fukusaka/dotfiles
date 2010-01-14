@@ -1,37 +1,65 @@
 # -*-shell-script-*-
 
-case `uname -s` in
-    Linux)
-	DIRCOLORS=/usr/bin/dircolors
-	LS=/bin/ls
+# Ecma-48 の色付き
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    colozied_terminal=yes
+fi
+
+# for colorized ls
+case $(uname -s) in
+    Darwin)  ls_type=bsd;
+esac
+
+for dir in ${PATH//:/ }; do
+    for prefix in "" g; do
+	if [ -x "$dir/${prefix}dircolors" ]; then
+	    DIRCOLORS="$dir/${prefix}dircolors"
+	    ls_type=gnu
+	fi
+	if [ -x "$dir/${prefix}ls" ]; then
+	    LS="$dir/${prefix}ls"
+	fi
+    done
+done
+
+# enable color support of ls and also add handy aliases
+case $ls_type in
+    gnu)
+	if [ "$colozied_terminal" = yes ]; then
+	    eval "`$DIRCOLORS -b`"
+	    LS="${LS:-/bin/ls} --color=auto"
+	fi
+        # LS_FULL_TIME="--full-time"
+	LS_FULL_TIME="--time-style=+%F\ %T"
 	;;
-    Solaris)
-	DIRCOLORS=/opt/sfw/bin/dircolors
-	LS=/opt/sfw/bin/ls
-	;;
-    Darwin)
-	# use MacPorts
-	DIRCOLORS=/opt/local/bin/gdircolors
-	LS=/opt/local/bin/gls
+    bsd)
+	if [ "$colozied_terminal" = yes ]; then
+	    LS="${LS:-/bin/ls} -G"
+	fi
+	LS_FULL_TIME="-T"
 	;;
     *)
-	DIRCOLORS=/usr/bin/dircolors
-	LS=/bin/ls
+	LS=${LS:-/bin/ls}
+	LS_FULL_TIME=
 	;;
 esac
 
-# enable color support of ls and also add handy aliases
-if [ "$TERM" != "dumb" ] && [ -x $DIRCOLORS ]; then
-    eval "`$DIRCOLORS -b`"
-    alias ls="$LS --color=auto"
+alias l="$LS -l -F"
+alias ls="$LS -F"
+alias ll="$LS -l -F $LS_FULL_TIME"
+alias la="$LS -A -F"
+
+unset ls_type LS DIRCOLORS LS_FULL_TIME
+
+# colorized grep
+if [ "$colozied_terminal" = yes ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
 
-# some more ls aliases
-#alias dir='ls --format=vertical'
-#alias vdir='ls --format=long'
-alias ll='ls -l'
-alias la='ls -A'
-alias l='ls -CF'
+if [ -x /usr/share/vim/vim71/macros/less.sh ]; then
+    alias less='/usr/share/vim/vim71/macros/less.sh'
+fi
+
+unset colozied_terminal

@@ -1,17 +1,77 @@
-# ~/.bashrc: -*-shell-script-*-
-# $Id$
+# -*-shell-script-*-
+
+# umask for go-w
+umask 022
+
+# core を作成しない 
+ulimit -c 0
+
+# 個人の環境変数
+if [ -f ~/.bash_env ]; then
+    . ~/.bash_env
+fi
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-PS1="% "
+## 入力
 
+# ヒストリ管理
+export HISTSIZE=10000
+export HISTFILESIZE=10000
+export HISTCONTROL=ignoreboth
+shopt -s histappend cmdhist lithist histverify histreedit
+
+# 補完
+shopt -s no_empty_cmd_completion
+
+# 端末サイズをチェックし COLUMNS,LINES を更新
 shopt -s checkwinsize
 
-if [ -f ${HOME}/.bash_aliases ]; then
-    . ${HOME}/.bash_aliases
+# make less more friendly for non-text input files, see lesspipe(1)
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+## プロンプト
+
+# 端末タイプで区別
+case "$TERM" in
+    xterm-color) prompt_type=color;;
+esac
+
+# Ecma-48 の色付き
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    prompt_type=color
 fi
 
+# Emacs 内部
+if [ "$EMACS" = t ]; then
+    prompt_type=simple
+fi
+
+case "$prompt_type" in
+    simple)
+	PS1='% '
+	;;
+    color)
+	PS1='\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[00;34m\]\w\[\033[00m\]\$ '
+	;;
+    *)
+	PS1='\u@\h:\w\$ '
+	;;
+esac
+unset prompt_type
+
+# タイトルバーに端末情報を追加
+case "$TERM" in
+    xterm*|rxvt*) PS1="\[\e]0;\u@\h: \w\a\]$PS1" ;;
+esac
+
+# Alias definitions.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# Completion
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
