@@ -1,31 +1,37 @@
 # -*-shell-script-*-
 
-if [ "$SHLVL" = 1 ]; then
-
-    # for MacPorts
-    if [ $(uname -s) = Darwin -a -d "/opt/local" ]; then
-	PATH="/opt/local/bin:$PATH"
-	MANPATH="/opt/local/man:$MANPATH"
-    fi
-
-    # for Solaris
-    if [ $(uname -s) = SunOS ]; then
-	PATH=/usr/local/bin:/usr/bin:/usr/sbin
-	PATH=$PATH:/usr/sfw/bin
-	PATH=$PATH:/usr/ccs/bin:/usr/ucb
-
-	MANPATH=/usr/local/share/man:/usr/share/man
-	MANPATH=$MANPATH:/usr/sfw/share/man
-
-	#[ "$TERM" = xterm-color ] && TERM=xterm
-	TERMINFO=$HOME/.terminfo
-
-	PAGER=/usr/bin/less
-
-	export PATH MANPATH PAGER TERMINFO
-    fi
-
+if [ -f ${HOME}/.debug_aliases ]; then
+    debug_aliases=yes
 fi
+
+# for MacPorts
+if [ $(uname -s) = Darwin -a -d "/opt/local" ]; then
+    PATH="/opt/local/bin:$PATH"
+    MANPATH="/opt/local/man:$MANPATH"
+fi
+
+# for Solaris
+if [ $(uname -s) = SunOS ]; then
+    PATH=/usr/bin:/usr/sbin
+    PATH=$PATH:/usr/sfw/bin
+    PATH=$PATH:/usr/ccs/bin:/usr/ucb
+
+    MANPATH=/usr/share/man
+    MANPATH=$MANPATH:/usr/sfw/share/man
+
+# Freeware for Solars from Sunfreewave.com
+    PATH=/usr/local/bin:$PATH
+    MANPATH=/usr/local/share/man:$MANPATH
+
+    #[ "$TERM" = xterm-color ] && TERM=xterm
+    export TERMINFO=$HOME/.terminfo
+
+    # pager
+    export PAGER=/usr/bin/less
+fi
+
+export PATH MANPATH
+
 
 export DEBFULLNAME='Shoichi Fukusaka'
 export DEBEMAIL='fukusaka@xa2.so-net.ne.jp'

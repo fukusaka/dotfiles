@@ -1,65 +1,95 @@
 # -*-shell-script-*-
 
-# Ecma-48 の色付き
-if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-    colozied_terminal=yes
-fi
+CMDS="dircolors ls grep egrep fgrep"
 
-# for colorized ls
-case $(uname -s) in
-    Darwin)  ls_type=bsd;
-esac
+msg() {
+    [ "$debug_aliases" != yes ] && return
+    echo "$@"
+}
 
-for dir in ${PATH//:/ }; do
-    for prefix in "" g; do
-	if [ -x "$dir/${prefix}dircolors" ]; then
-	    DIRCOLORS="$dir/${prefix}dircolors"
-	    ls_type=gnu
-	fi
-	if [ -x "$dir/${prefix}ls" ]; then
-	    LS="$dir/${prefix}ls"
-	fi
+# パス検索
+for cmd in $CMDS; do
+    for prefix in g ""; do
+	for dir in ${PATH//:/ }; do
+	    if [ -x "$dir/${prefix}$cmd" ]; then
+		msg "find $cmd -> $dir/${prefix}$cmd"
+		eval "find_$cmd=$dir/${prefix}$cmd"
+		break 2
+	    fi
+	done
     done
 done
+unset prefix dir cmd CMDS
 
-# enable color support of ls and also add handy aliases
+if [ -n "$find_dircolors" ]; then
+    msg "execute $find_dircolors"
+    eval "`$find_dircolors -b`"
+fi
+
+# check GNU coreutils
+ls_type=$(uname -s)
+$find_ls --version 2>&1 | $find_grep GNU &> /dev/null && ls_type=gnu
+
+# check GNU grep
+$find_grep --version 2>&1 | $find_grep GNU &> /dev/null && grep_type=gnu
+
+##
+# for colorized ls
+find_ls="$find_ls -F"
 case $ls_type in
     gnu)
-	if [ "$colozied_terminal" = yes ]; then
-	    eval "`$DIRCOLORS -b`"
-	    LS="${LS:-/bin/ls} --color=auto"
+	if [ "$terminal_type" = color ]; then
+	    find_ls="$find_ls --color=auto"
 	fi
-        # LS_FULL_TIME="--full-time"
-	LS_FULL_TIME="--time-style=+%F\ %T"
+	#alias_ll="$find_ls -l --full-time"
+	alias_ll="$find_ls -l --time-style=+%F\ %T"
 	;;
-    bsd)
-	if [ "$colozied_terminal" = yes ]; then
-	    LS="${LS:-/bin/ls} -G"
+    Darwin)
+	if [ "$terminal_type" = color ]; then
+	    find_ls="$find_ls -G"
 	fi
-	LS_FULL_TIME="-T"
+	alias_ll="$find_ls -l -T"
 	;;
-    *)
-	LS=${LS:-/bin/ls}
-	LS_FULL_TIME=
+    SunOS)
+	alias_ll="$find_ls -e"
 	;;
 esac
-
-alias l="$LS -l -F"
-alias ls="$LS -F"
-alias ll="$LS -l -F $LS_FULL_TIME"
-alias la="$LS -A -F"
-
-unset ls_type LS DIRCOLORS LS_FULL_TIME
+alias_l="$find_ls -l"
+alias_la="$find_ls -A"
+msg "ls_type $ls_type"
+unset ls_type
 
 # colorized grep
-if [ "$colozied_terminal" = yes ]; then
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+if [ "$terminal_type" = color -a "$grep_type" = gnu ]; then
+    find_grep="$find_grep --color=auto"
+    find_fgrep="$find_fgrep --color=auto"
+    find_egrep="$find_egrep --color=auto"
 fi
+msg "grep_type $grep_type"
+unset grep_type
+
+#
+for pfind_cmd in ${!find_*}; do
+    cmd=${pfind_cmd#find_}
+    find_cmd="$(eval echo \$$pfind_cmd)"
+    if [ "$(which $cmd)" != "$find_cmd" ]; then
+	msg "alias $cmd -> $find_cmd"
+	alias "$cmd=$find_cmd"
+    else
+	msg "not alias $cmd"
+    fi
+done
+for pfind_cmd in ${!alias_*}; do
+    cmd=${pfind_cmd#alias_}
+    find_cmd="$(eval echo \$$pfind_cmd)"
+    msg "alias $cmd -> $find_cmd"
+    alias "$cmd=$find_cmd"
+done
+unset pfind_cmd cmd find_cmd
+unset ${!find_*} ${!alias_*}
 
 if [ -x /usr/share/vim/vim71/macros/less.sh ]; then
     alias less='/usr/share/vim/vim71/macros/less.sh'
 fi
 
-unset colozied_terminal
+unset msg

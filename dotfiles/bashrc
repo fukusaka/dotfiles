@@ -7,7 +7,7 @@ umask 022
 ulimit -c 0
 
 # 個人の環境変数
-if [ -f ~/.bash_env ]; then
+if [ "$SHLVL" = 1 -a -f ~/.bash_env ]; then
     . ~/.bash_env
 fi
 
@@ -35,20 +35,20 @@ shopt -s checkwinsize
 
 # 端末タイプで区別
 case "$TERM" in
-    xterm-color) prompt_type=color;;
+    xterm-color) terminal_type=color;;
 esac
 
 # Ecma-48 の色付き
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-    prompt_type=color
+    terminal_type=color
 fi
 
 # Emacs 内部
 if [ "$EMACS" = t ]; then
-    prompt_type=simple
+    terminal_type=simple
 fi
 
-case "$prompt_type" in
+case "$terminal_type" in
     simple)
 	PS1='% '
 	;;
@@ -59,7 +59,6 @@ case "$prompt_type" in
 	PS1='\u@\h:\w\$ '
 	;;
 esac
-unset prompt_type
 
 # タイトルバーに端末情報を追加
 case "$TERM" in
@@ -75,3 +74,5 @@ fi
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+
+unset terminal_type
