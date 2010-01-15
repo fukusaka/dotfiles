@@ -8,6 +8,23 @@ if [ "$SHLVL" = 1 ]; then
 	MANPATH="/opt/local/man:$MANPATH"
     fi
 
+    # for Solaris
+    if [ $(uname -s) = SunOS ]; then
+	PATH=/usr/local/bin:/usr/bin:/usr/sbin
+	PATH=$PATH:/usr/sfw/bin
+	PATH=$PATH:/usr/ccs/bin:/usr/ucb
+
+	MANPATH=/usr/local/share/man:/usr/share/man
+	MANPATH=$MANPATH:/usr/sfw/share/man
+
+	#[ "$TERM" = xterm-color ] && TERM=xterm
+	TERMINFO=$HOME/.terminfo
+
+	PAGER=/usr/bin/less
+
+	export PATH MANPATH PAGER TERMINFO
+    fi
+
 fi
 
 export DEBFULLNAME='Shoichi Fukusaka'
