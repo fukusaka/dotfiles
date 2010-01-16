@@ -51,7 +51,7 @@ case $ls_type in
 	#alias_ll="$find_ls -l --full-time"
 	alias_ll="$find_ls -l --time-style=+%F\ %T"
 	;;
-    Darwin)
+    FreeBSD|NetBSD|OpenBSD|Darwin)
 	if [ "$terminal_type" = color ]; then
 	    find_ls="$find_ls -G"
 	fi
