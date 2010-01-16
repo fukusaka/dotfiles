@@ -1,4 +1,4 @@
-# -*-shell-script-*-
+#!/bin/sh -*-shell-script-*-
 
 CMDS="dircolors ls grep egrep fgrep"
 

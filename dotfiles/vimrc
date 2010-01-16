@@ -1,4 +1,2 @@
 let is_bash=1
 syntax on
-
-au BufNewFile,BufRead bash* setf sh

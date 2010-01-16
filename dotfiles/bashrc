@@ -1,4 +1,4 @@
-# -*-shell-script-*-
+#!/bin/sh -*-shell-script-*-
 
 # umask for go-w
 umask 022

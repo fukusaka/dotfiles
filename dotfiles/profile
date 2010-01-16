@@ -1,4 +1,4 @@
-# ~/.bash_profile: -*-shell-script-*-
+#!/bin/sh -*-shell-script-*-
 # $Id: bash_profile 187 2009-02-11 05:14:31Z shoichi $
 
 # if running bash

@@ -1,4 +1,4 @@
-# -*-shell-script-*-
+#!/bin/sh -*-shell-script-*-
 
 if [ -f ${HOME}/.debug_aliases ]; then
     debug_aliases=yes
