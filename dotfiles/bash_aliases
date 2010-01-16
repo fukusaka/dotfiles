@@ -1,25 +1,32 @@
 #!/bin/sh -*-shell-script-*-
 
-CMDS="dircolors ls grep egrep fgrep"
-
 msg() {
     [ "$debug_aliases" != yes ] && return
     echo "$@"
 }
 
+GNUCMDS="dircolors ls grep egrep fgrep"
+CMDS="vim"
+
 # パス検索
-for cmd in $CMDS; do
+for cmd in $GNUCMDS; do
     for prefix in g ""; do
 	for dir in ${PATH//:/ }; do
-	    if [ -x "$dir/${prefix}$cmd" ]; then
-		msg "find $cmd -> $dir/${prefix}$cmd"
-		eval "find_$cmd=$dir/${prefix}$cmd"
+	    cmdpath="$dir/${prefix}$cmd"
+	    if [ -x "$cmdpath" ]; then
+		msg "find $cmd -> $cmdpath"
+		eval "find_$cmd=$cmdpath"
 		break 2
 	    fi
 	done
     done
 done
-unset prefix dir cmd CMDS
+for cmd in $CMDS; do
+    cmdpath="$(which $cmd)"
+    msg "find $cmd -> $cmdpath"
+    eval "find_$cmd=$cmdpath"
+done
+unset prefix dir cmd CMDS GNUCMDS
 
 if [ -n "$find_dircolors" ]; then
     msg "execute $find_dircolors"
@@ -67,6 +74,9 @@ if [ "$terminal_type" = color -a "$grep_type" = gnu ]; then
 fi
 msg "grep_type $grep_type"
 unset grep_type
+
+#
+alias_vi=$find_vim
 
 #
 for pfind_cmd in ${!find_*}; do
