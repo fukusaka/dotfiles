@@ -6,13 +6,13 @@ umask 022
 # core を作成しない 
 ulimit -c 0
 
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 # 個人の環境変数
 if [ "$SHLVL" = 1 -a -f ~/.bash_env ]; then
     . ~/.bash_env
 fi
-
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
 
 ## 入力
 
