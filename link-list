@@ -4,4 +4,5 @@ dotfiles/bash_aliases		~/.bash_aliases
 dotfiles/bash_env		~/.bash_env
 dotfiles/profile		~/.profile
 dotfiles/bashrc			~/.bashrc
+dotfiles/vimrc			~/.vimrc
 emacs/emacs.el			~/.emacs
