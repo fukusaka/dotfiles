@@ -26,7 +26,7 @@ for cmd in $CMDS; do
     msg "find $cmd -> $cmdpath"
     eval "find_$cmd=$cmdpath"
 done
-unset prefix dir cmd CMDS GNUCMDS
+unset prefix cmdpath CMDS GNUCMDS
 
 if [ -n "$find_dircolors" ]; then
     msg "execute $find_dircolors"
@@ -75,10 +75,19 @@ fi
 msg "grep_type $grep_type"
 unset grep_type
 
-#
+# use vim
 alias_vi=$find_vim
 
-#
+# use less of vim
+for dir in /usr/share /usr/local/share; do
+    for cmd in $dir/vim/vim*/macros/less.sh; do
+	if [ -x $cmd ]; then
+	    alias_less=$cmd
+	fi
+    done
+done
+
+# 実際の alias 定義
 for pfind_cmd in ${!find_*}; do
     cmd=${pfind_cmd#find_}
     find_cmd="$(eval echo \$$pfind_cmd)"
@@ -95,11 +104,5 @@ for pfind_cmd in ${!alias_*}; do
     msg "alias $cmd -> $find_cmd"
     alias "$cmd=$find_cmd"
 done
-unset pfind_cmd cmd find_cmd
 unset ${!find_*} ${!alias_*}
-
-if [ -x /usr/share/vim/vim71/macros/less.sh ]; then
-    alias less='/usr/share/vim/vim71/macros/less.sh'
-fi
-
-unset msg
+unset pfind_cmd cmd find_cmd dir msg

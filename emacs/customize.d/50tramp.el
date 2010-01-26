@@ -2,10 +2,10 @@
 ;; tramp 設定
 ;;
 
-;;(when (<= emacs-major-version 22)
-;;  (autoload 'tramp-compile "tramp-util")
-;;  (define-key global-map "\M-c" 'tramp-compile)
-;;  (define-key global-map "\C-zc" 'tramp-compile))
+(when (<= emacs-major-version 22)
+  (autoload 'tramp-compile "tramp-util")
+  (define-key global-map "\M-c" 'tramp-compile)
+  (define-key global-map "\C-zc" 'tramp-compile))
 
 (cond
 
