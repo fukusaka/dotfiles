@@ -30,8 +30,12 @@ if [ $(uname -s) = SunOS ]; then
     export PAGER=/usr/bin/less
 fi
 
-export PATH MANPATH
+# for Windows
+if [ -n "$COMSPEC" ]; then
+    LANG=ja_JP.SJIS
+fi
 
+export PATH MANPATH
 
 export DEBFULLNAME='Shoichi Fukusaka'
 export DEBEMAIL='fukusaka@xa2.so-net.ne.jp'
