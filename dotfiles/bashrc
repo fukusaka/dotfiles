@@ -72,7 +72,11 @@ fi
 
 # Completion
 if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+    if [ "$NO_BASH_COMPLETION" != yes ]; then
+	. /etc/bash_completion
+    else
+	alias load_bash_completion='source /etc/bash_completion; unalias load_bash_completion'
+    fi
 fi
 
 unset terminal_type

@@ -1,41 +1,51 @@
 #!/bin/sh -*-shell-script-*-
 
-if [ -f ${HOME}/.debug_aliases ]; then
-    debug_aliases=yes
-fi
+sysname=$(uname -s)
 
-# for MacPorts
-if [ $(uname -s) = Darwin -a -d "/opt/local" ]; then
-    PATH="/opt/local/bin:$PATH"
-    MANPATH="/opt/local/man:$MANPATH"
-fi
-
-# for Solaris
-if [ $(uname -s) = SunOS ]; then
-    PATH=/usr/bin:/usr/sbin
-    PATH=$PATH:/usr/sfw/bin
-    PATH=$PATH:/usr/ccs/bin:/usr/ucb
-
-    MANPATH=/usr/share/man
-    MANPATH=$MANPATH:/usr/sfw/share/man
-
-# Freeware for Solars from Sunfreewave.com
-    PATH=/usr/local/bin:$PATH
-    MANPATH=/usr/local/share/man:$MANPATH
-
-    #[ "$TERM" = xterm-color ] && TERM=xterm
-    export TERMINFO=$HOME/.terminfo
-
-    # pager
-    export PAGER=/usr/bin/less
-fi
-
-# for Windows
 if [ -n "$COMSPEC" ]; then
-    LANG=ja_JP.SJIS
+    sysname=Windows
 fi
+
+case $sysname in
+    Linux)
+	case "$(lsb_release -si)" in
+	    Debian)
+                # for Debian GNU/Linux
+		export DEBFULLNAME='Shoichi Fukusaka'
+		export DEBEMAIL='fukusaka@xa2.so-net.ne.jp'
+		;;
+	esac
+	;;
+    Darwin)
+	if [ -d /opt/local ]; then
+            # for MacPorts
+	    PATH="/opt/local/bin:$PATH"
+	    MANPATH="/opt/local/man:$MANPATH"
+	fi
+	;;
+    SunOS)
+	PATH=/usr/bin:/usr/sbin
+	PATH=$PATH:/usr/sfw/bin
+	PATH=$PATH:/usr/ccs/bin:/usr/ucb
+
+	MANPATH=/usr/share/man
+	MANPATH=$MANPATH:/usr/sfw/share/man
+
+        # Freeware for Solars from Sunfreewave.com
+	PATH=/usr/local/bin:$PATH
+	MANPATH=/usr/local/share/man:$MANPATH
+
+        #[ "$TERM" = xterm-color ] && TERM=xterm
+	export TERMINFO=$HOME/.terminfo
+
+        # pager
+	export PAGER=/usr/bin/less
+	;;
+    Windows)
+	export LANG=ja_JP.SJIS
+	export NO_BASH_COMPLETION=yes
+	;;
+esac
+unset sysname
 
 export PATH MANPATH
-
-export DEBFULLNAME='Shoichi Fukusaka'
-export DEBEMAIL='fukusaka@xa2.so-net.ne.jp'
