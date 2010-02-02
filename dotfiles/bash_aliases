@@ -75,7 +75,7 @@ msg "grep_type $grep_type"
 unset grep_type
 
 # use vim
-alias_vi=$find_vim
+[ -n "$find_vim" ] && alias_vi=$find_vim
 
 # use less of vim
 for dir in /usr/share /usr/local/share; do
