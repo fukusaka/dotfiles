@@ -217,7 +217,7 @@
 
 (defun moi::ask-license-string (head &optional flag)
   (moi::license-string
-   (completing-read "License: " moi::license-list nil t "GPL"
+   (completing-read "License: " moi::license-list nil t "BSD"
 		    'moi::ask-license-hist)
    head flag))
 

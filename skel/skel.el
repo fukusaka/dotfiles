@@ -26,7 +26,7 @@ NAME: programmer-name
 ADDRESS: programmer-mail-address
 YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%d %b %Y")
-LICENSE: (moi::license-string 'GPL ";; " t)
+LICENSE: (moi::license-string 'BSD ";; " t)
 @@@@
 
 ;;; @@FNAME@@ ends here

@@ -21,5 +21,10 @@
 (setq auto-insert-alist
       (append '(
 		("\\.h\\'" . "skel.h")
+		("\\.c\\'" . "skel.c")
+		("\\.cc\\'" . "skel.cc")
+		("\\.pl\\'" . "skel.pl")
+		("\\.el\\'" . "skel.el")
+		("\\.html\\'" . "skel.html")
 		) save-auto-insert-alist))
 
