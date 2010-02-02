@@ -87,12 +87,17 @@ for dir in /usr/share /usr/local/share; do
     done
 done
 
-# 日本語 man の 不良解消 (Cygwin のみ)
+# 日本語 man の 不良解消
 if [ -n "$find_groff" ]; then
-    if [ $(man man 2> /dev/null | wc -c) -le  0 ]; then
+    # MacOSX の man は常にCロケールにする
+    if [ $(uname -s) = Darwin ]; then
+	alias_man='LANG=C man'
+    # man がCロケール以外でエラーが発生 (Cygwin のみ)
+    elif [ $(man man 2> /dev/null | wc -c) -le  0 ]; then
 	alias_man='LANG=C man'
     fi
 fi
+
 
 # 実際の alias 定義
 for pfind_cmd in ${!alias_*}; do
