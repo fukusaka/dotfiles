@@ -89,7 +89,7 @@ done
 
 # 日本語 man の 不良解消
 if [ -n "$find_groff" ]; then
-    groff_vers=$(groff --version | sed -ne '/^.*groff version 1\.\([0-9]*\).*$/{s//\1/p;q}')
+    groff_vers=$(groff --version | sed -ne '/^.*groff version 1\.\([0-9]*\).*$/s//\1/p' | head -1 )
     if [ ${groff_vers:-0} -le 18 ]; then 
 	alias_man="LANG=C man"
 	for dir in /usr/share/groff/1*/font /usr/share/groff_font; do
