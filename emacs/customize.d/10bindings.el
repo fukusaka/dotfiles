@@ -78,20 +78,3 @@
       (set-buffer-modified-p nil))
     )
   (switch-to-buffer (get-buffer "*scratch*")))
-
-
-;; key bindings fixup
-
-;; ver.21 以降 HOME/END キー対策
-(when (>= emacs-major-version 21)
-  (define-key global-map [home] 'beginning-of-buffer)
-  (define-key global-map [end] 'end-of-buffer))
-
-;; 端末時のMacOSXのDELキー対策
-(when (and (featurep 'mac-carbon) (not window-system))
-  (global-set-key "\C-h" 'delete-backward-char)
-  (global-set-key "\e[3~" 'delete-char))
-
-;; フレーム時のMacOSXのIM呼び出し対応
-(when (and (featurep 'mac-carbon) window-system)
-  (global-unset-key "\C-\\"))

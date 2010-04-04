@@ -12,11 +12,13 @@
 
   (cond
    ;; MacOSX
-   ((eq window-system 'mac)
+   ((or (eq window-system 'mac) (eq window-system 'ns))
     (add-to-list 'initial-frame-alist '(top . 26))
     (add-to-list 'initial-frame-alist '(left . 4))
     (add-to-list 'default-frame-alist '(alpha . (95 90)))
     (setq frame-alpha-lower-limit 30)
+    ;;(setq-default line-spacing 0.1)
+    (setq-default line-spacing 0)
     )
    ;; X
    ((eq window-system 'x)
@@ -37,27 +39,63 @@
     (setq mac-allow-anti-aliasing t)
     (fixed-width-set-fontset "hirakaku_w3" 12)
     )
+
+   ;; Cocoa Emacs
+   ((eq window-system 'ns)
+
+    (setq mac-allow-anti-aliasing t)
+    ;; フォントサイズの微調節
+    (setq face-font-rescale-alist
+	  '(("^-apple-hiragino.*" . 1.2)
+	    (".*osaka-bold.*" . 1.2)
+	    (".*osaka-medium.*" . 1.2)
+	    (".*courier-bold-.*-mac-roman" . 1.0)
+	    (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+	    (".*monaco-bold-.*-mac-roman" . 0.9)
+	    ("-cdac$" . 1.3)))
+
+    (set-frame-font "Monaco-12")
+
+    (let ((fs (frame-parameter nil 'font))
+	  ;;(ff "Hiragino Maru Gothic Pro")
+	  (ff "Hiragino Kaku Gothic Pro")
+	  (rg "iso10646-1"))
+	  
+      (set-fontset-font
+       fs 'japanese-jisx0208
+       (font-spec :family ff :registry rg))
+
+      (set-fontset-font
+       fs 'katakana-jisx0201
+       (font-spec :family ff :registry rg))
+
+      (set-fontset-font
+       fs 'japanese-jisx0212
+       (font-spec :family ff :registry rg))
+
+      ))
    
    ;; Windows
    ((eq window-system 'w32)
 
     (set-frame-font "Courier New-10")
     ;;(set-frame-font "Inconsolata\-dz-10")
+    ;;(set-frame-font "IPAGothic-12")
+
     (let ((fs (frame-parameter nil 'font))
     	  (ff "Meiryo")
     	  ;;(ff "MSGothic")
     	  (sz 12))
-      (set-fontset-font fs
-			'japanese-jisx0208
-			(font-spec :family ff :size sz))
-      (set-fontset-font fs
-    			'katakana-jisx0201
-    			(font-spec :family ff :size sz))
-      )
 
-    ;; IPA
-    ;;(set-frame-font "IPAGothic-12")
-    )
+      (set-fontset-font
+       fs 'japanese-jisx0208
+       (font-spec :family ff :size sz))
+
+      (set-fontset-font
+       fs 'katakana-jisx0201
+       (font-spec :family ff :size sz))
+
+      ))
 
    ;; X / emacs22
    ((and (eq window-system 'x)
@@ -73,9 +111,9 @@
     (add-to-list 'default-frame-alist '(font . "fontset-14"))
     )
 
-   ;; X / emacs23
+   ;; X / emacs23 以上
    ((and (eq window-system 'x)
-	 (= emacs-major-version 23))
+	 (>= emacs-major-version 23))
 
     (add-to-list 'default-frame-alist '(font . "VL Gothic-10"))
     )
