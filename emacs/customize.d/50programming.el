@@ -39,3 +39,12 @@
  '(lambda ()
     (setq c-font-lock-extra-types (append c-font-lock-extra-types glib-types))
     (setq c++-font-lock-extra-types (append c++-font-lock-extra-types glib-types))))
+
+;; Yasnippet
+;;(require 'yasnippet-bundle)
+
+(require 'auto-complete-config)
+(ac-config-default)
+
+;; Color-moccur
+(require 'color-moccur)
