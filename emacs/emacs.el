@@ -4,10 +4,15 @@
 
 ;; $Id$
 
-(defvar top-conf-dir
-  (expand-file-name "~/common/conf/"))
+(setq my-top-conf-dir (expand-file-name "~/common/conf/"))
+(setq my-emacs-conf-dir (concat my-top-conf-dir "emacs/"))
 
-(add-to-list 'load-path (concat top-conf-dir "emacs/elisp/moi"))
+(setq my-place-profile-alist
+      '(("\\`black" .	"home")
+	("\\`blue" .	"home")
+	("\\`red" .	"home")
+	("\\`think" .  "home")))
 
-(require 'moi-startup)
-(moi::startup)
+(let ((default-directory my-emacs-conf-dir))
+  (load-file "my-compat.el")
+  (load-file "my-startup.el"))

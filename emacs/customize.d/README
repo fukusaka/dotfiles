@@ -4,7 +4,9 @@ xx<package>
 
 00-04	予約
 05	言語設定
-06-09	予約
+06,07	予約
+08	基本動作の修正(fixup)
+09	予約
 10	メニュー、キーバインドの設定
 11-14	予約
 15	個人情報の設定
@@ -12,14 +14,3 @@ xx<package>
 20-	各種パッケージ
 		普通は、50を指定。
 		パッケージの依存関係に応じて適切に指定。
-
-
-./			common
-
-D<cluster-domain>/	cluster-domain 固有
-
-H<terminal-hostname>	terminal-hostname 固有
-
-cluster.el
-	hostname -- cluster-domain
-

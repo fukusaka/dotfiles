@@ -1,6 +1,6 @@
 
 (add-hook 'find-file-hooks 'auto-insert)
-(setq auto-insert-directory (concat top-conf-dir "skel/"))
+(setq auto-insert-directory (concat my-top-conf-dir "skel/"))
 
 ;;(require 'moi-skel-file)
 

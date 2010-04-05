@@ -33,7 +33,7 @@
 
 ;;; Code:
 
-(defvar moi::skel-file-dir (concat top-conf-dir "skel/"))
+(defvar moi::skel-file-dir (concat my-top-conf-dir "skel/"))
 
 (defvar moi::skel-file-name-alist
   '(

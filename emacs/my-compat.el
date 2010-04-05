@@ -1,4 +1,4 @@
-;;; moi-compatibility.el --- 
+;;; my-compat.el --- 
 
 ;; Copyright (C) 2007  Free Software Foundation, Inc.
 
@@ -63,6 +63,6 @@
   ))
 
 
-(provide 'moi-compatibility)
-;;; moi-compatibility.el ends here
+(provide 'my-compat)
+;;; my-compat.el ends here
 
