@@ -55,7 +55,7 @@ p q r s t u v w x y z { | } ~
 	(alist my-sample-ascii-face-alist))
     (switch-to-buffer buf)
     (while alist      
-      (let (stq end)
+      (let (sta end)
 	(setq sta (point))
 	(insert (format "### %s ###\n" (caar alist))) 
 	(insert my-sample-ascii-str)
@@ -67,4 +67,5 @@ p q r s t u v w x y z { | } ~
     (goto-char (point-min))
     ))
 
+(provide 'my-sample-ascii)
 ;;; my-sample-ascii.el ends here

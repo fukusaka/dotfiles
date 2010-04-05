@@ -50,7 +50,6 @@
     ("\\`autogen\\.sh\\'" . "autogen.sh")
     ))
 
-(provide 'my-skel-file)
 (defun my-find-file (filename)
   (interactive "Fmy-Find file: ")
   (let ((skelflag (not (or (file-exists-p filename)
@@ -72,7 +71,7 @@
 	     (stringp skel-file)
 	     (file-readable-p (setq skel-file (concat my-skel-file-dir skel-file))))
 	(progn
-	  (insert-file skel-file-real)
+	  (insert-file skel-file)
 	  (my-expand-skeleton-buffer))))
   nil)
 
@@ -230,3 +229,4 @@
     (setq str (concat str (substring fname pos)))
     (upcase str)))
 
+(provide 'my-skel-file)
