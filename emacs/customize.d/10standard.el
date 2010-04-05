@@ -53,3 +53,7 @@
   (add-hook 'comint-output-filter-functions
 	    'comint-strip-ctrl-m)
   )
+
+;; MacOSXではMacPortsへパスを通す
+(when (eq system-type 'darwin)
+  (add-to-list 'exec-path "/opt/local/bin/"))
