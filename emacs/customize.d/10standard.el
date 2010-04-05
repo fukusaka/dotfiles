@@ -57,3 +57,6 @@
 ;; MacOSXではMacPortsへパスを通す
 (when (eq system-type 'darwin)
   (add-to-list 'exec-path "/opt/local/bin/"))
+
+;; 表示テスト用
+(autoload 'my-sample-ascii "my-sample-ascii" "" t)

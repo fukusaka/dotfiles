@@ -9,7 +9,7 @@
 
 ;; 表示を省略するファイルと拡張子の設定
 (cond
- ((featurep 'mac-carbon)
+ ((eq system-type 'darwin)
   (setq moi::dired-omit-files "^#\\|^\\.\\|^Desktop D[BF]$\\|Icon\015"))
  (t
   (setq moi::dired-omit-files "^#\\|^\\.")))
@@ -28,11 +28,13 @@
 (add-hook 'dired-load-hook
 	  '(lambda ()
 	     (require 'dired-x)
+	     (require 'wdired)
 
 	     ;; モードキーの設定
 	     (define-key dired-mode-map "\M-o" 'dired-omit-toggle)
 	     (define-key dired-mode-map "f" 'dired-do-shell-command)
 	     (define-key dired-mode-map "U" 'dired-unmark-all-files-no-query)
+	     (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 	     
 	     ;; Set dired-x variables here.  For example:
 	     ;;(setq dired-guess-shell-gnutar "tar")
