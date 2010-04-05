@@ -1,4 +1,4 @@
-;;; moi-sample-ascii.el --
+;;; my-sample-ascii.el --
 ;; $Id$
 
 ;; Copyright (C) 1999 Moimoi(Shoichi Fukusaka)
@@ -27,13 +27,13 @@
 
 ;;; Commentary:
 
-;; (autoload 'moi::sample-ascii "moi-sample-ascii" "" t)
+;; (autoload 'my-sample-ascii "my-sample-ascii" "" t)
 
 ;;; Change log:
 
 ;;; Code:
 
-(defvar moi::sample-ascii-str
+(defvar my-sample-ascii-str
 "  ! \" # $ % & ' ( ) * + , - . / 
 0 1 2 3 4 5 6 7 8 9 : ; < = > ? 
 @ A B C D E F G H I J K L M N O 
@@ -42,23 +42,23 @@ P Q R S T U V W X Y Z [ \ ] ^ _
 p q r s t u v w x y z { | } ~ 
 ")
 
-(defvar moi::sample-ascii-face-alist
+(defvar my-sample-ascii-face-alist
   '(("Normal" face default)
     ("Bold" face bold)
     ("Italic" face italic)
     ("Bold Italic" face bold-italic)
     ))
   
-(defun moi::sample-ascii ()
+(defun my-sample-ascii ()
   (interactive)
   (let ((buf (generate-new-buffer "*sample-ascii*"))
-	(alist moi::sample-ascii-face-alist))
+	(alist my-sample-ascii-face-alist))
     (switch-to-buffer buf)
     (while alist      
       (let (stq end)
 	(setq sta (point))
 	(insert (format "### %s ###\n" (caar alist))) 
-	(insert moi::sample-ascii-str)
+	(insert my-sample-ascii-str)
 	(insert "\n")
 	(setq end (point))
 	(add-text-properties sta end (cdar alist))
@@ -67,4 +67,4 @@ p q r s t u v w x y z { | } ~
     (goto-char (point-min))
     ))
 
-;;; moi-sample-ascii.el ends here
+;;; my-sample-ascii.el ends here

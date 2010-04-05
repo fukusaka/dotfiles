@@ -1,4 +1,4 @@
-;;; moi-skel-make.el -- minor mode for Emacs Lisp maintainers
+;;; my-skel-make.el -- minor mode for Emacs Lisp maintainers
 
 ;; Copyright (C) 1999 Moimoi(Shoichi Fukusaka)
 
@@ -27,15 +27,15 @@
 
 ;;; Commentary:
 ;;
-;; (autoload 'moi::find-file "moi-skel-make")
-;; (global-set-key "\C-x\C-f" 'moi::find-file)
+;; (autoload 'my-find-file "my-skel-make")
+;; (global-set-key "\C-x\C-f" 'my-find-file)
 ;;
 
 ;;; Code:
 
-(defvar moi::skel-file-dir (concat my-top-conf-dir "skel/"))
+(defvar my-skel-file-dir (concat my-top-conf-dir "skel/"))
 
-(defvar moi::skel-file-name-alist
+(defvar my-skel-file-name-alist
   '(
     ("\\.c\\'" . "skel.c")
     ("\\.cc\\'" . "skel.cc")
@@ -50,19 +50,19 @@
     ("\\`autogen\\.sh\\'" . "autogen.sh")
     ))
 
-(provide 'moi-skel-file)
-(defun moi::find-file (filename)
-  (interactive "FMoi::Find file: ")
+(provide 'my-skel-file)
+(defun my-find-file (filename)
+  (interactive "Fmy-Find file: ")
   (let ((skelflag (not (or (file-exists-p filename)
 			   (get-file-buffer filename))))
 	buf)
     (setq buf (set-buffer (find-file-noselect filename)))
-    (if skelflag (moi::insert-skel-file))
+    (if skelflag (my-insert-skel-file))
     (switch-to-buffer buf)))
 
-(defun moi::insert-skel-file ()
+(defun my-insert-skel-file ()
   (let ((fname (file-name-nondirectory buffer-file-name))
-	(alist moi::skel-file-name-alist)
+	(alist my-skel-file-name-alist)
 	skel-file)
     (while (and alist (not skel-file))
       (if (string-match (car (car alist)) fname)
@@ -70,10 +70,10 @@
       (setq alist (cdr alist)))
     (if (and skel-file
 	     (stringp skel-file)
-	     (file-readable-p (setq skel-file (concat moi::skel-file-dir skel-file))))
+	     (file-readable-p (setq skel-file (concat my-skel-file-dir skel-file))))
 	(progn
 	  (insert-file skel-file-real)
-	  (moi::expand-skeleton-buffer))))
+	  (my-expand-skeleton-buffer))))
   nil)
 
 (if (fboundp 'match-string) t
@@ -83,7 +83,7 @@
 	    (substring string (match-beginning num) (match-end num))
 	  (buffer-substring (match-beginning num) (match-end num))))))
 
-(defun moi::expand-skeleton-buffer ()
+(defun my-expand-skeleton-buffer ()
   (if (featurep 'font-lock)
       (font-lock-unfontify-region (point-min) (point-max)))
   (if (re-search-forward "^@@@@$" nil t)
@@ -123,7 +123,7 @@
       (font-lock-fontify-buffer))
   )
 
-(setq moi::license-list
+(setq my-license-list
       '(
 	("GPL"
 "This program is free software; you can redistribute it and/or modify"
@@ -197,9 +197,9 @@
          )
 	))
 
-(defun moi::license-string (type head &optional flag)
+(defun my-license-string (type head &optional flag)
   (let ((l-list (assoc (if (symbolp type) (symbol-name type) type)
-		       moi::license-list))
+		       my-license-list))
 	str)
     (if l-list
 	(progn
@@ -213,15 +213,15 @@
 	  str))
     ))
 
-(defvar moi::ask-license-hist '("GPL" "LGPL-2" "LGPL-2.1" "BSD"))
+(defvar my-ask-license-hist '("GPL" "LGPL-2" "LGPL-2.1" "BSD"))
 
-(defun moi::ask-license-string (head &optional flag)
-  (moi::license-string
-   (completing-read "License: " moi::license-list nil t "BSD"
-		    'moi::ask-license-hist)
+(defun my-ask-license-string (head &optional flag)
+  (my-license-string
+   (completing-read "License: " my-license-list nil t "BSD"
+		    'my-ask-license-hist)
    head flag))
 
-(defun moi::c-include-once-macro (file)
+(defun my-c-include-once-macro (file)
   (let* ((fname (file-name-nondirectory file)) (len (length fname)) (pos 0) str)
     (while (and (< pos len)
 		(string-match "[\\.-]" fname pos))
