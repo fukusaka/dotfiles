@@ -17,8 +17,7 @@
     (add-to-list 'initial-frame-alist '(left . 4))
     (add-to-list 'default-frame-alist '(alpha . (95 90)))
     (setq frame-alpha-lower-limit 30)
-    ;;(setq-default line-spacing 0.1)
-    (setq-default line-spacing 0)
+    (setq-default line-spacing 0.1)
     )
    ;; X
    ((eq window-system 'x)
