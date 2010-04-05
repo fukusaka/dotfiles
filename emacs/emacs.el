@@ -7,6 +7,7 @@
 (defvar top-conf-dir
   (expand-file-name "~/common/conf/"))
 
-(load (concat top-conf-dir "emacs/elisp/moi/moi-startup.el"))
+(add-to-list 'load-path (concat top-conf-dir "emacs/elisp/moi"))
 
+(require 'moi-startup)
 (moi::startup)

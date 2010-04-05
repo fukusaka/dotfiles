@@ -97,3 +97,5 @@
   (moi::add-to-load-path (concat moi::elisp-path moi::elc-dir-prefix))
   (require 'moi-compatibility)
   (moi::startup-customize))
+
+(provide 'moi-startup)
