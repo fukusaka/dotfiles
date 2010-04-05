@@ -8,8 +8,8 @@
 	 ("\\.h\\'" . c++-mode)
 	 ("\\.pl\\'" . perl-mode)
 	 ("\\.CPP\\'" . c++-mode)
-	 ("patch" . moi-patch-view-mode)
-	 ("\\.diff" . moi-patch-view-mode)
+	 ("patch" . my-patch-view-mode)
+	 ("\\.diff" . my-patch-view-mode)
 	 ("\\.pgc\\'" . c-mode)
 	 ("\\.pgcc\\'" . c++-mode)
 	 ("\\.y\\'" . bison-mode)
@@ -17,8 +17,8 @@
 	 )
        auto-mode-alist))
 
-(autoload 'moi-patch-view-mode "moi-patch-view")
-(autoload 'moi::sample-ascii "moi-sample-ascii" "" t)
+(autoload 'my-patch-view-mode "my-patch-view")
+(autoload 'my-sample-ascii "my-sample-ascii" "" t)
 
 (autoload 'bison-mode "bison-mode" "bison" t)
 (autoload 'flex-mode "flex-mode" "flex" t)
