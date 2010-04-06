@@ -12,7 +12,7 @@
 
   (cond
    ;; MacOSX
-   ((or (eq window-system 'mac) (eq window-system 'ns))
+   ((eq system-type 'darwin)
     (add-to-list 'initial-frame-alist '(top . 26))
     (add-to-list 'initial-frame-alist '(left . 4))
     (add-to-list 'default-frame-alist '(alpha . (95 90)))
@@ -23,6 +23,10 @@
    ((eq window-system 'x)
     (add-to-list 'initial-frame-alist '(top . 25))
     (add-to-list 'initial-frame-alist '(left . 0))
+    )
+   ;; Windows
+   ((eq window-system 'w32)
+    ;;(setq-default line-spacing 0.1)
     )
    )
 
@@ -41,6 +45,7 @@
 
    ;; Cocoa Emacs
    ((eq window-system 'ns)
+
 
     (setq mac-allow-anti-aliasing t)
     ;; フォントサイズの微調節
@@ -61,41 +66,66 @@
 	  (rg "iso10646-1"))
 	  
       (set-fontset-font
-       fs 'japanese-jisx0208
-       (font-spec :family ff :registry rg))
+       fs 'japanese-jisx0208 `(,ff . ,rg))
 
       (set-fontset-font
-       fs 'katakana-jisx0201
-       (font-spec :family ff :registry rg))
+       fs 'katakana-jisx0201 `(,ff . ,rg))
 
       (set-fontset-font
-       fs 'japanese-jisx0212
-       (font-spec :family ff :registry rg))
+       fs 'japanese-jisx0212 `(,ff . ,rg))
 
       ))
    
    ;; Windows
    ((eq window-system 'w32)
 
-    (set-frame-font "Courier New-10")
-    ;;(set-frame-font "Inconsolata\-dz-10")
-    ;;(set-frame-font "IPAGothic-12")
+    (setq scalable-fonts-allowed t)
 
-    (let ((fs (frame-parameter nil 'font))
-    	  (ff "Meiryo")
-    	  ;;(ff "MSGothic")
-    	  (sz 12))
+    (set-face-attribute 'default nil
+			:family "ＭＳ ゴシック"
+			:height 120)
 
-      (set-fontset-font
-       fs 'japanese-jisx0208
-       (font-spec :family ff :size sz))
+    (set-fontset-font "fontset-default"
+		      'japanese-jisx0208
+		      '("ＭＳ ゴシック*" . "jisx0208-sjis"))
 
-      (set-fontset-font
-       fs 'katakana-jisx0201
-       (font-spec :family ff :size sz))
+    (set-fontset-font "fontset-default"
+		      'katakana-jisx0201
+		      '("ＭＳ ゴシック*" . "jisx0201-katakana"))
 
-      ))
+    (setq w32-enable-synthesized-fonts t)
 
+    (add-to-list 'face-font-rescale-alist
+		 `(,(encode-coding-string ".*ＭＳ.*bold.*iso8859.*" 'emacs-mule) . 0.9))
+    
+    (add-to-list 'face-font-rescale-alist
+		 `(,(encode-coding-string ".*ＭＳ.*bold.*jisx02.*" 'emacs-mule) . 0.95))
+
+
+;;    (setq face-font-rescale-alist
+;;	  `((".*Meiryo.*" . 1.4)
+;;	    (,(encode-coding-string ".*MS.*" 'emacs-mule) . 1.4)
+;;	    ("-cdac$" . 1.3)))
+;;    
+;;    (set-frame-font "Courier New-10")
+;;    ;;(set-frame-font "Inconsolata\-dz-10")
+;;    ;;(set-frame-font "IPAGothic-10")
+;;
+;;    (let ((fs (frame-parameter nil 'font))
+;;    	  ;;(ff "Meiryo")
+;;    	  ;;(ff "MS Gothic")
+;;    	  (ff "VL Gothic")
+;;	  (rg "iso10646-1")
+;;	  ;;(rg "unicode-bmp")
+;;	  )
+;;
+;;      (set-fontset-font
+;;       fs 'japanese-jisx0208 ff nil 'append)
+;;
+;;      (set-fontset-font
+;;       fs 'katakana-jisx0201 `(,ff . ,rg))
+;;      )
+    )
    ;; X / emacs22
    ((and (eq window-system 'x)
 	 (= emacs-major-version 22))
