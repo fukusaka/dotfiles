@@ -26,6 +26,7 @@
 
 ;;; Code:
 
+;; 古のemacsでなかったもしれん。。。
 (if (not (fboundp 'when))
     (defmacro when (cond &rest body)
       (list 'if cond (cons 'progn body))))
@@ -54,6 +55,34 @@
 (if (not (fboundp 'cddr))
     (defsubst cddr (x)
       (cdr (cdr x))))
+
+;; Emacs20系のみ未定義
+(when (and (<= emacs-major-version 20)
+           (not (fboundp 'executable-find)))
+  (defvar executable-binary-suffixes
+    (if (memq system-type '(ms-dos windows-nt))
+        '(".exe" ".com" ".bat" ".cmd" ".btm" "")
+      '("")))
+  (defun executable-find (command)
+    (let ((list exec-path) file)
+      (while list
+        (setq list
+              (if (and (setq file (expand-file-name command (car list)))
+                       (let ((suffixes executable-binary-suffixes)
+                             candidate)
+                         (while suffixes
+                           (setq candidate (concat file (car suffixes)))
+                           (if (and (file-executable-p candidate)
+                                    (not (file-directory-p candidate)))
+                               (setq suffixes nil)
+                             (setq suffixes (cdr suffixes))
+                             (setq candidate nil)))
+                         (setq file candidate)))
+                  nil
+                (setq file nil)
+                (cdr list))))
+      file))
+  )
 
 (provide 'my-compat)
 ;;; my-compat.el ends here

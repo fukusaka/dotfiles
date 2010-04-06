@@ -7,14 +7,15 @@
 
 ;; Windows系はロケールに従う
 (unless (or (eq system-type 'windows-nt)
-	    (eq system-type 'cygwin))
+	    (eq system-type 'cygwin)
+            (not (memq 'utf-8 coding-system-list)))
 
   ;; UTF-8を設定
   (prefer-coding-system 'utf-8)
 
   ;; locale に無関係に UTF8 を設定
   (setq default-file-name-coding-system 'utf-8)
-  
+
   ;; プロセスの環境変数設定
   (setenv "LANG" "ja_JP.UTF-8"))
 

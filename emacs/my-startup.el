@@ -24,6 +24,8 @@
 
 (defvar my-place-profile-alist nil)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 場所指定のカスタマイズディレクトリ
 (defvar my-place-customize-dir
   (let ((alist my-place-profile-alist) place)
     (while (and alist (not place))
@@ -32,6 +34,18 @@
       (setq alist (cdr alist)))
     (if place (concat my-customize-dir place "/"))))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; よく使う連想リストの追加用
+(defun add-to-assoc-list (list-var element)
+  (let ((list (assoc (car element) (symbol-value list-var))))
+    (if list
+        (setcdr list (cdr element))
+      (set list-var (append (symbol-value list-var) (list element)))))
+  (symbol-value list-var))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 必要に応じてバイトコンパイルしてその名前を返す
 (defun my-compile-file (file)
   (let* ((el file)
          (el-dir (file-name-directory el))
@@ -49,6 +63,8 @@
 
 (defvar my-ignore-compile-file nil)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 指定ディレクトリの頭二文字が数字のファイルを順次 load する
 (defun my-customize-load (dir)
   (when (and dir (file-directory-p dir))
     (let (file files)
@@ -61,19 +77,13 @@
 	  (load (my-compile-file file)))
 	(setq files (cdr files))))))
 
-;; よく使う連想リストの追加用
-(defun add-to-assoc-list (list-var element)
-  (let ((list (assoc (car element) (symbol-value list-var))))
-    (if list
-        (setcdr list (cdr element))
-      (add-to-list list-var element t)))
-  (symbol-value list-var))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 初期化本体
 (defun my-startup ()
 
   ;; my-elisp-path以下のディレクトリを全て load-path に追加
   (let ((default-directory my-elisp-path))
-    (add-to-list 'load-path default-directory t)
+    (setq load-path (append load-path (list default-directory)))
     (normal-top-level-add-subdirs-to-load-path))
 
   ;; カスタマイズ設定の読み出し
@@ -82,9 +92,6 @@
   ;; 場所指定のカスタマイズ設定の読み出し
   (if my-place-customize-dir
       (my-customize-load my-place-customize-dir)))
-
-;; 実際に実行
-(my-startup)
 
 (provide 'my-startup)
 ;;; my-startup.el ends here
