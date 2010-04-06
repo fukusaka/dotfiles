@@ -55,15 +55,5 @@
     (defsubst cddr (x)
       (cdr (cdr x))))
 
-(if (not (fboundp 'defvaralias))
-    (defun defvaralias (new-alias base-variable)
-      (defalias new-alias base-variable)))
-
-(cond
- ((string-match "^20.4" emacs-version)
-  (defun char-list-to-string (lst)
-    (eval (cons 'concat (mapcar 'char-to-string lst))))
-  ))
-
 (provide 'my-compat)
 ;;; my-compat.el ends here
