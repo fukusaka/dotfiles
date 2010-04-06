@@ -99,20 +99,31 @@
     (setq scalable-fonts-allowed t)
     (setq w32-enable-synthesized-fonts t)
 
-    ;; デフォルトフォント設定
-    (set-face-attribute 'default nil
-			:family "ＭＳ ゴシック"
-			:height 120)
 
-    ;; 日本語文字設定にフォントを指定
-    (let ((fn (frame-parameter nil 'font))
-	  (ff "ＭＳ ゴシック*"))
-      (set-fontset-font fn 'japanese-jisx0208 `(,ff . "jisx0208-sjis"))
-      (set-fontset-font fn 'katakana-jisx0201 `(,ff . "jisx0201-katakana")))
+    (let (myfont)
+
+      ;;(setq myfont "ＭＳ ゴシック")
+      (setq myfont "VL ゴシック")	;; IME ぱっち適用
+      ;;(setq myfont "Meiryo")
+
+      ;; デフォルトフォント設定
+      (set-face-attribute 'default nil
+                          :family myfont
+                          :height 100)
+
+      ;; 日本語文字設定にフォントを指定
+      (let ((fn (frame-parameter nil 'font))
+            (ff (concat myfont "*")))
+        (set-fontset-font fn 'japanese-jisx0208 `(,ff . "jisx0208-sjis"))
+        (set-fontset-font fn 'katakana-jisx0201 `(,ff . "jisx0201-katakana")))
+      )
 
     ;; フォントサイズの微調節
-    (dolist (e `((,(encode-coding-string ".*ＭＳ.*bold.*iso8859.*" 'emacs-mule) . 0.9)
-                 (,(encode-coding-string ".*ＭＳ.*bold.*jisx02.*" 'emacs-mule) . 0.95)))
+    (dolist
+        (e
+         `((,(encode-coding-string ".*ＭＳ.*bold.*iso8859.*" 'emacs-mule) . 0.9)
+           (,(encode-coding-string ".*ＭＳ.*bold.*jisx02.*" 'emacs-mule) . 0.95))
+         )
       (add-to-assoc-list 'face-font-rescale-alist e))
 
     )
