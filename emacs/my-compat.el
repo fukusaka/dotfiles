@@ -1,9 +1,9 @@
-;;; my-compat.el --- 
+;;; my-compat.el ---
 
 ;; Copyright (C) 2007  Free Software Foundation, Inc.
 
 ;; Author: Shoichi Fukusaka <fukusaka@xa2.so-net.ne.jp>
-;; Keywords: 
+;; Keywords:
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@
     (defmacro push (newelt listname)
       (list 'setq listname
 	    (list 'cons newelt listname))))
-    
+
 (if (not (fboundp 'caar))
     (defsubst caar (x)
       (car (car x))))
@@ -55,6 +55,9 @@
     (defsubst cddr (x)
       (cdr (cdr x))))
 
+(if (not (fboundp 'defvaralias))
+    (defun defvaralias (new-alias base-variable)
+      (defalias new-alias base-variable)))
 
 (cond
  ((string-match "^20.4" emacs-version)
@@ -62,7 +65,5 @@
     (eval (cons 'concat (mapcar 'char-to-string lst))))
   ))
 
-
 (provide 'my-compat)
 ;;; my-compat.el ends here
-
