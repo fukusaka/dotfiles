@@ -24,18 +24,21 @@
 (if (>= emacs-major-version 22)
     (defalias 'dired-omit-toggle 'dired-omit-mode))
 
-;; 
+;;
 (add-hook 'dired-load-hook
 	  '(lambda ()
 	     (require 'dired-x)
-	     (require 'wdired)
 
 	     ;; モードキーの設定
 	     (define-key dired-mode-map "\M-o" 'dired-omit-toggle)
 	     (define-key dired-mode-map "f" 'dired-do-shell-command)
 	     (define-key dired-mode-map "U" 'dired-unmark-all-files-no-query)
-	     (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
-	     
+
+             ;; emacs 22 以降
+             (when (>= emacs-major-version 22)
+               (require 'wdired)
+               (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode))
+
 	     ;; Set dired-x variables here.  For example:
 	     ;;(setq dired-guess-shell-gnutar "tar")
 	     ;;(setq dired-guess-shell-znew-switches t)
