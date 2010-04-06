@@ -41,7 +41,15 @@
     (tool-bar-mode -1))
 
 ;; 時計の表示
-(setq display-time-day-and-date nil)
+(setq display-time-string-forms
+      '(day
+        " ("
+        (cdr (assoc dayname
+                    '(("Sun" . "日") ("Mon" . "月") ("Tue" . "火") ("Wed" . "水")
+                      ("Thu" . "木") ("Fri" . "金") ("Sat" . "土"))))
+        ") "
+        24-hours ":" minutes load))
+;;(setq display-time-day-and-date nil)
 (display-time)
 
 ;; ヒストリ数を設定する。
