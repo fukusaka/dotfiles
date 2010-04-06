@@ -12,10 +12,15 @@
     (format "%s%d" flavor emacs-major-version)))
 
 (defvar my-top-conf-dir       (expand-file-name "~/common/conf/"))
-(defvar my-emacs-conf-dir     (concat my-top-conf-dir "emacs/"))
-(defvar my-elisp-path         (concat my-emacs-conf-dir "elisp/"))
 
-(defvar my-customize-dir      (concat my-emacs-conf-dir "customize.d/"))
+(defvar my-emacs-conf-dir     (file-name-as-directory
+                               (concat my-top-conf-dir "emacs")))
+
+(defvar my-elisp-path         (file-name-as-directory
+                               (concat my-emacs-conf-dir "elisp")))
+
+(defvar my-customize-dir      (file-name-as-directory
+                               (concat my-emacs-conf-dir "customize.d")))
 
 (defvar my-hostname-nohost "localhost")
 
@@ -32,8 +37,7 @@
       (if (string-match (caar alist) my-hostname)
 	  (setq place (cdar alist)))
       (setq alist (cdr alist)))
-    (if place (concat my-customize-dir place "/"))))
-
+    (if place (concat my-customize-dir place))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; よく使う連想リストの追加用
@@ -47,21 +51,28 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 必要に応じてバイトコンパイルしてその名前を返す
 (defun my-compile-file (file)
-  (let* ((el file)
-         (el-dir (file-name-directory el))
-         (elc-dir (concat el-dir my-emacs-flavor "/"))
-         (elc (concat elc-dir (file-name-nondirectory (concat el "c"))))
-         (ret el))
+  (let* ((base (file-name-sans-extension (file-name-nondirectory file)))
+         (el-dir (file-name-directory file))
+         (elc-dir (file-name-as-directory (concat el-dir my-emacs-flavor)))
+         (el file)
+         (elc (concat elc-dir base ".elc"))
+         (ret file))
+
+    ;; emacs-flavor毎にbytecode格納ディレクトリ作成
     (if (not (file-directory-p elc-dir))
         (make-directory elc-dir))
-    (if (file-newer-than-file-p el elc)
-        (when (byte-compile-file el)
-          (rename-file (concat el "c") elc t)
-          (setq ret elc)))
-    ret
-    ))
 
-(defvar my-ignore-compile-file nil)
+    ;; bytecodeが無いか古い場合再生成
+    (if (or (not (file-exists-p elc))
+            (file-newer-than-file-p el elc))
+        (if (byte-compile-file el)
+            (rename-file (concat el "c") elc t)))
+
+    ;; 何らかの問題が無ければバイトコードが出来てるはず
+    (if (file-exists-p elc)
+        (setq ret elc))
+
+    ret))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 指定ディレクトリの頭二文字が数字のファイルを順次 load する
@@ -70,19 +81,18 @@
     (let (file files)
       (setq files (directory-files dir t "^[0-9][0-9].*\\.el$" t))
       (setq files (sort files 'string<))
-      (while files
-	(setq file (car files))
-	(if my-ignore-compile-file
-	    (load file)
-	  (load (my-compile-file file)))
-	(setq files (cdr files))))))
+      (unless my-ignore-compile-file
+        (setq files (mapcar 'my-compile-file files)))
+      (mapcar 'load files))))
+
+(defvar my-ignore-compile-file nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期化本体
 (defun my-startup ()
 
   ;; my-elisp-path以下のディレクトリを全て load-path に追加
-  (let ((default-directory my-elisp-path))
+  (let ((default-directory (directory-file-name my-elisp-path)))
     (setq load-path (append load-path (list default-directory)))
     (normal-top-level-add-subdirs-to-load-path))
 
