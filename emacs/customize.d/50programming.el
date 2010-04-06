@@ -4,6 +4,12 @@
 (setq compilation-ask-about-save nil)
 (setq compilation-window-height 20)
 
+;; 行末スペース削除支援
+(setq-default show-trailing-whitespace t)	;; 行末の不要スペースを強調表示
+(add-hook 'before-save-hook
+          'delete-trailing-whitespace)		;; 保存時に無駄なスペースを削除
+
+
 ;;(setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 

@@ -14,11 +14,6 @@
 (setq scroll-conservatively 2)			;; 最低スクロール行数 1+1
 (setq truncate-lines nil)			;; 継続行は使わない
 
-;; 行末スペース削除支援
-(setq-default show-trailing-whitespace t)	;; 行末の不要スペースを強調表示
-(add-hook 'before-save-hook
-          'delete-trailing-whitespace)		;; 保存時に無駄なスペースを削除
-
 ;; カーソルは点滅しない
 (when (fboundp 'blink-cursor-mode)
   (blink-cursor-mode 0))
