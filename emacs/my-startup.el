@@ -4,6 +4,9 @@
 
 ;; $Id$
 
+;; カスタマイズ設定がし易いように cl パケージは読み
+(require 'cl)
+
 (defvar my-emacs-flavor
   (let ((flavor (if (featurep 'xemacs) "xemacs" "emacs")))
     (format "%s%d" flavor emacs-major-version)))
@@ -57,12 +60,20 @@
 	    (load file)
 	  (load (my-compile-file file)))
 	(setq files (cdr files))))))
-      
+
+;; よく使う連想リストの追加用
+(defun add-to-assoc-list (list-var element)
+  (let ((list (assoc (car element) (symbol-value list-var))))
+    (if list
+        (setcdr list (cdr element))
+      (add-to-list list-var element t)))
+  (symbol-value list-var))
+
 (defun my-startup ()
 
   ;; my-elisp-path以下のディレクトリを全て load-path に追加
   (let ((default-directory my-elisp-path))
-    (add-to-list 'load-path default-directory)
+    (add-to-list 'load-path default-directory t)
     (normal-top-level-add-subdirs-to-load-path))
 
   ;; カスタマイズ設定の読み出し
