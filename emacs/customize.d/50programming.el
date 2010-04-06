@@ -4,6 +4,9 @@
 (setq compilation-ask-about-save nil)
 (setq compilation-window-height 20)
 
+;;(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+
 ;;(which-function-mode)
 
 (setq vc-follow-symlinks t)
@@ -40,11 +43,14 @@
     (setq c-font-lock-extra-types (append c-font-lock-extra-types glib-types))
     (setq c++-font-lock-extra-types (append c++-font-lock-extra-types glib-types))))
 
-;; Yasnippet
-;;(require 'yasnippet-bundle)
+;; Emacs 22 以降の対応
+(when (>= emacs-major-version 22)
+  ;; Yasnippet
+  ;;(require 'yasnippet-bundle)
 
-(require 'auto-complete-config)
-(ac-config-default)
+  (require 'auto-complete-config)
+  (ac-config-default)
 
-;; Color-moccur
-(require 'color-moccur)
+  ;; Color-moccur
+  (require 'color-moccur)
+)
