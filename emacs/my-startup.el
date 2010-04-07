@@ -96,38 +96,47 @@
 ;; 指定ディレクトリの頭二文字が数字のファイルを順次 load する
 (defun my-customize-load (dir &optional bundle)
   (when (and dir (file-directory-p dir))
-    (let (files)
+    (let (files newer)
       (setq files (directory-files dir t "^[0-9][0-9].*\\.el$" t))
       (setq files (sort files 'string<))
+
+      ;; 最後に修正された設定素を検索
+      (setq newer (car files))
+      (dolist (file files)
+        (if (file-newer-than-file-p file newer)
+            (setq newer file)))
+
       (cond
        (my-startup-avoid-compile
         (mapcar 'load files))
 
        ((or my-startup-avoid-bundled
-            (not bundle))
+            (not bundle)
+            (<= (- (time-to-seconds (current-time))
+                   (time-to-seconds (nth-value 5 (file-attributes newer))))
+                my-startup-bundling-delay))
         (setq files (mapcar 'my-compile-file files))
         (mapcar 'load files))
 
        (t
-        (let ((rebuild nil))
-          (dolist (file files)
-            (if (file-newer-than-file-p file bundle)
-                (setq rebuild t)))
-          (when rebuild
-            (with-temp-file bundle
-              (erase-buffer)
-              (mapcar '(lambda (file)
-                         (insert-file-contents file)
-                         (goto-char (point-max)))
-                      files)))
-          (if (file-newer-than-file-p bundle (concat bundle "c"))
-              (byte-compile-file bundle))
-          (load bundle))
-        )
-       ))))
+        (when (file-newer-than-file-p newer bundle)
+          (with-temp-file bundle
+            (erase-buffer)
+            (mapcar '(lambda (file)
+                       (insert-file-contents file)
+                       (goto-char (point-max)))
+                    files)))
+        (if (file-newer-than-file-p bundle (concat bundle "c"))
+            (byte-compile-file bundle))
+        (load bundle))
+       )
+      )))
 
 (defvar my-startup-avoid-compile nil)
 (defvar my-startup-avoid-bundled nil)
+
+;; 設定変更して１２時間はバンドル化しない
+(defvar my-startup-bundling-delay (* 12 60 60))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期化本体

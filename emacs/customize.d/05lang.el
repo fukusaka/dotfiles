@@ -21,16 +21,3 @@
             (eq system-type 'cygwin)
             (not (memq 'utf-8 coding-system-list)))
   (setenv "LANG" "ja_JP.UTF-8"))
-
-;; GNU/Linux で egg-anthy を使う設定
-(if (eq system-type 'gnu/linux)
-    (set-language-info "Japanese" 'input-method "japanese-anthy"))
-
-;; Cocoa inline_path 対応
-(if (featurep 'ns)
-    (set-language-info "Japanese" 'input-method "MacOSX"))
-
-;; NTEmacs IME 対応
-(when (featurep 'w32-ime)
-  (require 'w32-ime-config)
-  (set-language-info "Japanese" 'input-method "W32-IME"))

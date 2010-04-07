@@ -50,7 +50,7 @@
   (if (let ((mode-list (if (stringp toggle-run-mode)
 			   (list toggle-run-mode)
 			 toggle-run-mode-list)))
-	(eval (cons 'or 
+	(eval (cons 'or
 		    (mapcar (function
 			     (lambda (run-mode)
 			       (string= (buffer-name) run-mode)))
