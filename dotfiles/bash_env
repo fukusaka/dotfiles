@@ -8,7 +8,13 @@ fi
 
 case $sysname in
     Linux)
-	case "$(lsb_release -si)" in
+        if type -t lsb_release &> /dev/null; then
+            subsysname="$(lsb_release -si)"
+        else
+            subsysname="Unknown"
+        fi
+
+	case $subsysname in
 	    Debian)
                 # for Debian GNU/Linux
 		export DEBFULLNAME='Shoichi Fukusaka'
@@ -46,6 +52,6 @@ case $sysname in
 	export NO_BASH_COMPLETION=yes
 	;;
 esac
-unset sysname
+unset sysname subsysname
 
 export PATH MANPATH
