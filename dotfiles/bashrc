@@ -31,14 +31,7 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-## プロンプト
-
-# 端末タイプで区別
-case "$TERM" in
-    xterm-color) terminal_type=color;;
-esac
-
-# Ecma-48 の色付き
+# 端末に Ecma-48 の色付きが出来るかでカラーかを確認
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
     terminal_type=color
 fi
@@ -48,6 +41,7 @@ if [ "$EMACS" = t ]; then
     terminal_type=simple
 fi
 
+## プロンプト
 case "$terminal_type" in
     simple)
 	PS1='% '
