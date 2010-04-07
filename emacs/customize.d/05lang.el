@@ -5,7 +5,6 @@
 ;; 日本語環境
 (set-language-environment 'Japanese)
 
-
 ;; Windows系はロケール(ShiftJIS)を使い、
 ;; UTF8サポートありならば、優先してUTF-8を使う
 (unless (or (eq system-type 'windows-nt)
