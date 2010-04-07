@@ -22,22 +22,34 @@
 (defvar my-customize-dir      (file-name-as-directory
                                (concat my-emacs-conf-dir "customize.d")))
 
-(defvar my-hostname-nohost "localhost")
+(defvar my-customize-bundle    (concat my-emacs-conf-dir
+                                 (format ".my-startup-bundle-%s.el" my-emacs-flavor)))
 
-(defvar my-hostname (let ((envhost (shell-command-to-string "echo -n `hostname -s`")))
-                        (if envhost envhost my-hostname-nohost)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 場所指定のカスタマイズ。。。便利か?
 
 (defvar my-place-profile-alist nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 場所指定のカスタマイズディレクトリ
-(defvar my-place-customize-dir
+(defvar my-hostname-nohost "localhost")
+
+(defvar my-hostname
+  (let ((envhost (shell-command-to-string "echo -n `hostname -s`")))
+    (if envhost envhost my-hostname-nohost)))
+
+(defvar my-place
   (let ((alist my-place-profile-alist) place)
     (while (and alist (not place))
       (if (string-match (caar alist) my-hostname)
 	  (setq place (cdar alist)))
       (setq alist (cdr alist)))
-    (if place (concat my-customize-dir place))))
+    place))
+
+(defvar my-place-customize-dir
+  (if my-place (concat my-customize-dir my-place)))
+
+(defvar my-place-customize-bundle
+  (concat my-emacs-conf-dir
+          (format ".my-startup-bundle=%s-%s.el" my-place my-emacs-flavor)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; よく使う連想リストの追加用
@@ -75,17 +87,47 @@
     ret))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 指定のファイルリストをバンドル化
+(defun my-make-bundle (bundle-file-name file-list)
+  (with-temp-file bundle-file-name
+    (mapcar 'insert-file-contents file-list)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 指定ディレクトリの頭二文字が数字のファイルを順次 load する
-(defun my-customize-load (dir)
+(defun my-customize-load (dir &optional bundle)
   (when (and dir (file-directory-p dir))
-    (let (file files)
+    (let (files)
       (setq files (directory-files dir t "^[0-9][0-9].*\\.el$" t))
       (setq files (sort files 'string<))
-      (unless my-ignore-compile-file
-        (setq files (mapcar 'my-compile-file files)))
-      (mapcar 'load files))))
+      (cond
+       (my-startup-avoid-compile
+        (mapcar 'load files))
 
-(defvar my-ignore-compile-file nil)
+       ((or my-startup-avoid-bundled
+            (not bundle))
+        (setq files (mapcar 'my-compile-file files))
+        (mapcar 'load files))
+
+       (t
+        (let ((rebuild nil))
+          (dolist (file files)
+            (if (file-newer-than-file-p file bundle)
+                (setq rebuild t)))
+          (when rebuild
+            (with-temp-file bundle
+              (erase-buffer)
+              (mapcar '(lambda (file)
+                         (insert-file-contents file)
+                         (goto-char (point-max)))
+                      files)))
+          (if (file-newer-than-file-p bundle (concat bundle "c"))
+              (byte-compile-file bundle))
+          (load bundle))
+        )
+       ))))
+
+(defvar my-startup-avoid-compile nil)
+(defvar my-startup-avoid-bundled nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期化本体
@@ -97,11 +139,11 @@
     (normal-top-level-add-subdirs-to-load-path))
 
   ;; カスタマイズ設定の読み出し
-  (my-customize-load my-customize-dir)
+  (my-customize-load my-customize-dir my-customize-bundle)
 
   ;; 場所指定のカスタマイズ設定の読み出し
   (if my-place-customize-dir
-      (my-customize-load my-place-customize-dir)))
+      (my-customize-load my-place-customize-dir my-place-customize-bundle)))
 
 (provide 'my-startup)
 ;;; my-startup.el ends here
