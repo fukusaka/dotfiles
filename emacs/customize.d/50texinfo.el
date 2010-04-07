@@ -1,8 +1,8 @@
 ;;
-;; Texinfo ¤ÇÆüËÜ¸ì¤ò»È¤¦¤è¤¦¤Ë¤¹¤ë¡£
+;; Texinfo ã§æ—¥æœ¬èªã‚’ä½¿ã†ã‚ˆã†ã«ã™ã‚‹ã€‚
 ;;
 
-;; Info ¤¬¤Ş¤È¤â¤ÊÆ°ºî¤¹¤ë¤è¤¦¤ÊÀßÄê
+;; Info ãŒã¾ã¨ã‚‚ãªå‹•ä½œã™ã‚‹ã‚ˆã†ãªè¨­å®š
 (setq Info-fontify-maximum-menu-size 50000)
 ;;(setq Info-default-directory-list
 ;;      (cons  (expand-file-name "~/info") Info-default-directory-list))
@@ -45,6 +45,6 @@
 	(error "Texinfo file needs an `@setfilename FILENAME' line.")
 	)
       )
-    
+
     (info (concat (file-name-directory buffer-file-name) filename))
     ))
