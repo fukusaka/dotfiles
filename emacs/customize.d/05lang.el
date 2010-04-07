@@ -5,16 +5,21 @@
 ;; 日本語環境
 (set-language-environment 'Japanese)
 
+
+;; Windows系はロケール(ShiftJIS)を使い、
 ;; UTF8サポートありならば、優先してUTF-8を使う
-(if (memq 'utf-8 coding-system-list)
-    (prefer-coding-system 'utf-8-unix))
+(unless (or (eq system-type 'windows-nt)
+            (eq system-type 'cygwin)
+            (memq 'utf-8 coding-system-list))
+  (prefer-coding-system 'utf-8-unix))
 
-;; 但し、Windows系のみファイル名はロケール(ShiftJIS)を使う
-(if (or (eq system-type 'windows-nt)
-        (eq system-type 'cygwin))
-    (setq-default file-name-coding-system 'japanese-shift-jis-dos))
+;; Windows系でも、utf-8-unix を使いたい場合は個別に指定する
+(when (or (eq system-type 'windows-nt)
+          (eq system-type 'cygwin))
 
-;; Windows系は processI/O が utf-8 になるので必要に応じて変更すること
+  ;; 新規ファイル
+  (setq-default buffer-file-coding-system 'utf-8-unix)
+  )
 
 ;; プロセスの環境変数設定
 (unless (or (eq system-type 'windows-nt)
