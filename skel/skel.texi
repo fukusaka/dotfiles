@@ -5,14 +5,14 @@
 @c %**end of header
 
 @c Copyright (C) @@YEAR@@ @@NAME@@
-@c 
+@c
 @c Author: @@NAME@@ <@@ADDRESS@@>
 @c Maintainer: @@NAME@@ <@@ADDRESS@@>
 @c Created: @@DATE@@
 @c Version: 1.0
-@c Keywords: 
+@c Keywords:
 
-@c This file is part of 
+@c This file is part of
 
 @@LICENSE@@
 
@@ -40,16 +40,16 @@ Published by ...
 
 Permission is granted to ...
 @end titlepage
-     
+
 @node Top, Overview, , (dir)
-     
+
 @ifinfo
 This document describes ...
 
 This document applies to version ...
 of the program named ...
 @end ifinfo
-     
+
 @menu
 @end menu
 
@@ -69,5 +69,5 @@ NAME: programmer-name
 ADDRESS: programmer-mail-address
 YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%d %b %Y")
-LICENSE: (moi::license-string 'GPL "@c " t)
+LICENSE: (my-license-string 'GPL "@c " t)
 @@@@

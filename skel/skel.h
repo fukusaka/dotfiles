@@ -1,4 +1,4 @@
-/* @@FNAME@@ -- 
+/* @@FNAME@@ --
  * $Id$
  *
  * Copyright (C) @@YEAR@@ @@NAME@@
@@ -7,7 +7,7 @@
  * Maintainer: @@NAME@@ <@@ADDRESS@@>
  * Created: @@DATE@@
  * Version: 1.0
- * Keywords: 
+ * Keywords:
  *
 @@LICENSE@@
  */
@@ -34,6 +34,6 @@ NAME: programmer-name
 ADDRESS: programmer-mail-address
 YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%d %b %Y")
-LICENSE: (moi::ask-license-string " * ")
-HEADER_DEFINDED: (moi::c-include-once-macro buffer-file-name)
+LICENSE: (my-ask-license-string " * ")
+HEADER_DEFINDED: (my-c-include-once-macro buffer-file-name)
 @@@@

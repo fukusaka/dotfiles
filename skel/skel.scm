@@ -11,9 +11,9 @@ exec guile -s $0 $*
 ;; Maintainer: @@NAME@@ <@@ADDRESS@@>
 ;; Created: @@DATE@@
 ;; Version: 1.0
-;; Keywords: 
+;; Keywords:
 
-;; This file is part of 
+;; This file is part of
 
 @@LICENSE@@
 
@@ -39,7 +39,7 @@ NAME: programmer-name
 ADDRESS: programmer-mail-address
 YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%d %b %Y")
-LICENSE: (moi::license-string 'GPL ";; " t)
+LICENSE: (my-license-string 'GPL ";; " t)
 @@@@
 
 ;;; @@FNAME@@ ends here
