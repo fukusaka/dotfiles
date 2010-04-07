@@ -6,7 +6,7 @@
 ;; Maintainer: Moimoi(Shoichi Fukusaka) <fukusaka@xa2.so-net.ne.jp>
 ;; Created: 23 Jun 1999
 ;; Version: 1.0
-;; Keywords: 
+;; Keywords:
 
 ;; This file is part of ...
 
@@ -97,7 +97,7 @@
 	    (setq e (point))
 	    (let ((rs (buffer-substring s e)))
 	      (setq r (eval (car (read-from-string rs))))
-	      (setq vlist (cons (cons v r) vlist)))      
+	      (setq vlist (cons (cons v r) vlist)))
 	    ))
 	;; (print vlist)
 	(delete-region
@@ -229,4 +229,4 @@
     (setq str (concat str (substring fname pos)))
     (upcase str)))
 
-(provide 'my-skel-file)
+(provide 'my-skel-make)

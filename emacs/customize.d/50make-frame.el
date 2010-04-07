@@ -3,7 +3,7 @@
 ;;
 
 (when (and (eq window-system 'x) (executable-find "wmctrl"))
-  
+
   ;; 追加 Key Binding
   (define-key global-map "\C-z51" 'moi::make-frame-3)
   (define-key global-map "\C-z52" 'moi::make-frame-6)
@@ -31,7 +31,7 @@
     (let ((wid (frame-parameter (or frame (selected-frame)) 'outer-window-id))
 	  (desk (int-to-string (+ (* moi::desktop-max-x y) x))))
       (call-process "wmctrl" nil nil nil "-i" "-r" wid "-t" desk)))
-  
+
   ;; for Virtual Desktop (sawfish etc)
   (defun moi::move-frame-large-desktop (frame x y)
     (let* ((fpar (frame-parameters frame))

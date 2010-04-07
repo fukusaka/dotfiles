@@ -1,5 +1,5 @@
 ;;
-;; Linux C スタイル
+;; Linux C Style
 ;;
 
 (defun linux-c-mode ()
