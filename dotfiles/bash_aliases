@@ -12,7 +12,7 @@ CMDS="vim groff"
 # パス検索
 for cmd in $GNUCMDS; do
     for prefix in g ""; do
-	cmdpath="$(type -P ${prefix}$cmd)"
+	cmdpath="$(type -p ${prefix}$cmd)"
 	if [ -x "$cmdpath" ]; then
 	    msg "find $cmd -> $cmdpath"
 	    eval "find_$cmd=$cmdpath"
@@ -21,7 +21,7 @@ for cmd in $GNUCMDS; do
     done
 done
 for cmd in $CMDS; do
-    cmdpath="$(type -P $cmd)"
+    cmdpath="$(type -p $cmd)"
     msg "find $cmd -> $cmdpath"
     eval "find_$cmd=$cmdpath"
 done
