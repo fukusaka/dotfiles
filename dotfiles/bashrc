@@ -3,7 +3,7 @@
 # umask for go-w
 umask 022
 
-# core を作成しない 
+# core を作成しない
 ulimit -c 0
 
 # If not running interactively, don't do anything
@@ -64,6 +64,11 @@ esac
 case "$TERM" in
     xterm*|rxvt*) PS1="\[\e]0;\u@\h: \w\a\]$PS1" ;;
 esac
+
+# エイリアスを作成
+if [ -f ~/.bash_make_aliases -a ! -e ~/.bash_aliases ]; then
+    . ~/.bash_make_aliases
+fi
 
 # Alias definitions.
 if [ -f ~/.bash_aliases ]; then

@@ -1,0 +1,141 @@
+#!/bin/sh -*-shell-script-*-
+
+if [ -f ${HOME}/.debug_aliases ]; then
+    msg() { echo "$@"; }
+else
+    msg() { return; }
+fi
+
+out() { echo "$@" >> ~/.bash_aliases; }
+
+# 検索するコマンドのリスト
+GNUCMDS="dircolors ls grep egrep fgrep"
+CMDS="vim groff"
+
+# gnu 系はプリフィックが付く場合がある
+gnuprefix="g"
+
+check_path() {
+    cmd=$1
+    cmdpath=$2
+    if [ -x $cmdpath -a -z "$(eval echo \$find_$cmd)" ]; then
+        msg "find $cmd -> $cmdpath"
+        eval "find_$cmd=$cmdpath"
+    fi
+}
+
+# パス検索
+paths="$PATH:"
+while [ -n "$paths" ]; do
+    dir=${paths%%:*}
+    paths=${paths#*:}
+    for cmd in $CMDS; do
+        check_path $cmd ${dir}/${cmd}
+    done
+    for cmd in $GNUCMDS; do
+        check_path $cmd ${dir}/${gnuprefix}${cmd}
+        check_path $cmd ${dir}/${cmd}
+    done
+done
+unset paths dir cmd cmdpath
+unset gnuprefix CMDS GNUCMDS check_path
+
+## check GNU coreutils
+ls_type=$(uname -s)
+$find_ls --color &> /dev/null && ls_type=gnu
+
+## check GNU grep --color
+echo 1 | $find_grep -q --color 1 &> /dev/null && grep_type=color
+
+msg "ls_type $ls_type"
+msg "grep_type $grep_type"
+
+# 端末に色づけられる場合
+out "alias_ls=\"$find_ls -F\""
+out 'if [ -z "$terminal_type" ] && [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then'
+out '    terminal_type=color'
+out 'fi'
+out 'if [ "$terminal_type" = color ]; then'
+
+if [ -n "$find_dircolors" ]; then
+    msg "execute $find_dircolors"
+    out "  eval \`$find_dircolors -b\`"
+fi
+
+# for colorized ls
+case $ls_type in
+    gnu)
+        out "  alias_ls=\"\$alias_ls --color=auto\""
+	;;
+    FreeBSD|NetBSD|OpenBSD|Darwin)
+        out "  alias_ls=\"\$alias_ls -G\""
+	;;
+    *)
+	;;
+esac
+
+# colorized grep
+if [ "$grep_type" = color ]; then
+    out "  alias grep=\"$find_grep --color=auto\""
+    out "  alias fgrep=\"$find_fgrep --color=auto\""
+    out "  alias egrep=\"$find_egrep --color=auto\""
+fi
+
+out 'fi'
+
+# 時刻の詳細表示
+case $ls_type in
+    gnu)
+	#alias_ll="$alias_ls -l --full-time"
+	alias_ll="\$alias_ls -l --time-style=+%F\ %T"
+	;;
+    FreeBSD|NetBSD|OpenBSD|Darwin)
+	alias_ll="\$alias_ls -l -T"
+	;;
+    SunOS)
+	alias_ll="\$alias_ls -e"
+	;;
+esac
+
+alias_ls="\$alias_ls"
+alias_l="\$alias_ls -l"
+alias_la="\$alias_ls -A"
+
+unset ls_type grep_type
+
+# その他のエイリアス
+
+# use vim
+[ -n "$find_vim" ] && alias_vi=$find_vim
+
+# use less of vim
+for dir in /usr/share /usr/local/share; do
+    for cmd in $dir/vim/vim*/macros/less.sh; do
+	if [ -x $cmd ]; then
+	    alias_less=$cmd
+	    break 2
+	fi
+    done
+done
+
+# 日本語 man の 不良解消
+if [ -n "$find_groff" ]; then
+    # MacOSX の man は常にCロケールにする
+    if [ $(uname -s) = Darwin ]; then
+	alias_man='LANG=C man'
+    # man がCロケール以外でエラーが発生 (Cygwin のみ)
+    elif [ $(man man 2> /dev/null | wc -c) -le  0 ]; then
+	alias_man='LANG=C man'
+    fi
+fi
+
+for pfind_cmd in ${!alias_*}; do
+    cmd=${pfind_cmd#alias_}
+    alias_cmd="$(eval echo \$$pfind_cmd)"
+    msg "alias $cmd -> $alias_cmd"
+    out "alias $cmd=\"$alias_cmd\""
+done
+out "unset alias_ls"
+
+unset ${!find_*} ${!alias_*}
+unset pfind_cmd cmd alias_cmd dir msg out

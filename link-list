@@ -1,6 +1,6 @@
 #$Id$
 signature/persional		~/.signature
-dotfiles/bash_aliases		~/.bash_aliases
+dotfiles/bash_make_aliases	~/.bash_make_aliases
 dotfiles/bash_env		~/.bash_env
 dotfiles/profile		~/.profile
 dotfiles/bashrc			~/.bashrc
