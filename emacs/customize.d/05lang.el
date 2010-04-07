@@ -5,20 +5,21 @@
 ;; 日本語環境
 (set-language-environment 'Japanese)
 
-;; UTF8サポートありならば、優先してUTF-8のファイルを使う
+;; UTF8サポートありならば、優先してUTF-8を使う
 (if (memq 'utf-8 coding-system-list)
     (prefer-coding-system 'utf-8-unix))
 
-;; Windows系は除外
+;; 但し、Windows系のみファイル名はロケール(ShiftJIS)を使う
+(if (or (eq system-type 'windows-nt)
+        (eq system-type 'cygwin))
+    (setq-default file-name-coding-system 'japanese-shift-jis-dos))
+
+;; Windows系は processI/O が utf-8 になるので必要に応じて変更すること
+
+;; プロセスの環境変数設定
 (unless (or (eq system-type 'windows-nt)
             (eq system-type 'cygwin)
             (not (memq 'utf-8 coding-system-list)))
-
-  ;; locale に無関係にファイル名は UTF8 として扱う
-  (setq default-file-name-coding-system
-        (if (eq system-type 'darwin) 'utf-8-nfd 'utf-8))
-
-  ;; プロセスの環境変数設定
   (setenv "LANG" "ja_JP.UTF-8"))
 
 ;; GNU/Linux で egg-anthy を使う設定

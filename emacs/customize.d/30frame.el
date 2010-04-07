@@ -99,12 +99,12 @@
     (setq scalable-fonts-allowed t)
     (setq w32-enable-synthesized-fonts t)
 
-
     (let (myfont)
+      (setq myfont "ＭＳ ゴシック")
+      (if (featurep 'w32-ime)		;; IMEパッチ対応時等幅になる
+          (setq myfont "VL ゴシック"))
 
-      ;;(setq myfont "ＭＳ ゴシック")
-      (setq myfont "VL ゴシック")	;; IME ぱっち適用
-      ;;(setq myfont "Meiryo")
+      ;;(setq myfont "Meiryo")	;; どうも上手くサイズが決まらない
 
       ;; デフォルトフォント設定
       (set-face-attribute 'default nil
@@ -119,13 +119,10 @@
       )
 
     ;; フォントサイズの微調節
-    (dolist
-        (e
-         `((,(encode-coding-string ".*ＭＳ.*bold.*iso8859.*" 'emacs-mule) . 0.9)
-           (,(encode-coding-string ".*ＭＳ.*bold.*jisx02.*" 'emacs-mule) . 0.95))
-         )
+    (dolist (e '((".*ＭＳ.*bold.*iso8859.*"  . 0.9)
+                 (".*ＭＳ.*bold.*jisx02.*" . 0.95)))
+      (setcar e (encode-coding-string (car e) 'emacs-mule))
       (add-to-assoc-list 'face-font-rescale-alist e))
-
     )
 
    ))
