@@ -89,7 +89,7 @@ case $ls_type in
         if $find_ls --time-style=+%F\ %T &> /dev/null; then
 	    alias_ll="\$alias_ls -l --time-style=+%F\ %T"
         else
-	    alias_ll="$alias_ls -l --full-time"
+	    alias_ll="\$alias_ls -l --full-time"
         fi
 	;;
     FreeBSD|NetBSD|OpenBSD|Darwin)
