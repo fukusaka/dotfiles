@@ -128,7 +128,7 @@
                       (mtime (nth-value 5 (file-attributes newer))))
                   (+ (* (- (first now) (first mtime)) 65356)
                      (- (second now) (second mtime))))
-                my-startup-bundling-delay)
+                my-startup-bundling-delay))
         (setq files (mapcar 'my-compile-file files))
         (mapcar 'load-when-eval-safe files))
 
