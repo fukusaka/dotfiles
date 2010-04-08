@@ -38,7 +38,8 @@
     (setq c++-font-lock-extra-types (append c++-font-lock-extra-types glib-types))))
 
 ;; Emacs 22 以降の対応
-(when (>= emacs-major-version 22)
+(when (and (>= emacs-major-version 22)
+           window-system)
   ;; Yasnippet
   ;;(require 'yasnippet-bundle)
 

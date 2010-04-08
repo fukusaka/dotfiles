@@ -1,6 +1,7 @@
 ;; EmacsMuse
 
-(when (>= emacs-major-version 22)
+(when (and (>= emacs-major-version 22)
+           window-system)
 
   (require 'muse-mode)     ; load authoring mode
   (require 'muse-html)     ; load publishing styles I use
