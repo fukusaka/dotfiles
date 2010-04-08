@@ -62,5 +62,27 @@
       file))
   )
 
+;; for Emacs20
+(when (<= emacs-major-version 20)
+  (defun add-to-list (list-var element &optional append compare-fn)
+    (if (cond
+         ((null compare-fn)
+          (member element (symbol-value list-var)))
+         ((eq compare-fn 'eq)
+          (memq element (symbol-value list-var)))
+         ((eq compare-fn 'eql)
+          (memql element (symbol-value list-var)))
+         (t
+          (let ((lst (symbol-value list-var)))
+            (while (and lst
+                        (not (funcall compare-fn element (car lst))))
+              (setq lst (cdr lst)))
+            lst)))
+        (symbol-value list-var)
+      (set list-var
+           (if append
+               (append (symbol-value list-var) (list element))
+             (cons element (symbol-value list-var)))))))
+
 (provide 'my-compat)
 ;;; my-compat.el ends here
