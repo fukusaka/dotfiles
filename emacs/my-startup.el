@@ -124,9 +124,11 @@
        ;; 設定片の最終更新時間が比較的に新しいときもこっち
        ((or my-startup-avoid-bundled
             (not bundle)
-            (<= (- (time-to-seconds (current-time))
-                   (time-to-seconds (nth-value 5 (file-attributes newer))))
-                my-startup-bundling-delay))
+            (<= (let ((now (current-time))
+                      (mtime (nth-value 5 (file-attributes newer))))
+                  (+ (* (- (first now) (first mtime)) 65356)
+                     (- (second now) (second mtime))))
+                my-startup-bundling-delay)
         (setq files (mapcar 'my-compile-file files))
         (mapcar 'load-when-eval-safe files))
 
