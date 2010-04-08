@@ -8,7 +8,8 @@
   (add-hook 'vc-dir-mode-hook
             '(lambda ()
                (define-key vc-dir-mode-map "a" 'vc-register)
-               (define-key vc-dir-mode-map "c" 'vc-next-action))))
+               (define-key vc-dir-mode-map "c" 'vc-next-action)
+               )))
 
 ;; for CVS
 (setq cvs-diff-flags '("-u"))
