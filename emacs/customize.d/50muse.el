@@ -1,11 +1,15 @@
+;; EmacsMuse
 
-(require 'muse-mode)     ; load authoring mode
-(require 'muse-html)     ; load publishing styles I use
-(require 'muse-latex)
+(when (>= emacs-major-version 22)
 
-(require 'muse-project)  ; publish files in projects
+  (require 'muse-mode)     ; load authoring mode
+  (require 'muse-html)     ; load publishing styles I use
+  (require 'muse-latex)
 
-(setq muse-project-alist
-      '(("Muse"
-         ("~/Documents/Muse/Pages" :default "index")
-         (:base "html" :path "~/Documents/Muse/public_html"))))
+  (require 'muse-project)  ; publish files in projects
+
+  (setq muse-project-alist
+        '(("Muse"
+           ("~/Documents/Muse/Pages" :default "index")
+           (:base "html" :path "~/Documents/Muse/public_html"))))
+  )
