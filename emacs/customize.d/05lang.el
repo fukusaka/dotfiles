@@ -9,7 +9,7 @@
 ;; UTF8サポートありならば、優先してUTF-8を使う
 (unless (or (eq system-type 'windows-nt)
             (eq system-type 'cygwin)
-            (memq 'utf-8 coding-system-list))
+            (not (memq 'utf-8 coding-system-list)))
   (prefer-coding-system 'utf-8-unix))
 
 ;; Windows系でも、utf-8-unix を使いたい場合は個別に指定する
