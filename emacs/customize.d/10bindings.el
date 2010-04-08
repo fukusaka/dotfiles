@@ -2,39 +2,49 @@
 ;; キーの設定
 ;;
 
-(global-unset-key "\C-z")
+(setq my-prefix-keys '("\C-z" "\C-d"))
 
-(define-key global-map "\C-zj" 'goto-line)
-(define-key global-map "\C-z\C-j" 'goto-line)
+(dolist (pkey my-prefix-keys)
+  (global-unset-key pkey))
 
-(define-key global-map "\C-zd" 'dired-jump)
-(define-key global-map "\C-z\C-d" 'dired-jump)
+(defun my-define-global-key (key def)
+  (dolist (pkey my-prefix-keys)
+    (define-key global-map (concat pkey key) def)))
 
+(my-define-global-key "j" 'goto-line)
+(my-define-global-key "\C-j" 'goto-line)
+
+;; for dired
+(my-define-global-key "d" 'dired-jump)
+(my-define-global-key "\C-d" 'dired-jump)
+
+;; for vc-dir
 (when (>= emacs-major-version 23)
-  (define-key global-map "\C-zv" 'vc-dir)
-  (define-key global-map "\C-z\C-v" 'vc-dir)
+  (my-define-global-key "v" 'vc-dir)
+  (my-define-global-key "\C-v" 'vc-dir)
   )
 
 ;; for man
 (define-key global-map "\M-m" 'man)
-(define-key global-map "\C-zm" 'man)
+(my-define-global-key "m" 'man)
 
 ;; for program
 (define-key global-map "\M-c" 'compile)
-(define-key global-map "\C-zc" 'compile)
-;;(define-key global-map "\C-zd" 'gdb)
+(my-define-global-key "c" 'compile)
+;;(my-define-global-key "d" 'gdb)
+
 
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし
 ;;
-(define-key global-map "\C-zz" 'toggle-shell-default)
-(define-key global-map "\C-z\C-z" 'toggle-shell-default)
+(my-define-global-key "z" 'toggle-shell-default)
+(my-define-global-key "\C-z" 'toggle-shell-default)
 
-(define-key global-map "\C-zs" 'toggle-shell)
-(define-key global-map "\C-z\C-s" 'toggle-shell)
+(my-define-global-key "s" 'toggle-shell)
+(my-define-global-key "\C-s" 'toggle-shell)
 
-(define-key global-map "\C-ze" 'toggle-eshell)
-(define-key global-map "\C-z\C-e" 'toggle-eshell)
+(my-define-global-key "e" 'toggle-eshell)
+(my-define-global-key "\C-e" 'toggle-eshell)
 
 (defun toggle-shell-default ()
   (interactive)
@@ -71,8 +81,8 @@
 ;;
 ;; Scratchよ永遠に！
 ;;
-(define-key global-map "\C-zl" 'scratch)
-(define-key global-map "\C-z\C-l" 'scratch)
+(my-define-global-key "l" 'scratch)
+(my-define-global-key "\C-l" 'scratch)
 
 (defun scratch ()
   (interactive)
