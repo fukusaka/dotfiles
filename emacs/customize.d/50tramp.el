@@ -9,10 +9,10 @@
 
 ;; NTEmacsでCygwinのsshを使う。
 ;; 必ず、fakecygpty を使うべし
-(when (and (eq system-type 'windows-nt)
-           (executable-find "f_ssh"))
-  (require 'tramp)
-  (setq tramp-default-method "sshx")
-  (dolist (methods tramp-methods)
-    (if (string-equal (cadr (assq 'tramp-login-program methods)) "ssh")
-        (setcdr (assq 'tramp-login-program methods) '("f_ssh")))))
+(eval-after-load "tramp"
+  '(when (and (eq system-type 'windows-nt)
+              (executable-find "f_ssh"))
+     (require 'tramp)
+     (dolist (methods tramp-methods)
+       (if (string-equal (cadr (assq 'tramp-login-program methods)) "ssh")
+           (setcdr (assq 'tramp-login-program methods) '("f_ssh"))))))
