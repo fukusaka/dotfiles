@@ -5,17 +5,16 @@
 (when window-system
 
   ;; Frame サイズ位置の固定
-  (add-to-assoc-list 'initial-frame-alist '(width . 80))
-  (add-to-assoc-list 'initial-frame-alist '(height . 40))
   (add-to-assoc-list 'default-frame-alist '(width . 80))
   (add-to-assoc-list 'default-frame-alist '(height . 40))
 
   (cond
    ;; MacOSX
    ((eq system-type 'darwin)
-    (add-to-assoc-list 'initial-frame-alist '(top . 26))
-    (add-to-assoc-list 'initial-frame-alist '(left . 4))
-    (add-to-assoc-list 'default-frame-alist '(alpha . (95 90)))
+    (add-to-assoc-list 'initial-frame-alist '(top . 22))
+    (add-to-assoc-list 'initial-frame-alist '(left . 0))
+    (add-to-assoc-list 'initial-frame-alist '(height . 54))
+    (add-to-assoc-list 'default-frame-alist '(alpha . (95 85)))
     (setq frame-alpha-lower-limit 30)
     (setq-default line-spacing 0.1)
     )
