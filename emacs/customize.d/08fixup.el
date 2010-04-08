@@ -1,4 +1,12 @@
 ;;
+;; system fixup
+;;
+
+;; ver.20 以前のdired対応
+(when (<= emacs-major-version 20)
+  (setenv "LC_TIME" "C"))
+
+;;
 ;; key bindings fixup
 ;;
 
