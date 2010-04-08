@@ -2,6 +2,14 @@
 ;; VCS (PCL-CVS/PSVN/etc) の設定
 ;;
 
+;; VC-DIR を PCL-CVS -status に近づける
+(when (>= emacs-major-version 23)
+
+  (add-hook 'vc-dir-mode-hook
+            '(lambda ()
+               (define-key vc-dir-mode-map "a" 'vc-register)
+               (define-key vc-dir-mode-map "c" 'vc-next-action))))
+
 ;; for CVS
 (setq cvs-diff-flags '("-u"))
 
@@ -25,3 +33,5 @@
 ;; for MaGit
 (when (locate-library "magit")
   (autoload 'magit-status "magit" nil t))
+
+

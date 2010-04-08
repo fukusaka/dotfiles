@@ -3,8 +3,17 @@
 ;;
 
 (global-unset-key "\C-z")
+
 (define-key global-map "\C-zj" 'goto-line)
 (define-key global-map "\C-z\C-j" 'goto-line)
+
+(define-key global-map "\C-zd" 'dired-jump)
+(define-key global-map "\C-z\C-d" 'dired-jump)
+
+(when (>= emacs-major-version 23)
+  (define-key global-map "\C-zv" 'vc-dir)
+  (define-key global-map "\C-z\C-v" 'vc-dir)
+  )
 
 ;; for man
 (define-key global-map "\M-m" 'man)
@@ -13,7 +22,7 @@
 ;; for program
 (define-key global-map "\M-c" 'compile)
 (define-key global-map "\C-zc" 'compile)
-(define-key global-map "\C-zd" 'gdb)
+;;(define-key global-map "\C-zd" 'gdb)
 
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし
