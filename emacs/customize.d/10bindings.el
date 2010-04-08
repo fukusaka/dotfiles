@@ -2,7 +2,8 @@
 ;; キーの設定
 ;;
 
-(setq my-prefix-keys '("\C-z" "\C-d"))
+;;(setq my-prefix-keys '("\C-z" "\C-d"))
+(setq my-prefix-keys '("\C-z"))
 
 (dolist (pkey my-prefix-keys)
   (global-unset-key pkey))
@@ -13,6 +14,14 @@
 
 (my-define-global-key "j" 'goto-line)
 (my-define-global-key "\C-j" 'goto-line)
+
+;; for find-file
+(my-define-global-key "f" 'find-file)
+(my-define-global-key "\C-f" 'find-file)
+
+;; for dired
+(my-define-global-key "d" 'dired-jump)
+(my-define-global-key "\C-d" 'dired-jump)
 
 ;; for dired
 (my-define-global-key "d" 'dired-jump)
