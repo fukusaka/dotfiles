@@ -4,12 +4,14 @@
 
 ;; $Id$
 
-;; カスタマイズ設定がし易いように cl パケージは読み
 (require 'cl)
 
 (defvar my-emacs-flavor
   (let ((flavor (if (featurep 'xemacs) "xemacs" "emacs")))
-    (format "%s%d" flavor emacs-major-version)))
+    (format "%s%d" flavor emacs-major-version))
+  "Emacs のフレーバ。
+バージョン毎にbytecodeが異なるときの場合わけの区別の基準になる")
+
 
 (defvar my-top-conf-dir       (expand-file-name "~/common/conf/"))
 
@@ -22,8 +24,8 @@
 (defvar my-customize-dir      (file-name-as-directory
                                (concat my-emacs-conf-dir "customize.d")))
 
-(defvar my-customize-bundle    (concat my-emacs-conf-dir
-                                 (format ".my-startup-bundle-%s.el" my-emacs-flavor)))
+(defvar my-customize-bundle    (concat my-customize-dir
+                                       (format "all-bundle.el" my-emacs-flavor)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 場所指定のカスタマイズ。。。便利か?
@@ -48,27 +50,18 @@
   (if my-place (concat my-customize-dir my-place)))
 
 (defvar my-place-customize-bundle
-  (concat my-emacs-conf-dir
-          (format ".my-startup-bundle=%s-%s.el" my-place my-emacs-flavor)))
+  (concat my-customize-dir
+          (format "all-bundle-%s.el" my-place)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; よく使う連想リストの追加用
-(defun add-to-assoc-list (list-var element)
-  (let ((list (assoc (car element) (symbol-value list-var))))
-    (if list
-        (setcdr list (cdr element))
-      (set list-var (append (symbol-value list-var) (list element)))))
-  (symbol-value list-var))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 必要に応じてバイトコンパイルしてその名前を返す
 (defun my-compile-file (file)
-  (let* ((base (file-name-sans-extension (file-name-nondirectory file)))
+  "ファイルの更新時間を比較して byte-compile してそのファイル名前を返す。
+作成される bytecode ファイルの置き場所は emacs-flavor 毎の場所に作られる。"
+  (let* ((base (file-name-nondirectory file))
          (el-dir (file-name-directory file))
          (elc-dir (file-name-as-directory (concat el-dir my-emacs-flavor)))
          (el file)
-         (elc (concat elc-dir base ".elc"))
-         (ret file))
+         (elc (concat elc-dir base "c")))
 
     ;; emacs-flavor毎にbytecode格納ディレクトリ作成
     (if (not (file-directory-p elc-dir))
@@ -82,15 +75,31 @@
 
     ;; 何らかの問題が無ければバイトコードが出来てるはず
     (if (file-exists-p elc)
-        (setq ret elc))
+        (setq file elc))
 
-    ret))
+    file))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 指定のファイルリストをバンドル化
-(defun my-make-bundle (bundle-file-name file-list)
-  (with-temp-file bundle-file-name
-    (mapcar 'insert-file-contents file-list)))
+(defun my-customize-bundling-one-file (bundle dir)
+  "指定の設定ファイルを一つのファイルに固める。"
+  (let ((files (cond ((listp dir) dir)
+                     (t (sort
+                         (directory-files dir t "^[0-9][0-9].*\\.el$" t)
+                         'string<)))))
+    (with-temp-file bundle
+      (erase-buffer)
+      (mapcar '(lambda (file)
+                 (insert-file-contents file)
+                 (goto-char (point-max)))
+              files))
+    bundle))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun load-when-eval-safe (loadlib)
+  "安全な load。読み込みに失敗しても、評価に失敗してもそこで止まらない。"
+  (condition-case err
+      (load loadlib)
+    (error (message "[load-when-eval-safe] %s" err))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 指定ディレクトリの頭二文字が数字のファイルを順次 load する
@@ -107,28 +116,26 @@
             (setq newer file)))
 
       (cond
+       ;; .el を読み込む
        (my-startup-avoid-compile
-        (mapcar 'load files))
+        (mapcar 'load-when-eval-safe files))
 
+       ;; byte-compile 後 .elc を読み込む
+       ;; 設定片の最終更新時間が比較的に新しいときもこっち
        ((or my-startup-avoid-bundled
             (not bundle)
             (<= (- (time-to-seconds (current-time))
                    (time-to-seconds (nth-value 5 (file-attributes newer))))
                 my-startup-bundling-delay))
         (setq files (mapcar 'my-compile-file files))
-        (mapcar 'load files))
+        (mapcar 'load-when-eval-safe files))
 
+       ;; 一つに固めて bundle を読み込む
        (t
         (when (file-newer-than-file-p newer bundle)
-          (with-temp-file bundle
-            (erase-buffer)
-            (mapcar '(lambda (file)
-                       (insert-file-contents file)
-                       (goto-char (point-max)))
-                    files)))
-        (if (file-newer-than-file-p bundle (concat bundle "c"))
-            (byte-compile-file bundle))
-        (load bundle))
+          (my-customize-bundling-one-file bundle dir))
+        (setq bundle (my-compile-file bundle))
+        (load-when-eval-safe bundle))
        )
       )))
 
@@ -155,4 +162,5 @@
       (my-customize-load my-place-customize-dir my-place-customize-bundle)))
 
 (provide 'my-startup)
+
 ;;; my-startup.el ends here

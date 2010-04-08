@@ -17,6 +17,8 @@
   (load-file "my-compat.el")
   (load-file "my-startup.el"))
 
+;;(setq my-startup-bundling-delay 0)
+
 ;; 初期化の実行
 (my-startup)
 
