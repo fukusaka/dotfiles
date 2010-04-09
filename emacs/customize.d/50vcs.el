@@ -27,18 +27,19 @@
 (when (locate-library "magit")
   (autoload 'magit-status "magit" nil t))
 
-
-;; Windows クライアントでもコメントなどの処理は UTF-8にする
-;; サーバ側のコメントはUTF-8で書く運用
+;; for Subversion
+;; サーバ内部ではログメッセージの文字コードはUTF-8になってる。
+;; なので、Windowsでクライアント等のASCII/UTF-8の文字コード以外の場合、
+;; Subversionに文字コードを教える必要(コマンドスイッチ)がある。
 (when (eq system-type 'windows-nt)
-
-  ;; svn コマンドのI/OはUTF8で行う
-  ;;(modify-coding-system-alist 'process "svn" 'sjis)
 
   ;; vc-svn.el用
   (setq vc-svn-checkin-switches '("--encoding" "Shift_JIS"))
 
   ;; psvn.el 用
-  (setq svn-status-svn-file-coding-system 'utf-8)
-  (setq svn-status-svn-process-coding-system 'utf-8)
+  (setq svn-status-svn-process-coding-system 'shift_jis)
+  (setq svn-status-default-commit-arguments '("--encoding" "SJIS"))
+
+  ;; propedit の時使われる？、、、svn:ignoreに日本語ファイル名に登録するとか？
+  (setq svn-status-svn-file-coding-system 'shift_jis)
   )
