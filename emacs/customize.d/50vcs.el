@@ -16,15 +16,7 @@
 
 ;; for Subversion
 (when (locate-library "psvn")
-  (autoload 'svn-status "psvn" nil t)
-
-  (when (eq system-type 'windows-nt)
-    ;; サーバ側のコメントはUTF-8で書く運用
-    (setq svn-status-svn-file-coding-system 'utf-8)
-    (setq svn-status-svn-process-coding-system 'utf-8)
-    (modify-coding-system-alist 'process "svn" 'utf-8) ;; svn-diff 文字化け対応
-    )
-  )
+  (autoload 'svn-status "psvn" nil t))
 
 ;; for Git / git-coreのcontribにある
 (when (locate-library "git")
@@ -36,3 +28,17 @@
   (autoload 'magit-status "magit" nil t))
 
 
+;; Windows クライアントでもコメントなどの処理は UTF-8にする
+;; サーバ側のコメントはUTF-8で書く運用
+(when (eq system-type 'windows-nt)
+
+  ;; svn コマンドのI/OはUTF8で行う
+  ;;(modify-coding-system-alist 'process "svn" 'sjis)
+
+  ;; vc-svn.el用
+  (setq vc-svn-checkin-switches '("--encoding" "Shift_JIS"))
+
+  ;; psvn.el 用
+  (setq svn-status-svn-file-coding-system 'utf-8)
+  (setq svn-status-svn-process-coding-system 'utf-8)
+  )

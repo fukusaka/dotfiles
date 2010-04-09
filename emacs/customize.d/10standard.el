@@ -59,6 +59,9 @@
 
   (add-hook 'comint-output-filter-functions
 	    'comint-strip-ctrl-m)
+
+  (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+  (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
   )
 
 ;; MacOSXではMacPortsへパスを通す
