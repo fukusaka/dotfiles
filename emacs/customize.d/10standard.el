@@ -55,7 +55,7 @@
 	   (executable-find "bash"))
   (setq shell-file-name "bash")
   (setenv "SHELL" shell-file-name)
-  (setenv "CYGWIN" "binmode nontsec tty")
+  (setenv "CYGWIN" "binmode nontsec tty nodosfilewarning")
 
   (add-hook 'comint-output-filter-functions
 	    'comint-strip-ctrl-m)
