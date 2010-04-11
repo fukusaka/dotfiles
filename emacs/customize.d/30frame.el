@@ -13,6 +13,7 @@
    ((eq system-type 'darwin)
     (add-to-assoc-list 'initial-frame-alist '(top . 22))
     (add-to-assoc-list 'initial-frame-alist '(left . 0))
+    (add-to-assoc-list 'default-frame-alist '(width . 90))
     (add-to-assoc-list 'initial-frame-alist '(height . 54))
     (add-to-assoc-list 'default-frame-alist '(alpha . (95 85)))
     (setq frame-alpha-lower-limit 30)
