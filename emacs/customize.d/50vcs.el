@@ -31,7 +31,8 @@
 ;; サーバ内部ではログメッセージの文字コードはUTF-8になってる。
 ;; なので、Windowsでクライアント等のASCII/UTF-8の文字コード以外の場合、
 ;; Subversionに文字コードを教える必要(コマンドスイッチ)がある。
-(when (eq system-type 'windows-nt)
+(when (and (not my-prefer-utf8-locale-for-cygwin)
+           (eq system-type 'windows-nt))
 
   ;; vc-svn.el用
   (setq vc-svn-checkin-switches '("--encoding" "Shift_JIS"))
@@ -43,3 +44,8 @@
   ;; propedit の時使われる？、、、svn:ignoreに日本語ファイル名に登録するとか？
   (setq svn-status-svn-file-coding-system 'shift_jis)
   )
+
+;; vc-svn.el用
+(setq vc-svn-checkin-switches '("--encoding" "UTF-8"))
+;;(setq vc-svn-checkin-switches nil)
+
