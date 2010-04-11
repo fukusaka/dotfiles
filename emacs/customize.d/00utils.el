@@ -1,13 +1,13 @@
-;; ¥«¥¹¥¿¥Ş¥¤¥º¤ò´ÊÁÇ²½¤¹¤ë¥Ş¥¯¥í´Ø¿ô·²
-;; my-startup.el ¤ò¥À¥¤¥¨¥Ã¥È¤¹¤ë°Ù¤Ë°ÜÆ°
+;; ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã‚’ç°¡ç´ åŒ–ã™ã‚‹ãƒã‚¯ãƒ­é–¢æ•°ç¾¤
+;; my-startup.el ã‚’ãƒ€ã‚¤ã‚¨ãƒƒãƒˆã™ã‚‹ç‚ºã«ç§»å‹•
 
-;; ¥«¥¹¥¿¥Ş¥¤¥ºÀßÄê¤¬¤·°×¤¤¤è¤¦¤Ë cl ¥Ñ¥±¡¼¥¸¤ÏÆÉ¤ß
+;; ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºè¨­å®šãŒã—æ˜“ã„ã‚ˆã†ã« cl ãƒ‘ã‚±ãƒ¼ã‚¸ã¯èª­ã¿
 (require 'cl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ¤è¤¯»È¤¦Ï¢ÁÛ¥ê¥¹¥È¤ÎÄÉ²ÃÍÑ
+;; ã‚ˆãä½¿ã†é€£æƒ³ãƒªã‚¹ãƒˆã®è¿½åŠ ç”¨
 (defun add-to-assoc-list (list-var element)
-  "Ï¢ÁÛ¥ê¥¹¥ÈÈÇ¤Î add-to-list¡£´û¤Ë¥­¡¼¤¬Â¸ºß¤¹¤ë¤È¤­¾å½ñ¤­¤¹¤ë"
+  "é€£æƒ³ãƒªã‚¹ãƒˆç‰ˆã® add-to-listã€‚æ—¢ã«ã‚­ãƒ¼ãŒå­˜åœ¨ã™ã‚‹ã¨ãä¸Šæ›¸ãã™ã‚‹"
   (let ((list (assoc (car element) (symbol-value list-var))))
     (if list
         (setcdr list (cdr element))
@@ -16,28 +16,28 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; http://www.sodan.org/~knagano/emacs/dotemacs.html
-;; ¤è¤êÇÒ¼Ú
+;; ã‚ˆã‚Šæ‹å€Ÿ
 
 (defmacro exec-if-bound (sexplist)
-  "´Ø¿ô¤¬Â¸ºß¤¹¤ë»ş¤À¤±¼Â¹Ô¤¹¤ë¡£¡Êcar ¤Î fboundp ¤òÄ´¤Ù¤ë¤À¤±¡Ë"
+  "é–¢æ•°ãŒå­˜åœ¨ã™ã‚‹æ™‚ã ã‘å®Ÿè¡Œã™ã‚‹ã€‚ï¼ˆcar ã® fboundp ã‚’èª¿ã¹ã‚‹ã ã‘ï¼‰"
   `(if (fboundp (car ',sexplist))
        ,sexplist))
 
 (defmacro defun-add-hook (hookname &rest sexplist)
-  "add-hook ¤Î¥¨¥¤¥ê¥¢¥¹¡£°ú¿ô¤ò´Ø¿ô¤Ë¥Ñ¥Ã¥¯¤·¤Æ hook ¤ËÄÉ²Ã¤¹¤ë¡£"
+  "add-hook ã®ã‚¨ã‚¤ãƒªã‚¢ã‚¹ã€‚å¼•æ•°ã‚’é–¢æ•°ã«ãƒ‘ãƒƒã‚¯ã—ã¦ hook ã«è¿½åŠ ã™ã‚‹ã€‚"
   `(add-hook ,hookname
              (function (lambda () ,@sexplist))))
 
 (defun load-safe (loadlib)
-  "°ÂÁ´¤Ê load¡£ÆÉ¤ß¹ş¤ß¤Ë¼ºÇÔ¤·¤Æ¤â¤½¤³¤Ç»ß¤Ş¤é¤Ê¤¤¡£"
-  ;; missing-ok ¤ÇÆÉ¤ó¤Ç¤ß¤Æ¡¢¥À¥á¤Ê¤é¤³¤Ã¤½¤ê message ¤Ç¤â½Ğ¤·¤Æ¤ª¤¯
+  "å®‰å…¨ãª loadã€‚èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¦ã‚‚ãã“ã§æ­¢ã¾ã‚‰ãªã„ã€‚"
+  ;; missing-ok ã§èª­ã‚“ã§ã¿ã¦ã€ãƒ€ãƒ¡ãªã‚‰ã“ã£ãã‚Š message ã§ã‚‚å‡ºã—ã¦ãŠã
   (let ((load-status (load loadlib t)))
     (or load-status
         (message (format "[load-safe] failed %s" loadlib)))
     load-status))
 
 (defmacro eval-safe (&rest body)
-  "°ÂÁ´¤ÊÉ¾²Á¡£É¾²Á¤Ë¼ºÇÔ¤·¤Æ¤â¤½¤³¤Ç»ß¤Ş¤é¤Ê¤¤¡£"
+  "å®‰å…¨ãªè©•ä¾¡ã€‚è©•ä¾¡ã«å¤±æ•—ã—ã¦ã‚‚ãã“ã§æ­¢ã¾ã‚‰ãªã„ã€‚"
   `(condition-case err
        (progn ,@body)
      (error (message "[eval-safe] %s" err))))
