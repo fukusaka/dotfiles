@@ -50,7 +50,7 @@
     (defadvice process-file
       (around my-process-file)
       (message "my-process-file")
-      (let ((coding-system-for-write 'shift_jis))	;; ここが一番分からん
+      (let ((coding-system-for-write 'shift_jis)) ;; ここが一番分からん
         ad-do-it))
 
     (defadvice vc-svn-checkin

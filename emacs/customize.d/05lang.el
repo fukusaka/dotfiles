@@ -31,7 +31,7 @@
     (>= cygwin-major-version 7))
 
   ;; 1.7.4 でもまだ対応レベルが低いようなのでまだ使わない
-  ;;(setq my-prefer-utf8-locale-for-cygwin nil)
+  (setq my-prefer-utf8-locale-for-cygwin nil)
 
   (cond
    ;; Windows系でロケール(ShiftJIS)を使う場合
@@ -56,7 +56,6 @@
 
     ;; ファイル名はSJISで返される？
     (setq file-name-coding-system locale-coding-system)
-
 
     ;; ...まだ使えん
     )
