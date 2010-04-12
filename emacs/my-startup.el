@@ -35,8 +35,10 @@
 (defvar my-hostname-nohost "localhost")
 
 (defvar my-hostname
-  (let ((envhost (shell-command-to-string "echo -n `hostname -s`")))
-    (if envhost envhost my-hostname-nohost)))
+  (let ((text (shell-command-to-string "hostname -s")))
+    (if (string-match "^.*" text)
+        (match-string 0 text)
+      my-hostname-nohost)))
 
 (defvar my-place
   (let ((alist my-place-profile-alist) place)
@@ -47,7 +49,7 @@
     place))
 
 (defvar my-place-customize-dir
-  (if my-place (concat my-customize-dir my-place)))
+  (if my-place (file-name-as-directory (concat my-customize-dir my-place))))
 
 (defvar my-place-customize-bundle
   (concat my-customize-dir

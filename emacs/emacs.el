@@ -8,10 +8,7 @@
 (setq my-emacs-conf-dir (concat my-top-conf-dir "emacs/"))
 
 (setq my-place-profile-alist
-      '(("\\`black" .	"home")
-	("\\`blue" .	"home")
-	("\\`red" .	"home")
-	("\\`think" .  "home")))
+      '((".*". "home")))
 
 (let ((default-directory my-emacs-conf-dir))
   (load-file "my-compat.el")
