@@ -18,6 +18,8 @@
 (when (locate-library "psvn")
   (autoload 'svn-status "psvn" nil t))
 
+(setq svn-status-hide-unmodified t)
+
 ;; for Git / git-coreのcontribにある
 (when (locate-library "git")
   (autoload 'git-status "git" nil t)
