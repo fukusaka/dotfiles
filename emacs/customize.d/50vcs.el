@@ -49,8 +49,6 @@
     (setq svn-status-default-commit-arguments '("--encoding" "SJIS"))
     (setq svn-status-svn-process-coding-system 'shift_jis)
     (setq svn-status-svn-file-coding-system 'shift_jis)
-
-    (setq git-commits-coding-system 'utf-8-unix)
     )
 
    ;; UTF8
