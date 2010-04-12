@@ -38,6 +38,7 @@
       (setenv "CYGWIN" (mapconcat 'identity envs " "))))
 
   (setenv-cygwin "nodosfilewarning")
+  (setenv-cygwin "tty")
 
   (defadvice prefer-coding-system
     (after my-prefer-coding-system activate)
@@ -47,6 +48,8 @@
        ((coding-system-equal 'shift_jis coding)
         (setenv "LANG" "ja_JP.SJIS")
         (setenv-cygwin "codepage:932")
+
+        (setq my-prefer-utf8-for-cygwin nil)
         )
        ;; Windows系でUTF-8を使う場合
        ((coding-system-equal 'utf-8 coding)
@@ -56,6 +59,7 @@
         ;; w32-fns.el で適当？に設定されているの修正？
         ;;(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
+        (setq my-prefer-utf8-for-cygwin t)
         )
        )
       )
