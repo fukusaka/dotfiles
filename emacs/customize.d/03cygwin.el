@@ -37,6 +37,8 @@
       (unless replaced (setq envs (append envs `(,value))))
       (setenv "CYGWIN" (mapconcat 'identity envs " "))))
 
+  (setenv-cygwin "nodosfilewarning")
+
   (defadvice prefer-coding-system
     (after my-prefer-coding-system activate)
     (let ((coding (coding-system-base (ad-get-arg 0))))
