@@ -7,8 +7,7 @@
 
 (cond
  ;; Windows系で対応
- ((or (eq system-type 'windows-nt)
-      (eq system-type 'cygwin))
+ ((memq system-type '(cygwin windows-nt))
 
   (prefer-coding-system 'shift_jis-dos)
   ;;(prefer-coding-system 'utf-8-unix)

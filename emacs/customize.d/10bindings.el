@@ -42,6 +42,10 @@
 (my-define-global-key "c" 'compile)
 ;;(my-define-global-key "d" 'gdb)
 
+;; for grep
+(my-define-global-key "g" 'grep-buffers)
+(my-define-global-key "\C-g" 'grep)
+(my-define-global-key "\M-g" 'grep-find)
 
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし

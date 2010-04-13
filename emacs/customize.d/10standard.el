@@ -3,16 +3,16 @@
 ;;
 
 ;; 操作/表示の細かい設定
-(setq inhibit-startup-message nil)		;; オープニングは大事
-(setq next-line-add-newlines nil)		;; カーソルで新しい行を作らない
-(setq line-number-mode t)			;; modeline に行番号表示
-(setq column-number-mode t)			;; modeline にカラム番号表示
-(setq size-indication-mode t)			;; modeline にサイズ表示
-(setq transient-mark-mode nil)			;; Region に色付けない
-(setq scroll-step 1)				;; スクロールは1行づつであればいいなぁ
-(setq scroll-margin 4)				;; スクロールのマージン行数 4
-(setq scroll-conservatively 2)			;; 最低スクロール行数 1+1
-(setq truncate-lines nil)			;; 継続行は使わない
+(setq inhibit-startup-message nil)	;; オープニングは大事
+(setq next-line-add-newlines nil)	;; カーソルで新しい行を作らない
+(setq line-number-mode t)		;; modeline に行番号表示
+(setq column-number-mode t)		;; modeline にカラム番号表示
+(setq size-indication-mode t)		;; modeline にサイズ表示
+(setq transient-mark-mode nil)		;; Region に色付けない
+(setq scroll-step 1)			;; スクロールは1行づつであればいいなぁ
+(setq scroll-margin 4)			;; スクロールのマージン行数 4
+(setq scroll-conservatively 2)		;; 最低スクロール行数 1+1
+(setq truncate-lines nil)		;; 継続行は使わない
 
 ;; カーソルは点滅しない
 (when (fboundp 'blink-cursor-mode)
@@ -56,11 +56,17 @@
   (setq shell-file-name "bash")
   (setenv "SHELL" shell-file-name)
 
-  (add-hook 'comint-output-filter-functions
-	    'comint-strip-ctrl-m)
+;;; 23以前では必要かも
+;;;  (add-hook 'comint-output-filter-functions
+;;;	    'comint-strip-ctrl-m)
 
   (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
   (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+  ;; 起動直後に HOME に移動する
+  (setq default-directory "~/")
+
+  (setq manual-program "LANG=C man")
   )
 
 ;; MacOSXではMacPortsへパスを通す
