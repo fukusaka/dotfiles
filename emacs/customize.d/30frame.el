@@ -100,10 +100,9 @@
     (setq w32-enable-synthesized-fonts t)
 
     (let (myfont)
+      ;; 等幅フォントを選択
       (setq myfont "ＭＳ ゴシック")
-      (if (featurep 'w32-ime)		;; IMEパッチ対応時等幅になる
-          (setq myfont "VL ゴシック"))
-
+      (setq myfont "VL ゴシック")
       ;;(setq myfont "Meiryo")	;; どうも上手くサイズが決まらない
 
       ;; デフォルトフォント設定
@@ -123,6 +122,8 @@
                  (".*ＭＳ.*bold.*jisx02.*" . 0.95)))
       (setcar e (encode-coding-string (car e) 'emacs-mule))
       (add-to-assoc-list 'face-font-rescale-alist e))
+
+    ;; ime-font の設定がわからん
     )
 
    ))
