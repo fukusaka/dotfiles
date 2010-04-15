@@ -63,9 +63,6 @@
   (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
   (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-  ;; 起動直後に HOME に移動する
-  (setq default-directory "~/")
-
   (setq manual-program "LANG=C man")
   )
 
