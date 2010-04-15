@@ -80,8 +80,9 @@
     )
 
   ;; cygwin-mount.el
-  (require 'cygwin-mount)
-  (cygwin-mount-activate)
+  (when (locate-library "cygwin-mount")
+    (require 'cygwin-mount)
+    (cygwin-mount-activate))
 
 ;;; Follow Cygwin symlinks.
 ;;; Handles old-style (text file) symlinks and new-style (.lnk file) symlinks.
