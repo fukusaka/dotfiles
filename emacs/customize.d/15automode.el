@@ -9,6 +9,8 @@
               ("\\.l\\'" . flex-mode)
               ("\\.applescript$" . applescript-mode)
 
+              ("\\.mm\\'" . objc-mode)
+
               ;; DOS/Windows 系だと大文字になってる場合がある
               ("\\.CPP\\'" . c++-mode)
 
