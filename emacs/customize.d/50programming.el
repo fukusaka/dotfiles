@@ -6,9 +6,13 @@
 
 ;; 行末スペース削除支援
 (setq-default show-trailing-whitespace t)	;; 行末の不要スペースを強調表示
-(add-hook 'before-save-hook
-          'delete-trailing-whitespace)		;; 保存時に無駄なスペースを削除
+;;(add-hook 'before-save-hook
+;;          'delete-trailing-whitespace)		;; 保存時に無駄なスペースを削除
 
+
+(defun my-not-require-final-newline ()
+  (interactive)
+  (setq require-final-newline nil))
 
 ;;(setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
