@@ -43,7 +43,6 @@ case $sysname in
 	#export LANG=ja_JP.SJIS
 	#Cygwin 1.7以降 UTF-8がサポートされている
 	#export LANG=ja_JP.UTF-8
-	export NO_BASH_COMPLETION=yes
 	;;
 esac
 unset sysname

@@ -112,14 +112,14 @@ unset ls_type grep_type
 [ -n "$find_vim" ] && alias_vi=$find_vim
 
 # use less of vim
-for dir in /usr/share /usr/local/share; do
-    for cmd in $dir/vim/vim*/macros/less.sh; do
-	if [ -x $cmd ]; then
-	    alias_less=$cmd
-	    break 2
-	fi
-    done
-done
+#for dir in /usr/share /usr/local/share; do
+#    for cmd in $dir/vim/vim*/macros/less.sh; do
+#	if [ -x $cmd ]; then
+#	    alias_less=$cmd
+#	    break 2
+#	fi
+#    done
+#done
 
 # 日本語 man の 不良解消
 if [ -n "$find_groff" ]; then

@@ -59,23 +59,21 @@ case "$TERM" in
     xterm*|rxvt*) PS1="\[\e]0;\u@\h: \w\a\]$PS1" ;;
 esac
 
-# エイリアスを作成
-if [ -f ~/.bash_make_aliases -a ! -e ~/.bash_aliases ]; then
-    . ~/.bash_make_aliases
+# エイリアスを手動作成コマンド
+if [ -f ~/.bash_make_aliases ]; then
+    alias hh='source ~/.bash_make_aliases ; source ~/.bash_aliases ; unalias hh'
 fi
 
-# Alias definitions.
+# エイリアスの読み込み
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
 # Completion
 if [ -f /etc/bash_completion ]; then
-    if [ "$NO_BASH_COMPLETION" != yes ]; then
-	. /etc/bash_completion
-    else
-	alias load_bash_completion='source /etc/bash_completion; unalias load_bash_completion'
-    fi
+    alias h='source /etc/bash_completion; unalias h'
+else
+    alias h='echo cannot find /etc/bash_completion; unalias h'
 fi
 
 unset terminal_type
