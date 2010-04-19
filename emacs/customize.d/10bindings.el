@@ -110,3 +110,11 @@
       (set-buffer-modified-p nil))
     )
   (switch-to-buffer (get-buffer "*scratch*")))
+
+;; AppleKeyboard(Eisu/Kanji) を動作
+(when (eq window-system 'x)
+  (define-key global-map [kanji]
+    '(lambda () (interactive) (activate-input-method default-input-method)))
+  (define-key global-map [eisu-shift]
+    '(lambda () (interactive) (activate-input-method nil)))
+  )
