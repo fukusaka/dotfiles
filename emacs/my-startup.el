@@ -21,6 +21,9 @@
 (defvar my-elisp-path         (file-name-as-directory
                                (concat my-emacs-conf-dir "elisp")))
 
+(defvar my-compiled-elisp-path (file-name-as-directory
+                                (concat my-elisp-path "compiled-" my-emacs-flavor)))
+
 (defvar my-customize-dir      (file-name-as-directory
                                (concat my-emacs-conf-dir "customize.d")))
 
@@ -56,24 +59,30 @@
           (format "all-bundle-%s.el" my-place)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun my-compile-file (file)
+(defun my-compile-file (file &optional elc-topdir)
   "ファイルの更新時間を比較して byte-compile してそのファイル名前を返す。
 作成される bytecode ファイルの置き場所は emacs-flavor 毎の場所に作られる。"
   (let* ((base (file-name-nondirectory file))
          (el-dir (file-name-directory file))
-         (elc-dir (file-name-as-directory (concat el-dir my-emacs-flavor)))
+         (elc-dir (file-name-as-directory
+                   (if elc-topdir
+                       (concat (file-name-as-directory elc-topdir) el-dir)
+                     (concat el-dir my-emacs-flavor))))
          (el file)
          (elc (concat elc-dir base "c")))
 
     ;; emacs-flavor毎にbytecode格納ディレクトリ作成
     (if (not (file-directory-p elc-dir))
-        (make-directory elc-dir))
+        (make-directory elc-dir t))
 
     ;; bytecodeが無いか古い場合再生成
     (if (or (not (file-exists-p elc))
             (file-newer-than-file-p el elc))
-        (if (byte-compile-file el)
-            (rename-file (concat el "c") elc t)))
+        (condition-case err
+            (if (and (byte-compile-file el)
+                     (file-exists-p (concat el "c")))
+                (rename-file (concat el "c") elc t))
+          (error (message "[my-compile-file] %s" err))))
 
     ;; 何らかの問題が無ければバイトコードが出来てるはず
     (if (file-exists-p elc)
@@ -84,10 +93,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-customize-bundling-one-file (bundle dir)
   "指定の設定ファイルを一つのファイルに固める。"
-  (let ((files (cond ((listp dir) dir)
-                     (t (sort
-                         (directory-files dir t "^[0-9][0-9].*\\.el$" t)
-                         'string<)))))
+  (let ((files
+         (cond ((listp dir) dir)
+               (t (sort
+                   (directory-files dir t "^[0-9][0-9].*\\.el$" t)
+                   'string<)))))
     (with-temp-file bundle
       (erase-buffer)
       (mapcar '(lambda (file)
@@ -150,13 +160,47 @@
 (defvar my-startup-bundling-delay (* 12 60 60))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 指定のディレクトリ以下のサブディレクトリを列挙
+(defun my-list-subdirs (directory &optional full)
+  (let ((lst `(,(expand-file-name directory)))
+        dir subdirs)
+    (while lst
+      (dolist (file (directory-files (car lst) t "^[^\\.]"))
+        (when (file-directory-p file)
+          (add-to-list 'lst file t)
+          (add-to-list 'subdirs
+                       (if full file
+                         (substring file (length directory))))
+          ))
+      (setq lst (cdr lst)))
+    (sort subdirs 'string<)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; elisp 以下を全部バイトコンパイルしてcompiled-emacsXXにコピー
+(defun my-elisp-all-compile ()
+  (interactive)
+  (let ((default-directory my-elisp-path))
+    (dolist (dir (cons "." (my-list-subdirs my-elisp-path nil)))
+      (let ((files (directory-files dir nil "\\.el$" t)))
+        (dolist (file files)
+          (my-compile-file (concat dir "/" file) my-compiled-elisp-path))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期化本体
 (defun my-startup ()
 
-  ;; my-elisp-path以下のディレクトリを全て load-path に追加
-  (let ((default-directory (directory-file-name my-elisp-path)))
-    (setq load-path (append load-path (list default-directory)))
-    (normal-top-level-add-subdirs-to-load-path))
+  ;; my-elisp-path以下で .el があるディレクトリを全て load-path に追加
+  (let ((alist `((,my-compiled-elisp-path . "\\.elc$")
+                 (,my-elisp-path          . "\\.el$"))))
+    (dolist (a alist)
+      (let ((default-directory (expand-file-name (car a)))
+	    (dlist (my-list-subdirs default-directory t)))
+	(setq dlist (cons default-directory dlist))
+	(dolist (dir dlist)
+	  (if (directory-files dir nil (cdr a))
+	      (add-to-list 'load-path dir t))))))
+  
+  ;;(add-to-list 'load-path my-elisp-path)
 
   ;; カスタマイズ設定の読み出し
   (my-customize-load my-customize-dir my-customize-bundle)
