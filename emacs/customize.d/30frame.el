@@ -68,10 +68,18 @@
    ((eq window-system 'ns)
     (setq mac-allow-anti-aliasing t)
 
-    ;; デフォルトフォント設定
-    (set-face-attribute 'default nil
-			:family "Monaco"
-			:height 120)
+    (let (myfont)
+      ;;(setq myfont "Courier")
+      ;;(setq myfont "Courier New")
+      ;;(setq myfont "Osaka")
+      ;;(setq myfont "Monaco")	;; XCode 3.1 とかまで使っている 
+      (setq myfont "Menlo")	;; XCode 3.2 とかで使ってるやつ
+      ;;(setq myfont "Consolas")
+
+      ;; デフォルトフォント設定
+      (set-face-attribute 'default nil
+                          :family myfont
+                          :height 120))
 
     ;; 日本語文字設定にフォントを指定
     (let ((fn (frame-parameter nil 'font))
