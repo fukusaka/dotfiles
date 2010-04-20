@@ -160,10 +160,11 @@
 (defvar my-startup-bundling-delay (* 12 60 60))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 指定のディレクトリ以下のサブディレクトリを列挙
+;; 指定のディレクトリ以下のサブディレクトリを列挙 (遅い、、、)
 (defun my-list-subdirs (directory &optional full)
-  (let ((lst `(,(expand-file-name directory)))
-        dir subdirs)
+  (let ((dir (expand-file-name directory))
+        (lst (list directory))
+        subdirs)
     (while lst
       (dolist (file (directory-files (car lst) t "^[^\\.]"))
         (when (file-directory-p file)
@@ -183,23 +184,20 @@
     (dolist (dir (cons "." (my-list-subdirs my-elisp-path nil)))
       (let ((files (directory-files dir nil "\\.el$" t)))
         (dolist (file files)
-          (my-compile-file (concat dir "/" file) my-compiled-elisp-path))))))
+          (my-compile-file
+           (concat (directory-file-name dir) file)
+           my-compiled-elisp-path))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期化本体
 (defun my-startup ()
 
-  ;; my-elisp-path以下で .el があるディレクトリを全て load-path に追加
-  (let ((alist `((,my-compiled-elisp-path . "\\.elc$")
-                 (,my-elisp-path          . "\\.el$"))))
-    (dolist (a alist)
-      (let ((default-directory (expand-file-name (car a)))
-	    (dlist (my-list-subdirs default-directory t)))
-	(setq dlist (cons default-directory dlist))
-	(dolist (dir dlist)
-	  (if (directory-files dir nil (cdr a))
-	      (add-to-list 'load-path dir t))))))
-  
+  ;; my-elisp-path以下のディレクトリを全て load-path に追加
+  (dolist (elisp-path `(,my-compiled-elisp-path ,my-elisp-path))
+    (let ((default-directory (directory-file-name elisp-path)))
+      (setq load-path (append load-path (list default-directory)))
+      (normal-top-level-add-subdirs-to-load-path)))
+
   ;;(add-to-list 'load-path my-elisp-path)
 
   ;; カスタマイズ設定の読み出し
