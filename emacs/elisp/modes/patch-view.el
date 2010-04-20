@@ -10,15 +10,15 @@
 
 (defvar  my-patch-view-sep-face 'my-patch-view-sep-face)
 (defface my-patch-view-sep-face
-  '((((class color) (background light)) (:foreground "ForestGreen"))
-    (((class color) (background dark)) (:foreground "PaleGreen"))
+  '((((class color) (background light)) (:foreground "RosyBrown"))
+    (((class color) (background dark)) (:foreground "LightSalmon"))
     )
   nil)
 
 (defvar  my-patch-view-cmd-face 'my-patch-view-cmd-face)
 (defface my-patch-view-cmd-face
-  '((((class color) (background light)) (:foreground "RosyBrown"))
-    (((class color) (background dark)) (:foreground "LightSalmon"))
+  '((((class color) (background light)) (:foreground "ForestGreen"))
+    (((class color) (background dark)) (:foreground "PaleGreen"))
     )
   nil)
 
