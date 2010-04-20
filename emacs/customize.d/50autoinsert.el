@@ -2,7 +2,7 @@
 (require 'autoinsert)
 
 ;; テンプレート展開ツール
-(require 'my-skel-make)
+(require 'my-skel-file)
 
 ;; 自動テンプレート挿入マイナーモード設定
 (auto-insert-mode 1)

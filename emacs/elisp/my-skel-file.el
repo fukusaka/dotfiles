@@ -1,4 +1,4 @@
-;;; my-skel-make.el -- minor mode for Emacs Lisp maintainers
+;;; my-skel-file.el -- minor mode for Emacs Lisp maintainers
 
 ;; Copyright (C) 1999 Moimoi(Shoichi Fukusaka)
 
@@ -27,7 +27,7 @@
 
 ;;; Commentary:
 ;;
-;; (autoload 'my-find-file "my-skel-make")
+;; (autoload 'my-find-file "my-skel-file")
 ;; (global-set-key "\C-x\C-f" 'my-find-file)
 ;;
 
@@ -229,4 +229,4 @@
     (setq str (concat str (substring fname pos)))
     (upcase str)))
 
-(provide 'my-skel-make)
+(provide 'my-skel-file)
