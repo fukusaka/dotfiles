@@ -21,7 +21,7 @@
               ;; epcg ? 用
               ("\\.pgc\\'" . c-mode)
               ("\\.pgcc\\'" . c++-mode))))
-  (add-to-list 'auto-mode-alist e))
+  (add-to-assoc-list 'auto-mode-alist e))
 
 (autoload 'bison-mode "bison-mode"
   "bison" t)
