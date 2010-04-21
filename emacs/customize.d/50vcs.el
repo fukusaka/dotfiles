@@ -2,6 +2,9 @@
 ;; VCS (PCL-CVS/PSVN/etc) の設定
 ;;
 
+;; VCは自動的にリンクを辿って、かわりに本当のファイルを訪問
+(setq vc-follow-symlinks t)
+
 ;; VC-DIR を PCL-CVS -status に近づける
 (when (>= emacs-major-version 23)
 
