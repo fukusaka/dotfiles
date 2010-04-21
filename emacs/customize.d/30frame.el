@@ -72,7 +72,7 @@
       ;;(setq myfont "Courier")
       ;;(setq myfont "Courier New")
       ;;(setq myfont "Osaka")
-      ;;(setq myfont "Monaco")	;; XCode 3.1 とかまで使っている 
+      ;;(setq myfont "Monaco")	;; XCode 3.1 とかまで使っている
       (setq myfont "Menlo")	;; XCode 3.2 とかで使ってるやつ
       ;;(setq myfont "Consolas")
 
@@ -98,7 +98,7 @@
                  (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
                  (".*monaco-bold-.*-mac-roman" . 0.9)
                  ("-cdac$" . 1.3)))
-      (add-to-assoc-list 'face-font-rescale-alist e))
+      (add-to-assoc-list 'face-font-rescale-alist e t))
 
     )
 
@@ -109,7 +109,7 @@
 
     (let (myfont)
       ;; 等幅フォントを選択
-      (setq myfont "ＭＳ ゴシック")
+      ;;(setq myfont "ＭＳ ゴシック")
       (setq myfont "VL ゴシック")
       ;;(setq myfont "Meiryo")	;; どうも上手くサイズが決まらない
 
@@ -129,7 +129,7 @@
     (dolist (e '((".*ＭＳ.*bold.*iso8859.*"  . 0.9)
                  (".*ＭＳ.*bold.*jisx02.*" . 0.95)))
       (setcar e (encode-coding-string (car e) 'emacs-mule))
-      (add-to-assoc-list 'face-font-rescale-alist e))
+      (add-to-assoc-list 'face-font-rescale-alist e t))
 
     ;; ime-font の設定がわからん
     )
