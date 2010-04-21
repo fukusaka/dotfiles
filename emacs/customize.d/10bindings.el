@@ -8,9 +8,9 @@
 (dolist (pkey my-prefix-keys)
   (global-unset-key pkey))
 
-(defun my-define-global-key (key def)
-  (dolist (pkey my-prefix-keys)
-    (define-key global-map (concat pkey key) def)))
+(defmacro my-define-global-key (key def)
+  `(dolist (pkey my-prefix-keys)
+     (define-key global-map (concat pkey ,key) ,def)))
 
 (my-define-global-key "j" 'goto-line)
 (my-define-global-key "\C-j" 'goto-line)
@@ -30,11 +30,10 @@
 ;; for vc-dir
 (when (>= emacs-major-version 23)
   (my-define-global-key "v" 'vc-dir)
-  (my-define-global-key "\C-v" 'vc-dir)
-  )
+  (my-define-global-key "\C-v" 'vc-dir))
 
 ;; for man
-(define-key global-map "\M-m" 'man)
+;;(define-key global-map "\M-m" 'man)
 (my-define-global-key "m" 'man)
 
 ;; for program
@@ -47,11 +46,44 @@
 (my-define-global-key "\C-g" 'grep)
 (my-define-global-key "\M-g" 'grep-find)
 
+
+;; トグル動作
+;; 現在バッファ名が run-buffer-name であれば現在バッファを最後尾に下げ、
+;; でなければ、run-comanndを実行する。
+(defun toggle-run-mode (run-command &optional run-buffer-name)
+  (if (let ((toggle-list
+             (cond
+              ((stringp run-buffer-name) (list run-buffer-name))
+              ((consp run-buffer-name) run-buffer-name))))
+        (member (buffer-name) toggle-list))
+      (switch-to-buffer (prog1 (other-buffer (current-buffer))
+			  (bury-buffer (current-buffer))))
+    (eval (list run-command))))
+
+(defmacro def-toggle-run (command buffername)
+  `(defun ,(intern (concat "toggle-" (symbol-name command))) ()
+     (interactive)
+     (toggle-run-mode (quote ,command) ,buffername)))
+
+(defvar default-toggle-run-command 'shell)
+
+(defvar default-toggle-run-mode-list
+  '("*shell*"
+    "*eshell*"
+    "*tex-shell*"))
+
+(defun toggle-default ()
+  (interactive)
+  (toggle-run-mode default-toggle-run-command default-toggle-run-mode-list))
+
+(my-define-global-key "z" 'toggle-default)
+(my-define-global-key "\C-z" 'toggle-default)
+
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし
 ;;
-(my-define-global-key "z" 'toggle-shell-default)
-(my-define-global-key "\C-z" 'toggle-shell-default)
+(def-toggle-run shell "*shell*")
+(def-toggle-run eshell "*eshell*")
 
 (my-define-global-key "s" 'toggle-shell)
 (my-define-global-key "\C-s" 'toggle-shell)
@@ -59,62 +91,25 @@
 (my-define-global-key "e" 'toggle-eshell)
 (my-define-global-key "\C-e" 'toggle-eshell)
 
-(defun toggle-shell-default ()
-  (interactive)
-  (toggle-run-mode '(shell)))
-
-(defun toggle-shell ()
-  (interactive)
-  (toggle-run-mode '(shell) "*shell*"))
-
-(defun toggle-eshell ()
-  (interactive)
-  (toggle-run-mode '(eshell) "*eshell*"))
-
-(defvar toggle-run-mode-list
-  '("*shell*"
-    "*eshell*"
-    "*tex-shell*"))
-
-;; 明示的に、toggle-run-mode を使わなければ、toggle-run-mode-list を
-;; 使う。
-(defun toggle-run-mode (run-command &optional toggle-run-mode)
-  (if (let ((mode-list (if (stringp toggle-run-mode)
-			   (list toggle-run-mode)
-			 toggle-run-mode-list)))
-	(eval (cons 'or
-		    (mapcar (function
-			     (lambda (run-mode)
-			       (string= (buffer-name) run-mode)))
-			    mode-list))))
-      (switch-to-buffer (prog1 (other-buffer (current-buffer))
-			  (bury-buffer (current-buffer))))
-    (eval run-command)))
-
 ;;
 ;; Scratchよ永遠に！
 ;;
-(my-define-global-key "l" 'scratch)
-(my-define-global-key "\C-l" 'scratch)
+(defvar scratch-buffer-name "*scratch*")
 
 (defun scratch ()
   (interactive)
-  (if (get-buffer "*scratch*") nil
-    (get-buffer-create "*scratch*")
+  (unless (get-buffer scratch-buffer-name)
+    (get-buffer-create scratch-buffer-name)
     (save-excursion
-      (set-buffer "*scratch*")
+      (set-buffer scratch-buffer-name)
       (if (eq major-mode 'fundamental-mode)
 	  (funcall initial-major-mode))
       (and initial-scratch-message
 	   (insert initial-scratch-message))
-      (set-buffer-modified-p nil))
-    )
-  (switch-to-buffer (get-buffer "*scratch*")))
+      (set-buffer-modified-p nil)))
+  (switch-to-buffer (get-buffer scratch-buffer-name)))
 
-;; AppleKeyboard(Eisu/Kanji) を動作
-(when (eq window-system 'x)
-  (define-key global-map [kanji]
-    '(lambda () (interactive) (activate-input-method default-input-method)))
-  (define-key global-map [eisu-shift]
-    '(lambda () (interactive) (activate-input-method nil)))
-  )
+(def-toggle-run scratch scratch-buffer-name)
+
+(my-define-global-key "l" 'toggle-scratch)
+(my-define-global-key "\C-l" 'toggle-scratch)
