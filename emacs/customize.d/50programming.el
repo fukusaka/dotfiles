@@ -4,22 +4,30 @@
 (setq compilation-ask-about-save nil)
 (setq compilation-window-height 20)
 
-;; 行末スペース削除支援
-(setq-default show-trailing-whitespace t)	;; 行末の不要スペースを強調表示
-;;(add-hook 'before-save-hook
-;;          'delete-trailing-whitespace)	;; 保存時に無駄なスペースを削除
+;; 行末の不要スペースを強調表示
+;;(set-face-underline 'trailing-whitespace "Red")
+(set-face-background 'trailing-whitespace "MistyRose")
 
+;; 行末スペースを色づけ
+(setq-default show-trailing-whitespace t)
 
-(defun my-not-require-final-newline ()
+;; 保存時に無駄なスペースを削除
+(add-hook 'before-save-hook
+          '(lambda ()
+             ;; 他人のソースではスペース削減は行なわない!
+             (unless my-others-source-code
+               (delete-trailing-whitespace))))
+
+;; 他人のソースをいじる時に指定する
+(defun my-current-buffer-others-source-code ()
   (interactive)
+  (setq my-others-source-code t)
+  (setq show-trailing-whitespace nil)
   (setq require-final-newline nil))
 
-;;(setq-default tab-width 4)
-(setq-default indent-tabs-mode nil)
-
-;;(which-function-mode)
-
-(setq vc-follow-symlinks t)
+;; 他人のソースは自前で指定する
+(make-variable-buffer-local 'my-others-source-code)
+(setq-default my-others-source-code nil)
 
 ;; gtags
 (autoload 'gtags-mode "gtags" "" t)
@@ -30,12 +38,6 @@
          (local-set-key "\M-s" 'gtags-find-symbol)
          (local-set-key "\C-t" 'gtags-pop-stack)
          ))
-
-(add-hook 'c-mode-common-hook
-          '(lambda ()
-	     (c-set-style "bsd")))
-
-(setq cperl-indent-level 4)
 
 (setq glib-types
       '("gboolean" "gpointer" "gconstpointer"
@@ -51,7 +53,15 @@
     (setq c-font-lock-extra-types (append c-font-lock-extra-types glib-types))
     (setq c++-font-lock-extra-types (append c++-font-lock-extra-types glib-types))
     (gtags-mode 1)
+    (c-set-style "bsd")
     ))
+
+;; CPerl-mode を使う
+(defalias 'perl-mode 'cperl-mode)
+
+;; インデントモードの設定
+;;(setq-default tab-width 4)
+;;(setq-default indent-tabs-mode nil)
 
 ;; Emacs 22 以降の対応
 (when (and (>= emacs-major-version 22)
@@ -63,10 +73,11 @@
   (require 'auto-complete-config)
   (ac-config-default)
 
-  ;;  (setq ac-auto-start 3)
-  (setq ac-auto-start nil)
-  (setq ac-auto-show-menu nil)
+  ;;(setq ac-auto-start 3)
+  ;;(setq ac-auto-start nil)
+  ;;(setq ac-auto-show-menu nil)
 
   ;; Color-moccur
   (require 'color-moccur)
-)
+
+  )
