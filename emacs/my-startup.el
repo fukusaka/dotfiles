@@ -185,7 +185,7 @@
       (let ((files (directory-files dir nil "\\.el$" t)))
         (dolist (file files)
           (my-compile-file
-           (concat (directory-file-name dir) file)
+           (concat (file-name-as-directory dir) file)
            my-compiled-elisp-path))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
