@@ -41,3 +41,10 @@
     )
   )
 
+;; AppleKeyboard(Eisu/Kanji) の挙動を定義
+(when (eq window-system 'x)
+  (define-key global-map [kanji]
+    '(lambda () (interactive) (activate-input-method default-input-method)))
+  (define-key global-map [eisu-shift]
+    '(lambda () (interactive) (activate-input-method nil)))
+  )
