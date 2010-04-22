@@ -34,16 +34,26 @@
 
 	     (defadvice dired-up-directory
 	       (around kill-up-dired-buffer activate)
-	       (setq my-dired-before-buffer (current-buffer))
-	       ad-do-it
-	       (if (eq major-mode 'dired-mode)
-		   (kill-buffer my-dired-before-buffer)))
+	       (let ((before-buffer (current-buffer)))
+		 ad-do-it
+		 (if (eq major-mode 'dired-mode)
+		     (kill-buffer before-buffer))))
+
+	     (defadvice dired-find-file
+	       (around kill-find-dired-buffer activate)
+	       (let ((before-buffer (current-buffer)))
+		 ad-do-it
+		 (if (eq major-mode 'dired-mode)
+		     (kill-buffer before-buffer))))
+
+	     (defadvice dired-view-file
+	       (around kill-view-dired-buffer activate)
+	       (let ((before-buffer (current-buffer)))
+		 ad-do-it
+		 (if (eq major-mode 'dired-mode)
+		     (kill-buffer before-buffer))))
 
 	     ;; モードキーの設定
-	     (define-key dired-mode-map "a" 'dired-find-file)
-	     (define-key dired-mode-map "e" 'dired-find-alternate-file)
-	     (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
-
 	     (define-key dired-mode-map "\M-o" 'dired-omit-mode)
 	     (define-key dired-mode-map "f" 'dired-do-shell-command)
 	     (define-key dired-mode-map "U" 'dired-unmark-all-files-no-query)
