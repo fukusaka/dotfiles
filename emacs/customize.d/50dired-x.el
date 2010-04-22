@@ -29,7 +29,21 @@
                       (fboundp 'dired-omit-toggle))
                  (defalias 'dired-omit-mode 'dired-omit-toggle))
 
+	     ;; 複数のウィンドウを開かない
+	     (put 'dired-find-alternate-file 'disabled nil)
+
+	     (defadvice dired-up-directory
+	       (around kill-up-dired-buffer activate)
+	       (setq my-dired-before-buffer (current-buffer))
+	       ad-do-it
+	       (if (eq major-mode 'dired-mode)
+		   (kill-buffer my-dired-before-buffer)))
+
 	     ;; モードキーの設定
+	     (define-key dired-mode-map "a" 'dired-find-file)
+	     (define-key dired-mode-map "e" 'dired-find-alternate-file)
+	     (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+
 	     (define-key dired-mode-map "\M-o" 'dired-omit-mode)
 	     (define-key dired-mode-map "f" 'dired-do-shell-command)
 	     (define-key dired-mode-map "U" 'dired-unmark-all-files-no-query)

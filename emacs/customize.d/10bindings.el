@@ -26,6 +26,7 @@
 ;; for dired
 (my-define-global-key "d" 'dired-jump)
 (my-define-global-key "\C-d" 'dired-jump)
+(define-key global-map "\C-x\C-d" 'dired-jump)
 
 ;; for vc-dir
 (when (>= emacs-major-version 23)
