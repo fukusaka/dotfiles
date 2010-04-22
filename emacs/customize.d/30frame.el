@@ -26,6 +26,8 @@
     )
    ;; Windows
    ((eq window-system 'w32)
+    (add-to-assoc-list 'initial-frame-alist '(top . 0))
+    (add-to-assoc-list 'initial-frame-alist '(left . 160))
     ;;(setq-default line-spacing 0.1)
     )
    )
