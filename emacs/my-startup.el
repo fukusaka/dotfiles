@@ -195,8 +195,9 @@
   ;; my-elisp-path以下のディレクトリを全て load-path に追加
   (dolist (elisp-path `(,my-compiled-elisp-path ,my-elisp-path))
     (let ((default-directory (directory-file-name elisp-path)))
-      (setq load-path (append load-path (list default-directory)))
-      (normal-top-level-add-subdirs-to-load-path)))
+      (when (file-directory-p default-directory)
+	(setq load-path (append load-path (list default-directory)))
+	(normal-top-level-add-subdirs-to-load-path))))
 
   ;;(add-to-list 'load-path my-elisp-path)
 
