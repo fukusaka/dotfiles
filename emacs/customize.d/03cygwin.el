@@ -58,14 +58,12 @@
        ;; Windows系でロケール(ShiftJIS)を使う場合
        ((coding-system-equal 'shift_jis coding)
         (setenv "LANG" "ja_JP.SJIS")
-        (setenv-cygwin "codepage:932")
 
         (setq my-prefer-utf8-for-cygwin nil)
         )
        ;; Windows系でUTF-8を使う場合
        ((coding-system-equal 'utf-8 coding)
         (setenv "LANG" "ja_JP.UTF-8")
-        (setenv-cygwin "codepage:utf8")
 
         ;; w32-fns.el で適当？に設定されているの修正？
         ;;(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
