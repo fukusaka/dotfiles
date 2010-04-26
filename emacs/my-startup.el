@@ -195,6 +195,7 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
     (dolist (dir (cons "." (my-list-subdirs my-elisp-dir nil)))
       (let ((files (directory-files dir nil "\\.el$" t)))
         (dolist (file files)
+	  (message "[my-elisp-all-compile] check %s/%s" dir file)
           (my-compile-file
            (concat (file-name-as-directory dir) file)
            my-compiled-elisp-dir))))))
@@ -204,11 +205,14 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 (defun my-startup ()
 
   ;; my-elisp-dir以下のディレクトリを全て load-path に追加
-  (dolist (elisp-path `(,my-compiled-elisp-dir ,my-elisp-dir))
-    (let ((default-directory (directory-file-name elisp-path)))
-      (when (file-directory-p default-directory)
-	(setq load-path (append load-path (list default-directory)))
-	(normal-top-level-add-subdirs-to-load-path))))
+  (let ((default-directory
+	  (directory-file-name
+	   (if (file-directory-p my-compiled-elisp-dir)
+	       my-compiled-elisp-dir
+	     my-elisp-dir))))
+    (when (file-directory-p default-directory)
+      (setq load-path (append load-path (list default-directory)))
+      (normal-top-level-add-subdirs-to-load-path)))
 
   ;;(add-to-list 'load-path my-elisp-dir)
 
