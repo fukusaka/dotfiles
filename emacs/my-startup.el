@@ -12,23 +12,34 @@
   "Emacs のフレーバ。
 バージョン毎にbytecodeが異なるときの場合わけの区別の基準になる")
 
+(defvar my-top-conf-dir
+  (expand-file-name "~/common/conf/")
+  "設定ファイル群を置く基準ディレクトリ")
 
-(defvar my-top-conf-dir       (expand-file-name "~/common/conf/"))
+(defvar my-emacs-conf-dir
+  (concat (file-name-as-directory my-top-conf-dir)
+	  "emacs/")
+  "emacs用設定ファイルの基準ディレクトリ")
 
-(defvar my-emacs-conf-dir     (file-name-as-directory
-                               (concat my-top-conf-dir "emacs")))
+(defvar my-customize-dir
+  (concat (file-name-as-directory my-emacs-conf-dir)
+	  "customize.d/")
+  "emacs設定を分割したファイルを置く場所")
 
-(defvar my-elisp-path         (file-name-as-directory
-                               (concat my-emacs-conf-dir "elisp")))
+(defvar my-customize-bundle
+  (concat (file-name-as-directory my-customize-dir)
+	  "all-bundle.el")
+  "emacs設定を全部入りにするファイル名")
 
-(defvar my-compiled-elisp-path (file-name-as-directory
-                                (concat my-elisp-path "compiled-" my-emacs-flavor)))
+(defvar my-elisp-dir
+  (concat (file-name-as-directory my-emacs-conf-dir)
+	  "elisp/")
+  "elispを入れて置く場所")
 
-(defvar my-customize-dir      (file-name-as-directory
-                               (concat my-emacs-conf-dir "customize.d")))
-
-(defvar my-customize-bundle    (concat my-customize-dir
-                                       (format "all-bundle.el" my-emacs-flavor)))
+(defvar my-compiled-elisp-dir
+  (concat (file-name-as-directory my-emacs-conf-dir)
+	  (format "elisp-%s/" my-emacs-flavor))
+  "elispをbyteコンパイルしたファイルの置き場所")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 場所指定のカスタマイズ。。。便利か?
@@ -37,11 +48,7 @@
 
 (defvar my-hostname-nohost "localhost")
 
-(defvar my-hostname
-  (let ((text (shell-command-to-string "hostname -s")))
-    (if (string-match "^.*" text)
-        (match-string 0 text)
-      my-hostname-nohost)))
+(defvar my-hostname (if system-name system-name my-hostname-nohost))
 
 (defvar my-place
   (let ((alist my-place-profile-alist) place)
@@ -61,7 +68,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-compile-file (file &optional elc-topdir)
   "ファイルの更新時間を比較して byte-compile してそのファイル名前を返す。
-作成される bytecode ファイルの置き場所は emacs-flavor 毎の場所に作られる。"
+作成される bytecode ファイルの置き場所は、fileがあるディレクトリに下に
+ emacs-flavor 毎のサブディレクトリになる。
+
+elc-topdirを指定した場合は、elc-topdirを基準にした相対パス file に指定した
+パス名になる。従って、.el ファイルはdefalut-directoryからの相対パスで指定しなくては行けない。"
   (let* ((base (file-name-nondirectory file))
          (el-dir (file-name-directory file))
          (elc-dir (file-name-as-directory
@@ -180,26 +191,26 @@
 ;; elisp 以下を全部バイトコンパイルしてcompiled-emacsXXにコピー
 (defun my-elisp-all-compile ()
   (interactive)
-  (let ((default-directory my-elisp-path))
-    (dolist (dir (cons "." (my-list-subdirs my-elisp-path nil)))
+  (let ((default-directory my-elisp-dir))
+    (dolist (dir (cons "." (my-list-subdirs my-elisp-dir nil)))
       (let ((files (directory-files dir nil "\\.el$" t)))
         (dolist (file files)
           (my-compile-file
            (concat (file-name-as-directory dir) file)
-           my-compiled-elisp-path))))))
+           my-compiled-elisp-dir))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期化本体
 (defun my-startup ()
 
-  ;; my-elisp-path以下のディレクトリを全て load-path に追加
-  (dolist (elisp-path `(,my-compiled-elisp-path ,my-elisp-path))
+  ;; my-elisp-dir以下のディレクトリを全て load-path に追加
+  (dolist (elisp-path `(,my-compiled-elisp-dir ,my-elisp-dir))
     (let ((default-directory (directory-file-name elisp-path)))
       (when (file-directory-p default-directory)
 	(setq load-path (append load-path (list default-directory)))
 	(normal-top-level-add-subdirs-to-load-path))))
 
-  ;;(add-to-list 'load-path my-elisp-path)
+  ;;(add-to-list 'load-path my-elisp-dir)
 
   ;; カスタマイズ設定の読み出し
   (my-customize-load my-customize-dir my-customize-bundle)
