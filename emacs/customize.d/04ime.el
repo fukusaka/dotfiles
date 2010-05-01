@@ -10,10 +10,6 @@
 
 ;; NTEmacs IME 対応
 (when (featurep 'w32-ime)
-
-  ;; IMEパッチで必要らしい。
-  (set-keyboard-coding-system 'japanese-shift-jis-dos)
-
   ;; W32-IME の初期化
   (setq-default w32-ime-mode-line-state-indicator "[--]")
   (setq w32-ime-mode-line-state-indicator-list '("[--]" "[あ]" "[--]"))

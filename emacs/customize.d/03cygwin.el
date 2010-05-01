@@ -72,9 +72,6 @@
         )
        )
       )
-    ;; ファイル名はCygwin経由では取得しないので常にロケールなのか？
-    (if locale-coding-system
-        (setq default-file-name-coding-system locale-coding-system))
     )
 
   ;; cygwin-mount.el
