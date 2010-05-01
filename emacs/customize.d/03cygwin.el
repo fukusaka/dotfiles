@@ -65,9 +65,6 @@
        ((coding-system-equal 'utf-8 coding)
         (setenv "LANG" "ja_JP.UTF-8")
 
-        ;; w32-fns.el で適当？に設定されているの修正？
-        ;;(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-
         (setq my-prefer-utf8-for-cygwin t)
         )
        )
