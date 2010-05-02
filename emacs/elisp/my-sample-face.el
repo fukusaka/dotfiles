@@ -47,7 +47,7 @@ _-!\"#$%&'()*+ -./:;<=>?@[\\]_
 _^_`{|}~!\"#$%&'()*+ -./:;<=_
 _12345678901234567890123456_
 _ABCDEFGHIJKLMNOPQRSTUVWXYZ_
-_ã‚ã„ã†ãˆãŠã‹ããã‘ã“ã•ã—ã™_
+_‚ ‚¢‚¤‚¦‚¨‚©‚«‚­‚¯‚±‚³‚µ‚·_
 ____________________________
 ")
 
@@ -93,6 +93,7 @@ ____________________________
   (let ((buf (generate-new-buffer "*sample-face*"))
 	(alist my-sample-face-alist))
     (switch-to-buffer buf)
+    (set-buffer-file-coding-system 'utf-8)
     (dolist (e alist)
       (let (sta end)
 	(setq sta (point))
