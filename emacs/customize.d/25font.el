@@ -52,12 +52,11 @@
 	    ;;	    ("-cdac$" . 1.3)))
 
 	    )
-	   ;; Ubuntu 以外
+
+	   ;; Ubuntu以外
 	   (t
-	    (setq my-font-height 100)
-	    ;;(setq my-font "Monospace")
-	    ;;(setq my-font "Courier")
-	    (setq my-font "DejaVu Sans Mono")
+	    (setq my-font-height 120)
+	    (setq my-font "Inconsolata")
 	    ;;(setq my-font "VL ゴシック")
 	    (setq my-font-ja "VL ゴシック")
 	    )
@@ -109,7 +108,7 @@
       (set-face-attribute 'default nil :family my-font :height my-font-height)
 
       ;; 日本語文字に別のフォントを指定
-      (if (or my-font-ja (not (string= my-font my-font-ja)))
+      (if (and my-font-ja (not (string= my-font my-font-ja)))
 	  (let ((fn (frame-parameter nil 'font))
 		(rg "iso10646-1"))
 	    (set-fontset-font fn 'katakana-jisx0201 `(,my-font-ja . ,rg))
