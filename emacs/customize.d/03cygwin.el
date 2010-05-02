@@ -4,8 +4,8 @@
 
 (when (memq system-type '(cygwin windows-nt))
 
-  ;; cygwin のパスを通す
-  (defvar cygwin-top-directory "C:/cygwin/")
+  ;; cygwin のパスを確認する
+  (defvar cygwin-top-directory "C:/App/cygwin/")
 
   (add-to-list
    'exec-path
