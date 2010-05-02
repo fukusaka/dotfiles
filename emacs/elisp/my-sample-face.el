@@ -42,10 +42,16 @@
 ;;; Code:
 
 (defvar my-sample-face-str "
+____________________________
+_-!\"#$%&'()*+ -./:;<=>?@[\\]_
+_^_`{|}~!\"#$%&'()*+ -./:;<=_
 _12345678901234567890123456_
 _ABCDEFGHIJKLMNOPQRSTUVWXYZ_
 _あいうえおかきくけこさしす_
+____________________________
 ")
+
+
 
 (defface my-sample-face-6 '((t :height 60 :inherit default)) "")
 (defface my-sample-face-7 '((t :height 70 :inherit default)) "")
@@ -65,21 +71,21 @@ _あいうえおかきくけこさしす_
 
 
 (defvar my-sample-face-alist
-  '(("height 6" face my-sample-face-6)
-    ("height 7" face my-sample-face-7)
-    ("height 8" face my-sample-face-8)
-    ("height 9" face my-sample-face-9)
-    ("height 10" face my-sample-face-10)
-    ("height 11" face my-sample-face-11)
-    ("height 12" face my-sample-face-12)
-    ("height 13" face my-sample-face-13)
-    ("height 14" face my-sample-face-14)
-    ("height 15" face my-sample-face-15)
-    ("height 16" face my-sample-face-16)
-    ("height 17" face my-sample-face-17)
-    ("height 18" face my-sample-face-18)
-    ("height 19" face my-sample-face-19)
-    ("height 20" face my-sample-face-20)
+  '((6 face my-sample-face-6)
+    (7 face my-sample-face-7)
+    (8 face my-sample-face-8)
+    (9 face my-sample-face-9)
+    (10 face my-sample-face-10)
+    (11 face my-sample-face-11)
+    (12 face my-sample-face-12)
+    (13 face my-sample-face-13)
+    (14 face my-sample-face-14)
+    (15 face my-sample-face-15)
+    (16 face my-sample-face-16)
+    (17 face my-sample-face-17)
+    (18 face my-sample-face-18)
+    (19 face my-sample-face-19)
+    (20 face my-sample-face-20)
     ))
 
 (defun my-sample-face ()
@@ -90,7 +96,7 @@ _あいうえおかきくけこさしす_
     (dolist (e alist)
       (let (sta end)
 	(setq sta (point))
-	(insert (format "### %s ###\n" (car e)))
+	(insert (format "### height %d ###\n" (car e)))
 	(insert my-sample-face-str)
 	(insert "\n")
 	(setq end (point))
