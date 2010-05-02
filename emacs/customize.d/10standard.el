@@ -73,3 +73,4 @@
 
 ;; 表示テスト用
 (autoload 'my-sample-ascii "my-sample-ascii" "" t)
+(autoload 'my-sample-face "my-sample-face" "" t)
