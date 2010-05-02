@@ -35,7 +35,7 @@
        ((eq window-system 'x)
 	(let ((distrib-id (substring (shell-command-to-string "lsb_release -si") 0 -1)))
 	  (cond
-	   ;; Ubuntu限定(heightを変更しても等幅が変わらない組み合わせ)
+	   ;; Ubuntu限定
 	   ((string= distrib-id "Ubuntu")
 	    (setq my-font-height 70) ;; 他の実装に比べて指定の2倍になる？
 	    ;;(setq my-font "Monospace")
@@ -60,8 +60,8 @@
 	;;(setq my-font "Courier")
 	;;(setq my-font "Courier New")
 	;;(setq my-font "Osaka-Mono")
-	;;(setq my-font "Monaco")	;; XCode 3.1 とかまで使っている
-	(setq my-font "Menlo")	;; XCode 3.2 とかで使ってるやつ
+	;;(setq my-font "Monaco")       ;; XCode 3.1 とかまで使っている
+	(setq my-font "Menlo")        ;; XCode 3.2 とかで使ってるやつ
 	;;(setq my-font "Consolas")
 	;;(setq my-font-ja "Hiragino Maru Gothic Pro")
 	(setq my-font-ja "Hiragino Kaku Gothic Pro")
