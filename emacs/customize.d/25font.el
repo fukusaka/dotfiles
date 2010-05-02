@@ -50,6 +50,7 @@
 	    (setq my-font "Inconsolata")
 	    ;;(setq my-font "VL ゴシック")
 	    (setq my-font-ja "VL ゴシック")
+	    ;;(setq my-font-ja "IPAゴシック")
 	    )
 	   )))
 
@@ -59,6 +60,7 @@
 	(setq my-font-height 120)
 	;;(setq my-font "Courier")
 	;;(setq my-font "Courier New")
+	;;(setq my-font "Osaka-Mono")
 	;;(setq my-font "Monaco")       ;; XCode 3.1 とかまで使っている
 	(setq my-font "Menlo")        ;; XCode 3.2 とかで使ってるやつ
 	;;(setq my-font "Consolas")
@@ -81,26 +83,36 @@
 	(setq scalable-fonts-allowed t)
 	(setq w32-enable-synthesized-fonts t)
 	(setq my-font-height 100)
-	;;(setq myfont "ＭＳ ゴシック")
-	(setq myfont "VL ゴシック")
-	;;(setq myfont "Meiryo")	;; どうも上手くサイズが決まらない
-	(setq my-font-ja myfont)
+	;;(setq my-font "ＭＳ ゴシック")
+	;;(setq my-font "VL ゴシック")
+	;;(setq my-font "IPAゴシック")
+	;;(setq my-font "Takaoゴシック")
+	;;(setq my-font "Inconsolata")
+	(setq my-font "Consolas")
+	;;(setq my-font-ja "ＭＳ ゴシック")
+	;;(setq my-font-ja "VL ゴシック") ;; 高さが合わない
+	;;(setq my-font-ja "IPAゴシック")
+	(setq my-font-ja "Takaoゴシック")
+	;;(setq my-font-ja "Meiryo") ;; 高さ幅ともに合わない
 	;; ime-font の設定がわからん
-
-	;; フォントサイズの微調節
-	(dolist (e '((".*ＭＳ.*bold.*iso8859.*"  . 0.9)
-		     (".*ＭＳ.*bold.*jisx02.*" . 0.95)))
-	  ;;(setcar e (encode-coding-string (car e) 'emacs-mule))
-	  (add-to-list 'face-font-rescale-alist e t))
 	)
-       )
 
+       ;; フォントサイズの微調節
+       (setq face-font-rescale-alist
+	     '((".*ＭＳ.*bold.*iso8859.*"  . 0.9)
+	       (".*ＭＳ.*bold.*jisx02.*" . 0.95)
+	       ;;(".*Meiryo.*" . 1.3)
+	       ("-cdac$" . 1.3)))
+
+       (dolist (e face-font-rescale-alist)
+	 (setcar e (encode-coding-string (car e) 'emacs-mule)))
+       )
       ;; デフォルトフォント設定
       (set-face-attribute 'default nil :family my-font :height my-font-height)
       ;;(set-frame-font (format "%s-%d" my-font (/ my-font-height 10)))
 
       ;; 日本語文字に別のフォントを指定
-      (if (and my-font-ja (not (string= my-font my-font-ja)))
+      (if my-font-ja
 	  (let ((fn (frame-parameter nil 'font))
 		(rg "iso10646-1"))
 	    (set-fontset-font fn 'katakana-jisx0201 `(,my-font-ja . ,rg))
