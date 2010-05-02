@@ -11,10 +11,10 @@
   (cond
    ;; X
    ((eq window-system 'x)
-    (add-to-assoc-list 'default-frame-alist '(width . 100))
-    ;;(setq-default line-spacing 0.1)
-
     (when (member ":0.0" (x-display-list))
+      (add-to-assoc-list 'default-frame-alist '(width . 100))
+      ;;(setq-default line-spacing 0.1)
+
       (add-to-assoc-list 'initial-frame-alist '(left . 0))
       (let* ((top-panel-size 24)
 	     (bottom-panel-size 24)
