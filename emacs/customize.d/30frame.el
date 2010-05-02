@@ -17,7 +17,7 @@
     (add-to-assoc-list 'initial-frame-alist '(left . 0))
     (let* ((top-panel-size 24)
 	   (bottom-panel-size 24)
-	   (font-height 18)
+	   (font-height 16)
 	   (view-pixel-height (- (display-pixel-height) (+ top-panel-size bottom-panel-size 2)))
 	   (height (/ view-pixel-height font-height)))
       (add-to-assoc-list 'initial-frame-alist `(top . ,(+ top-panel-size 1)))
