@@ -33,7 +33,8 @@
 
     (add-to-assoc-list 'initial-frame-alist '(top . 22))
     (add-to-assoc-list 'initial-frame-alist '(left . 0))
-    (add-to-assoc-list 'initial-frame-alist '(height . 54))
+    (if (eq window-system 'ns)
+	(add-to-assoc-list 'initial-frame-alist '(height . 56)))
     )
 
    ;; Windows
