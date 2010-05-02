@@ -59,7 +59,6 @@
 	(setq my-font-height 120)
 	;;(setq my-font "Courier")
 	;;(setq my-font "Courier New")
-	;;(setq my-font "Osaka-Mono")
 	;;(setq my-font "Monaco")       ;; XCode 3.1 とかまで使っている
 	(setq my-font "Menlo")        ;; XCode 3.2 とかで使ってるやつ
 	;;(setq my-font "Consolas")
@@ -97,8 +96,8 @@
        )
 
       ;; デフォルトフォント設定
-      ;;(set-face-attribute 'default nil :family my-font :height my-font-height)
-      (set-frame-font (format "%s-%d" my-font (/ my-font-height 10)))
+      (set-face-attribute 'default nil :family my-font :height my-font-height)
+      ;;(set-frame-font (format "%s-%d" my-font (/ my-font-height 10)))
 
       ;; 日本語文字に別のフォントを指定
       (if (and my-font-ja (not (string= my-font my-font-ja)))
