@@ -35,22 +35,13 @@
        ((eq window-system 'x)
 	(let ((distrib-id (substring (shell-command-to-string "lsb_release -si") 0 -1)))
 	  (cond
-	   ;; Ubuntu の Emacs は挙動が不明で分からん
+	   ;; Ubuntu限定(heightを変更しても等幅が変わらない組み合わせ)
 	   ((string= distrib-id "Ubuntu")
 	    (setq my-font-height 70) ;; 他の実装に比べて指定の2倍になる？
 	    ;;(setq my-font "Monospace")
 	    (setq my-font "Inconsolata")
 	    ;;(setq my-font "Takaoゴシック")
 	    (setq my-font-ja "Takaoゴシック")
-
-	    ;;;; DejaVu Sans Mono は何故か文字幅が大きい？
-	    ;;(setq my-font-height 60)
-	    ;;(setq my-font "DejaVu Sans Mono")
-	    ;;;; フォントサイズの微調節 (DejaVu..のみ必要？)
-	    ;;(setq face-font-rescale-alist
-	    ;;	  '((".*Takaoゴシック.*" . 1.2)
-	    ;;	    ("-cdac$" . 1.3)))
-
 	    )
 
 	   ;; Ubuntu以外
