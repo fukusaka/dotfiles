@@ -33,23 +33,35 @@
       (cond
        ;; for X (debian/ubuntu/fedora)
        ((eq window-system 'x)
-	(setq my-font-height 60)        ;; 他の実装に比べて指定の２倍になる？Ubuntu10.04だけ？
-	;;(setq my-font "Courier")
-	(setq my-font "DejaVu Sans Mono")
-	;;(setq my-font "VL ゴシック")
-	;;(setq my-font "Takaoゴシック")
-	;;(setq my-font-ja "VL ゴシック")
-	(setq my-font-ja "Takaoゴシック")
+	(let ((distrib-id (substring (shell-command-to-string "lsb_release -si") 0 -1)))
+	  (cond
+	   ;; Ubuntu の Emacs は挙動が不明で分からん
+	   ((string= distrib-id "Ubuntu")
+	    (setq my-font-height 70) ;; 他の実装に比べて指定の2倍になる？
+	    ;;(setq my-font "Monospace")
+	    (setq my-font "Inconsolata")
+	    ;;(setq my-font "Takaoゴシック")
+	    (setq my-font-ja "Takaoゴシック")
 
-	;; フォントサイズの微調節
-	(unless (string= my-font my-font-ja)
-	  (dolist (e '(
-		       (".*VL ゴシック.*" . 1.2)
-		       (".*Takaoゴシック.*" . 1.2)
-		       ))
-	    (add-to-list 'face-font-rescale-alist e t))
-	  )
-	)
+	    ;;;; DejaVu Sans Mono は何故か文字幅が大きい？
+	    ;;(setq my-font-height 60)
+	    ;;(setq my-font "DejaVu Sans Mono")
+	    ;;;; フォントサイズの微調節 (DejaVu..のみ必要？)
+	    ;;(setq face-font-rescale-alist
+	    ;;	  '((".*Takaoゴシック.*" . 1.2)
+	    ;;	    ("-cdac$" . 1.3)))
+
+	    )
+	   ;; Ubuntu 以外
+	   (t
+	    (setq my-font-height 100)
+	    ;;(setq my-font "Monospace")
+	    ;;(setq my-font "Courier")
+	    (setq my-font "DejaVu Sans Mono")
+	    ;;(setq my-font "VL ゴシック")
+	    (setq my-font-ja "VL ゴシック")
+	    )
+	   )))
 
        ;; Cocoa Emacs
        ((eq window-system 'ns)
@@ -88,7 +100,7 @@
 	;; フォントサイズの微調節
 	(dolist (e '((".*ＭＳ.*bold.*iso8859.*"  . 0.9)
 		     (".*ＭＳ.*bold.*jisx02.*" . 0.95)))
-	  (setcar e (encode-coding-string (car e) 'emacs-mule))
+	  ;;(setcar e (encode-coding-string (car e) 'emacs-mule))
 	  (add-to-list 'face-font-rescale-alist e t))
 	)
        )
@@ -97,12 +109,12 @@
       (set-face-attribute 'default nil :family my-font :height my-font-height)
 
       ;; 日本語文字に別のフォントを指定
-      (unless (string= my-font my-font-ja)
-	(let ((fn (frame-parameter nil 'font))
-	      (rg "iso10646-1"))
-	  (set-fontset-font fn 'katakana-jisx0201 `(,my-font-ja . ,rg))
-	  (set-fontset-font fn 'japanese-jisx0208 `(,my-font-ja . ,rg))
-	  (set-fontset-font fn 'japanese-jisx0212 `(,my-font-ja . ,rg)))
+      (if (or my-font-ja (not (string= my-font my-font-ja)))
+	  (let ((fn (frame-parameter nil 'font))
+		(rg "iso10646-1"))
+	    (set-fontset-font fn 'katakana-jisx0201 `(,my-font-ja . ,rg))
+	    (set-fontset-font fn 'japanese-jisx0208 `(,my-font-ja . ,rg))
+	    (set-fontset-font fn 'japanese-jisx0212 `(,my-font-ja . ,rg)))
 	)
       ))
    ))
