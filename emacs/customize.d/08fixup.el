@@ -43,8 +43,15 @@
 
 ;; AppleKeyboard(Eisu/Kanji) の挙動を定義
 (when (eq window-system 'x)
+  ;; X11.app
   (define-key global-map [kanji]
     '(lambda () (interactive) (activate-input-method default-input-method)))
   (define-key global-map [eisu-shift]
+    '(lambda () (interactive) (activate-input-method nil)))
+
+  ;; X11 on VMWare Fusion
+  (define-key global-map [hiragana-katakana]
+    '(lambda () (interactive) (activate-input-method default-input-method)))
+  (define-key global-map [eisu-toggle]
     '(lambda () (interactive) (activate-input-method nil)))
   )
