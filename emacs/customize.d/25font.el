@@ -61,11 +61,11 @@
 	;;(setq my-font "Courier")
 	;;(setq my-font "Courier New")
 	;;(setq my-font "Osaka-Mono")
-	;;(setq my-font "Monaco")       ;; XCode 3.1 とかまで使っている
-	(setq my-font "Menlo")        ;; XCode 3.2 とかで使ってるやつ
+	;;(setq my-font "Monaco")       ;; XCode 3.1 で使っているフォント
+	(setq my-font "Menlo")        ;; XCode 3.2 で使ってるフォント
 	;;(setq my-font "Consolas")
-	;;(setq my-font-ja "Hiragino Maru Gothic Pro")
 	(setq my-font-ja "Hiragino Kaku Gothic Pro")
+	;;(setq my-font-ja "Hiragino Maru Gothic Pro")
 
 	;; フォントサイズの微調節
 	(setq face-font-rescale-alist
@@ -89,24 +89,28 @@
 	;;(setq my-font "Takaoゴシック")
 	;;(setq my-font "Inconsolata")
 	(setq my-font "Consolas")
+	;;(setq my-font "DejaVu Sans Mono")
 	;;(setq my-font-ja "ＭＳ ゴシック")
-	;;(setq my-font-ja "VL ゴシック") ;; 高さが合わない
-	;;(setq my-font-ja "IPAゴシック")
-	(setq my-font-ja "Takaoゴシック")
-	;;(setq my-font-ja "Meiryo") ;; 高さ幅ともに合わない
+	;;(setq my-font-ja "VL ゴシック") ;; 高さがずれる
+	(setq my-font-ja "IPAゴシック")
+	;;(setq my-font-ja "Takaoゴシック")
+	;;(setq my-font-ja "メイリオ") ;; 高さがずれる
 	;; ime-font の設定がわからん
+
+	;; フォントサイズの微調節
+	(setq face-font-rescale-alist
+	      '((".*ＭＳ.*bold.*iso8859.*"  . 0.9)
+		(".*ＭＳ.*bold.*jisx02.*" . 0.95)
+		(".*DejaVu Sans.*" . 0.9)
+		(".*メイリオ.*" . 1.1)
+		("-cdac$" . 1.3)))
+
+	;;(dolist (e face-font-rescale-alist)
+	;;  (setcar e (encode-coding-string (car e) 'emacs-mule)))
 	)
 
-       ;; フォントサイズの微調節
-       (setq face-font-rescale-alist
-	     '((".*ＭＳ.*bold.*iso8859.*"  . 0.9)
-	       (".*ＭＳ.*bold.*jisx02.*" . 0.95)
-	       ;;(".*Meiryo.*" . 1.3)
-	       ("-cdac$" . 1.3)))
-
-       (dolist (e face-font-rescale-alist)
-	 (setcar e (encode-coding-string (car e) 'emacs-mule)))
        )
+
       ;; デフォルトフォント設定
       (set-face-attribute 'default nil :family my-font :height my-font-height)
       ;;(set-frame-font (format "%s-%d" my-font (/ my-font-height 10)))
