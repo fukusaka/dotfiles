@@ -28,8 +28,7 @@
 
    ;; Emacs 23 以上
    ((>= emacs-major-version 23)
-    (let (my-font my-font-ja my-font-height)
-
+    (let (my-font-height my-font my-font-ja)
       (cond
        ;; for X (debian/ubuntu/fedora)
        ((eq window-system 'x)
@@ -49,8 +48,8 @@
 	    (setq my-font-height 120)
 	    (setq my-font "Inconsolata")
 	    ;;(setq my-font "VL ゴシック")
-	    (setq my-font-ja "VL ゴシック")
-	    ;;(setq my-font-ja "IPAゴシック")
+	    ;;(setq my-font-ja "VL ゴシック")
+	    (setq my-font-ja "IPAゴシック")
 	    )
 	   )))
 
@@ -64,10 +63,11 @@
 	;;(setq my-font "Monaco")       ;; XCode 3.1 で使っているフォント
 	(setq my-font "Menlo")        ;; XCode 3.2 で使ってるフォント
 	;;(setq my-font "Consolas")
+	;;(setq my-font-ja "IPAゴシック")
 	(setq my-font-ja "Hiragino Kaku Gothic Pro")
 	;;(setq my-font-ja "Hiragino Maru Gothic Pro")
 
-	;; フォントサイズの微調節
+	;; フォントサイズの微調節 (12ptで合うように)
 	(setq face-font-rescale-alist
 	      '(("^-apple-hiragino.*" . 1.2)
 		(".*osaka-bold.*" . 1.2)
@@ -91,13 +91,13 @@
 	(setq my-font "Consolas")
 	;;(setq my-font "DejaVu Sans Mono")
 	;;(setq my-font-ja "ＭＳ ゴシック")
-	;;(setq my-font-ja "VL ゴシック") ;; 高さがずれる
+	;;(setq my-font-ja "VL ゴシック")
 	(setq my-font-ja "IPAゴシック")
 	;;(setq my-font-ja "Takaoゴシック")
-	;;(setq my-font-ja "メイリオ") ;; 高さがずれる
+	;;(setq my-font-ja "メイリオ")
 	;; ime-font の設定がわからん
 
-	;; フォントサイズの微調節
+	;; フォントサイズの微調節 (10ptで合うように)
 	(setq face-font-rescale-alist
 	      '((".*ＭＳ.*bold.*iso8859.*"  . 0.9)
 		(".*ＭＳ.*bold.*jisx02.*" . 0.95)
@@ -110,6 +110,10 @@
 	)
 
        )
+
+      ;; フォントエンジンによると思うが、日本語の文字幅を2倍幅で高さも一致する
+      ;; 日本語フォントはMSゴシック系かIPA系(Takaoを含む)しかないようだ。。。
+      ;; 高さまで一致させようとする(文字が上下にぷるぷるを抑える)のは諦めるしかない。
 
       ;; デフォルトフォント設定
       (set-face-attribute 'default nil :family my-font :height my-font-height)
