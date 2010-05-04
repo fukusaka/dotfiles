@@ -24,6 +24,10 @@
 ;; MacOSX対応
 (when (eq system-type 'darwin)
 
+  ;; MacOSXではMacPortsへパスを通す
+  (add-to-list 'exec-path "/opt/local/bin/")
+  (setenv "MANPATH" "/opt/local/man")
+
   ;; フレーム時のMacOSXのIM呼び出し抑制
   (when window-system
     (global-unset-key "\C-\\"))

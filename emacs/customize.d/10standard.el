@@ -49,11 +49,6 @@
 ;; EDITOR=emacsclientで emacs で開く
 ;;(server-start)
 
-;; MacOSXではMacPortsへパスを通す
-(when (eq system-type 'darwin)
-  (add-to-list 'exec-path "/opt/local/bin/")
-  (setenv "MANPATH" "/opt/local/man"))
-
 ;; 表示テスト用
 (autoload 'my-sample-ascii "my-sample-ascii" "" t)
 (autoload 'my-sample-face "my-sample-face" "" t)
