@@ -99,7 +99,7 @@ ____________________________
     (dolist (e alist)
       (let (sta end)
 	(setq sta (point))
-	(insert (format "### height %f ###\n" (car e)))
+	(insert (format "### height %g pt ###\n" (car e)))
 	(insert my-sample-face-str)
 	(insert "\n")
 	(setq end (point))

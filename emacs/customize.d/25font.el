@@ -44,6 +44,10 @@
 
 	(setq face-font-rescale-alist
 	      '(("-cdac$" . 1.3)))
+
+	;; VMware上のX11はサイズを変更したりフルスクリーンにすると、
+	;; 画面の解像度が 96dpi からスケールする。
+	;; Emacs Xft はこの値を忠実に従うので、pt が大きくなってしまう。
 	)
 
        ;; Cocoa Emacs
