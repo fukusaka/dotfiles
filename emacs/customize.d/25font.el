@@ -105,11 +105,13 @@
        )
 
       ;; デフォルトフォント設定
-      (set-face-attribute 'default nil :family my-font :height my-font-height)
-      ;;(set-frame-font (format "%s-%d" my-font (/ my-font-height 10)))
+      (when my-font
+	(set-face-attribute 'default nil :family my-font :height my-font-height)
+	;;(set-frame-font (format "%s-%d" my-font (/ my-font-height 10)))
+	)
 
       ;; 日本語文字に別のフォントを指定
-      (if my-font-ja
+      (when my-font-ja
 	  (let ((fn (frame-parameter nil 'font))
 		(rg "iso10646-1"))
 	    (set-fontset-font fn 'katakana-jisx0201 `(,my-font-ja . ,rg))
