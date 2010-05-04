@@ -7,7 +7,7 @@
   ;; cygwin のパスを確認する
   (defvar cygwin-top-directory "C:/cygwin/")
 
-  ;; cygwin のパスを通す
+  ;; cygwin のパスを追加
   (add-to-list
    'exec-path
    (expand-file-name (concat cygwin-top-directory "bin"))
@@ -72,7 +72,7 @@
   (setq manual-program "LANG=C man")
 
   ;; cygwin のfindを明示的に指定
-  (setq find-program (concat cygwin-top-directory "bin/find")) t)
+  (setq find-program (concat cygwin-top-directory "bin/find"))
 
   (defadvice prefer-coding-system
     (after my-prefer-coding-system activate)
