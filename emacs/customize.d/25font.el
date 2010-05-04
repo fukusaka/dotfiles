@@ -32,26 +32,18 @@
       (cond
        ;; for X (debian/ubuntu/fedora)
        ((eq window-system 'x)
-	(let ((distrib-id (substring (shell-command-to-string "lsb_release -si") 0 -1)))
-	  (cond
-	   ;; Ubuntu限定
-	   ((string= distrib-id "Ubuntu")
-	    (setq my-font-height 70) ;; 他の実装に比べて指定の2倍になる？
-	    ;;(setq my-font "Monospace")
-	    (setq my-font "Inconsolata")
-	    ;;(setq my-font "Takaoゴシック")
-	    (setq my-font-ja "Takaoゴシック")
-	    )
+	;;(setq my-font-height 90)
+	(setq my-font-height 120)
+	;;(setq my-font "Monospace")
+	(setq my-font "Inconsolata")
+	;;(setq my-font "Takaoゴシック")
+	;;(setq my-font-ja "VL ゴシック")
+	;;(setq my-font-ja "Takaoゴシック")
+	(setq my-font-ja "IPAゴシック")
 
-	   ;; Ubuntu以外
-	   (t
-	    (setq my-font-height 120)
-	    (setq my-font "Inconsolata")
-	    ;;(setq my-font "VL ゴシック")
-	    ;;(setq my-font-ja "VL ゴシック")
-	    (setq my-font-ja "IPAゴシック")
-	    )
-	   )))
+	(setq face-font-rescale-alist
+	      '(("-cdac$" . 1.3)))
+	)
 
        ;; Cocoa Emacs
        ((eq window-system 'ns)
@@ -63,9 +55,9 @@
 	;;(setq my-font "Monaco")       ;; XCode 3.1 で使っているフォント
 	(setq my-font "Menlo")        ;; XCode 3.2 で使ってるフォント
 	;;(setq my-font "Consolas")
-	;;(setq my-font-ja "IPAゴシック")
 	(setq my-font-ja "Hiragino Kaku Gothic Pro")
 	;;(setq my-font-ja "Hiragino Maru Gothic Pro")
+	;;(setq my-font-ja "IPAゴシック")
 
 	;; フォントサイズの微調節 (12ptで合うように)
 	(setq face-font-rescale-alist
@@ -110,10 +102,6 @@
 	)
 
        )
-
-      ;; フォントエンジンによると思うが、日本語の文字幅を2倍幅で高さも一致する
-      ;; 日本語フォントはMSゴシック系かIPA系(Takaoを含む)しかないようだ。。。
-      ;; 高さまで一致させようとする(文字が上下にぷるぷるを抑える)のは諦めるしかない。
 
       ;; デフォルトフォント設定
       (set-face-attribute 'default nil :family my-font :height my-font-height)
