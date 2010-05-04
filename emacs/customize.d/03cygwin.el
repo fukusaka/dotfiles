@@ -5,16 +5,13 @@
 (when (memq system-type '(cygwin windows-nt))
 
   ;; cygwin のパスを確認する
-  (defvar cygwin-top-directory "C:/App/cygwin/")
+  (defvar cygwin-top-directory "C:/cygwin/")
 
+  ;; cygwin のパスを通す
   (add-to-list
    'exec-path
-   (expand-file-name (concat cygwin-top-directory "bin")) t)
-
-  ;; Cygwin の Info 追加
-  (add-to-list
-   'Info-default-directory-list
-   (expand-file-name (concat cygwin-top-directory "usr/share/info")) t)
+   (expand-file-name (concat cygwin-top-directory "bin"))
+   t)
 
   ;; cygwin のバージョン取得
   (let* ((text (shell-command-to-string "cygcheck.exe -cd cygwin"))
@@ -29,6 +26,11 @@
     (defvar cygwin-version version)
     (defvar cygwin-major-version (string-to-number major))
     (defvar cygwin-minor-version (string-to-number minor)))
+
+  ;; cygwin-mount.el
+  (when (locate-library "cygwin-mount")
+    (require 'cygwin-mount)
+    (cygwin-mount-activate))
 
   (defun setenv-cygwin (value)
     (let* ((func '(lambda (val)
@@ -48,8 +50,29 @@
       (unless replaced (setq envs (append envs `(,value))))
       (setenv "CYGWIN" (mapconcat 'identity envs " "))))
 
+  ;; CYGWINの設定
   (setenv-cygwin "nodosfilewarning")
   (setenv-cygwin "tty")
+
+  ;; Shell としてCygwinのBashを使う
+  (when (executable-find "bash")
+    (setq shell-file-name "bash")
+    (setenv "SHELL" shell-file-name)
+
+    ;; shellモードで色付け
+    (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+    (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on))
+
+  ;; Cygwin の Info 追加
+  (add-to-list
+   'Info-default-directory-list
+   (expand-file-name (concat cygwin-top-directory "usr/share/info")) t)
+
+  ;; cygwin-1.7のman(groff)は日本語が使えない。。。
+  (setq manual-program "LANG=C man")
+
+  ;; cygwin のfindを明示的に指定
+  (setq find-program (concat cygwin-top-directory "bin/find")) t)
 
   (defadvice prefer-coding-system
     (after my-prefer-coding-system activate)
@@ -70,11 +93,6 @@
        )
       )
     )
-
-  ;; cygwin-mount.el
-  (when (locate-library "cygwin-mount")
-    (require 'cygwin-mount)
-    (cygwin-mount-activate))
 
 ;;; Follow Cygwin symlinks.
 ;;; Handles old-style (text file) symlinks and new-style (.lnk file) symlinks.
@@ -102,5 +120,4 @@ loaded as such.)"
        )))
 
   (add-hook 'find-file-hooks 'follow-cygwin-symlink)
-
   )

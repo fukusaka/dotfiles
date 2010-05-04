@@ -49,23 +49,6 @@
 ;; EDITOR=emacsclientで emacs で開く
 ;;(server-start)
 
-;; Windows系でCygwinのBashを使う
-(when (and (or (eq system-type 'windows-nt)
-	       (eq system-type 'cygwin))
-	   (executable-find "bash"))
-  (setq shell-file-name "bash")
-  (setenv "SHELL" shell-file-name)
-
-;;; 23以前では必要かも
-;;;  (add-hook 'comint-output-filter-functions
-;;;	    'comint-strip-ctrl-m)
-
-  (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-  (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-  (setq manual-program "LANG=C man")
-  )
-
 ;; MacOSXではMacPortsへパスを通す
 (when (eq system-type 'darwin)
   (add-to-list 'exec-path "/opt/local/bin/")
