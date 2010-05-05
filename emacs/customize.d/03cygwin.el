@@ -8,29 +8,44 @@
   (defvar cygwin-top-directory "C:/cygwin/")
 
   ;; cygwin のパスを追加
-  (add-to-list
-   'exec-path
-   (expand-file-name (concat cygwin-top-directory "bin"))
-   t)
+  (defvar cygwin-bin-directory
+    (expand-file-name (concat cygwin-top-directory "bin")))
+
+  (add-to-list 'exec-path cygwin-bin-directory t)
 
   ;; cygwin のバージョン取得
-  (let* ((text (shell-command-to-string "cygcheck.exe -cd cygwin"))
-         (version
-          (if (and text
-                   (string-match ".*cygwin +\\([0-9.]+\\).*" text))
-              (match-string 1 text)))
-         (vers (if version (split-string version "\\.")))
-         (major (if (listp vers) (nth-value 1 vers)))
-         (minor (if (listp vers) (nth-value 2 vers))))
+  (defvar cygwin-version nil)
+  (defvar cygwin-major-version nil)
+  (defvar cygwin-minor-version nil)
 
-    (defvar cygwin-version version)
-    (defvar cygwin-major-version (string-to-number major))
-    (defvar cygwin-minor-version (string-to-number minor)))
+  (defvar cygwin-api-version nil)
+  (defvar cygwin-api-major-version nil)
+  (defvar cygwin-api-minor-version nil)
 
-  ;; cygwin-mount.el
-  (when (locate-library "cygwin-mount")
-    (require 'cygwin-mount)
-    (cygwin-mount-activate))
+  (defvar cygwin-shared-data-version nil)
+  (defvar cygwin-registry-version nil)
+
+  (let* ((text (substring (shell-command-to-string "uname -r") 0 -1))
+	 (version
+	  (if (and text
+		   (string-match "\\([0-9.]+\\)(\\([0-9.]+\\)/\\([0-9.]+\\)/\\([0-9.]+\\))" text))
+	      (mapcar '(lambda (c) (match-string c text)) '(1 2 3 4)))))
+    (when version
+      (setq cygwin-version (nth-value 0 version))
+      (setq cygwin-api-version (nth-value 1 version))
+      (setq cygwin-shared-data-version
+	    (string-to-number (nth-value 2 version)))
+      (setq cygwin-registry-version
+	    (string-to-number (nth-value 3 version)))
+
+      (let ((vers (split-string (nth-value 0 version) "\\.")))
+	(setq cygwin-major-version (string-to-number (nth-value 1 vers)))
+	(setq cygwin-minor-version (string-to-number (nth-value 2 vers))))
+
+      (let ((vers (split-string (nth-value 1 version) "\\.")))
+	(setq cygwin-api-major-version (string-to-number (nth-value 0 vers)))
+	(setq cygwin-api-minor-version (string-to-number (nth-value 1 vers))))
+      ))
 
   (defun setenv-cygwin (value)
     (let* ((func '(lambda (val)
@@ -50,18 +65,19 @@
       (unless replaced (setq envs (append envs `(,value))))
       (setenv "CYGWIN" (mapconcat 'identity envs " "))))
 
-  ;; CYGWINの設定
+  ;; 環境CYGWINの設定
   (setenv-cygwin "nodosfilewarning")
   (setenv-cygwin "tty")
+
+  ;; cygwin-mount.el
+  (when (locate-library "cygwin-mount")
+    (require 'cygwin-mount)
+    (cygwin-mount-activate))
 
   ;; Shell としてCygwinのBashを使う
   (when (executable-find "bash")
     (setq shell-file-name "bash")
-    (setenv "SHELL" shell-file-name)
-
-    ;; shellモードで色付け
-    (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-    (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on))
+    (setenv "SHELL" shell-file-name))
 
   ;; Cygwin の Info 追加
   (add-to-list
