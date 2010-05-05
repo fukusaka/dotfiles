@@ -100,9 +100,9 @@ case $ls_type in
 	;;
 esac
 
-alias_ls="\$alias_ls"
+alias_ls="\$alias_ls -C"
 alias_l="\$alias_ls -l"
-alias_la="\$alias_ls -A"
+alias_la="\$alias_ls -A -C"
 
 unset ls_type grep_type
 
