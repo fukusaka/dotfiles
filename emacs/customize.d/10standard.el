@@ -46,6 +46,10 @@
 (add-hook 'comint-output-filter-functions
 	  'comint-watch-for-password-prompt)
 
+;; shellモードで色付け
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
 ;; EDITOR=emacsclientで emacs で開く
 ;;(server-start)
 
