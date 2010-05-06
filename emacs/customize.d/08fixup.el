@@ -31,18 +31,6 @@
   ;; フレーム時のMacOSXのIM呼び出し抑制
   (when window-system
     (global-unset-key "\C-\\"))
-
-  ;; Cocoa のフレーム時
-  (when (eq window-system 'ns)
-    (require 'ns-win)
-
-    ;; JISキーボード円記号/バックスラッシュ対応
-    (mac-translate-from-yen-to-backslash)
-
-    ;; Option/Command キー を Super/Meta に割当
-    (setq ns-command-modifier 'meta)
-    (setq ns-alternate-modifier 'super)
-    )
   )
 
 ;; AppleKeyboard(Eisu/Kanji) の挙動を定義
