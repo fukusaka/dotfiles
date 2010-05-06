@@ -42,35 +42,31 @@
 ;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 指定のディレクトリ以下のサブディレクトリを列挙 (遅い、、、)
-(defun my-list-subdirs (directory &optional full)
-  (let ((dir (expand-file-name directory))
-        (lst (list directory))
-        subdirs)
-    (while lst
-      (dolist (file (directory-files (car lst) t "^[^\\.]"))
-        (when (file-directory-p file)
-          (add-to-list 'lst file t)
-          (add-to-list 'subdirs
-                       (if full file
-                         (substring file (length directory))))
-          ))
-      (setq lst (cdr lst)))
-    (sort subdirs 'string<)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elisp 以下を全部バイトコンパイルしてcompiled-emacsXXにコピー
 (defun my-subdirs-compile ()
   (interactive)
-  (let ((default-directory my-elisp-dir))
-    (dolist (dir (cons "." (my-list-subdirs my-elisp-dir nil)))
-      (let ((files (directory-files dir nil "\\.el$" t)))
-        (dolist (file files)
-	  (message "[my-elisp-all-compile] check %s/%s" dir file)
-          (my-compile-file
-           (concat (file-name-as-directory dir) file)
-           my-compiled-elisp-dir))))))
 
+  (let* ((default-directory my-elisp-dir)
+	 (subdirs (sort (reduce '(lambda (lst e) (if (file-directory-p e)
+						     (cons e lst) lst))
+				(directory-files "." nil "^[^.]")
+				:initial-value nil)
+			'string<)))
+
+    ;; elisp 直下をコンパイル
+    (my-compile-directory ".")
+
+    ;; サブディレクトリ毎に XX-install.elの有無のチェックし、
+    ;; あればインストーラーとして起動し、無ければ直下の .el 単にコンパイル
+    (dolist (subdir subdirs)
+      (message "[my-subdirs-compile] check %s" subdir)
+      (if (file-exists-p (concat subdir "-installer.el"))
+	  (condition-case err
+	      (load (concat subdir "-installer.el"))
+	    (error (message "[my-subdirs-compile] can't install %s" subdir)))
+	(my-compile-directory subdir)))
+    )
+  )
 
 (provide 'my-subdirs-compile)
 

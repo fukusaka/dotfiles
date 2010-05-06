@@ -101,6 +101,16 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 
     file))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ディレクトリ内の elisp を全部バイトコンパイルしてcompiled-emacsXXにコピー
+(defun my-compile-directory (directory)
+  (let ((files (directory-files directory nil "^[^\\.].*\\.el$" t)))
+    (dolist (file files)
+      ;;(message "[my-compile-directory] check %s/%s" directory file)
+      (my-compile-file
+       (concat (file-name-as-directory directory) file)
+       my-compiled-elisp-dir))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-customize-bundling-one-file (bundle dir)
   "指定の設定ファイルを一つのファイルに固める。"
@@ -179,6 +189,10 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 
   ;; elispのパスを通す(subdirを含めない)
   (add-to-list 'load-path my-elisp-dir t)
+
+  ;; elisp直下に修正があればコンパイル
+  (let ((default-directory my-elisp-dir))
+	(my-compile-directory "."))
 
   ;; コンパイル済みのelispのパスを通す(subdirを含む)
   (let ((default-directory my-compiled-elisp-dir))

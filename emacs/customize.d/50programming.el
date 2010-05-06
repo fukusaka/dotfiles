@@ -71,6 +71,8 @@
   (require 'yasnippet-bundle)
 
   (require 'auto-complete-config)
+  (add-to-list 'ac-dictionary-directories
+	       (concat my-elisp-dir "auto-complete-1.2/dict"))
   (ac-config-default)
 
   ;;(setq ac-auto-start 3)
