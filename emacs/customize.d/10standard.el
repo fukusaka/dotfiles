@@ -56,3 +56,8 @@
 ;; 表示テスト用
 (autoload 'my-sample-ascii "my-sample-ascii" "" t)
 (autoload 'my-sample-face "my-sample-face" "" t)
+
+;; Customize 用設定
+(setq custom-file (concat my-emacs-conf-dir "custom.el"))
+(if (file-exists-p custom-file)
+    (load custom-file))
