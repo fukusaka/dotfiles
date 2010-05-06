@@ -170,51 +170,21 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 ;; 設定変更して１２時間はバンドル化しない
 (defvar my-startup-bundling-delay (* 12 60 60))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 指定のディレクトリ以下のサブディレクトリを列挙 (遅い、、、)
-(defun my-list-subdirs (directory &optional full)
-  (let ((dir (expand-file-name directory))
-        (lst (list directory))
-        subdirs)
-    (while lst
-      (dolist (file (directory-files (car lst) t "^[^\\.]"))
-        (when (file-directory-p file)
-          (add-to-list 'lst file t)
-          (add-to-list 'subdirs
-                       (if full file
-                         (substring file (length directory))))
-          ))
-      (setq lst (cdr lst)))
-    (sort subdirs 'string<)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; elisp 以下を全部バイトコンパイルしてcompiled-emacsXXにコピー
-(defun my-elisp-all-compile ()
-  (interactive)
-  (let ((default-directory my-elisp-dir))
-    (dolist (dir (cons "." (my-list-subdirs my-elisp-dir nil)))
-      (let ((files (directory-files dir nil "\\.el$" t)))
-        (dolist (file files)
-	  (message "[my-elisp-all-compile] check %s/%s" dir file)
-          (my-compile-file
-           (concat (file-name-as-directory dir) file)
-           my-compiled-elisp-dir))))))
+;; elisp以下のコンパイル関数
+(autoload 'my-subdirs-compile "my-subdirs-compile" "" t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期化本体
 (defun my-startup ()
 
-  ;; my-elisp-dir以下のディレクトリを全て load-path に追加
-  (let ((default-directory
-	  (directory-file-name
-	   (if (file-directory-p my-compiled-elisp-dir)
-	       my-compiled-elisp-dir
-	     my-elisp-dir))))
-    (when (file-directory-p default-directory)
-      (setq load-path (append load-path (list default-directory)))
-      (normal-top-level-add-subdirs-to-load-path)))
+  ;; elispのパスを通す(subdirを含めない)
+  (add-to-list 'load-path my-elisp-dir t)
 
-  ;;(add-to-list 'load-path my-elisp-dir)
+  ;; コンパイル済みのelispのパスを通す(subdirを含む)
+  (let ((default-directory my-compiled-elisp-dir))
+    (when (file-directory-p default-directory)
+      (add-to-list 'load-path default-directory t)
+      (normal-top-level-add-subdirs-to-load-path)))
 
   ;; カスタマイズ設定の読み出し
   (my-customize-load my-customize-dir my-customize-bundle)
