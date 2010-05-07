@@ -11,10 +11,28 @@
 ;;; Commentary:
 ;;
 ;; (autoload 'my-sample-ascii "my-sample-ascii" "" t)
+;; (autoload 'my-sample-face-size "my-sample-ascii" "" t)
 
 ;;; Change log:
 
 ;;; Code:
+
+(defun my-sample-output (bufname alist msg)
+  (let ((buf (generate-new-buffer bufname)))
+    (switch-to-buffer buf)
+    (dolist (e alist)
+      (let (sta end)
+	(setq sta (point))
+	(insert (format "### %s ###\n" (car e)))
+	(insert msg)
+	(insert "\n")
+	(setq end (point))
+	(add-text-properties sta end `(face ,(cadr e)))
+	))
+    (goto-char (point-min))
+    ))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defvar my-sample-ascii-str
 "  ! \" # $ % & ' ( ) * + , - . /
@@ -28,29 +46,48 @@ p q r s t u v w x y z { | } ~
 ")
 
 (defvar my-sample-ascii-face-alist
-  '(("Normal" face default)
-    ("Bold" face bold)
-    ("Italic" face italic)
-    ("Bold Italic" face bold-italic)
+  '(("Normal" default)
+    ("Bold" bold)
+    ("Italic" italic)
+    ("Bold Italic" bold-italic)
     ))
 
 (defun my-sample-ascii ()
   (interactive)
-  (let ((buf (generate-new-buffer "*sample-ascii*"))
-	(alist my-sample-ascii-face-alist))
-    (switch-to-buffer buf)
-    (while alist
-      (let (sta end)
-	(setq sta (point))
-	(insert (format "### %s ###\n" (caar alist)))
-	(insert my-sample-ascii-str)
-	(insert "\n")
-	(setq end (point))
-	(add-text-properties sta end (cdar alist))
-	)
-      (setq alist (cdr alist)))
-    (goto-char (point-min))
-    ))
+  (my-sample-output
+   "*sample-ascii*"
+   my-sample-ascii-face-alist
+   my-sample-ascii-str))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar my-sample-face-str "
+____________________________
+_-!\"#$%&'()*+ -./:;<=>?@[\\]_
+_^_`{|}~!\"#$%&'()*+ -./:;<=_
+_12345678901234567890123456_
+_ABCDEFGHIJKLMNOPQRSTUVWXYZ_
+_あいうえおかきくけこさしす_
+____________________________
+")
+
+(defvar my-sample-face-size-list
+  '(6 7 8 9 10 10.5 11 12 13 14 15 16 17 18 19 20))
+
+(dolist (e my-sample-face-size-list)
+  (custom-declare-face
+   (intern (format "my-sample-face-%g" e))
+   `((t :height ,(floor (* e 10)) :inherit default)) ""))
+
+(defun my-sample-face-size ()
+  (interactive)
+  (my-sample-output
+   "*sample-face*"
+   (mapcar
+    '(lambda (e) (list (format "height %g pt" e)
+		       (intern (format "my-sample-face-%g" e))))
+    my-sample-face-size-list)
+   my-sample-face-str))
 
 (provide 'my-sample-ascii)
 ;;; my-sample-ascii.el ends here
