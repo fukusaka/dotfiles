@@ -52,7 +52,7 @@
  '(lambda ()
     (setq c-font-lock-extra-types (append c-font-lock-extra-types glib-types))
     (setq c++-font-lock-extra-types (append c++-font-lock-extra-types glib-types))
-    )
+    ))
 
 (setq c-default-style
       '((java-mode  . "java")
