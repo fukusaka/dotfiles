@@ -6,4 +6,4 @@
 
 cd ${SUBDIR}
 make EMACS=${EMACS} ELISPDIR=${ELCDIR}/${SUBDIR} install-bin
-make EMACS=${EMACS} ELISPDIR=${ELCDIR}/${SUBDIR} cleang
+make EMACS=${EMACS} ELISPDIR=${ELCDIR}/${SUBDIR} clean
