@@ -52,9 +52,23 @@
  '(lambda ()
     (setq c-font-lock-extra-types (append c-font-lock-extra-types glib-types))
     (setq c++-font-lock-extra-types (append c++-font-lock-extra-types glib-types))
-    (gtags-mode 1)
-    (c-set-style "bsd")
-    ))
+    )
+
+(setq c-default-style
+      '((java-mode  . "java")
+	(awk-mode . "awk")
+	(other . "bsd")))
+
+(defun my-c-like-mode-hook ()
+  (gtags-mode 1)
+
+  (if (string-match "/usr/src/linux.*/.*\\.[ch]$" (buffer-file-name))
+      (c-set-style "linux"))
+  )
+
+(add-hook 'c-mode-hook 'my-c-like-mode-hook)
+(add-hook 'c++-mode-hook 'my-c-like-mode-hook)
+(add-hook 'objc-mode-hook 'my-c-like-mode-hook)
 
 ;; CPerl-mode を使う
 (defalias 'perl-mode 'cperl-mode)
