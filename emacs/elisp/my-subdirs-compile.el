@@ -55,12 +55,21 @@
     ;; あればインストーラーとして起動し、無ければ直下の .el 単にコンパイル
     (dolist (subdir subdirs)
       (message "[my-subdirs-compile] check %s" subdir)
-      (if (file-exists-p (concat subdir "-installer.el"))
-	  (condition-case err
-	      (load (concat subdir "-installer.el"))
-	    (error (message "[my-subdirs-compile] can't install %s" subdir)))
-	(my-compile-directory subdir)))
+      (cond
+       ((file-exists-p (concat subdir "-installer.el"))
+	(condition-case err
+	    (load (concat subdir "-installer.el"))
+	  (error (message "[my-subdirs-compile] can't install %s" subdir))))
+       ((file-exists-p (concat subdir "-installer.sh"))
+	(let ((process-environment process-environment))
+	  (setenv "EMACS" (concat invocation-directory invocation-name))
+	  (setenv "SUBDIR" subdir)
+	  (setenv "ELCDIR" (concat my-compiled-elisp-dir subdir))
+	  (message "%s" (shell-command-to-string
+			 (concat "./" subdir "-installer.sh")))))
+       (t (my-compile-directory subdir))))
     )
+  (message "[my-subdirs-compile] finish")
   )
 
 (provide 'my-subdirs-compile)
