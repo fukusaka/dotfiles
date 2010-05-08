@@ -26,6 +26,7 @@
 
   ;; MacOSXではMacPortsへパスを通す
   (add-to-list 'exec-path "/opt/local/bin/")
+  (setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH")))
   (setenv "MANPATH" "/opt/local/man")
 
   ;; フレーム時のMacOSXのIM呼び出し抑制
