@@ -36,6 +36,11 @@
 	  "elisp/")
   "elispを入れて置く場所")
 
+(defvar my-elisp-addons-dir
+  (concat (file-name-as-directory my-emacs-conf-dir)
+	  "elisp-addons/")
+  "elisp-addonsを入れて置く場所")
+
 (defvar my-compiled-elisp-dir
   (concat (file-name-as-directory my-emacs-conf-dir)
 	  (format "elisp-%s/" my-emacs-flavor))
@@ -181,7 +186,8 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 (defvar my-startup-bundling-delay (* 12 60 60))
 
 ;; elisp以下のコンパイル関数
-(autoload 'my-subdirs-compile "my-subdirs-compile" "" t)
+(autoload 'my-all-compile-elisp "my-all-compile-elisp" "" t)
+(autoload 'my-all-compile-elisp-addons "my-all-compile-elisp" "" t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期化本体

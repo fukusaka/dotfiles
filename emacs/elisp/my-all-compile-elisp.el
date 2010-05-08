@@ -1,4 +1,4 @@
-;;; my-subdirs-compile.el --
+;;; my-all-compile-elisp.el --
 ;; $Id: skel.el 313 2010-04-07 17:38:56Z shoichi $
 
 ;; Copyright (C) 2010 Shoichi Fukusaka
@@ -38,14 +38,12 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elisp 以下を全部バイトコンパイルしてcompiled-emacsXXにコピー
-(defun my-subdirs-compile ()
+(defun my-all-compile-elisp ()
   (interactive)
 
   (let* ((default-directory my-elisp-dir)
-	 (subdirs (sort (reduce '(lambda (lst e) (if (file-directory-p e)
-						     (cons e lst) lst))
-				(directory-files "." nil "^[^.]")
-				:initial-value nil)
+	 (subdirs (sort (remove-if-not 'file-directory-p
+				       (directory-files "." nil "^[^.]"))
 			'string<)))
 
     ;; elisp 直下をコンパイル
@@ -54,24 +52,38 @@
     ;; サブディレクトリ毎に XX-install.elの有無のチェックし、
     ;; あればインストーラーとして起動し、無ければ直下の .el 単にコンパイル
     (dolist (subdir subdirs)
-      (message "[my-subdirs-compile] check %s" subdir)
+      (message "[my-all-compile-elisp] check %s" subdir)
       (cond
        ((file-exists-p (concat subdir "-installer.el"))
 	(condition-case err
 	    (load (concat subdir "-installer.el"))
 	  (error (message "[my-subdirs-compile] can't install %s" subdir))))
-       ((file-exists-p (concat subdir "-installer.sh"))
-	(let ((process-environment process-environment))
-	  (setenv "EMACS" (concat invocation-directory invocation-name))
-	  (setenv "SUBDIR" subdir)
-	  (setenv "ELCDIR" (concat my-compiled-elisp-dir subdir))
-	  (message "%s" (shell-command-to-string
-			 (concat "./" subdir "-installer.sh")))))
        (t (my-compile-directory subdir))))
     )
-  (message "[my-subdirs-compile] finish")
+  (message "[my-all-compile-elisp] finish")
   )
 
-(provide 'my-subdirs-compile)
+(defun my-all-compile-elisp-addons ()
+  (interactive)
 
-;;; my-subdirs-compile.el ends here
+  (let* ((default-directory my-elisp-addons-dir)
+	 (installers (sort (directory-files "." nil "-installer\\.sh$")
+			   'string<))
+	 addon)
+    (dolist (installer installers)
+      (setq addon (substring installer  0 (- (length "-installer.sh"))))
+      (message "[my-all-compile-elisp-addons] check %s" addon)
+      (let ((process-environment process-environment))
+	(setenv "EMACS" (concat invocation-directory invocation-name))
+	(setenv "ADDON" addon)
+	(setenv "ELCDIR" (concat my-compiled-elisp-dir addon))
+	(message "%s" (shell-command-to-string "pwd"))
+	(message "%s" (shell-command-to-string (concat my-elisp-addons-dir installer))))
+      )
+    )
+  (message "[my-all-compile-elisp-addons] finish")
+  )
+
+(provide 'my-all-compile-elisp)
+
+;;; my-all-compile-elisp.el ends here
