@@ -7,7 +7,7 @@
 (setq next-line-add-newlines nil)	;; カーソルで新しい行を作らない
 (setq line-number-mode t)		;; modeline に行番号表示
 (setq column-number-mode t)		;; modeline にカラム番号表示
-(setq size-indication-mode t)		;; modeline にサイズ表示
+;;(setq size-indication-mode t)		;; modeline にサイズ表示
 (setq transient-mark-mode nil)		;; Region に色付けない
 (setq scroll-step 1)			;; スクロールは1行づつであればいいなぁ
 (setq scroll-margin 4)			;; スクロールのマージン行数 4
@@ -61,3 +61,13 @@
 (setq custom-file (concat my-emacs-conf-dir "custom.el"))
 (if (file-exists-p custom-file)
     (load custom-file))
+
+;; 簡易インデックスの作成
+(setq imenu-auto-rescan t)		;; imenu 用の自動スキャンをする
+
+(require 'which-func)
+(which-func-mode t)
+(add-to-list 'which-func-modes 'java-mode)
+(add-to-list 'which-func-modes 'javascript-mode)
+
+

@@ -29,16 +29,6 @@
 (make-variable-buffer-local 'my-others-source-code)
 (setq-default my-others-source-code nil)
 
-;; gtags
-(autoload 'gtags-mode "gtags" "" t)
-(setq gtags-mode-hook
-      '(lambda ()
-         (local-set-key "\M-t" 'gtags-find-tag)
-         (local-set-key "\M-r" 'gtags-find-rtag)
-         (local-set-key "\M-s" 'gtags-find-symbol)
-         (local-set-key "\C-t" 'gtags-pop-stack)
-         ))
-
 (setq glib-types
       '("gboolean" "gpointer" "gconstpointer"
 	"gchar" "guchar" "gint" "guint"
@@ -60,8 +50,6 @@
 	(other . "bsd")))
 
 (defun my-c-like-mode-hook ()
-  (gtags-mode 1)
-
   (if (string-match "/usr/src/linux.*/.*\\.[ch]$" (buffer-file-name))
       (c-set-style "linux"))
   )
@@ -69,9 +57,6 @@
 (add-hook 'c-mode-hook 'my-c-like-mode-hook)
 (add-hook 'c++-mode-hook 'my-c-like-mode-hook)
 (add-hook 'objc-mode-hook 'my-c-like-mode-hook)
-
-;; CPerl-mode を使う
-(defalias 'perl-mode 'cperl-mode)
 
 ;; インデントモードの設定
 ;;(setq-default tab-width 4)
@@ -89,8 +74,11 @@
 	       (concat my-elisp-dir "auto-complete-1.2/dict"))
   (ac-config-default)
 
-  ;;(setq ac-auto-start 3)
-  ;;(setq ac-auto-start nil)
+  ;; 補完が自動で起動するのを停止
+  (setq ac-auto-start nil)
+  ;; 起動キーの設定
+  (ac-set-trigger-key "TAB")
+
   ;;(setq ac-auto-show-menu nil)
 
   ;; Color-moccur
