@@ -45,6 +45,7 @@
 
     (add-to-assoc-list 'initial-frame-alist '(top . 0))
     (add-to-assoc-list 'initial-frame-alist '(left . 160))
+    (add-to-assoc-list 'initial-frame-alist '(height . 46))
     )
    )
   )
