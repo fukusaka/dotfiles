@@ -3,14 +3,13 @@
 
 (setq gtags-mode-hook
       '(lambda ()
-         (local-set-key "\M-t" 'gtags-find-tag)
-         (local-set-key "\M-r" 'gtags-find-rtag)
-         (local-set-key "\M-s" 'gtags-find-symbol)
-         (local-set-key "\C-t" 'gtags-pop-stack)
+         (define-key gtags-mode-map "\M-." 'gtags-find-tag)
+         (define-key gtags-mode-map "\M-*" 'gtags-pop-stack)
+         (define-key gtags-mode-map "\M-r" 'gtags-find-rtag)
+         (define-key gtags-mode-map "\M-s" 'gtags-find-symbol)
          ))
 
 (add-hook 'c-mode-common-hook
 	  '(lambda ()
 	     (gtags-mode 1)
-	     (gtags-make-complete-list)
 	     ))

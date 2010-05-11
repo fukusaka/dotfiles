@@ -26,8 +26,16 @@
 
   ;; MacOSXではMacPortsへパスを通す
   (add-to-list 'exec-path "/opt/local/bin/")
-  (setenv "PATH" (concat "/opt/local/bin:" (getenv "PATH")))
-  (setenv "MANPATH" "/opt/local/man")
+  (let ((path (split-string (getenv "PATH") path-separator))
+	(manpath (if (getenv "MANPATH")
+		     (split-string (getenv "MANPATH") path-separator))))
+    (add-to-list 'path "/opt/local/bin")
+    (add-to-list 'path (concat (getenv "HOME") "/bin"))
+    (add-to-list 'manpath "/opt/local/man")
+
+    (setenv "PATH" (mapconcat 'identity path path-separator))
+    (setenv "MANPATH" (mapconcat 'identity manpath path-separator))
+    )
 
   ;; フレーム時のMacOSXのIM呼び出し抑制
   (when window-system
@@ -48,3 +56,11 @@
   (define-key global-map [eisu-toggle]
     '(lambda () (interactive) (activate-input-method nil)))
   )
+
+(defun my-sample-popup ()
+  (interactive)
+  (x-popup-dialog
+   t
+   '("Sample Popup"
+     ("OK" . t))
+   t))
