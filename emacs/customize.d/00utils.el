@@ -1,9 +1,6 @@
 ;; カスタマイズを簡素化するマクロ関数群
 ;; my-startup.el をダイエットする為に移動
 
-;; カスタマイズ設定がし易いように cl パケージは読み
-(require 'cl)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; よく使う連想リストの追加用
 (defun add-to-assoc-list (list-var element &optional append)

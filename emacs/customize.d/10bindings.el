@@ -2,50 +2,54 @@
 ;; キーの設定
 ;;
 
+(eval-when-compile (require 'cl))
+
 ;;(setq my-prefix-keys '("\C-z" "\C-d"))
 (setq my-prefix-keys '("\C-z"))
 
+(defvar my-prefix-map (make-sparse-keymap))
+
 (dolist (pkey my-prefix-keys)
-  (global-unset-key pkey))
+  (global-unset-key pkey)
+  (define-key global-map pkey my-prefix-map))
 
-(defmacro my-define-global-key (key def)
-  `(dolist (pkey my-prefix-keys)
-     (define-key global-map (concat pkey ,key) ,def)))
+(defmacro my-prefix-set-key (key def)
+  `(define-key my-prefix-map ,key ,def))
 
-(my-define-global-key "j" 'goto-line)
-(my-define-global-key "\C-j" 'goto-line)
+(my-prefix-set-key "j" 'goto-line)
+(my-prefix-set-key "\C-j" 'goto-line)
 
 ;; for find-file
-(my-define-global-key "f" 'find-file)
-(my-define-global-key "\C-f" 'find-file)
+(my-prefix-set-key "f" 'find-file)
+(my-prefix-set-key "\C-f" 'find-file)
 
 ;; for dired
-(my-define-global-key "d" 'dired-jump)
-(my-define-global-key "\C-d" 'dired-jump)
+(my-prefix-set-key "d" 'dired-jump)
+(my-prefix-set-key "\C-d" 'dired-jump)
 
 ;; for dired
-(my-define-global-key "d" 'dired-jump)
-(my-define-global-key "\C-d" 'dired-jump)
+(my-prefix-set-key "d" 'dired-jump)
+(my-prefix-set-key "\C-d" 'dired-jump)
 (define-key global-map "\C-x\C-d" 'dired-jump)
 
 ;; for vc-dir
 (when (>= emacs-major-version 23)
-  (my-define-global-key "v" 'vc-dir)
-  (my-define-global-key "\C-v" 'vc-dir))
+  (my-prefix-set-key "v" 'vc-dir)
+  (my-prefix-set-key "\C-v" 'vc-dir))
 
 ;; for man
 ;;(define-key global-map "\M-m" 'man)
-(my-define-global-key "m" 'man)
+(my-prefix-set-key "m" 'man)
 
 ;; for program
 (define-key global-map "\M-c" 'compile)
-(my-define-global-key "c" 'compile)
-;;(my-define-global-key "d" 'gdb)
+(my-prefix-set-key "c" 'compile)
+;;(my-prefix-set-key "d" 'gdb)
 
 ;; for grep
-(my-define-global-key "g" 'grep-buffers)
-(my-define-global-key "\C-g" 'grep)
-(my-define-global-key "\M-g" 'grep-find)
+(my-prefix-set-key "g" 'grep-buffers)
+(my-prefix-set-key "\C-g" 'grep)
+(my-prefix-set-key "\M-g" 'grep-find)
 
 
 ;; トグル動作
@@ -77,8 +81,8 @@
   (interactive)
   (toggle-run-mode default-toggle-run-command default-toggle-run-mode-list))
 
-(my-define-global-key "z" 'toggle-default)
-(my-define-global-key "\C-z" 'toggle-default)
+(my-prefix-set-key "z" 'toggle-default)
+(my-prefix-set-key "\C-z" 'toggle-default)
 
 ;; ワンタッチでシェルに行ける
 ;; トルグにしたいもし
@@ -86,11 +90,11 @@
 (def-toggle-run shell "*shell*")
 (def-toggle-run eshell "*eshell*")
 
-(my-define-global-key "s" 'toggle-shell)
-(my-define-global-key "\C-s" 'toggle-shell)
+(my-prefix-set-key "s" 'toggle-shell)
+(my-prefix-set-key "\C-s" 'toggle-shell)
 
-(my-define-global-key "e" 'toggle-eshell)
-(my-define-global-key "\C-e" 'toggle-eshell)
+(my-prefix-set-key "e" 'toggle-eshell)
+(my-prefix-set-key "\C-e" 'toggle-eshell)
 
 ;;
 ;; Scratchよ永遠に！
@@ -112,5 +116,5 @@
 
 (def-toggle-run scratch scratch-buffer-name)
 
-(my-define-global-key "l" 'toggle-scratch)
-(my-define-global-key "\C-l" 'toggle-scratch)
+(my-prefix-set-key "l" 'toggle-scratch)
+(my-prefix-set-key "\C-l" 'toggle-scratch)
