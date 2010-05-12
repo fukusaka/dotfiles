@@ -14,9 +14,9 @@
 (setq scroll-conservatively 2)		;; 最低スクロール行数 1+1
 (setq truncate-lines nil)		;; 継続行は使わない
 
-;; カーソルは点滅しない
+;; カーソルは点滅する
 (when (fboundp 'blink-cursor-mode)
-  (blink-cursor-mode 0))
+  (blink-cursor-mode 1))
 
 ;; Beep 音を鳴らさない
 ;;(setq visible-bell t)
@@ -65,6 +65,7 @@
 ;; 簡易インデックスの作成
 (setq imenu-auto-rescan t)		;; imenu 用の自動スキャンをする
 
+;; 現在関数表示モード
 (require 'which-func)
 (which-func-mode t)
 (add-to-list 'which-func-modes 'java-mode)
