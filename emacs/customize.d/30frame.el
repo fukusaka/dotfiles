@@ -19,7 +19,8 @@
       (let* ((top-panel-size 24)
 	     (bottom-panel-size 24)
 	     (font-height 14)
-	     (view-pixel-height (- (display-pixel-height) (+ top-panel-size bottom-panel-size 2)))
+	     (view-pixel-height (- (display-pixel-height)
+				   (+ top-panel-size bottom-panel-size 2)))
 	     (height (/ view-pixel-height font-height)))
 	(add-to-assoc-list 'initial-frame-alist `(top . ,(+ top-panel-size 1)))
 	(add-to-assoc-list 'initial-frame-alist `(height . ,height)))
@@ -29,7 +30,7 @@
    ;; MacOSX
    ((eq system-type 'darwin)
     (add-to-assoc-list 'default-frame-alist '(width . 90))
-    (add-to-assoc-list 'default-frame-alist '(alpha . (95 85)))
+    (add-to-assoc-list 'default-frame-alist '(alpha . (95 80)))
     (setq frame-alpha-lower-limit 30)
     (setq-default line-spacing 0.1)
 
