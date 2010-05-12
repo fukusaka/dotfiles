@@ -5,8 +5,6 @@
 (when (and (eq window-system 'x) (executable-find "wmctrl"))
 
   ;; 追加 Key Binding
-  (defvar my-prefix-5-map (make-sparse-keymap))
-  (define-key my-prefix-map "5" my-prefix-5-map)
   (define-key my-prefix-5-map "0" 'moi::delete-frames)
   (define-key my-prefix-5-map "1" 'moi::make-frame-3)
   (define-key my-prefix-5-map "2" 'moi::make-frame-6)

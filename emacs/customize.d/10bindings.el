@@ -16,6 +16,11 @@
 (defmacro my-prefix-set-key (key def)
   `(define-key my-prefix-map ,key ,def))
 
+;; my-prefix + 5
+(defvar my-prefix-5-map (make-sparse-keymap))
+(my-prefix-set-key "5" my-prefix-5-map)
+
+;; jump
 (my-prefix-set-key "j" 'goto-line)
 (my-prefix-set-key "\C-j" 'goto-line)
 
@@ -38,12 +43,11 @@
   (my-prefix-set-key "\C-v" 'vc-dir))
 
 ;; for man
-;;(define-key global-map "\M-m" 'man)
 (my-prefix-set-key "m" 'man)
 
 ;; for program
-(define-key global-map "\M-c" 'compile)
 (my-prefix-set-key "c" 'compile)
+(define-key global-map "\M-c" 'compile)
 ;;(my-prefix-set-key "d" 'gdb)
 
 ;; for grep
