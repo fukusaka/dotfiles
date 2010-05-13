@@ -71,4 +71,5 @@
 (add-to-list 'which-func-modes 'java-mode)
 (add-to-list 'which-func-modes 'javascript-mode)
 
-
+;; Iswitchb モード
+(iswitchb-mode 1)
