@@ -3,41 +3,43 @@
 (when (locate-library "flymake")
   (require 'flymake)
 
-;;シンタックスチェックは次のコマンドが呼ばれる
-;;make -s -C . CHK_SOURCES=hoge.cpp SYNTAX_CHECK_MODE=1 check-syntax
-;;
-;; Makefile があれば、次のルールを追加
-;;PHONY: check-syntax
-;;check-syntax:
-;;    $(CC) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
+  ;;シンタックスチェックは次のコマンドが呼ばれる
+  ;;make -s -C . CHK_SOURCES=hoge.cpp SYNTAX_CHECK_MODE=1 check-syntax
+  ;;
+  ;; Makefile があれば、次のルールを追加
+  ;;PHONY: check-syntax
+  ;;check-syntax:
+  ;;    $(CC) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
 
-;; GUIの警告は表示しない
-(setq flymake-gui-warnings-enabled nil)
+  ;; GUIの警告は表示しない
+  (setq flymake-gui-warnings-enabled nil)
 
-(add-hook 'find-file-hook 'flymake-find-file-hook)
+  ;; 全てのファイルで flymakeを有効化
+  (add-hook 'find-file-hook 'flymake-find-file-hook)
 
-(my-prefix-set-key '[up] 'flymake-goto-prev-error)
-(my-prefix-set-key '[down] 'flymake-goto-next-error)
+  ;; M-p/M-n で警告/エラー行の移動
+  (global-set-key "\M-p" 'flymake-goto-prev-error)
+  (global-set-key "\M-n" 'flymake-goto-next-error)
 
-(global-set-key [f2] 'flymake-display-err-minibuf)
-(global-set-key [f3] 'flymake-display-err-menu-for-current-line)
+  ;;(global-set-key "\M-p" 'flymake-display-err-minibuf)
+  ;;(global-set-key "\M-n" 'flymake-display-err-menu-for-current-line)
 
-(defun my-flymake-popup-menu (menu-data)
-  (let* ((menu-title     (nth 0 menu-data))
-	 (menu-items     (nth 1 menu-data))
-	 (menu-commands  (mapcar (lambda (foo)
-                                   (cons (nth 0 foo) (nth 1 foo)))
-                                 menu-items)))
-    (popup-menu* menu-items)))
+  (defun my-flymake-popup-menu (menu-data)
+    (let* ((menu-title     (nth 0 menu-data))
+	   (menu-items     (nth 1 menu-data))
+	   (menu-commands  (mapcar (lambda (foo)
+				     (cons (nth 0 foo) (nth 1 foo)))
+				   menu-items)))
+      (popup-menu* menu-items)))
 
-(defadvice flymake-popup-menu
-  (around my-ad-flymake-popup-menu activate)
-  (let ((menu-data (ad-get-arg 0)))
-    (my-flymake-popup-menu menu-data)))
+  (defadvice flymake-popup-menu
+    (around my-ad-flymake-popup-menu activate)
+    (let ((menu-data (ad-get-arg 0)))
+      (my-flymake-popup-menu menu-data)))
 
-(defun my-toggle-flymake-popup-menu-use-popup.el ()
-  (interactive)
-  (ad-activate-on my-ad-flymake-popup-menu))
+  (defun my-toggle-flymake-popup-menu-use-popup.el ()
+    (interactive)
+    (ad-activate-on my-ad-flymake-popup-menu))
 
 
 
@@ -59,8 +61,6 @@
 ;;          (if (> count 0) (setq menu-item-text (concat menu-item-text "\n")))
 ;;          )
 ;;        (popup-tip menu-item-text)))))
-)
-
 ;;;(defun flymake-cc-init ()
 ;;;  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
 ;;;                       'flymake-create-temp-inplace))
@@ -71,7 +71,56 @@
 ;;;
 ;;;(push '("¥¥.cpp$" flymake-cc-init) flymake-allowed-file-name-masks)
 ;;;
-;;;(add-hook 'c++-mode-hook
-;;;          '(lambda ()
-;;;             (flymake-mode t)))
-;;;
+
+
+  ;; Invoke ruby with '-c' to get syntax checking
+  (defun flymake-ruby-init ()
+    (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+			 'flymake-create-temp-inplace))
+	   (local-file  (file-relative-name
+			 temp-file
+			 (file-name-directory buffer-file-name))))
+      (list "ruby" (list "-c" local-file))))
+
+  (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
+  (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
+
+  (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
+
+  ;; bash チェック
+  (defvar flymake-shell-of-choice
+    "/bin/bash"
+    "Path of shell.")
+
+  (defvar flymake-shell-arguments
+    (list "-n")
+    "Shell arguments to invoke syntax checking.")
+
+  (defun flymake-shell-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+		       'flymake-create-temp-inplace))
+	   (local-file (file-relative-name
+			temp-file
+			(file-name-directory buffer-file-name))))
+      (list flymake-shell-of-choice (append flymake-shell-arguments (list local-file)))))
+
+  (push '(".+\\.sh$" flymake-shell-init) flymake-allowed-file-name-masks)
+  (push '("^\\(.+\\): line \\([0-9]+\\): \\(.+\\)$" 1 2 nil 3) flymake-err-line-patterns)
+
+  ;; HTML チェック
+  (when (executable-find "tidy")
+    (defun flymake-html-init ()
+      (let* ((temp-file (flymake-init-create-temp-buffer-copy
+			 'flymake-create-temp-inplace))
+	     (local-file (file-relative-name
+			  temp-file
+			  (file-name-directory buffer-file-name))))
+	(list "tidy" (list local-file))))
+
+    (push '("\\.html$\\|\\.ctp" flymake-html-init) flymake-allowed-file-name-masks)
+    (push '("line \\([0-9]+\\) column \\([0-9]+\\) - \\(Warning\\|Error\\): \\(.*\\)" nil 1 2 4) flymake-err-line-patterns)
+    )
+
+  ;; XSL
+  (push '(".+\\.xsl$" flymake-xml-init) flymake-allowed-file-name-masks)
+  )
