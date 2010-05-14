@@ -32,6 +32,7 @@
     (add-to-list 'path "/opt/local/bin")
     (add-to-list 'path (concat (getenv "HOME") "/bin"))
     (add-to-list 'manpath "/opt/local/man")
+    (add-to-list 'manpath "")
 
     (setenv "PATH" (mapconcat 'identity path path-separator))
     (setenv "MANPATH" (mapconcat 'identity manpath path-separator))
