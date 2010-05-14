@@ -21,6 +21,11 @@
 	  "emacs/")
   "emacs用設定ファイルの基準ディレクトリ")
 
+(defvar my-emacs-bin-dir
+  (concat (file-name-as-directory my-emacs-conf-dir)
+	  "bin/")
+  "emacs用実行スクリプトの基準ディレクトリ")
+
 (defvar my-customize-dir
   (concat (file-name-as-directory my-emacs-conf-dir)
 	  "customize.d/")
@@ -193,8 +198,11 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 ;; 初期化本体
 (defun my-startup ()
 
-  ;; elispのパスを通す(subdirを含めない)
+  ;; elispのパスを通す
   (add-to-list 'load-path my-elisp-dir t)
+
+  ;; スクリプトのパスを通す
+  (add-to-list 'exec-path my-emacs-bin-dir t)
 
   ;;;; elisp直下に修正があればコンパイル
   ;;(let ((default-directory my-elisp-dir))
