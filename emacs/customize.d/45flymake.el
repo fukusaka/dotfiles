@@ -22,40 +22,40 @@
   (global-set-key "\M-n" 'flymake-goto-next-error)
 
   ;; 警告エラー行の表示
-  (global-set-key "\C-cd" 'flymake-display-err-menu-for-current-line)
+  (global-set-key "\C-cd" 'my-flymake-display-err-menu-for-current-line)
 
-  (defun my-flymake-popup-menu (menu-data)
-    (let* ((menu-title     (nth 0 menu-data))
-	   (menu-items     (nth 1 menu-data))
-	   (menu-commands  (mapcar (lambda (foo)
-				     (nth 0 foo))
-				   menu-items)))
-      (popup-tip (mapconcat 'identity (cons menu-title menu-commands) "\n")))
-    nil)
+  (defun my-flymake-display-err-menu-for-current-line ()
+    "Display a menu with errors/warnings for current line if it has errors and/or warnings."
+    (interactive)
+    (let* ((line-no             (flymake-current-line-no))
+	   (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
+	   (menu-data           (flymake-make-err-menu-data line-no line-err-info-list))
+	   (choice              nil))
+      (if menu-data
+	  (popup-tip (mapconcat '(lambda (e) (nth 0 e))
+				(nth 1 menu-data)
+				"\n")))
+      ))
 
-  (defadvice flymake-popup-menu
-    (around my-ad-flymake-popup-menu)
-    (let ((menu-data (ad-get-arg 0)))
-      (my-flymake-popup-menu menu-data)))
+  ;; Makefile が無くてもC/C++のチェック
+  (defun flymake-simple-gcc-init (cmd opts)
+    (if (file-exists-p "Makefile")
+	(flymake-simple-make-init)
+      (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+			   'flymake-create-temp-inplace))
+	     (local-file  (file-relative-name
+			   temp-file
+			   (file-name-directory buffer-file-name))))
+	(list cmd (append opts (list local-file))))))
 
-  (defadvice flymake-display-err-menu-for-current-line
-    (around my-flymake-display-err-menu-for-current-line activate)
-    (ad-activate 'flymake-popup-menu)
-    ad-do-it
-    (ad-deactivate 'flymake-popup-menu)
-    )
+  (defun flymake-c-init ()
+    (flymake-simple-gcc-init "gcc" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
 
-  ;; Makefile を使わないC/C++のチェック
-  ;;(defun flymake-cc-init ()
-  ;;  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-  ;;                       'flymake-create-temp-inplace))
-  ;;         (local-file  (file-relative-name
-  ;;                       temp-file
-  ;;                       (file-name-directory buffer-file-name))))
-  ;;    (list "g++" (list "-Wall" "-Wextra" "-fsyntax-only" local-file))))
-  ;;
-  ;;(push '("¥¥.cpp$" flymake-cc-init) flymake-allowed-file-name-masks)
-  ;;
+  (defun flymake-cc-init ()
+    (flymake-simple-gcc-init "g++" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
+
+  (push '("\\.[cC]$" flymake-c-init) flymake-allowed-file-name-masks)
+  (push '("\\.\\(?:cc\|cpp\|CC\|CPP\\)$" flymake-cc-init) flymake-allowed-file-name-masks)
 
   ;; Invoke ruby with '-c' to get syntax checking
   (when (executable-find "ruby")
