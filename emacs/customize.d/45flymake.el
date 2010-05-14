@@ -63,7 +63,7 @@
   ;; Invoke ruby with '-c' to get syntax checking
   (when (executable-find "ruby")
     (defun flymake-ruby-init ()
-      (flymake-simple-generic-init "ruby" '("-c"))
+      (flymake-simple-generic-init "ruby" '("-c")))
 
     (push '(".+\\.rb\\'" flymake-ruby-init) flymake-allowed-file-name-masks)
     (push '("Rakefile\\'" flymake-ruby-init) flymake-allowed-file-name-masks)
