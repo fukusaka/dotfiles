@@ -11,6 +11,8 @@
 
               ("\\.mm\\'" . objc-mode)
 
+	      ;;("\\.js$" . js2-mode)
+
               ;; DOS/Windows 系だと大文字になってる場合がある
               ("\\.CPP\\'" . c++-mode)
 
@@ -33,3 +35,6 @@
   "major mode for editing AppleScript source." t)
 
 (autoload 'my-patch-view-mode "my-patch-view")
+
+(defalias 'js-mode 'js2-mode)
+(autoload 'js2-mode "js2" nil t)
