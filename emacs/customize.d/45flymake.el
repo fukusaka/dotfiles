@@ -37,16 +37,19 @@
 				"\n")))
       ))
 
+  (defun flymake-simple-generic-init (cmd &optional opts)
+    (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+			 'flymake-create-temp-inplace))
+	   (local-file  (file-relative-name
+			 temp-file
+			 (file-name-directory buffer-file-name))))
+      (list cmd (append opts (list local-file)))))
+
   ;; Makefile が無くてもC/C++のチェック
-  (defun flymake-simple-gcc-init (cmd opts)
+  (defun flymake-simple-gcc-init (cmd &optional opts)
     (if (file-exists-p "Makefile")
 	(flymake-simple-make-init)
-      (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-			   'flymake-create-temp-inplace))
-	     (local-file  (file-relative-name
-			   temp-file
-			   (file-name-directory buffer-file-name))))
-	(list cmd (append opts (list local-file))))))
+      (flymake-simple-generic-init cmd opts)))
 
   (defun flymake-c-init ()
     (flymake-simple-gcc-init "gcc" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
@@ -54,21 +57,16 @@
   (defun flymake-cc-init ()
     (flymake-simple-gcc-init "g++" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
 
-  (push '("\\.[cC]$" flymake-c-init) flymake-allowed-file-name-masks)
-  (push '("\\.\\(?:cc\|cpp\|CC\|CPP\\)$" flymake-cc-init) flymake-allowed-file-name-masks)
+  (push '("\\.[cC]\\'" flymake-c-init) flymake-allowed-file-name-masks)
+  (push '("\\.\\(?:cc\|cpp\|CC\|CPP\\)\\'" flymake-cc-init) flymake-allowed-file-name-masks)
 
   ;; Invoke ruby with '-c' to get syntax checking
   (when (executable-find "ruby")
     (defun flymake-ruby-init ()
-      (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-			   'flymake-create-temp-inplace))
-	     (local-file  (file-relative-name
-			   temp-file
-			   (file-name-directory buffer-file-name))))
-	(list "ruby" (list "-c" local-file))))
+      (flymake-simple-generic-init "ruby" '("-c"))
 
-    (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-    (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
+    (push '(".+\\.rb\\'" flymake-ruby-init) flymake-allowed-file-name-masks)
+    (push '("Rakefile\\'" flymake-ruby-init) flymake-allowed-file-name-masks)
 
     (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
     )
@@ -83,30 +81,31 @@
     "Shell arguments to invoke syntax checking.")
 
   (defun flymake-shell-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-		       'flymake-create-temp-inplace))
-	   (local-file (file-relative-name
-			temp-file
-			(file-name-directory buffer-file-name))))
-      (list flymake-shell-of-choice (append flymake-shell-arguments (list local-file)))))
+    (flymake-simple-generic-init flymake-shell-of-choice flymake-shell-arguments))
 
-  (push '(".+\\.sh$" flymake-shell-init) flymake-allowed-file-name-masks)
+  (push '(".+\\.sh\\'" flymake-shell-init) flymake-allowed-file-name-masks)
   (push '("^\\(.+\\): line \\([0-9]+\\): \\(.+\\)$" 1 2 nil 3) flymake-err-line-patterns)
 
   ;; HTML チェック
   (when (executable-find "tidy")
     (defun flymake-html-init ()
-      (let* ((temp-file (flymake-init-create-temp-buffer-copy
-			 'flymake-create-temp-inplace))
-	     (local-file (file-relative-name
-			  temp-file
-			  (file-name-directory buffer-file-name))))
-	(list "tidy" (list local-file))))
+      (flymake-simple-generic-init "tidy"))
 
-    (push '("\\.html$\\|\\.ctp" flymake-html-init) flymake-allowed-file-name-masks)
+    (push '("\\.html\\'\\|\\.ctp" flymake-html-init) flymake-allowed-file-name-masks)
     (push '("line \\([0-9]+\\) column \\([0-9]+\\) - \\(Warning\\|Error\\): \\(.*\\)" nil 1 2 4) flymake-err-line-patterns)
     )
 
   ;; XSL
-  (push '(".+\\.xsl$" flymake-xml-init) flymake-allowed-file-name-masks)
+  (push '(".+\\.xsl\\'" flymake-xml-init) flymake-allowed-file-name-masks)
+
+  ;; Python
+  (defun flymake-pep8-init ()
+    (flymake-simple-generic-init "pep8"))
+
+  (defun flymake-pylint-init ()
+    (flymake-simple-generic-init "epylint"))
+
+  ;;(push '("\\.py\\'" flymake-pylint-init) flymake-allowed-file-name-masks)
+  ;;(push '("\\.py\\'" flymake-pep8-init) flymake-allowed-file-name-masks)
+
   )
