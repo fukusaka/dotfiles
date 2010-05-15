@@ -55,6 +55,8 @@
 (my-prefix-set-key "\C-g" 'grep)
 (my-prefix-set-key "\M-g" 'grep-find)
 
+;; Shell (数引数1は使わないので、、、)
+(define-key global-map "\M-1" 'shell-command)
 
 ;; トグル動作
 ;; 現在バッファ名が run-buffer-name であれば現在バッファを最後尾に下げ、
