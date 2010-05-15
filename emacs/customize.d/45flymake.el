@@ -22,15 +22,36 @@
   (global-set-key "\M-n" 'flymake-goto-next-error)
 
   ;; 警告エラー行の表示
-  (global-set-key "\C-cd" 'my-flymake-display-err-menu-for-current-line)
+  (global-set-key "\C-cd"
+		  '(lambda ()
+		     (interactive)
+		     ;;(my-flymake-display-err-minibuf-for-current-line)
+		     (my-flymake-display-err-menu-for-current-line)
+		     ))
 
+  ;; Minibuf に出力
+  (defun my-flymake-display-err-minibuf-for-current-line ()
+    "Displays the error/warning for the current line in the minibuffer"
+    (interactive)
+    (let* ((line-no             (flymake-current-line-no))
+	   (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
+	   (count               (length line-err-info-list)))
+      (while (> count 0)
+	(when line-err-info-list
+	  (let* ((text       (flymake-ler-text (nth (1- count) line-err-info-list)))
+		 (line       (flymake-ler-line (nth (1- count) line-err-info-list))))
+	    (message "[%s] %s" line text)
+	    )
+	  )
+	(setq count (1- count)))))
+
+  ;; popup.el を使って tip として表示
   (defun my-flymake-display-err-menu-for-current-line ()
     "Display a menu with errors/warnings for current line if it has errors and/or warnings."
     (interactive)
     (let* ((line-no             (flymake-current-line-no))
 	   (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
-	   (menu-data           (flymake-make-err-menu-data line-no line-err-info-list))
-	   (choice              nil))
+	   (menu-data           (flymake-make-err-menu-data line-no line-err-info-list)))
       (if menu-data
 	  (popup-tip (mapconcat '(lambda (e) (nth 0 e))
 				(nth 1 menu-data)
@@ -46,16 +67,18 @@
       (list cmd (append opts (list local-file)))))
 
   ;; Makefile が無くてもC/C++のチェック
-  (defun flymake-simple-gcc-init (cmd &optional opts)
+  (defun flymake-simple-make-or-generic-init (cmd &optional opts)
     (if (file-exists-p "Makefile")
 	(flymake-simple-make-init)
       (flymake-simple-generic-init cmd opts)))
 
   (defun flymake-c-init ()
-    (flymake-simple-gcc-init "gcc" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
+    (flymake-simple-make-or-generic-init
+     "gcc" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
 
   (defun flymake-cc-init ()
-    (flymake-simple-gcc-init "g++" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
+    (flymake-simple-make-or-generic-init
+     "g++" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
 
   (push '("\\.[cC]\\'" flymake-c-init) flymake-allowed-file-name-masks)
   (push '("\\.\\(?:cc\|cpp\|CC\|CPP\\)\\'" flymake-cc-init) flymake-allowed-file-name-masks)
@@ -63,7 +86,8 @@
   ;; Invoke ruby with '-c' to get syntax checking
   (when (executable-find "ruby")
     (defun flymake-ruby-init ()
-      (flymake-simple-generic-init "ruby" '("-c")))
+      (flymake-simple-generic-init
+       "ruby" '("-c")))
 
     (push '(".+\\.rb\\'" flymake-ruby-init) flymake-allowed-file-name-masks)
     (push '("Rakefile\\'" flymake-ruby-init) flymake-allowed-file-name-masks)
@@ -72,8 +96,9 @@
     )
 
   ;; bash チェック
+  ;;
   (defvar flymake-shell-of-choice
-    "/bin/bash"
+    "bash"
     "Path of shell.")
 
   (defvar flymake-shell-arguments
@@ -81,30 +106,39 @@
     "Shell arguments to invoke syntax checking.")
 
   (defun flymake-shell-init ()
-    (flymake-simple-generic-init flymake-shell-of-choice flymake-shell-arguments))
+    (flymake-simple-generic-init
+     flymake-shell-of-choice flymake-shell-arguments))
 
   (push '(".+\\.sh\\'" flymake-shell-init) flymake-allowed-file-name-masks)
   (push '("^\\(.+\\): line \\([0-9]+\\): \\(.+\\)$" 1 2 nil 3) flymake-err-line-patterns)
 
-  ;; HTML チェック
-  (when (executable-find "tidy")
-    (defun flymake-html-init ()
-      (flymake-simple-generic-init "tidy"))
-
-    (push '("\\.html\\'\\|\\.ctp" flymake-html-init) flymake-allowed-file-name-masks)
-    (push '("line \\([0-9]+\\) column \\([0-9]+\\) - \\(Warning\\|Error\\): \\(.*\\)" nil 1 2 4) flymake-err-line-patterns)
-    )
+  ;;;; HTML チェック
+  ;;(when (executable-find "tidy")
+  ;;  (defun flymake-html-init ()
+  ;;    (let* ((coding (coding-system-base buffer-file-coding-system))
+  ;;	     (opt (cdr (assq coding
+  ;;			     '((utf-8 . "-utf8")
+  ;;			       (iso-2022-jp . "-iso2022")
+  ;;			       (japanese-shift-jis . "-shiftjis"))))))
+  ;;	(flymake-simple-generic-init
+  ;;	 "tidy" (list "-e" opt))))
+  ;;
+  ;;  (push '("\\.html\\'\\|\\.ctp" flymake-html-init) flymake-allowed-file-name-masks)
+  ;;  (push '("line \\([0-9]+\\) column \\([0-9]+\\) - \\(Warning\\|Error\\): \\(.*\\)" nil 1 2 4) flymake-err-line-patterns)
+  ;;  )
 
   ;; XSL
-  (push '(".+\\.xsl\\'" flymake-xml-init) flymake-allowed-file-name-masks)
+  ;;(push '(".+\\.xsl\\'" flymake-xml-init) flymake-allowed-file-name-masks)
 
-  ;; Python
-  (defun flymake-pep8-init ()
-    (flymake-simple-generic-init "pep8"))
-
-  (defun flymake-pylint-init ()
-    (flymake-simple-generic-init "epylint"))
-
+  ;;;; Python
+  ;;(defun flymake-pep8-init ()
+  ;;  (flymake-simple-generic-init
+  ;;   "pep8"))
+  ;;
+  ;;(defun flymake-pylint-init ()
+  ;;  (flymake-simple-generic-init
+  ;;   "epylint"))
+  ;;
   ;;(push '("\\.py\\'" flymake-pylint-init) flymake-allowed-file-name-masks)
   ;;(push '("\\.py\\'" flymake-pep8-init) flymake-allowed-file-name-masks)
 
