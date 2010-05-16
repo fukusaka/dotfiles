@@ -22,6 +22,7 @@
   (global-set-key "\M-n" 'flymake-goto-next-error)
 
   ;; 警告エラー行の表示
+  ;;(global-set-key "\C-cd" 'flymake-display-err-menu-for-current-line)
   (global-set-key "\C-cd"
 		  '(lambda ()
 		     (interactive)
@@ -40,9 +41,7 @@
 	(when line-err-info-list
 	  (let* ((text       (flymake-ler-text (nth (1- count) line-err-info-list)))
 		 (line       (flymake-ler-line (nth (1- count) line-err-info-list))))
-	    (message "[%s] %s" line text)
-	    )
-	  )
+	    (message "[%s] %s" line text)))
 	(setq count (1- count)))))
 
   ;; popup.el を使って tip として表示
