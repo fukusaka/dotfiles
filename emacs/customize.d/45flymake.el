@@ -95,7 +95,6 @@
     )
 
   ;; bash チェック
-  ;;
   (defvar flymake-shell-of-choice
     "bash"
     "Path of shell.")
@@ -111,7 +110,7 @@
   (push '(".+\\.sh\\'" flymake-shell-init) flymake-allowed-file-name-masks)
   (push '("^\\(.+\\): line \\([0-9]+\\): \\(.+\\)$" 1 2 nil 3) flymake-err-line-patterns)
 
-  ;;;; HTML チェック
+  ;;;; HTML
   ;;(when (executable-find "tidy")
   ;;  (defun flymake-html-init ()
   ;;    (let* ((coding (coding-system-base buffer-file-coding-system))
@@ -126,7 +125,7 @@
   ;;  (push '("line \\([0-9]+\\) column \\([0-9]+\\) - \\(Warning\\|Error\\): \\(.*\\)" nil 1 2 4) flymake-err-line-patterns)
   ;;  )
 
-  ;; XSL
+  ;;;; XSL
   ;;(push '(".+\\.xsl\\'" flymake-xml-init) flymake-allowed-file-name-masks)
 
   ;;;; Python
@@ -140,5 +139,17 @@
   ;;
   ;;(push '("\\.py\\'" flymake-pylint-init) flymake-allowed-file-name-masks)
   ;;(push '("\\.py\\'" flymake-pep8-init) flymake-allowed-file-name-masks)
+
+
+  ;;;; Javascript
+  ;;(defun flymake-js-init ()
+  ;;  (flymake-simple-generic-init
+  ;;   "js" '("-s")))
+  ;;
+  ;;(push '(".+\\.json\\'" flymake-js-init) flymake-allowed-file-name-masks)
+  ;;(push '(".+\\.js\\'" flymake-js-init) flymake-allowed-file-name-masks)
+  ;;
+  ;;(push '("^\\(.+\\)\:\\([0-9]+\\)\: \\(strict warning: trailing comma.+\\)\:$" 1 2 nil 3)
+  ;;	flymake-err-line-patterns)
 
   )
