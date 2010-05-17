@@ -13,6 +13,8 @@
 
 	      ;;("\\.js$" . js2-mode)
 
+	      ("\\.as$" . actionscript-mode)
+
               ;; DOS/Windows 系だと大文字になってる場合がある
               ("\\.CPP\\'" . c++-mode)
 
@@ -38,3 +40,5 @@
 
 (defalias 'js-mode 'js2-mode)
 (autoload 'js2-mode "js2" nil t)
+
+(autoload 'actionscript-mode "actionscript-mode" t)
