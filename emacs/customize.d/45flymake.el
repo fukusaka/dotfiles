@@ -27,7 +27,7 @@
 		  '(lambda ()
 		     (interactive)
 		     ;;(my-flymake-display-err-minibuf-for-current-line)
-		     (my-flymake-display-err-menu-for-current-line)
+		     (my-flymake-display-err-popup.el-for-current-line)
 		     ))
 
   ;; Minibuf に出力
@@ -45,7 +45,7 @@
 	(setq count (1- count)))))
 
   ;; popup.el を使って tip として表示
-  (defun my-flymake-display-err-menu-for-current-line ()
+  (defun my-flymake-display-err-popup.el-for-current-line ()
     "Display a menu with errors/warnings for current line if it has errors and/or warnings."
     (interactive)
     (let* ((line-no             (flymake-current-line-no))
