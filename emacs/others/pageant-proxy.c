@@ -148,24 +148,16 @@ int main(void) {
 		goto cleanup;
 	}
 
-	pid = fork();
-	if (pid == -1) {
-		perror("fork");
-		goto cleanup;
-	}
+	pid = getpid();
+	snprintf(pidstrbuf, sizeof pidstrbuf, "%ld", (long)pid);
 
-	if (pid != 0) {
-		close(sock);
-		snprintf(pidstrbuf, sizeof pidstrbuf, "%ld", (long)pid);
-
-		format = "%s=%s; export %s;\n";
-		printf(format, SSH_AUTHSOCKET_ENV_NAME, socket_name,
-		       SSH_AUTHSOCKET_ENV_NAME);
-		printf(format, SSH_AGENTPID_ENV_NAME, pidstrbuf,
-		       SSH_AGENTPID_ENV_NAME);
-		printf("echo Agent pid %ld;\n", (long)pid);
-		exit(0);
-	}
+	format = "%s=%s; export %s;\n";
+	printf(format, SSH_AUTHSOCKET_ENV_NAME, socket_name,
+	       SSH_AUTHSOCKET_ENV_NAME);
+	printf(format, SSH_AGENTPID_ENV_NAME, pidstrbuf,
+	       SSH_AGENTPID_ENV_NAME);
+	printf("echo Agent pid %ld;\n", (long)pid);
+	fflush(stdout);
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGPIPE, SIG_IGN);
