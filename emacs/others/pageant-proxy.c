@@ -6,12 +6,17 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <sys/param.h>
 #include <windows.h>
 
 #define AGENT_COPYDATA_ID 0x804e50ba
 #define AGENT_MAX_MSGLEN  8192
 
-#define SOCKNAME "/tmp/ssh/agent"
+#define SSH_AGENTPID_ENV_NAME "SSH_AGENT_PID"
+#define SSH_AUTHSOCKET_ENV_NAME "SSH_AUTH_SOCK"
+
+char socket_name[MAXPATHLEN];
+char socket_dir[MAXPATHLEN];
 
 unsigned long get_uint32(unsigned char *buff) {
 	return ((unsigned long)buff[0] << 24) +
@@ -90,11 +95,38 @@ agent_error:
 	return ret;
 }
 
+/*ARGSUSED*/
+static void
+cleanup_handler(int sig)
+{
+	if (socket_name[0])
+		unlink(socket_name);
+	if (socket_dir[0])
+		rmdir(socket_dir);
+	exit(2);
+}
+
 int main(void) {
 	int sock, asock;
 	unsigned long readlen, reqlen, recvlen;
 	struct sockaddr_un addr;
 	char buff[AGENT_MAX_MSGLEN];
+	char *format, *pidstr, *agentsocket = NULL;
+	pid_t pid;
+	char pidstrbuf[1 + 3 * sizeof pid];
+
+	if (agentsocket == NULL) {
+		strlcpy(socket_dir, "/tmp/ssh-XXXXXXXXXX", sizeof(socket_dir));
+		if (mkdtemp(socket_dir) == NULL) {
+			perror("mkdtemp: private socket dir");
+			exit(1);
+		}
+		snprintf(socket_name, sizeof(socket_name), "%s/agent.%ld",
+			 socket_dir, (long)getpid());
+	} else {
+		socket_dir[0] = '\0';
+		strlcpy(socket_name, agentsocket, sizeof(socket_name));
+	}
 
 	if ((sock = socket(PF_UNIX, SOCK_STREAM, 0)) == 0) {
 		fprintf(stderr, "socket failed\n");
@@ -102,9 +134,9 @@ int main(void) {
 	}
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	strlcpy(addr.sun_path, SOCKNAME, sizeof(addr.sun_path));
+	strlcpy(addr.sun_path, socket_name, sizeof(addr.sun_path));
 
-	unlink(SOCKNAME);
+	unlink(socket_name);
 
 	if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
 		fprintf(stderr, "bind failed\n");
@@ -115,6 +147,30 @@ int main(void) {
 		fprintf(stderr, "listen failed\n");
 		goto cleanup;
 	}
+
+	pid = fork();
+	if (pid == -1) {
+		perror("fork");
+		goto cleanup;
+	}
+
+	if (pid != 0) {
+		close(sock);
+		snprintf(pidstrbuf, sizeof pidstrbuf, "%ld", (long)pid);
+
+		format = "%s=%s; export %s;\n";
+		printf(format, SSH_AUTHSOCKET_ENV_NAME, socket_name,
+		       SSH_AUTHSOCKET_ENV_NAME);
+		printf(format, SSH_AGENTPID_ENV_NAME, pidstrbuf,
+		       SSH_AGENTPID_ENV_NAME);
+		printf("echo Agent pid %ld;\n", (long)pid);
+		exit(0);
+	}
+
+	signal(SIGINT, SIG_IGN);
+	signal(SIGPIPE, SIG_IGN);
+	signal(SIGHUP, cleanup_handler);
+	signal(SIGTERM, cleanup_handler);
 
 	while ((asock = accept(sock, NULL, NULL)) > 0) {
 		recvlen = 0;
@@ -149,7 +205,16 @@ cleanup:
 	shutdown(sock, SHUT_RDWR);
 	close(sock);
 
-	unlink(SOCKNAME);
+	if (socket_name[0])
+		unlink(socket_name);
+	if (socket_dir[0])
+		rmdir(socket_dir);
 
 	exit(0);
 }
+
+/*
+ * Local Variables:
+ * compile-command: "gcc -o pageant-proxy pageant-proxy.c"
+ * End:
+ */
