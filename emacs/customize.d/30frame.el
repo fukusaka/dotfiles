@@ -30,7 +30,7 @@
    ;; MacOSX
    ((eq system-type 'darwin)
     (add-to-assoc-list 'default-frame-alist '(width . 90))
-    (add-to-assoc-list 'default-frame-alist '(alpha . (95 80)))
+    (add-to-assoc-list 'default-frame-alist '(alpha . (95 90)))
     (setq frame-alpha-lower-limit 30)
     (setq-default line-spacing 0.1)
 
