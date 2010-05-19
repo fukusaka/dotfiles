@@ -73,3 +73,35 @@
 
 ;; Iswitchb モード
 (iswitchb-mode 1)
+
+
+;; 編集バックアップは一カ所に集める
+(defvar my-backup-dir (expand-file-name "~/.emacs.d/backup"))
+(unless (file-directory-p my-backup-dir)
+  (make-directory my-backup-dir))
+
+(add-to-assoc-list 'backup-directory-alist
+		   `("\\.*\\'" . ,my-backup-dir))
+
+;; バックアップファイルはコピーして作成する
+(setq backup-by-copying t)
+
+;; 定期的に ~/.emacs.d/backup 内は掃除するべし(cronを使うと良いかも)
+;;  find ~/.emacs.d/backup -mtime +30 -exec rm -f {} \;
+(defun my-cleanup-backup-directory ()
+  (interactive)
+  (let* ((now (current-time))
+	 (files (directory-files my-backup-dir t "\\`[^\\.]"))
+	 (older (remove-if-not
+		 '(lambda (e)
+		    (>= (let ((mtime (nth 5 (file-attributes e))))
+			  (- (first now) (first mtime)))
+			(* 30 24 60 60)))
+		 files)))
+    (mapc 'delete-file older)))
+
+;; NTEmacs ではバックアップ(自動バックアップも含む)は行なわない
+(when (memq system-type '(cygwin windows-nt))
+  (setq make-backup-files nil)
+  (setq auto-save-default nil)
+  )
