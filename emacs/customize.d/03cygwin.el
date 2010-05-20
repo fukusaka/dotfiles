@@ -90,6 +90,14 @@
   ;; cygwin のfindを明示的に指定
   (setq find-program (concat cygwin-top-directory "bin/find"))
 
+  ;; Prevent issues with the Windows null device (NUL)
+  ;; when using cygwin find with rgrep.
+  (defadvice grep-compute-defaults
+    (around grep-compute-defaults-advice-null-device activate)
+    "Use cygwin's /dev/null as the null-device."
+    (let ((null-device "/dev/null"))
+      ad-do-it))
+
   (defadvice prefer-coding-system
     (after my-prefer-coding-system activate)
     (let ((coding (coding-system-base (ad-get-arg 0))))
