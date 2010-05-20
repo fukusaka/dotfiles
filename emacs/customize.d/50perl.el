@@ -1,25 +1,32 @@
 ;; CPerl-mode を使う
 (defalias 'perl-mode 'cperl-mode)
 
-(add-hook 'cperl-mode-hook
-          '(lambda ()
+(defun my-cperl-mode-init ()
 
-	     ;; M-x compile でスクリプトを実行
-             (make-local-variable 'compile-command)
-             (setq compile-command
-                   (concat "perl -T " (buffer-file-name)))
+  ;; M-x compile でスクリプトを実行
+  (make-local-variable 'compile-command)
+  (setq compile-command
+	(concat "perl -T " (buffer-file-name)))
 
-	     ;; perlplus
-	     ;; Perlのシンボルを補完できるようにする
-	     ;; http://www.gentei.org/~yuuji/software/perlplus.el
-	     (require 'perlplus)
-	     (local-set-key "\M-\t" 'perlplus-complete-symbol)
-	     (perlplus-setup)
+  ;; PerlStyle (perldoc perlstyle ベースの設定)
+  (cperl-set-style "PerlStyle")
 
-	     ;; パスの追加?
-	     ;;(require 'set-perl5lib)
-	     ;;(set-perl5lib)
-	     ))
+  ;; Tabスペースは使わない
+  (setq indent-tabs-mode nil)
+
+  ;; perlplus
+  ;; Perlのシンボルを補完できるようにする
+  ;; http://www.gentei.org/~yuuji/software/perlplus.el
+  (require 'perlplus)
+  (local-set-key "\M-\t" 'perlplus-complete-symbol)
+  (perlplus-setup)
+
+  ;; パスの追加?
+  ;;(require 'set-perl5lib)
+  ;;(set-perl5lib)
+  )
+
+(add-hook 'cperl-mode-hook 'my-cperl-mode-init)
 
 ;; emacs上でリージョンを選択して実行する
 (defun perl-eval (beg end)
