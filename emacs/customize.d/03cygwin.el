@@ -11,7 +11,14 @@
   (defvar cygwin-bin-directory
     (expand-file-name (concat cygwin-top-directory "bin")))
 
-  (add-to-list 'exec-path cygwin-bin-directory t)
+  (setq exec-path
+	(cons cygwin-bin-directory
+	      (remove cygwin-bin-directory exec-path)))
+
+  (let ((path (split-string (getenv "PATH") path-separator)))
+    (add-to-list 'path cygwin-bin-directory)
+    (setenv "PATH" (mapconcat 'identity path path-separator))
+    )
 
   ;; cygwin のバージョン取得
   (defvar cygwin-version nil)
@@ -88,7 +95,7 @@
   (setq manual-program "LANG=C man")
 
   ;; cygwin のfindを明示的に指定
-  (setq find-program (concat cygwin-top-directory "bin/find"))
+  ;;(setq find-program (concat cygwin-top-directory "bin/find"))
 
   ;; Prevent issues with the Windows null device (NUL)
   ;; when using cygwin find with rgrep.
