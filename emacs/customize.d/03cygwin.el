@@ -11,14 +11,16 @@
   (defvar cygwin-bin-directory
     (expand-file-name (concat cygwin-top-directory "bin")))
 
+  ;; 先頭にCygwinのパスに移動する
   (setq exec-path
 	(cons cygwin-bin-directory
 	      (remove cygwin-bin-directory exec-path)))
 
   (let ((path (split-string (getenv "PATH") path-separator)))
+    (setq path (remove-if '(lambda (e) (string-equal "C:\\cygwin\\bin" e))
+			  path))
     (add-to-list 'path cygwin-bin-directory)
-    (setenv "PATH" (mapconcat 'identity path path-separator))
-    )
+    (setenv "PATH" (mapconcat 'identity path path-separator)))
 
   ;; cygwin のバージョン取得
   (defvar cygwin-version nil)
@@ -93,9 +95,6 @@
 
   ;; cygwin-1.7のman(groff)は日本語が使えない。。。
   (setq manual-program "LANG=C man")
-
-  ;; cygwin のfindを明示的に指定
-  ;;(setq find-program (concat cygwin-top-directory "bin/find"))
 
   ;; Prevent issues with the Windows null device (NUL)
   ;; when using cygwin find with rgrep.
