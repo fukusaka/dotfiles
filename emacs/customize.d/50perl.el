@@ -57,3 +57,6 @@
    (let ((cperl-message-on-help-error nil))
      (cperl-get-help))))
 
+;; array/hash のfaceを変更
+(set-face-attribute 'cperl-array-face nil :background nil)
+(set-face-attribute 'cperl-hash-face nil :background nil)
