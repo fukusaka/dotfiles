@@ -24,6 +24,15 @@
   ;; パスの追加?
   ;;(require 'set-perl5lib)
   ;;(set-perl5lib)
+
+  ;; 関数ヘルプで、Perldocの呼び出し
+  (local-set-key "\C-hf" 'cperl-perldoc)
+
+  ;; Eldoc on CPerl
+  (set (make-local-variable 'eldoc-documentation-function)
+       'my-cperl-eldoc-documentation-function)
+
+  (turn-on-eldoc-mode)
   )
 
 (add-hook 'cperl-mode-hook 'my-cperl-mode-init)
@@ -41,3 +50,10 @@
   (after flymake-perl-init-taint-mode activate)
   (let ((ret ad-return-value))
     (setcar (cadr ret) (concat (caadr ret) "-T "))))
+
+(defun my-cperl-eldoc-documentation-function ()
+  "Return meaningful doc string for `eldoc-mode'."
+  (car
+   (let ((cperl-message-on-help-error nil))
+     (cperl-get-help))))
+

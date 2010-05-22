@@ -2,6 +2,8 @@
 ;; 標準設定
 ;;
 
+(eval-when-compile (require 'cl))
+
 ;; 操作/表示の細かい設定
 (setq inhibit-startup-message nil)	;; オープニングは大事
 (setq next-line-add-newlines nil)	;; カーソルで新しい行を作らない
