@@ -11,7 +11,8 @@
       '((".*". "home")))
 
 (let ((default-directory my-emacs-conf-dir))
-  (load-file "my-compat.el")
+  (if (<= emacs-major-version 20)
+      (load-file "my-compat.el"))
   (load-file "my-startup.el"))
 
 ;;(setq my-startup-bundling-delay 0)
