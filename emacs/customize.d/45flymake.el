@@ -17,6 +17,20 @@
   ;; 全てのファイルで flymakeを有効化
   (add-hook 'find-file-hook 'flymake-find-file-hook)
 
+  ;; flymake を使えない場合をチェック
+  (defadvice flymake-can-syntax-check-file
+    (after my-flymake-can-syntax-check-file activate)
+    (cond
+     ((not ad-return-value))
+     ;; 書き込み不可ならば、flymakeは無効
+     ((not (file-writable-p buffer-file-name))
+      (setq ad-return-value nil))
+     ;; flymake で使われるコマンドが無ければ無効
+     ((not (executable-find
+	    (nth 0 (funcall (flymake-get-init-function buffer-file-name)))))
+      (setq ad-return-value nil))
+     ))
+
   ;; M-p/M-n で警告/エラー行の移動
   (global-set-key "\M-p" 'flymake-goto-prev-error)
   (global-set-key "\M-n" 'flymake-goto-next-error)
@@ -128,18 +142,17 @@
   ;;;; XSL
   ;;(push '(".+\\.xsl\\'" flymake-xml-init) flymake-allowed-file-name-masks)
 
-  ;;;; Python
-  ;;(defun flymake-pep8-init ()
-  ;;  (flymake-simple-generic-init
-  ;;   "pep8"))
-  ;;
-  ;;(defun flymake-pylint-init ()
-  ;;  (flymake-simple-generic-init
-  ;;   "epylint"))
-  ;;
-  ;;(push '("\\.py\\'" flymake-pylint-init) flymake-allowed-file-name-masks)
-  ;;(push '("\\.py\\'" flymake-pep8-init) flymake-allowed-file-name-masks)
+  ;; Python
+  (defun flymake-pep8-init ()
+    (flymake-simple-generic-init
+     "pep8"))
 
+  (defun flymake-pylint-init ()
+    (flymake-simple-generic-init
+     "epylint"))
+
+  ;;(push '("\\.py\\'" flymake-pylint-init) flymake-allowed-file-name-masks)
+  (push '("\\.py\\'" flymake-pep8-init) flymake-allowed-file-name-masks)
 
   ;;;; Javascript
   ;;(defun flymake-js-init ()
