@@ -27,7 +27,9 @@
       (setq ad-return-value nil))
      ;; flymake で使われるコマンドが無ければ無効
      ((not (executable-find
-	    (nth 0 (funcall (flymake-get-init-function buffer-file-name)))))
+	    (nth 0 (prog1
+		       (funcall (flymake-get-init-function buffer-file-name))
+		     (funcall (flymake-get-cleanup-function buffer-file-name))))))
       (setq ad-return-value nil))
      ))
 
