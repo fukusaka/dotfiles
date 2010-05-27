@@ -2,16 +2,26 @@
 ;; 6枚ものフレームを同時生成、同時削除。
 ;;
 
-
 (cond
  ((and (eq window-system 'x) (executable-find "wmctrl"))
-  ;; use wmctrl
+
+  ;; use wmctrl/gconftool-2
   (defun moi::move-frame-wmctrl (frame x y)
-    (let ((wid (frame-parameter (or frame (selected-frame)) 'outer-window-id))
-	  (desk (int-to-string (+ (* moi::desktop-max-x y) x))))
+    (let* ((wid (frame-parameter (or frame (selected-frame)) 'outer-window-id))
+	   (num_rows (string-to-number
+		      (shell-command-to-string
+		       "gconftool-2 -g /apps/panel/applets/workspace_switcher_screen0/prefs/num_rows")))
+	   (desk (int-to-string (+ (* num_rows y) x))))
       (call-process "wmctrl" nil nil nil "-i" "-r" wid "-t" desk)))
 
-  (setq moi::desktop-max-x 4)
+  ;;
+  (defun moi::move-frame-workspace (frame x y)
+    (let* ((wid (string-to-number (frame-parameter (or frame (selected-frame)) 'outer-window-id)))
+	   (ws (x-window-property "_NET_WM_DESKTOP" nil "CARDINAL" wid nil t))
+	   (num_rows
+	    (elt (x-window-property "_NET_DESKTOP_LAYOUT" nil "CARDINAL" 0 nil t) 2))
+	   (desk (+ (* num_rows y) x)))
+      (call-process "wmctrl" nil nil nil "-i" "-r" (int-to-string wid) "-t" (int-to-string desk))))
 
   ;; for Virtual Desktop (fvwm/AfterStep/sawfish etc)
   (defun moi::move-frame-large-desktop (frame x y)
@@ -20,17 +30,16 @@
 	   (top (+ (* (x-display-pixel-height) y) (assoc 'top fpar))))
       (set-frame-position frame left top)))
 
-  (defun moi::move-frame (frame x y)
-    (moi::move-frame-wmctrl frame x y)
-    ;;(moi::move-frame-large-desktop frame x y)
-    )
+  ;;(defalias 'moi::move-frame 'moi::move-frame-wmctrl)
+  (defalias 'moi::move-frame 'moi::move-frame-workspace)
+  ;;(defalias 'moi::move-frame 'moi::move-frame-large-desktop)
   )
  ((and (eq window-system 'ns) (fboundp 'set-frame-ns-workspace))
   (defun moi::move-frame (frame x y)
-    (let ((max-cols (string-to-int
+    (let ((max-cols (string-to-number
 		     (shell-command-to-string
 		      "defaults read com.apple.dock workspaces-cols")))
-	  (max-rows (string-to-int
+	  (max-rows (string-to-number
 		     (shell-command-to-string
 		      "defaults read com.apple.dock workspaces-rows"))))
       (setq x (cond ((< x 0) 0) ((> x max-cols) max-cols) (t x)))
