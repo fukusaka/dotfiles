@@ -8,8 +8,16 @@
   ;;
   ;; Makefile があれば、次のルールを追加
   ;;PHONY: check-syntax
-  ;;check-syntax:
-  ;;    $(CC) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
+  ;;#check-syntax:
+  ;;#	$(CC) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
+  ;;
+  ;;CHECKSYNTAX.c = $(CC) $(CFLAGS) $(CPPFLAGS) -Wall -Wextra -pedantic -fsyntax-only
+  ;;CHECKSYNTAX.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -Wall -Wextra -pedantic -fsyntax-only
+  ;;
+  ;;check-syntax: $(addsuffix -check-syntax,$(CHK_SOURCES))
+  ;;%.c-check-syntax:  ; $(CHECKSYNTAX.c)  $*.c
+  ;;%.cc-check-syntax: ; $(CHECKSYNTAX.cc) $*.cc
+
 
   ;; GUIの警告は表示しない
   (setq flymake-gui-warnings-enabled nil)
@@ -22,14 +30,17 @@
     (after my-flymake-can-syntax-check-file activate)
     (cond
      ((not ad-return-value))
+     ;; tramp 経由であれば、無効
+     ((memq (current-buffer) (tramp-list-remote-buffers))
+      (setq ad-return-value nil))
      ;; 書き込み不可ならば、flymakeは無効
      ((not (file-writable-p buffer-file-name))
       (setq ad-return-value nil))
      ;; flymake で使われるコマンドが無ければ無効
-     ((not (executable-find
-	    (nth 0 (prog1
-		       (funcall (flymake-get-init-function buffer-file-name))
-		     (funcall (flymake-get-cleanup-function buffer-file-name))))))
+     ((let ((cmd (nth 0 (prog1
+			    (funcall (flymake-get-init-function buffer-file-name))
+			  (funcall (flymake-get-cleanup-function buffer-file-name))))))
+	(and cmd (not (executable-find cmd))))
       (setq ad-return-value nil))
      ))
 
@@ -95,8 +106,8 @@
     (flymake-simple-make-or-generic-init
      "g++" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
 
-  (push '("\\.[cC]\\'" flymake-c-init) flymake-allowed-file-name-masks)
-  (push '("\\.\\(?:cc\|cpp\|CC\|CPP\\)\\'" flymake-cc-init) flymake-allowed-file-name-masks)
+  (push '("\\.[cCmM]\\'" flymake-c-init) flymake-allowed-file-name-masks)
+  (push '("\\.\\(?:cc\|cpp\|CC\|CPP\|mm\|MM\\)\\'" flymake-cc-init) flymake-allowed-file-name-masks)
 
   ;; Invoke ruby with '-c' to get syntax checking
   (when (executable-find "ruby")
@@ -144,17 +155,17 @@
   ;;;; XSL
   ;;(push '(".+\\.xsl\\'" flymake-xml-init) flymake-allowed-file-name-masks)
 
-  ;; Python
-  (defun flymake-pep8-init ()
-    (flymake-simple-generic-init
-     "pep8"))
-
-  (defun flymake-pylint-init ()
-    (flymake-simple-generic-init
-     "epylint"))
-
+  ;;;; Python
+  ;;(defun flymake-pep8-init ()
+  ;;  (flymake-simple-generic-init
+  ;;   "pep8"))
+  ;;
+  ;;(defun flymake-pylint-init ()
+  ;;  (flymake-simple-generic-init
+  ;;   "epylint"))
+  ;;
   ;;(push '("\\.py\\'" flymake-pylint-init) flymake-allowed-file-name-masks)
-  (push '("\\.py\\'" flymake-pep8-init) flymake-allowed-file-name-masks)
+  ;;(push '("\\.py\\'" flymake-pep8-init) flymake-allowed-file-name-masks)
 
   ;;;; Javascript
   ;;(defun flymake-js-init ()
