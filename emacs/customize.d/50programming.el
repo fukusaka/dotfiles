@@ -82,6 +82,7 @@
   ;;(setq ac-auto-show-menu nil)
 
   ;; Color-moccur
-  (require 'color-moccur)
+  (when (locate-library "color-moccur")
+    (require 'color-moccur))
 
   )
