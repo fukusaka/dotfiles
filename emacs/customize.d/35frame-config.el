@@ -8,6 +8,32 @@
   (add-to-assoc-list 'default-frame-alist '(width . 80))
   (add-to-assoc-list 'default-frame-alist '(height . 40))
 
+  ;; 好みのワークスペース位置
+  (setq my-desktop-center-x 1)
+  (setq my-desktop-center-y 1)
+
+  ;; 複数フレーム開く方法 1
+  (defun my-real-make-frame-1 ()
+    (my-make-frame-at -1 0)
+    (my-make-frame-at  0 1)
+    (my-make-frame-at -1 1)
+    )
+
+  ;; 複数フレーム開く方法 2
+  (defun my-real-make-frame-2 ()
+    (my-make-frame-at -1 -1)
+    (my-make-frame-at  0 -1)
+    ;;(my-make-frame-at  1 -1)
+    (my-make-frame-at -1  0)
+    ;;(my-make-frame-at  1  0)
+    (my-make-frame-at -1  1)
+    (my-make-frame-at  0  1)
+    (my-make-frame-at  1  1)
+    )
+
+  (defun my-real-make-frame-3 () )
+  (defun my-real-make-frame-4 () )
+
   (cond
    ;; X
    ((eq window-system 'x)
@@ -36,8 +62,6 @@
 
     (add-to-assoc-list 'initial-frame-alist '(top . 22))
     (add-to-assoc-list 'initial-frame-alist '(left . 0))
-    (if (eq window-system 'ns)
-	(add-to-assoc-list 'initial-frame-alist '(height . 56)))
     )
 
    ;; Windows
@@ -47,6 +71,27 @@
     (add-to-assoc-list 'initial-frame-alist '(top . 0))
     (add-to-assoc-list 'initial-frame-alist '(left . 160))
     (add-to-assoc-list 'initial-frame-alist '(height . 46))
+    )
+   )
+
+  ;; 個別設定
+  (cond
+
+   ;; Linux on VMWare / MacBookPro 15
+   ((string-match "^fuku-umac" (system-name))
+    (add-to-assoc-list 'initial-frame-alist '(height . 53))
+    )
+
+   ;; Cocoa Emacs / MacBookPro 15
+   ((string-match "^kuro-mac" (system-name))
+    (add-to-assoc-list 'initial-frame-alist '(height . 56))
+    ;; 複数フレーム開く方法 1
+    (defun my-real-make-frame-1 ()
+      (my-make-frame-at -1 0)
+      (my-make-frame-at  0 1)
+      ;;(my-make-frame-at -1 1)
+      (my-make-frame-at  0 1 675 0)
+      )
     )
    )
   )
