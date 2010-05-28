@@ -58,6 +58,11 @@
 ;; Shell (数引数1は使わないので、、、)
 (define-key global-map "\M-1" 'shell-command)
 
+;; For Org Mode
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+
 ;; トグル動作
 ;; 現在バッファ名が run-buffer-name であれば現在バッファを最後尾に下げ、
 ;; でなければ、run-comanndを実行する。
