@@ -31,7 +31,8 @@
     (cond
      ((not ad-return-value))
      ;; tramp 経由であれば、無効
-     ((memq (current-buffer) (tramp-list-remote-buffers))
+     ((and (fboundp 'tramp-list-remote-buffers)
+	   (memq (current-buffer) (tramp-list-remote-buffers)))
       (setq ad-return-value nil))
      ;; 書き込み不可ならば、flymakeは無効
      ((not (file-writable-p buffer-file-name))
@@ -107,7 +108,7 @@
      "g++" '("-Wall" "-Wextra" "-pedantic" "-fsyntax-only")))
 
   (push '("\\.[cCmM]\\'" flymake-c-init) flymake-allowed-file-name-masks)
-  (push '("\\.\\(?:cc\|cpp\|CC\|CPP\|mm\|MM\\)\\'" flymake-cc-init) flymake-allowed-file-name-masks)
+  (push '("\\.\\(?:cc\|cpp\|CC\|CPP\\)\\'" flymake-cc-init) flymake-allowed-file-name-masks)
 
   ;; Invoke ruby with '-c' to get syntax checking
   (when (executable-find "ruby")
@@ -155,7 +156,7 @@
   ;;;; XSL
   ;;(push '(".+\\.xsl\\'" flymake-xml-init) flymake-allowed-file-name-masks)
 
-  ;;;; Python
+  ;;;; Python (pychecker/pylint/pyflakes/pep8)
   ;;(defun flymake-pep8-init ()
   ;;  (flymake-simple-generic-init
   ;;   "pep8"))
@@ -163,9 +164,14 @@
   ;;(defun flymake-pylint-init ()
   ;;  (flymake-simple-generic-init
   ;;   "epylint"))
-  ;;
-  ;;(push '("\\.py\\'" flymake-pylint-init) flymake-allowed-file-name-masks)
+
+  (defun flymake-pyflakes-init ()
+    (flymake-simple-generic-init
+     "pyflakes"))
+
   ;;(push '("\\.py\\'" flymake-pep8-init) flymake-allowed-file-name-masks)
+  ;;(push '("\\.py\\'" flymake-pylint-init) flymake-allowed-file-name-masks)
+  (push '("\\.py\\'" flymake-pyflakes-init) flymake-allowed-file-name-masks)
 
   ;;;; Javascript
   ;;(defun flymake-js-init ()
