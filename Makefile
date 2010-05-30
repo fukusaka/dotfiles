@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 TARBALL=conf.tar.gz
 
 CONFDIR=common/conf
