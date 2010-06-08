@@ -42,6 +42,7 @@
     ("\\.h\\'" . "skel.h")
     ("\\.el\\'" . "skel.el")
     ("\\.pl\\'" . "skel.pl")
+    ("\\.py\\'" . "skel.py")
     ("\\.texi\\'" . "skel.texi")
     ("\\.tex\\'" . "skel.tex")
     ("\\.html\\'" . "skel.html")
