@@ -1,19 +1,15 @@
-#!/bin/sh
-# -*- scheme -*-
-exec guile -s $0 $*
+#!/usr/bin/env guile -e main -s
+# -*- coding: utf-8 -*-
 !#
 ;;; @@FNAME@@ --
-;; $Id$
-
+;;
 ;; Copyright (C) @@YEAR@@ @@NAME@@
-
+;;
 ;; Author: @@NAME@@ <@@ADDRESS@@>
 ;; Maintainer: @@NAME@@ <@@ADDRESS@@>
 ;; Created: @@DATE@@
 ;; Version: 1.0
 ;; Keywords:
-
-;; This file is part of
 
 @@LICENSE@@
 
@@ -33,13 +29,17 @@ exec guile -s $0 $*
 ;(require 'printf)
 ;(require 'pretty-print)
 
+(define (main args)
+  (display "Hello World")
+  (newline))
+
 @@@@
 FNAME: (file-name-nondirectory buffer-file-name)
 NAME: programmer-name
 ADDRESS: programmer-mail-address
 YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%d %b %Y")
-LICENSE: (my-license-string 'GPL ";; " t)
+LICENSE: (my-ask-license-string ";; ")
 @@@@
 
 ;;; @@FNAME@@ ends here

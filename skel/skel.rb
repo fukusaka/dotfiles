@@ -1,17 +1,16 @@
-#!/usr/bin/python
+#!/usr/bin/ruby
 # -*- coding: utf-8 -*-
-
-# @@FNAME@@ --
 #
 # Copyright (C) @@YEAR@@ @@NAME@@
 #
 # Author: @@NAME@@ <@@ADDRESS@@>
-# Maintainer: @@NAME@@ <@@ADDRESS@@>
 # Created: @@DATE@@
 # Version: 1.0
 # Keywords:
-
+#
 @@LICENSE@@
+
+# @@FNAME@@ ends here
 
 @@@@
 FNAME: (file-name-nondirectory buffer-file-name)
@@ -21,5 +20,3 @@ YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%d %b %Y")
 LICENSE: (my-ask-license-string "# ")
 @@@@
-
-# @@FNAME@@ ends here
