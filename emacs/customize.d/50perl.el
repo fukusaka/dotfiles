@@ -3,11 +3,6 @@
 
 (defun my-cperl-mode-init ()
 
-  ;; M-x compile でスクリプトを実行
-  (make-local-variable 'compile-command)
-  (setq compile-command
-	(concat "perl -T " (buffer-file-name)))
-
   ;; PerlStyle (perldoc perlstyle ベースの設定)
   (cperl-set-style "PerlStyle")
 

@@ -62,6 +62,25 @@
 ;;(setq-default tab-width 4)
 ;;(setq-default indent-tabs-mode nil)
 
+;; M-x compile でスクリプトを実行
+(defvar my-interpreter-program nil)
+(defun my-interpreter-mode-init ()
+  (save-excursion
+    (goto-char (point-min))
+    (when (looking-at "#!\\([^\n]+\\)")
+      (make-local-variable 'my-interpreter-program)
+      (setq my-interpreter-program (match-string 1))
+      ))
+
+  (when my-interpreter-program
+    (make-local-variable 'compile-command)
+    (setq compile-command
+	  (concat my-interpreter-program " "
+		  (buffer-file-name)))
+    )
+  )
+(add-hook 'find-file-hook 'my-interpreter-mode-init)
+
 ;; Emacs 22 以降の対応
 (when (and (>= emacs-major-version 22)
            window-system)
