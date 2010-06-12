@@ -91,6 +91,9 @@
       (my-make-frame-at  0 1)
       ;;(my-make-frame-at -1 1)
       (my-make-frame-at  0 1 675 0)
+      (shell-command
+       (format "osascript %s/bin-osa/make-safari-window-for-develop.applescript"
+	       my-emacs-conf-dir))
       )
     )
    )
