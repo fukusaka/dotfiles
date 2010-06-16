@@ -3,7 +3,27 @@
   (require 'ns-win)
 
   ;; JISキーボード円記号/バックスラッシュ対応
-  (mac-translate-from-yen-to-backslash)
+  ;;(if (fboundp 'mac-translate-from-yen-to-backslash)
+  ;;    (mac-translate-from-yen-to-backslash))
+
+  (define-key global-map [165] nil)
+  (define-key global-map [2213] nil)
+  (define-key global-map [3420] nil)
+  (define-key global-map [67109029] nil)
+  (define-key global-map [67111077] nil)
+  (define-key global-map [8388773] nil)
+  (define-key global-map [134219941] nil)
+  (define-key global-map [75497596] nil)
+  (define-key global-map [201328805] nil)
+  (define-key function-key-map [165] [?\\])
+  (define-key function-key-map [2213] [?\\]) ;; for Intel
+  (define-key function-key-map [3420] [?\\]) ;; for PowerPC
+  (define-key function-key-map [67109029] [?\C-\\])
+  (define-key function-key-map [67111077] [?\C-\\])
+  (define-key function-key-map [8388773] [?\M-\\])
+  (define-key function-key-map [134219941] [?\M-\\])
+  (define-key function-key-map [75497596] [?\C-\M-\\])
+  (define-key function-key-map [201328805] [?\C-\M-\\])
 
   ;; Option/Command キー を Super/Meta に割当
   (setq ns-command-modifier 'meta)
