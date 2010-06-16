@@ -1,4 +1,4 @@
-#!/usr/bin/perl -T
+#!/usr/bin/env perl -T
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) @@YEAR@@ @@NAME@@
@@ -13,15 +13,24 @@
 use strict;
 use warnings;
 use utf8;                     # ソースコードのencoding指定
-use open ':encoding(utf8)';   # I/OのencodingをUTF8固定にする
+use open ':encoding(UTF-8)';  # I/OのencodingをUTF8固定にする
 use open ':std';              # STD三兄弟のencoding指定
-#use Data::Dumper;
 
 # 安全じゃないBASH変数の削除
 delete @ENV{qw(IFS CDPATH ENV BASH_ENV)};
 
 # PATHの明示指定
 $ENV{PATH} = q(/bin:/usr/bin);
+
+#use Data::Dumper;
+## 任意の文字(UTF-8を含む)をエスケープしない方法
+#{
+#    package Data::Dumper;
+#    our $Useqq = 1;
+#    no warnings 'redefine';
+#    sub qquote { my $s=shift; return "'$s'"; }
+#}
+
 
 # @@FNAME@@ ends here
 
