@@ -74,7 +74,7 @@
 		      "defaults read com.apple.dock workspaces-rows"))))
       ;; 現在位置からの相対
       (unless abs
-	(let* ((now-desk (1- (string-to-int (frame-parameter nil 'ns-workspace-id))))
+	(let* ((now-desk (1- (string-to-int (frame-ns-workspace))))
 	       (now-x (/ now-desk max-rows))
 	       (now-y (- now-desk (* now-x max-rows))))
 	  (setq x (+ now-x x))
