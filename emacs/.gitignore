@@ -1,0 +1,13 @@
+/customize.d/all-bundle*.el
+/customize.d/emacs21
+/customize.d/emacs22
+/customize.d/emacs23
+/customize.d/emacs24
+/customize.d/*/emacs21
+/customize.d/*/emacs22
+/customize.d/*/emacs23
+/customize.d/*/emacs24
+/elisp-emacs21
+/elisp-emacs22
+/elisp-emacs23
+/elisp-emacs24
