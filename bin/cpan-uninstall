@@ -1,0 +1,14 @@
+#!/usr/bin/env perl
+
+use ExtUtils::Installed;
+use ExtUtils::Install;
+
+$module = $ARGV[0];
+
+$inst = ExtUtils::Installed->new();
+@modules = $inst->modules();
+
+(grep $module,@modules) || die "$module is not install...";
+
+uninstall($inst->packlist($module)->packlist_file());
+print "uninstalled $module\n";

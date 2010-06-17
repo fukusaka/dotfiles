@@ -1,0 +1,11 @@
+#!/usr/bin/env perl
+
+use ExtUtils::Installed;
+
+$inst = ExtUtils::Installed->new();
+
+for $module (sort $inst->modules()) {
+	$version = $inst->version($module);
+	print "$module $version\n";
+}
+

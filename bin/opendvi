@@ -1,0 +1,6 @@
+#!/bin/bash
+
+tempfile=${TMPDIR}/opendvi-$$.pdf
+
+dvipdfmx -o ${tempfile} -l "$@"
+open ${tempfile}
