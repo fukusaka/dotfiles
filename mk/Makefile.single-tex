@@ -1,0 +1,43 @@
+# -*-makefile-*-
+
+SOURCE_SUFFIX += .tex .texi
+
+SOURCE := $(foreach suffix,$(sort ${SOURCE_SUFFIX}),$(wildcard *${suffix}))
+SOURCE := $(foreach src,$(SOURCE), $(if $(filter $(src),$(EXCEPT)) ,,$(src)))
+STEM   := $(basename ${SOURCE})
+
+BINARY += $(foreach suffix,.dvi .pdf, $(addsuffix ${suffix},${STEM}))
+
+AUX_SUFFIX += .log .aux .cp .cps .fn .ky .pg .pgs .toc .tp .vr
+SECONDARY += $(foreach suffix,${AUX_SUFFIX}, $(addsuffix ${suffix},${STEM}))
+
+# pTeX の利用
+TEX=ptex
+LATEX=platex
+export TEX
+export LATEX
+
+all: ${BINARY}
+
+clean: clean-secondary
+	rm -f ${BINARY} *~
+
+clean-secondary:
+	rm -f ${SECONDARY}
+
+gitignore:
+	@[ -e .gitignore ] || echo .gitignore > .gitignore
+	@for file in ${BINARY} ${SECONDARY} ${GITIGNORE}; do \
+		if grep -q "^$$file$$" .gitignore ; then \
+			echo already exist $$file in .gitignore; \
+		else  \
+			echo $$file >> .gitignore ; \
+			echo append $$file to .gitignore ; \
+		fi \
+	done
+
+
+.SECONDARY: ${SECONDARY}
+
+%.pdf: %.dvi
+	dvipdfmx $(DVIPDFMXFLAGS) -o $@ $^

@@ -1,0 +1,75 @@
+# -*-makefile-*-
+
+SOURCE_SUFFIX += .c .cc
+
+CFLAGS += -O3
+
+# for MacPorts
+ifeq "$(shell uname -s)" "Darwin"
+CFLAGS += -I/opt/local/include
+CXXFLAGS += -I/opt/local/include
+LDFLAGS += -L/opt/local/lib
+
+SOURCE_SUFFIX += .m
+endif
+
+ifneq "${PKG_CONFIG_REQ}" ""
+EXIST_CHECKS += pkg-config
+endif
+
+# exist check
+$(foreach CHECK,${EXIST_CHECKS},$(if $(shell which ${CHECK}),,$(error no exist ${CHECK})))
+
+# pkg-config によるライブラリ存在のチェック
+PKG_CONFIG_NOT_EXISTS := $(shell \
+	for req in ${PKG_CONFIG_REQ}; do \
+		pkg-config --exists $$req || echo $$req; \
+	done)
+
+# ライブラリが無いので一部を除外
+ifneq "${PKG_CONFIG_NOT_EXISTS}" ""
+$(warning no exist ${PKG_CONFIG_NOT_EXISTS})
+EXCEPT += $(foreach req,${PKG_CONFIG_NOT_EXISTS},${PKG_CONFIG_REQ_${req}})
+endif
+
+SOURCE := $(foreach suffix,$(sort ${SOURCE_SUFFIX}),$(wildcard *${suffix}))
+SOURCE := $(foreach src,$(SOURCE), $(if $(filter $(src),$(EXCEPT)) ,,$(src)))
+BINARY += $(basename ${SOURCE})
+
+all: ${BINARY}
+
+exist_checks:
+	if [ \"$$(which ${EXIST_CHECKS})\" =  \"\" ]; then \
+		$(error no exist ${ECPG}) ; \
+	fi
+
+clean:
+	rm -f ${BINARY} *.o *~ ${SECONDARY}
+
+gitignore:
+	@[ -e .gitignore ] || echo .gitignore > .gitignore
+	@for file in ${BINARY} ${SECONDARY} ${GITIGNORE}; do \
+		if grep -q "^$$file$$" .gitignore ; then \
+			echo already exist $$file in .gitignore; \
+		else  \
+			echo $$file >> .gitignore ; \
+			echo append $$file to .gitignore ; \
+		fi \
+	done
+
+#check-syntax:
+#	$(CC) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
+
+CHECKSYNTAX.c  = $(CC)  $(CFLAGS)   $(CPPFLAGS) -Wall -Wextra -pedantic -fsyntax-only
+CHECKSYNTAX.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -Wall -Wextra -pedantic -fsyntax-only
+CHECKSYNTAX.m  = $(CHECKSYNTAX.c)
+
+check-syntax: $(addsuffix -check-syntax,$(CHK_SOURCES))
+
+%.c-check-syntax:  ; $(CHECKSYNTAX.c)  $*.c
+%.cc-check-syntax: ; $(CHECKSYNTAX.cc) $*.cc
+%.m-check-syntax:  ; $(CHECKSYNTAX.m) $*.m
+
+.PHONY: check-syntax
+
+.SECONDARY: ${SECONDARY}
