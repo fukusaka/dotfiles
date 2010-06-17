@@ -13,7 +13,7 @@
 バージョン毎にbytecodeが異なるときの場合わけの区別の基準になる")
 
 (defvar my-top-conf-dir
-  (expand-file-name "~/common/conf/")
+  (expand-file-name "~/common/")
   "設定ファイル群を置く基準ディレクトリ")
 
 (defvar my-emacs-conf-dir
@@ -22,7 +22,7 @@
   "emacs用設定ファイルの基準ディレクトリ")
 
 (defvar my-emacs-bin-dir
-  (concat (file-name-as-directory my-emacs-conf-dir)
+  (concat (file-name-as-directory my-top-conf-dir)
 	  "bin/")
   "emacs用実行スクリプトの基準ディレクトリ")
 

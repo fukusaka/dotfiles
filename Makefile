@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 TARBALL=conf.tar.gz
 
-CONFDIR=common/conf
+CONFDIR=common
 
 all:
 	@ echo "link -- リンクを張り巡らす"

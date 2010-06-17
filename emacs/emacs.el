@@ -4,7 +4,7 @@
 
 ;; $Id$
 
-(setq my-top-conf-dir (expand-file-name "~/common/conf/"))
+(setq my-top-conf-dir (expand-file-name "~/common/"))
 (setq my-emacs-conf-dir (concat my-top-conf-dir "emacs/"))
 
 (setq my-place-profile-alist

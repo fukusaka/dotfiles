@@ -32,6 +32,7 @@
 		     (split-string (getenv "MANPATH") path-separator))))
     (add-to-list 'path "/usr/local/bin")
     (add-to-list 'path "/opt/local/bin")
+    (add-to-list 'path (concat (getenv "HOME") "/common/bin"))
     (add-to-list 'path (concat (getenv "HOME") "/bin"))
     (add-to-list 'manpath "/usr/local/man")
     (add-to-list 'manpath "/opt/local/man")
