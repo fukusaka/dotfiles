@@ -131,10 +131,9 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
                    'string<)))))
     (with-temp-file bundle
       (erase-buffer)
-      (mapcar '(lambda (file)
-                 (insert-file-contents file)
-                 (goto-char (point-max)))
-              files))
+      (dolist (file files)
+	(insert-file-contents file)
+	(goto-char (point-max))))
     bundle))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -161,7 +160,7 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
       (cond
        ;; .el を読み込む
        (my-startup-avoid-compile
-        (mapcar 'load-when-eval-safe files))
+        (mapc 'load-when-eval-safe files))
 
        ;; byte-compile 後 .elc を読み込む
        ;; 設定片の最終更新時間が比較的に新しいときもこっち
@@ -172,15 +171,22 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
                   (+ (* (- (first now) (first mtime)) 65356)
                      (- (second now) (second mtime))))
                 my-startup-bundling-delay))
-        (setq files (mapcar 'my-compile-file files))
-        (mapcar 'load-when-eval-safe files))
+	(dolist (file files)
+	  (setq file (my-compile-file file))
+	  (load-when-eval-safe file)))
 
        ;; 一つに固めて bundle を読み込む
        (t
-        (when (file-newer-than-file-p newer bundle)
-          (my-customize-bundling-one-file bundle dir))
-        (setq bundle (my-compile-file bundle))
-        (load-when-eval-safe bundle))
+	(condition-case err
+	    (progn
+	      (when (file-newer-than-file-p newer bundle)
+		(my-customize-bundling-one-file bundle dir))
+	      (setq bundle (my-compile-file bundle))
+	      (load-when-eval-safe bundle))
+	  (error
+	   (dolist (file files)
+	     (setq file (my-compile-file file))
+	     (load-when-eval-safe file)))))
        )
       )))
 
