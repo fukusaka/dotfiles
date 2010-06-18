@@ -1,39 +1,30 @@
 # -*- coding: utf-8 -*-
-TARBALL=conf.tar.gz
 
 CONFDIR=common
 
 all:
-	@ echo "link -- リンクを張り巡らす"
-	@ echo "pack -- tarball に固める"
-	@ echo "clean -- ゴミ削除"
-	@ echo "simple-emacs -- emacs.el の生成"
+	@ echo "link          リンクを張り巡らす"
+	@ echo "clean         ゴミ削除"
+	@ echo "simple-emacs  emacs.el の生成"
+	@ echo "emacs-clean   emacs のbytecode を削除"
 
 link:
 	@ awk '!/^#/ { printf("ln -sf ${CONFDIR}/%s %s\n", $$1,$$2) }' link-list
 
-pack:
-	cd .. ; find conf -type f  -not -name '*~' -not -name '*.elc' \
-	| tar cfz ${TARBALL} -T -
-
 clean:
 	find . -name '*~' -exec rm -f {} \;
 
-distclean: clean
-	rm -rf emacs/customize.d/emacs{20,21,22,xx}
+emacs-clean:
+	rm -rf emacs/customize.d/emacs{20,21,22,23,24,25,xx}
 	find emacs -name '*.elc' -exec rm -f {} \;
 
-SIMPLE_EMACS_COMMON=\
-00utils.el 05lang.el 06ime.el 08fixup.el 10standard.el 10bindings.el
+distclean: clean emacs-clean
 
-SIMPLE_EMACS=\
-${SIMPLE_EMACS_COMMON} \
-15automode.el \
-30frame.el 40color.el \
-50dired-x.el 50programming.el 50tramp.el
+SIMPLE_EMACS := \
+$(notdir $(wildcard emacs/customize.d/[0-9][0-9]*))
 
-SIMPLE_EMACS_ROOT=\
-${SIMPLE_EMACS_COMMON} \
+SIMPLE_EMACS_ROOT := \
+$(notdir $(wildcard emacs/customize.d/[0-3][0-9]*)) \
 40color.el
 
 simple-emacs:
