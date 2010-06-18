@@ -18,6 +18,8 @@
               ;; DOS/Windows 系だと大文字になってる場合がある
               ("\\.CPP\\'" . c++-mode)
 
+	      ("\\.cs$" . csharp-mode)
+
               ;; 差分に色づけする
               ("patch" . my-patch-view-mode)
               ("\\.diff" . my-patch-view-mode)
@@ -42,3 +44,5 @@
 (autoload 'js2-mode "js2" nil t)
 
 (autoload 'actionscript-mode "actionscript-mode" t)
+
+(autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
