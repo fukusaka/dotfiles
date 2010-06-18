@@ -86,17 +86,17 @@
            window-system)
 
   ;; Yasnippet
-  (require 'yasnippet-bundle)
+  ;;(require 'yasnippet-bundle)
 
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories
-	       (concat my-elisp-dir "auto-complete-1.2/dict"))
+	       (concat my-elisp-dir "auto-complete/dict"))
   (ac-config-default)
 
   ;; 補完が自動で起動するのを停止
   (setq ac-auto-start nil)
   ;; 起動キーの設定
-  (ac-set-trigger-key "TAB")
+  (ac-set-trigger-key "<C-tab>")
 
   ;;(setq ac-auto-show-menu nil)
 
