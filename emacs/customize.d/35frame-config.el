@@ -85,13 +85,20 @@
    ;; Cocoa Emacs / MacBookPro 15
    ((string-match "^kuro-mac" (system-name))
     (add-to-assoc-list 'initial-frame-alist '(height . 56))
+
+    ;; 作業用の Safari を開く
+    (define-key my-prefix-5-map "w" 'my-make-safari-window)
+    (defun my-make-safari-window ()
+      (interactive)
+      (shell-command "make-safari-window-for-develop.applescript"))
+
     ;; 複数フレーム開く方法 1
     (defun my-real-make-frame-1 ()
       (my-make-frame-at -1 0)
       (my-make-frame-at  0 1)
       ;;(my-make-frame-at -1 1)
       (my-make-frame-at  0 1 675 0)
-      (shell-command "make-safari-window-for-develop.applescript")
+      (my-make-safari-window)
       )
     )
    )
