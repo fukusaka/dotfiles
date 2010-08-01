@@ -7,13 +7,13 @@
 # Created: @@DATE@@
 # Version: 1.0
 # Keywords:
-#
 @@LICENSE@@
 
 use strict;
 use warnings;
 use utf8;                     # ソースコードのencoding指定
 use open ':encoding(UTF-8)';  # I/OのencodingをUTF8固定にする
+#use open ':utf8';
 use open ':std';              # STD三兄弟のencoding指定
 
 # 安全じゃないBASH変数の削除
@@ -30,6 +30,8 @@ $ENV{PATH} = q(/bin:/usr/bin);
 #    no warnings 'redefine';
 #    sub qquote { my $s=shift; return "'$s'"; }
 #}
+#print Dumper(\$var);
+#print Data::Dumper->Dump([$var $opt],[qw/var opt/]);
 
 
 # @@FNAME@@ ends here
