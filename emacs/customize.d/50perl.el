@@ -28,10 +28,10 @@
   (local-set-key "\C-hf" 'cperl-perldoc)
 
   ;; Eldoc on CPerl
-  (set (make-local-variable 'eldoc-documentation-function)
-       'my-cperl-eldoc-documentation-function)
-
-  (turn-on-eldoc-mode)
+  ;;(set (make-local-variable 'eldoc-documentation-function)
+  ;;     'my-cperl-eldoc-documentation-function)
+  ;;
+  ;;(turn-on-eldoc-mode)
   )
 
 (add-hook 'cperl-mode-hook 'my-cperl-mode-init)
