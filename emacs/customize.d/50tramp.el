@@ -18,6 +18,8 @@
 	 (if (string-equal (cadr (assq 'tramp-login-program methods)) "ssh")
 	     (setcdr (assq 'tramp-login-program methods) '("f_ssh")))))
 
+     (setq tramp-verbose 0)
+
      ;; ローカルアクセスには直接接続する
      (add-to-list 'tramp-default-proxies-alist '("localhost" nil nil) t)
      (add-to-list 'tramp-default-proxies-alist '((regexp-quote (system-name)) nil nil) t)
