@@ -5,7 +5,7 @@
 (when (memq system-type '(cygwin windows-nt))
 
   ;; cygwin のパスを確認する
-  (defvar cygwin-top-directory "C:/cygwin/")
+  (defvar cygwin-top-directory "C:/App/cygwin/")
 
   ;; cygwin のパスを追加
   (defvar cygwin-bin-directory
@@ -17,7 +17,7 @@
 	      (remove cygwin-bin-directory exec-path)))
 
   (let ((path (split-string (getenv "PATH") path-separator)))
-    (setq path (remove-if '(lambda (e) (string-equal "C:\\cygwin\\bin" e))
+    (setq path (remove-if '(lambda (e) (string-equal "C:\\App\\cygwin\\bin" e))
 			  path))
     (add-to-list 'path cygwin-bin-directory)
     (setenv "PATH" (mapconcat 'identity path path-separator)))
