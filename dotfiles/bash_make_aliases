@@ -6,6 +6,7 @@ else
     msg() { return; }
 fi
 
+echo "# my alias definitions" > ~/.bash_aliases
 out() { echo "$@" >> ~/.bash_aliases; }
 
 # 検索するコマンドのリスト
