@@ -81,8 +81,9 @@
 作成される bytecode ファイルの置き場所は、fileがあるディレクトリに下に
  emacs-flavor 毎のサブディレクトリになる。
 
-elc-topdirを指定した場合は、elc-topdirを基準にした相対パス file に指定した
-パス名になる。従って、.el ファイルはdefalut-directoryからの相対パスで指定しなくては行けない。"
+ elc-topdirを指定した場合は、file は defalut-directory からの相対パスで指定し、
+作成される bytecode ファイルの置き場所は、elc-topdirを基準にした相対パスになる。
+"
   (let* ((base (file-name-nondirectory file))
          (el-dir (file-name-directory file))
          (elc-dir (file-name-as-directory
@@ -111,24 +112,12 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 
     file))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ディレクトリ内の elisp を全部バイトコンパイルしてcompiled-emacsXXにコピー
-(defun my-compile-directory (directory)
-  (let ((files (directory-files directory nil "^[^\\.].*\\.el$" t)))
-    (dolist (file files)
-      ;;(message "[my-compile-directory] check %s/%s" directory file)
-      (my-compile-file
-       (concat (file-name-as-directory directory) file)
-       my-compiled-elisp-dir))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun my-customize-bundling-one-file (bundle dir)
   "指定の設定ファイルを一つのファイルに固める。"
   (let ((files
-         (cond ((listp dir) dir)
-               (t (sort
-                   (directory-files dir t "^[0-9][0-9].*\\.el$" t)
-                   'string<)))))
+         (if (listp dir) dir
+	   (sort (directory-files dir t "^[0-9][0-9].*\\.el$" t) 'string<))))
     (with-temp-file bundle
       (erase-buffer)
       (dolist (file files)
@@ -182,7 +171,7 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 	      (when (file-newer-than-file-p newer bundle)
 		(my-customize-bundling-one-file bundle dir))
 	      (setq bundle (my-compile-file bundle))
-	      (load-when-eval-safe bundle))
+	      (load bundle))
 	  (error
 	   (dolist (file files)
 	     (setq file (my-compile-file file))
@@ -196,7 +185,9 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 ;; 設定変更して１２時間はバンドル化しない
 (defvar my-startup-bundling-delay (* 12 60 60))
 
-;; elisp以下のコンパイル関数
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; elisp以下のコンパイル等の関数
+(autoload 'my-compile-directory "my-all-compile-elisp" "" t)
 (autoload 'my-all-compile-elisp "my-all-compile-elisp" "" t)
 (autoload 'my-all-compile-elisp-addons "my-all-compile-elisp" "" t)
 
@@ -204,21 +195,21 @@ elc-topdirを指定した場合は、elc-topdirを基準にした相対パス fi
 ;; 初期化本体
 (defun my-startup ()
 
-  ;; elispのパスを通す
-  (add-to-list 'load-path my-elisp-dir t)
-
   ;; スクリプトのパスを通す
   (add-to-list 'exec-path my-emacs-bin-dir t)
-
-  ;;;; elisp直下に修正があればコンパイル
-  ;;(let ((default-directory my-elisp-dir))
-  ;;  (my-compile-directory "."))
 
   ;; コンパイル済みのelispのパスを通す(subdirを含む)
   (let ((default-directory my-compiled-elisp-dir))
     (when (file-directory-p default-directory)
       (add-to-list 'load-path default-directory t)
       (normal-top-level-add-subdirs-to-load-path)))
+
+  ;; elispのパスを通す
+  (add-to-list 'load-path my-elisp-dir t)
+
+  ;;;; elisp直下に修正があればコンパイル
+  ;;(let ((default-directory my-elisp-dir))
+  ;;  (my-compile-directory "."))
 
   ;; カスタマイズ設定の読み出し
   (my-customize-load my-customize-dir my-customize-bundle)
