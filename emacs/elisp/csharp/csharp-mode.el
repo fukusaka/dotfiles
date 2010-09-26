@@ -523,6 +523,9 @@ Another option is to use `csharp-lineup-region'.
   "<%@.+?%>"
   "Regex for matching directive blocks in ASP.NET files (.aspx, .ashx, .ascx)")
 
+;; FIXME: http://code.google.com/p/csharpmode/issues/detail?id=1
+(eval-and-compile
+
 (defconst csharp-enum-decl-re
   (concat
    "\\<enum[ \t\n\r\f\v]+"
@@ -537,7 +540,7 @@ Another option is to use `csharp-lineup-region'.
   "Regex that captures an enum declaration in C#"
   )
 
-
+)
 
 ;; X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+X+
 
