@@ -83,7 +83,7 @@
     )
 
    ;; Cocoa Emacs / MacBookPro 15
-   ((string-match "^kuro-mac" (system-name))
+   ((string-match "^fuku-mac" (system-name))
     (add-to-assoc-list 'initial-frame-alist '(height . 56))
 
     ;; 作業用の Safari を開く

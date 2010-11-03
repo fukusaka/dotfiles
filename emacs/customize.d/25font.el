@@ -2,6 +2,12 @@
 ;; フォントの設定
 ;;
 
+;; VMware 上の Ubuntu であるか？
+(defvar my-x-on-vmware nil)
+
+(if (string-match "^fuku-umac" (system-name))
+    (setq my-x-on-vmware t))
+
 (when window-system
 
   (cond
@@ -28,7 +34,7 @@
 
    ;; Emacs 23 以上
    ((>= emacs-major-version 23)
-    (let (my-font-height my-font my-font-ja)
+    (let (my-font-height my-font my-font-ja my-font-size my-fontset)
       (cond
        ;; for X (debian/ubuntu/fedora)
        ((eq window-system 'x)
@@ -48,7 +54,9 @@
 	;; VMware 上のX11では、800x600 のとき 96 dpi になるように調節されている。
 	;; なので、別のサイズやフルスクリーンにすると、dpi の値が変化する。
 	;; 結果、Emacs Xft では同じ pt に対するpixel値が大きくなってしまう。
-	;; 対処不明。。。
+	;; 対処不明。。。取り敢えず直接 pixel サイズで指定して対処？
+	(when my-x-on-vmware
+	  (setq my-font-size 14))
 	)
 
        ;; Cocoa Emacs
@@ -106,22 +114,31 @@
 	;;(dolist (e face-font-rescale-alist)
 	;;  (setcar e (encode-coding-string (car e) 'emacs-mule)))
 	)
-
        )
 
       ;; デフォルトフォント設定
-      (when my-font
+      (cond
+       ;; pixel 単位で指定
+       ((and my-font-size my-font)
+	(setq my-fontset
+	      (create-fontset-from-ascii-font (format "%s:size=%d" my-font my-font-size))))
+       ;; 高さを pt 単位で指定
+       (my-font
 	(set-face-attribute 'default nil :family my-font :height my-font-height)
 	;;(set-frame-font (format "%s-%d" my-font (/ my-font-height 10)))
 	)
+       )
+
+      (when my-fontset
+	(add-to-list 'default-frame-alist `(font . ,my-fontset) t))
 
       ;; 日本語文字に別のフォントを指定
       (when my-font-ja
-	  (let ((fn (frame-parameter nil 'font))
-		(rg "iso10646-1"))
-	    (set-fontset-font fn 'katakana-jisx0201 `(,my-font-ja . ,rg))
-	    (set-fontset-font fn 'japanese-jisx0208 `(,my-font-ja . ,rg))
-	    (set-fontset-font fn 'japanese-jisx0212 `(,my-font-ja . ,rg)))
+	(let ((fn (or my-fontset (frame-parameter nil 'font)))
+	      (rg "iso10646-1"))
+	  (set-fontset-font fn 'katakana-jisx0201 `(,my-font-ja . ,rg))
+	  (set-fontset-font fn 'japanese-jisx0208 `(,my-font-ja . ,rg))
+	  (set-fontset-font fn 'japanese-jisx0212 `(,my-font-ja . ,rg)))
 	)
       ))
    ))
