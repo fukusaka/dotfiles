@@ -52,6 +52,14 @@
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
+;; shellモードのプロセスを終了するときに聞かない
+(defun my-process-kill-without-query ()
+  (let ((process (get-buffer-process (current-buffer))))
+    (if process
+	(process-kill-without-query process))))
+
+(add-hook 'shell-mode-hook 'my-process-kill-without-query)
+
 ;; EDITOR=emacsclientで emacs で開く
 ;;(server-start)
 
