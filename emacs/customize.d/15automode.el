@@ -3,46 +3,56 @@
 ;;
 
 (dolist (e (nreverse
-            '(("\\.h\\'" . c++-mode)
+            '(
+	      ("\\.h\\'" . c++-mode)
               ("\\.pl\\'" . perl-mode)
-              ("\\.y\\'" . bison-mode)
-              ("\\.l\\'" . flex-mode)
-              ("\\.applescript$" . applescript-mode)
-
               ("\\.mm\\'" . objc-mode)
+              ("\\.CPP\\'" . c++-mode) ;; DOS/Windows 系だと大文字になってる場合がある
 
-	      ;;("\\.js$" . js2-mode)
-
-	      ("\\.as$" . actionscript-mode)
-
-              ;; DOS/Windows 系だと大文字になってる場合がある
-              ("\\.CPP\\'" . c++-mode)
-
-	      ("\\.cs$" . csharp-mode)
-
-              ;; 差分に色づけする
-              ("patch" . my-patch-view-mode)
-              ("\\.diff" . my-patch-view-mode)
+	      ("\\.y\\'" . bison-mode)
+	      ("\\.l\\'" . flex-mode)
+	      ("\\.applescript\\'" . applescript-mode)
+	      ("\\.as\\'" . actionscript-mode)
+	      ("\\.cs\\'" . csharp-mode)
+	      ("\\.php\\'" . php-mode)
 
               ;; epcg ? 用
               ("\\.pgc\\'" . c-mode)
-              ("\\.pgcc\\'" . c++-mode))))
+              ("\\.pgcc\\'" . c++-mode)
+	      )))
   (add-to-assoc-list 'auto-mode-alist e))
 
 (autoload 'bison-mode "bison-mode"
-  "bison" t)
+  "Major mode for editing bison/yacc files" t)
 
 (autoload 'flex-mode "flex-mode"
-  "flex" t)
+  "Major mode for editing flex files" t)
 
 (autoload 'applescript-mode "applescript-mode"
   "major mode for editing AppleScript source." t)
 
-(autoload 'my-patch-view-mode "my-patch-view")
+(autoload 'actionscript-mode "actionscript-mode"
+  "Major mode for editing Actionscript files." t)
 
-(defalias 'js-mode 'js2-mode)
-(autoload 'js2-mode "js2" nil t)
+(autoload 'csharp-mode "csharp-mode"
+  "Major mode for editing C# code." t)
 
-(autoload 'actionscript-mode "actionscript-mode" t)
+(autoload 'php-mode "php-mode"
+  "Major mode for editing PHP code." t)
 
-(autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
+;;(defalias 'js-mode 'js2-mode)
+(autoload 'js2-mode "js2"
+  "Major mode for editing JavaScript code." t)
+
+(require 'mmm-mode)
+(require 'mmm-sample)
+
+(setq mmm-global-mode 'maybe)
+(setq mmm-submode-decoration-level 1)
+
+(mmm-add-mode-ext-class nil "\\.html\\'" 'embedded-css)
+(mmm-add-mode-ext-class nil "\\.html\\'" 'html-js)
+
+(mmm-add-mode-ext-class nil "\\.php\\'" 'embedded-css)
+(mmm-add-mode-ext-class nil "\\.php\\'" 'html-js)
+(mmm-add-mode-ext-class nil "\\.php\\'" 'html-php)

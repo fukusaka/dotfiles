@@ -50,7 +50,7 @@
 	(other . "bsd")))
 
 (defun my-c-like-mode-hook ()
-  (if (string-match "/usr/src/linux.*/.*\\.[ch]$" (buffer-file-name))
+  (if (string-match "/usr/src/linux.*/.*\\.[ch]$" (or (buffer-file-name) ""))
       (c-set-style "linux"))
 
   (c-set-offset 'inextern-lang 0) ;; extern "??" {} 中でインデントしない

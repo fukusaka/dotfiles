@@ -59,3 +59,9 @@
     (((class color) (background dark))  :background "green")
     (t :weight bold)))
  )
+
+;; mmm-mode のサブモードの背景色
+
+(custom-set-faces
+ '(mmm-default-submode-face
+   ((t (:background "gray95")))))
