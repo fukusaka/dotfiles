@@ -65,6 +65,11 @@
 ;;(setq-default tab-width 4)
 ;;(setq-default indent-tabs-mode nil)
 
+;; shell script のインデントの設定
+(setq sh-basic-offset 8)
+(setq sh-indent-for-case-label 0)
+(setq sh-indent-for-case-alt '+)
+
 ;; M-x compile でスクリプトを実行
 (defvar my-interpreter-program nil)
 (defun my-interpreter-mode-init ()
