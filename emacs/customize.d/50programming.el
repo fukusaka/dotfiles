@@ -4,13 +4,6 @@
 (setq compilation-ask-about-save nil)
 (setq compilation-window-height 20)
 
-;; 行末の不要スペースを強調表示
-;;(set-face-underline 'trailing-whitespace "Red")
-(set-face-background 'trailing-whitespace "MistyRose")
-
-;; 行末スペースを色づけ
-(setq-default show-trailing-whitespace t)
-
 ;; 保存時に無駄なスペースを削除
 (add-hook 'before-save-hook
           '(lambda ()
