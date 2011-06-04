@@ -1,2 +1,10 @@
 let is_bash=1
 syntax on
+
+if has('gui_macvim')
+	set lines=34 columns=100
+	set transparency=3
+	set guioptions-=T
+	set guifont=Menlo:h12
+endif
+
