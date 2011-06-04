@@ -4,22 +4,22 @@
 
 (dolist (e (nreverse
             '(
-	      ("\\.h\\'" . c++-mode)
+              ("\\.h\\'" . c++-mode)
               ("\\.pl\\'" . perl-mode)
               ("\\.mm\\'" . objc-mode)
               ("\\.CPP\\'" . c++-mode) ;; DOS/Windows 系だと大文字になってる場合がある
 
-	      ("\\.y\\'" . bison-mode)
-	      ("\\.l\\'" . flex-mode)
-	      ("\\.applescript\\'" . applescript-mode)
-	      ("\\.as\\'" . actionscript-mode)
-	      ("\\.cs\\'" . csharp-mode)
-	      ("\\.php\\'" . php-mode)
+              ("\\.y\\'" . bison-mode)
+              ("\\.l\\'" . flex-mode)
+              ("\\.applescript\\'" . applescript-mode)
+              ("\\.as\\'" . actionscript-mode)
+              ("\\.cs\\'" . csharp-mode)
+              ("\\.php\\'" . php-mode)
 
               ;; epcg ? 用
               ("\\.pgc\\'" . c-mode)
               ("\\.pgcc\\'" . c++-mode)
-	      )))
+              )))
   (add-to-assoc-list 'auto-mode-alist e))
 
 (autoload 'bison-mode "bison-mode"
@@ -39,6 +39,9 @@
 
 (autoload 'php-mode "php-mode"
   "Major mode for editing PHP code." t)
+
+(autoload 'python-mode "python-mode"
+  "Python editing mode." t)
 
 ;;(defalias 'js-mode 'js2-mode)
 (autoload 'js2-mode "js2"

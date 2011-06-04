@@ -13,12 +13,12 @@
 
   ;; 先頭にCygwinのパスに移動する
   (setq exec-path
-	(cons cygwin-bin-directory
-	      (remove cygwin-bin-directory exec-path)))
+        (cons cygwin-bin-directory
+              (remove cygwin-bin-directory exec-path)))
 
   (let ((path (split-string (getenv "PATH") path-separator)))
     (setq path (remove-if '(lambda (e) (string-equal "C:\\App\\cygwin\\bin" e))
-			  path))
+                          path))
     (add-to-list 'path cygwin-bin-directory)
     (setenv "PATH" (mapconcat 'identity path path-separator)))
 
@@ -35,25 +35,25 @@
   (defvar cygwin-registry-version nil)
 
   (let* ((text (substring (shell-command-to-string "uname -r") 0 -1))
-	 (version
-	  (if (and text
-		   (string-match "\\([0-9.]+\\)(\\([0-9.]+\\)/\\([0-9.]+\\)/\\([0-9.]+\\))" text))
-	      (mapcar '(lambda (c) (match-string c text)) '(1 2 3 4)))))
+         (version
+          (if (and text
+                   (string-match "\\([0-9.]+\\)(\\([0-9.]+\\)/\\([0-9.]+\\)/\\([0-9.]+\\))" text))
+              (mapcar '(lambda (c) (match-string c text)) '(1 2 3 4)))))
     (when version
       (setq cygwin-version (nth-value 0 version))
       (setq cygwin-api-version (nth-value 1 version))
       (setq cygwin-shared-data-version
-	    (string-to-number (nth-value 2 version)))
+            (string-to-number (nth-value 2 version)))
       (setq cygwin-registry-version
-	    (string-to-number (nth-value 3 version)))
+            (string-to-number (nth-value 3 version)))
 
       (let ((vers (split-string (nth-value 0 version) "\\.")))
-	(setq cygwin-major-version (string-to-number (nth-value 1 vers)))
-	(setq cygwin-minor-version (string-to-number (nth-value 2 vers))))
+        (setq cygwin-major-version (string-to-number (nth-value 1 vers)))
+        (setq cygwin-minor-version (string-to-number (nth-value 2 vers))))
 
       (let ((vers (split-string (nth-value 1 version) "\\.")))
-	(setq cygwin-api-major-version (string-to-number (nth-value 0 vers)))
-	(setq cygwin-api-minor-version (string-to-number (nth-value 1 vers))))
+        (setq cygwin-api-major-version (string-to-number (nth-value 0 vers)))
+        (setq cygwin-api-minor-version (string-to-number (nth-value 1 vers))))
       ))
 
   (defun setenv-cygwin (value)

@@ -12,27 +12,27 @@
   (info file))
 
 (add-hook 'Info-mode-hook
-	  (function (lambda ()
-		      (define-key Info-mode-map "\C-c\C-l"
-			'Info-reload)
-		      )))
+          (function (lambda ()
+                      (define-key Info-mode-map "\C-c\C-l"
+                        'Info-reload)
+                      )))
 (defun Info-reload ()
   (interactive)
   (if (eq major-mode 'Info-mode)
       (let ((file Info-current-file)
-	    (node Info-current-node)
-	    (lineno (count-lines (point-min) (point))))
-	(kill-buffer "*info*")
-	(info file)
-	(Info-goto-node node)
-	(forward-line lineno)
-	)))
+            (node Info-current-node)
+            (lineno (count-lines (point-min) (point))))
+        (kill-buffer "*info*")
+        (info file)
+        (Info-goto-node node)
+        (forward-line lineno)
+        )))
 
 (add-hook 'texinfo-mode-hook
-	  (function (lambda ()
-		      (define-key texinfo-mode-map "\C-c\C-v"
-			'texinfo-preview-buffer)
-	   )))
+          (function (lambda ()
+                      (define-key texinfo-mode-map "\C-c\C-v"
+                        'texinfo-preview-buffer)
+           )))
 
 (defun texinfo-preview-buffer ()
   (interactive)
@@ -40,10 +40,10 @@
     (save-excursion
       (goto-char (point-min))
       (if (re-search-forward "^@setfilename[ \\t]+\\(.*\\)$" nil nil)
-	  (setq filename (buffer-substring (match-beginning 1)
-					   (match-end 1)))
-	(error "Texinfo file needs an `@setfilename FILENAME' line.")
-	)
+          (setq filename (buffer-substring (match-beginning 1)
+                                           (match-end 1)))
+        (error "Texinfo file needs an `@setfilename FILENAME' line.")
+        )
       )
 
     (info (concat (file-name-directory buffer-file-name) filename))

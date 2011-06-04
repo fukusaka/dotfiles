@@ -12,11 +12,11 @@
 (eval-after-load "tramp"
   '(progn
      (when (and (eq system-type 'windows-nt)
-		(executable-find "f_ssh"))
+                (executable-find "f_ssh"))
        (require 'tramp)
        (dolist (methods tramp-methods)
-	 (if (string-equal (cadr (assq 'tramp-login-program methods)) "ssh")
-	     (setcdr (assq 'tramp-login-program methods) '("f_ssh")))))
+         (if (string-equal (cadr (assq 'tramp-login-program methods)) "ssh")
+             (setcdr (assq 'tramp-login-program methods) '("f_ssh")))))
 
      (setq tramp-verbose 0)
 

@@ -5,16 +5,16 @@
 (eval-when-compile (require 'cl))
 
 ;; 操作/表示の細かい設定
-(setq inhibit-startup-message nil)	;; オープニングは大事
-(setq next-line-add-newlines nil)	;; カーソルで新しい行を作らない
-(setq line-number-mode t)		;; modeline に行番号表示
-(setq column-number-mode t)		;; modeline にカラム番号表示
-;;(setq size-indication-mode t)		;; modeline にサイズ表示
-(setq transient-mark-mode nil)		;; Region に色付けない
-(setq scroll-step 1)			;; スクロールは1行づつであればいいなぁ
-(setq scroll-margin 4)			;; スクロールのマージン行数 4
-(setq scroll-conservatively 2)		;; 最低スクロール行数 1+1
-(setq truncate-lines nil)		;; 継続行は使わない
+(setq inhibit-startup-message nil)      ;; オープニングは大事
+(setq next-line-add-newlines nil)       ;; カーソルで新しい行を作らない
+(setq line-number-mode t)               ;; modeline に行番号表示
+(setq column-number-mode t)             ;; modeline にカラム番号表示
+(setq size-indication-mode t)           ;; modeline にサイズ表示
+(setq transient-mark-mode nil)          ;; Region に色付けない
+(setq scroll-step 1)                    ;; スクロールは1行づつであればいいなぁ
+(setq scroll-margin 4)                  ;; スクロールのマージン行数 4
+(setq scroll-conservatively 2)          ;; 最低スクロール行数 1+1
+(setq truncate-lines nil)               ;; 継続行は使わない
 
 ;; カーソルは点滅する
 (when (fboundp 'blink-cursor-mode)
@@ -46,7 +46,7 @@
 
 ;; Emacs内部端末で Password を隠しまほう
 (add-hook 'comint-output-filter-functions
-	  'comint-watch-for-password-prompt)
+          'comint-watch-for-password-prompt)
 
 ;; shellモードで色付け
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
@@ -56,7 +56,7 @@
 (defun my-process-kill-without-query ()
   (let ((process (get-buffer-process (current-buffer))))
     (if process
-	(process-kill-without-query process))))
+        (process-kill-without-query process))))
 
 (add-hook 'shell-mode-hook 'my-process-kill-without-query)
 
@@ -73,7 +73,7 @@
     (load custom-file))
 
 ;; 簡易インデックスの作成
-(setq imenu-auto-rescan t)		;; imenu 用の自動スキャンをする
+(setq imenu-auto-rescan t)              ;; imenu 用の自動スキャンをする
 
 ;; 現在関数表示モード
 (require 'which-func)
@@ -91,7 +91,7 @@
   (make-directory my-backup-dir))
 
 (add-to-assoc-list 'backup-directory-alist
-		   `("\\.*\\'" . ,my-backup-dir))
+                   `("\\.*\\'" . ,my-backup-dir))
 
 ;; バックアップファイルはコピーして作成する
 (setq backup-by-copying t)
@@ -101,13 +101,13 @@
 (defun my-cleanup-backup-directory ()
   (interactive)
   (let* ((now (current-time))
-	 (files (directory-files my-backup-dir t "\\`[^\\.]"))
-	 (older (remove-if-not
-		 '(lambda (e)
-		    (>= (let ((mtime (nth 5 (file-attributes e))))
-			  (- (first now) (first mtime)))
-			(* 30 24 60 60)))
-		 files)))
+         (files (directory-files my-backup-dir t "\\`[^\\.]"))
+         (older (remove-if-not
+                 '(lambda (e)
+                    (>= (let ((mtime (nth 5 (file-attributes e))))
+                          (- (first now) (first mtime)))
+                        (* 30 24 60 60)))
+                 files)))
     (mapc 'delete-file older)))
 
 ;; NTEmacs ではバックアップ(自動バックアップも含む)は行なわない

@@ -10,6 +10,6 @@
          ))
 
 (add-hook 'c-mode-common-hook
-	  '(lambda ()
-	     (gtags-mode 1)
-	     ))
+          '(lambda ()
+             (gtags-mode 1)
+             ))

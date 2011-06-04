@@ -73,7 +73,7 @@
               ((consp run-buffer-name) run-buffer-name))))
         (member (buffer-name) toggle-list))
       (switch-to-buffer (prog1 (other-buffer (current-buffer))
-			  (bury-buffer (current-buffer))))
+                          (bury-buffer (current-buffer))))
     (eval (list run-command))))
 
 (defmacro def-toggle-run (command buffername)
@@ -119,9 +119,9 @@
     (save-excursion
       (set-buffer scratch-buffer-name)
       (if (eq major-mode 'fundamental-mode)
-	  (funcall initial-major-mode))
+          (funcall initial-major-mode))
       (and initial-scratch-message
-	   (insert initial-scratch-message))
+           (insert initial-scratch-message))
       (set-buffer-modified-p nil)))
   (switch-to-buffer (get-buffer scratch-buffer-name)))
 

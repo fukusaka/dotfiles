@@ -31,11 +31,11 @@
 
 (setq glib-types
       '("gboolean" "gpointer" "gconstpointer"
-	"gchar" "guchar" "gint" "guint"
-	"gshort" "gushort" "glong" "gulong"
-	"gint8" "guint8" "gint16" "guint16"
-	"gint32" "guint32" "gint64" "guint64"
-	"gfloat" "gdouble" "gsize" "gssize"))
+        "gchar" "guchar" "gint" "guint"
+        "gshort" "gushort" "glong" "gulong"
+        "gint8" "guint8" "gint16" "guint16"
+        "gint32" "guint32" "gint64" "guint64"
+        "gfloat" "gdouble" "gsize" "gssize"))
 
 (add-hook
  'c-mode-common-hook
@@ -46,8 +46,8 @@
 
 (setq c-default-style
       '((java-mode  . "java")
-	(awk-mode . "awk")
-	(other . "bsd")))
+        (awk-mode . "awk")
+        (other . "bsd")))
 
 (defun my-c-like-mode-hook ()
   (if (string-match "/usr/src/linux.*/.*\\.[ch]$" (or (buffer-file-name) ""))
@@ -83,8 +83,8 @@
   (when my-interpreter-program
     (make-local-variable 'compile-command)
     (setq compile-command
-	  (concat my-interpreter-program " "
-		  (buffer-file-name)))
+          (concat my-interpreter-program " "
+                  (buffer-file-name)))
     )
   )
 (add-hook 'find-file-hook 'my-interpreter-mode-init)
@@ -98,7 +98,7 @@
 
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories
-	       (concat my-elisp-dir "auto-complete/dict"))
+               (concat my-elisp-dir "auto-complete/dict"))
   (ac-config-default)
 
   ;; 補完が自動で起動するのを停止

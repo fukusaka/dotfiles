@@ -9,7 +9,7 @@
   ;; Makefile があれば、次のルールを追加
   ;;PHONY: check-syntax
   ;;#check-syntax:
-  ;;#	$(CC) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
+  ;;#   $(CC) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
   ;;
   ;;CHECKSYNTAX.c = $(CC) $(CFLAGS) $(CPPFLAGS) -Wall -Wextra -pedantic -fsyntax-only
   ;;CHECKSYNTAX.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -Wall -Wextra -pedantic -fsyntax-only
@@ -32,16 +32,16 @@
      ((not ad-return-value))
      ;; tramp 経由であれば、無効
      ((and (fboundp 'tramp-list-remote-buffers)
-	   (memq (current-buffer) (tramp-list-remote-buffers)))
+           (memq (current-buffer) (tramp-list-remote-buffers)))
       (setq ad-return-value nil))
      ;; 書き込み不可ならば、flymakeは無効
      ((not (file-writable-p buffer-file-name))
       (setq ad-return-value nil))
      ;; flymake で使われるコマンドが無ければ無効
      ((let ((cmd (nth 0 (prog1
-			    (funcall (flymake-get-init-function buffer-file-name))
-			  (funcall (flymake-get-cleanup-function buffer-file-name))))))
-	(and cmd (not (executable-find cmd))))
+                            (funcall (flymake-get-init-function buffer-file-name))
+                          (funcall (flymake-get-cleanup-function buffer-file-name))))))
+        (and cmd (not (executable-find cmd))))
       (setq ad-return-value nil))
      ))
 
@@ -52,51 +52,51 @@
   ;; 警告エラー行の表示
   ;;(global-set-key "\C-cd" 'flymake-display-err-menu-for-current-line)
   (global-set-key "\C-cd"
-		  '(lambda ()
-		     (interactive)
-		     ;;(my-flymake-display-err-minibuf-for-current-line)
-		     (my-flymake-display-err-popup.el-for-current-line)
-		     ))
+                  '(lambda ()
+                     (interactive)
+                     ;;(my-flymake-display-err-minibuf-for-current-line)
+                     (my-flymake-display-err-popup.el-for-current-line)
+                     ))
 
   ;; Minibuf に出力
   (defun my-flymake-display-err-minibuf-for-current-line ()
     "Displays the error/warning for the current line in the minibuffer"
     (interactive)
     (let* ((line-no             (flymake-current-line-no))
-	   (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
-	   (count               (length line-err-info-list)))
+           (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
+           (count               (length line-err-info-list)))
       (while (> count 0)
-	(when line-err-info-list
-	  (let* ((text       (flymake-ler-text (nth (1- count) line-err-info-list)))
-		 (line       (flymake-ler-line (nth (1- count) line-err-info-list))))
-	    (message "[%s] %s" line text)))
-	(setq count (1- count)))))
+        (when line-err-info-list
+          (let* ((text       (flymake-ler-text (nth (1- count) line-err-info-list)))
+                 (line       (flymake-ler-line (nth (1- count) line-err-info-list))))
+            (message "[%s] %s" line text)))
+        (setq count (1- count)))))
 
   ;; popup.el を使って tip として表示
   (defun my-flymake-display-err-popup.el-for-current-line ()
     "Display a menu with errors/warnings for current line if it has errors and/or warnings."
     (interactive)
     (let* ((line-no             (flymake-current-line-no))
-	   (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
-	   (menu-data           (flymake-make-err-menu-data line-no line-err-info-list)))
+           (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
+           (menu-data           (flymake-make-err-menu-data line-no line-err-info-list)))
       (if menu-data
-	  (popup-tip (mapconcat '(lambda (e) (nth 0 e))
-				(nth 1 menu-data)
-				"\n")))
+          (popup-tip (mapconcat '(lambda (e) (nth 0 e))
+                                (nth 1 menu-data)
+                                "\n")))
       ))
 
   (defun flymake-simple-generic-init (cmd &optional opts)
     (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-			 'flymake-create-temp-inplace))
-	   (local-file  (file-relative-name
-			 temp-file
-			 (file-name-directory buffer-file-name))))
+                         'flymake-create-temp-inplace))
+           (local-file  (file-relative-name
+                         temp-file
+                         (file-name-directory buffer-file-name))))
       (list cmd (append opts (list local-file)))))
 
   ;; Makefile が無くてもC/C++のチェック
   (defun flymake-simple-make-or-generic-init (cmd &optional opts)
     (if (file-exists-p "Makefile")
-	(flymake-simple-make-init)
+        (flymake-simple-make-init)
       (flymake-simple-generic-init cmd opts)))
 
   (defun flymake-c-init ()
@@ -142,12 +142,12 @@
   ;;(when (executable-find "tidy")
   ;;  (defun flymake-html-init ()
   ;;    (let* ((coding (coding-system-base buffer-file-coding-system))
-  ;;	     (opt (cdr (assq coding
-  ;;			     '((utf-8 . "-utf8")
-  ;;			       (iso-2022-jp . "-iso2022")
-  ;;			       (japanese-shift-jis . "-shiftjis"))))))
-  ;;	(flymake-simple-generic-init
-  ;;	 "tidy" (list "-e" opt))))
+  ;;         (opt (cdr (assq coding
+  ;;                         '((utf-8 . "-utf8")
+  ;;                           (iso-2022-jp . "-iso2022")
+  ;;                           (japanese-shift-jis . "-shiftjis"))))))
+  ;;    (flymake-simple-generic-init
+  ;;     "tidy" (list "-e" opt))))
   ;;
   ;;  (push '("\\.html\\'\\|\\.ctp" flymake-html-init) flymake-allowed-file-name-masks)
   ;;  (push '("line \\([0-9]+\\) column \\([0-9]+\\) - \\(Warning\\|Error\\): \\(.*\\)" nil 1 2 4) flymake-err-line-patterns)
@@ -167,7 +167,7 @@
 
   (defun flymake-pyflakes-init ()
     (flymake-simple-generic-init
-     "pyflakes"))
+     "pyflakes-2.7"))
 
   ;;(push '("\\.py\\'" flymake-pep8-init) flymake-allowed-file-name-masks)
   ;;(push '("\\.py\\'" flymake-pylint-init) flymake-allowed-file-name-masks)
@@ -182,6 +182,6 @@
   ;;(push '(".+\\.js\\'" flymake-js-init) flymake-allowed-file-name-masks)
   ;;
   ;;(push '("^\\(.+\\)\:\\([0-9]+\\)\: \\(strict warning: trailing comma.+\\)\:$" 1 2 nil 3)
-  ;;	flymake-err-line-patterns)
+  ;;    flymake-err-line-patterns)
 
   )
