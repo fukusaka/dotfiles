@@ -13,6 +13,10 @@
 
 @@LICENSE@@
 
+
+if __name__ == '__main__':
+    pass
+
 @@@@
 FNAME: (file-name-nondirectory buffer-file-name)
 NAME: programmer-name
