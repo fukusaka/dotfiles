@@ -53,6 +53,7 @@
   (if (string-match "/usr/src/linux.*/.*\\.[ch]$" (or (buffer-file-name) ""))
       (c-set-style "linux"))
 
+  (setq c-basic-offset 4)
   (c-set-offset 'inextern-lang 0) ;; extern "??" {} 中でインデントしない
   (c-set-offset 'innamespace 0)   ;; namspace {} 中でインデントしない
   )
