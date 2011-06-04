@@ -61,10 +61,6 @@
 (add-hook 'c++-mode-hook 'my-c-like-mode-hook)
 (add-hook 'objc-mode-hook 'my-c-like-mode-hook)
 
-;; インデントモードの設定
-;;(setq-default tab-width 4)
-;;(setq-default indent-tabs-mode nil)
-
 ;; shell script のインデントの設定
 (setq sh-basic-offset 8)
 (setq sh-indent-for-case-label 0)

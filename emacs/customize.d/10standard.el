@@ -41,6 +41,10 @@
 (setq display-time-day-and-date nil)
 (display-time)
 
+;; インデントモードの設定
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+
 ;; ヒストリ数を設定する。
 ;;(setq comint-input-ring-size 200)
 
