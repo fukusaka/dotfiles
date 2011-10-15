@@ -1,4 +1,5 @@
 *~
-/bin/cgsutils
-/dotfiles/emacs
-/dotfiles/emacs-root
+bin/cgsutils
+dotfiles/emacs
+dotfiles/emacs-root
+emacs/elisp-addons/muse-3.20/lisp/muse-autoloads.el
