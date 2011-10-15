@@ -82,6 +82,11 @@
     (add-to-assoc-list 'initial-frame-alist '(height . 53))
     )
 
+   ;; Linux on CF-R3
+   ((string-match "^fuku-cf-r3" (system-name))
+    (add-to-assoc-list 'initial-frame-alist '(height . 47))
+    )
+
    ;; Cocoa Emacs / MacBookPro 15
    ((string-match "^fuku-mac" (system-name))
     (add-to-assoc-list 'initial-frame-alist '(height . 56))
