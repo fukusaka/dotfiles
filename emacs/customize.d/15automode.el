@@ -59,3 +59,5 @@
 (mmm-add-mode-ext-class nil "\\.php\\'" 'embedded-css)
 (mmm-add-mode-ext-class nil "\\.php\\'" 'html-js)
 (mmm-add-mode-ext-class nil "\\.php\\'" 'html-php)
+
+(require 'go-mode-load)
