@@ -16,12 +16,15 @@ Linux)
         fi
         ;;
 Darwin)
-        # for MacPorts
-        if [ -x /opt/local/bin/port ]; then
-                PATH="/opt/local/bin:$PATH"
-                MANPATH="/opt/local/man:$MANPATH"
-                BASH_COMPLETION=/opt/local/etc/bash_completion
-        fi
+        # Use Homebrew
+        BASH_COMPLETION=/usr/local/etc/bash_completion
+
+        ## Use MacPorts
+        #if [ -x /opt/local/bin/port ]; then
+        #        PATH="/opt/local/bin:$PATH"
+        #        MANPATH="/opt/local/man:$MANPATH"
+        #        BASH_COMPLETION=/opt/local/etc/bash_completion
+        #fi
         ;;
 SunOS)
         PATH=/usr/bin:/usr/sbin
