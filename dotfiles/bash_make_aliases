@@ -1,4 +1,5 @@
-#!/bin/sh -*-shell-script-*-
+#!/bin/sh
+# -*-shell-script-*-
 
 if [ -f ${HOME}/.debug_aliases ]; then
         msg() { echo "$@"; }
