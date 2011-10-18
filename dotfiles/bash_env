@@ -3,48 +3,48 @@
 sysname=$(uname -s)
 
 if [ -n "$COMSPEC" ]; then
-    sysname=Windows
+        sysname=Windows
 fi
 
 case $sysname in
-    Linux)
+Linux)
+        # for Debian GNU/Linux
         if [ -e /etc/debian_version ]; then
-            # for Debian GNU/Linux
-	    export DEBFULLNAME='Shoichi Fukusaka'
-	    export DEBEMAIL='fukusaka@xa2.so-net.ne.jp'
+                export DEBFULLNAME='Shoichi Fukusaka'
+                export DEBEMAIL='fukusaka@xa2.so-net.ne.jp'
         fi
-	;;
-    Darwin)
-	if [ -x /opt/local/bin/port ]; then
-            # for MacPorts
-	    PATH="/opt/local/bin:$PATH"
-	    MANPATH="/opt/local/man:$MANPATH"
-	    BASH_COMPLETION=/opt/local/etc/bash_completion
-	fi
-	;;
-    SunOS)
-	PATH=/usr/bin:/usr/sbin
-	PATH=$PATH:/usr/sfw/bin
-	PATH=$PATH:/usr/ccs/bin:/usr/ucb
+        ;;
+Darwin)
+        # for MacPorts
+        if [ -x /opt/local/bin/port ]; then
+                PATH="/opt/local/bin:$PATH"
+                MANPATH="/opt/local/man:$MANPATH"
+                BASH_COMPLETION=/opt/local/etc/bash_completion
+        fi
+        ;;
+SunOS)
+        PATH=/usr/bin:/usr/sbin
+        PATH=$PATH:/usr/sfw/bin
+        PATH=$PATH:/usr/ccs/bin:/usr/ucb
 
-	MANPATH=/usr/share/man
-	MANPATH=$MANPATH:/usr/sfw/share/man
+        MANPATH=/usr/share/man
+        MANPATH=$MANPATH:/usr/sfw/share/man
 
         # Freeware for Solars from Sunfreewave.com
-	PATH=/usr/local/bin:$PATH
-	MANPATH=/usr/local/share/man:$MANPATH
+        PATH=/usr/local/bin:$PATH
+        MANPATH=/usr/local/share/man:$MANPATH
 
         #[ "$TERM" = xterm-color ] && TERM=xterm
-	export TERMINFO=$HOME/.terminfo
+        export TERMINFO=$HOME/.terminfo
 
         # pager
-	export PAGER=/usr/bin/less
-	;;
-    Windows)
-	#export LANG=ja_JP.SJIS
-	#Cygwin 1.7以降 UTF-8がサポートされている
-	#export LANG=ja_JP.UTF-8
-	;;
+        export PAGER=/usr/bin/less
+        ;;
+Windows)
+        #export LANG=ja_JP.SJIS
+        #Cygwin 1.7以降 UTF-8がサポートされている
+        #export LANG=ja_JP.UTF-8
+        ;;
 esac
 unset sysname
 

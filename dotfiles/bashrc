@@ -11,7 +11,7 @@ ulimit -c 0
 
 # 個人の環境変数
 if [ "$SHLVL" = 1 -a -f ~/.bash_env ]; then
-    . ~/.bash_env
+        . ~/.bash_env
 fi
 
 ## 入力
@@ -33,48 +33,50 @@ shopt -s checkwinsize
 
 # 端末に Ecma-48 の色付きが出来るかでカラーかを確認
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-    terminal_type=color
+        terminal_type=color
 fi
 
 # Emacs 内部
 if [ "$EMACS" = t ]; then
-    terminal_type=simple
+        terminal_type=simple
 fi
 
-## プロンプト
+## シェルプロンプト
 case "$terminal_type" in
-    simple)
-	PS1='% '
-	;;
-    color)
-	PS1='\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[00;34m\]\w\[\033[00m\]\$ '
-	;;
-    *)
-	PS1='\u@\h:\w\$ '
-	;;
+simple)
+        PS1='% '
+        ;;
+color)
+        PS1='\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[00;34m\]\w\[\033[00m\]\$ '
+        ;;
+*)
+        PS1='\u@\h:\w\$ '
+        ;;
 esac
 
 # タイトルバーに端末情報を追加
 case "$TERM" in
-    xterm*|rxvt*) PS1="\[\e]0;\u@\h: \w\a\]$PS1" ;;
+xterm*|rxvt*)
+        PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+        ;;
 esac
 
 # エイリアスを手動作成コマンド
 if [ -f ~/.bash_make_aliases ]; then
-    alias hh='source ~/.bash_make_aliases ; source ~/.bash_aliases ; unalias hh'
+        alias hh='source ~/.bash_make_aliases ; source ~/.bash_aliases ; unalias hh'
 fi
 
 # エイリアスの読み込み
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+        . ~/.bash_aliases
 fi
 
 # Completion
 [ -z "${BASH_COMPLETION}" ] && BASH_COMPLETION=/etc/bash_completion
 if [ -f ${BASH_COMPLETION} ]; then
-    alias h="source ${BASH_COMPLETION}; unalias h"
+        alias h="source ${BASH_COMPLETION}; unalias h"
 else
-    alias h='echo cannot find bash_completion; unalias h'
+        alias h='echo cannot find bash_completion; unalias h'
 fi
 unset BASH_COMPLETION
 

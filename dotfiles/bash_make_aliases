@@ -1,9 +1,9 @@
 #!/bin/sh -*-shell-script-*-
 
 if [ -f ${HOME}/.debug_aliases ]; then
-    msg() { echo "$@"; }
+        msg() { echo "$@"; }
 else
-    msg() { return; }
+        msg() { return; }
 fi
 
 echo "# my alias definitions" > ~/.bash_aliases
@@ -17,26 +17,26 @@ CMDS="vim groff"
 gnuprefix="g"
 
 check_path() {
-    cmd=$1
-    cmdpath=$2
-    if [ -x $cmdpath -a -z "$(eval echo \$find_$cmd)" ]; then
-        msg "find $cmd -> $cmdpath"
-        eval "find_$cmd=$cmdpath"
-    fi
+        cmd=$1
+        cmdpath=$2
+        if [ -x $cmdpath -a -z "$(eval echo \$find_$cmd)" ]; then
+                msg "find $cmd -> $cmdpath"
+                eval "find_$cmd=$cmdpath"
+        fi
 }
 
 # パス検索
 paths="$PATH:"
 while [ -n "$paths" ]; do
-    dir=${paths%%:*}
-    paths=${paths#*:}
-    for cmd in $CMDS; do
-        check_path $cmd ${dir}/${cmd}
-    done
-    for cmd in $GNUCMDS; do
-        check_path $cmd ${dir}/${gnuprefix}${cmd}
-        check_path $cmd ${dir}/${cmd}
-    done
+        dir=${paths%%:*}
+        paths=${paths#*:}
+        for cmd in $CMDS; do
+                check_path $cmd ${dir}/${cmd}
+        done
+        for cmd in $GNUCMDS; do
+                check_path $cmd ${dir}/${gnuprefix}${cmd}
+                check_path $cmd ${dir}/${cmd}
+        done
 done
 unset paths dir cmd cmdpath
 unset gnuprefix CMDS GNUCMDS check_path
@@ -54,51 +54,51 @@ msg "grep_type $grep_type"
 # 端末に色づけられる場合
 out "alias_ls=\"$find_ls -F\""
 out 'if [ -z "$terminal_type" ] && [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then'
-out '    terminal_type=color'
+out '        terminal_type=color'
 out 'fi'
 out 'if [ "$terminal_type" = color ]; then'
 
 if [ -n "$find_dircolors" ]; then
-    msg "execute $find_dircolors"
-    out "  eval \`$find_dircolors -b\`"
+        msg "execute $find_dircolors"
+        out "  eval \`$find_dircolors -b\`"
 fi
 
 # for colorized ls
 case $ls_type in
-    gnu)
-        out "  alias_ls=\"\$alias_ls --color=auto\""
-	;;
-    FreeBSD|NetBSD|OpenBSD|Darwin)
-        out "  alias_ls=\"\$alias_ls -G\""
-	;;
-    *)
-	;;
+gnu)
+        out "        alias_ls=\"\$alias_ls --color=auto\""
+        ;;
+FreeBSD|NetBSD|OpenBSD|Darwin)
+        out "        alias_ls=\"\$alias_ls -G\""
+        ;;
+*)
+        ;;
 esac
 
 # colorized grep
 if [ "$grep_type" = color ]; then
-    out "  alias grep=\"$find_grep --color=auto\""
-    out "  alias fgrep=\"$find_fgrep --color=auto\""
-    out "  alias egrep=\"$find_egrep --color=auto\""
+        out "        alias grep=\"$find_grep --color=auto\""
+        out "        alias fgrep=\"$find_fgrep --color=auto\""
+        out "        alias egrep=\"$find_egrep --color=auto\""
 fi
 
 out 'fi'
 
 # 時刻の詳細表示
 case $ls_type in
-    gnu)
+gnu)
         if $find_ls --time-style=+%F\ %T &> /dev/null; then
-	    alias_ll="\$alias_ls -l --time-style=+%F\ %T"
+                alias_ll="\$alias_ls -l --time-style=+%F\ %T"
         else
-	    alias_ll="\$alias_ls -l --full-time"
+                alias_ll="\$alias_ls -l --full-time"
         fi
-	;;
-    FreeBSD|NetBSD|OpenBSD|Darwin)
-	alias_ll="\$alias_ls -l -T"
-	;;
-    SunOS)
-	alias_ll="\$alias_ls -e"
-	;;
+        ;;
+FreeBSD|NetBSD|OpenBSD|Darwin)
+        alias_ll="\$alias_ls -l -T"
+        ;;
+SunOS)
+        alias_ll="\$alias_ls -e"
+        ;;
 esac
 
 alias_ls="\$alias_ls -C"
@@ -114,30 +114,30 @@ unset ls_type grep_type
 
 # use less of vim
 #for dir in /usr/share /usr/local/share; do
-#    for cmd in $dir/vim/vim*/macros/less.sh; do
-#	if [ -x $cmd ]; then
-#	    alias_less=$cmd
-#	    break 2
-#	fi
-#    done
+#        for cmd in $dir/vim/vim*/macros/less.sh; do
+#                if [ -x $cmd ]; then
+#                        alias_less=$cmd
+#                        break 2
+#                fi
+#        done
 #done
 
 # 日本語 man の 不良解消
 if [ -n "$find_groff" ]; then
-    # MacOSX の man は常にCロケールにする
-    if [ $(uname -s) = Darwin ]; then
-	alias_man='LANG=C man'
-    # man がCロケール以外でエラーが発生 (Cygwin のみ)
-    elif [ $(man man 2> /dev/null | wc -c) -le  0 ]; then
-	alias_man='LANG=C man'
-    fi
+        # MacOSX の man は常にCロケールにする
+        if [ $(uname -s) = Darwin ]; then
+                alias_man='LANG=C man'
+        # man がCロケール以外でエラーが発生 (Cygwin のみ)
+        elif [ $(man man 2> /dev/null | wc -c) -le  0 ]; then
+                alias_man='LANG=C man'
+        fi
 fi
 
 for pfind_cmd in ${!alias_*}; do
-    cmd=${pfind_cmd#alias_}
-    alias_cmd="$(eval echo \$$pfind_cmd)"
-    msg "alias $cmd -> $alias_cmd"
-    out "alias $cmd=\"$alias_cmd\""
+        cmd=${pfind_cmd#alias_}
+        alias_cmd="$(eval echo \$$pfind_cmd)"
+        msg "alias $cmd -> $alias_cmd"
+        out "alias $cmd=\"$alias_cmd\""
 done
 out "unset alias_ls"
 
