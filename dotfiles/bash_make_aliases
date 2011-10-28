@@ -12,7 +12,7 @@ out() { echo "$@" >> ~/.bash_aliases; }
 
 # 検索するコマンドのリスト
 GNUCMDS="dircolors ls grep egrep fgrep"
-CMDS="vim groff"
+CMDS="vim groff java"
 
 # gnu 系はプリフィックが付く場合がある
 gnuprefix="g"
@@ -134,6 +134,22 @@ if [ -n "$find_groff" ]; then
         fi
 fi
 
+# Java 関連で端末出力を UTF-8 にする
+JCMDS="javac keytool"
+if [ -n "$find_java" -a -f "${HOME}/common/java/ShowEncoding.class" ]; then
+        encoding=$($find_java -classpath ~/common/java ShowEncoding | sed -n '/file.encoding: \(.*\)/s//\1/p')
+        msg "java file.encoding -> $encoding"
+
+        if [ "x$encoding" != "xUTF-8" ]; then
+                for cmd in $JCMDS; do
+                        eval "alias_$cmd='\\$cmd -J-Dfile.encoding=UTF-8'"
+                done
+        fi
+        unset encoding
+fi
+unset JCMDS
+
+# 変数 alias_xx を alias定義に変換
 for pfind_cmd in ${!alias_*}; do
         cmd=${pfind_cmd#alias_}
         alias_cmd="$(eval echo \$$pfind_cmd)"
