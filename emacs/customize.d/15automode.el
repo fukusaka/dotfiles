@@ -15,6 +15,7 @@
               ("\\.as\\'" . actionscript-mode)
               ("\\.cs\\'" . csharp-mode)
               ("\\.php\\'" . php-mode)
+              ("\\.tpl\\'" . smarty-mode)
 
               ;; epcg ? 用
               ("\\.pgc\\'" . c-mode)
@@ -39,6 +40,9 @@
 
 (autoload 'php-mode "php-mode"
   "Major mode for editing PHP code." t)
+
+(autoload 'smarty-mode "smarty-mode"
+  "Smarty Mode" t)
 
 (autoload 'python-mode "python-mode"
   "Python editing mode." t)
