@@ -119,3 +119,7 @@
   (setq make-backup-files nil)
   (setq auto-save-default nil)
   )
+
+
+;;abbrev
+(setq save-abbrevs 'silently)
