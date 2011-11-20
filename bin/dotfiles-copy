@@ -1,0 +1,32 @@
+#!/bin/sh
+
+USERHOST=$1
+
+[ -z "${USERHOST}" ] && echo "Usage $0 [user@]machine"
+
+DOTFILES="
+bashrc
+bash_env
+bash_make_aliases
+profile
+vimrc
+inputrc
+"
+
+NOW=$(date +%s)
+
+for file in ${DOTFILES}; do
+        scp ${HOME}/common/dotfiles/${file} ${USERHOST}:.${file}.new
+        ssh -x ${USERHOST} "
+if [ -f .${file} ]; then
+ if cmp -s .${file} .${file}.new; then
+  rm .${file}.new
+ else
+  mv .${file} .${file}.${NOW}
+  mv .${file}.new .${file}
+ fi
+else
+  mv .${file}.new .${file}
+fi
+"
+done
