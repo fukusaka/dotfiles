@@ -73,12 +73,8 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # Completion
-[ -z "${BASH_COMPLETION}" ] && BASH_COMPLETION=/etc/bash_completion
-if [ -f ${BASH_COMPLETION} ]; then
+if [ -f "${BASH_COMPLETION}" ]; then
         alias h="source ${BASH_COMPLETION}; unalias h"
-else
-        alias h='echo cannot find bash_completion; unalias h'
 fi
-unset BASH_COMPLETION
 
 unset terminal_type
