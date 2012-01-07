@@ -17,6 +17,7 @@
               ("\\.c\\'" . "skel.c")
               ("\\.cc\\'" . "skel.cc")
               ("\\.pl\\'" . "skel.pl")
+              ("\\.pm\\'" . "skel.pm")
               ("\\.py\\'" . "skel.py")
               ("\\.rb\\'" . "skel.rb")
               ("\\.el\\'" . "skel.el")
