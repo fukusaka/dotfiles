@@ -15,11 +15,6 @@ if [ "$SHLVL" = 1 -a -f ~/.bash_env ]; then
         . ~/.bash_env
 fi
 
-# マシン毎の環境変数
-if [ "$SHLVL" = 1 -a -f ~/.bash_env_local ]; then
-        . ~/.bash_env_local
-fi
-
 ## 入力
 
 # ヒストリ管理
@@ -83,3 +78,8 @@ if [ -f "${BASH_COMPLETION}" ]; then
 fi
 
 unset terminal_type
+
+# マシン毎の環境変数
+if [ "$SHLVL" = 1 -a -f ~/.bash_env_local ]; then
+        . ~/.bash_env_local
+fi
