@@ -53,6 +53,23 @@
       )
     )
 
+   ;; MacOSX Lion
+   ((and (eq system-type 'darwin) (string-match "darwin11" system-configuration))
+    (add-to-assoc-list 'default-frame-alist '(width . 87))
+    (add-to-assoc-list 'default-frame-alist '(alpha . (85 80)))
+    (setq frame-alpha-lower-limit 30)
+    (setq-default line-spacing 0.1)
+
+    (add-to-assoc-list 'initial-frame-alist '(top . 22))
+    (add-to-assoc-list 'initial-frame-alist '(left . 64))
+    (add-to-assoc-list 'initial-frame-alist '(height . 51))
+
+    (defun my-real-make-frame-1 () )
+    (defun my-real-make-frame-2 ()
+      (my-make-frame-at  0 0 712 0)
+      )
+    )
+
    ;; MacOSX
    ((eq system-type 'darwin)
     (add-to-assoc-list 'default-frame-alist '(width . 90))
