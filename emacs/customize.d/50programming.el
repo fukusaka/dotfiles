@@ -4,12 +4,18 @@
 (setq compilation-ask-about-save nil)
 (setq compilation-window-height 20)
 
-;; 保存時に無駄なスペースを削除
+;; 保存時に無駄なスペースを削除/タイムスタンプ更新
 (add-hook 'before-save-hook
           '(lambda ()
-             ;; 他人のソースではスペース削減は行なわない!
+             ;; 他人のソースでは修正を行なわない!
              (unless my-others-source-code
-               (delete-trailing-whitespace))))
+               (delete-trailing-whitespace)
+               (unless (string-match "skel" (buffer-file-name))
+                   (time-stamp))
+               )))
+
+;; time-stamp の書式
+(setq time-stamp-pattern "8/\\(Time-stamp\\|Last Modified\\):[ \t]+\\\\?[\"<]+%:y/%02m/%02d %02H:%02M:%02S\\\\?[\">]")
 
 ;; 他人のソースをいじる時に指定する
 (defun my-current-buffer-others-source-code ()
@@ -103,3 +109,4 @@
     (require 'color-moccur))
 
   )
+
