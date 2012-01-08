@@ -26,7 +26,7 @@ NAME: programmer-name
 ADDRESS: programmer-mail-address
 YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%d %b %Y")
-LICENSE: (my-license-string 'BSD ";; " t)
+LICENSE: (my-ask-license-string ";; ")
 @@@@
 
 ;;; @@FNAME@@ ends here
