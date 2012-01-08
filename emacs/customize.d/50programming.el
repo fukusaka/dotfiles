@@ -98,11 +98,17 @@
   (ac-config-default)
 
   ;; 補完が自動で起動するのを停止
-  (setq ac-auto-start nil)
-  ;; 起動キーの設定
-  (ac-set-trigger-key "<C-tab>")
+  ;;(setq ac-auto-start nil)
+  (setq ac-auto-start t)
 
-  ;;(setq ac-auto-show-menu nil)
+  ;; 起動キーの設定
+  ;;(ac-set-trigger-key "<C-tab>")
+  (ac-set-trigger-key "Tab")
+
+
+  (setq ac-auto-start 3)
+  (setq ac-auto-show-menu 2)
+  (setq ac-dwim t)
 
   ;; Color-moccur
   (when (locate-library "color-moccur")

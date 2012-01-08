@@ -16,9 +16,9 @@
   ;; perlplus
   ;; Perlのシンボルを補完できるようにする
   ;; http://www.gentei.org/~yuuji/software/perlplus.el
-  (require 'perlplus)
-  (local-set-key "\M-\t" 'perlplus-complete-symbol)
-  (perlplus-setup)
+  ;;(require 'perlplus)
+  ;;(local-set-key "\M-\t" 'perlplus-complete-symbol)
+  ;;(perlplus-setup)
 
   ;; スクリプトパスから lib を抽出してPERL5LIBに追加
   ;;(require 'set-perl5lib)
@@ -37,6 +37,13 @@
   ;;
   ;;(turn-on-eldoc-mode)
 
+  (require 'perl-completion)
+  (perl-completion-mode t)
+
+  (auto-complete-mode t)
+  (make-variable-buffer-local 'ac-sources)
+  (setq ac-sources
+        '(ac-source-perl-completion))
   )
 
 (add-hook 'cperl-mode-hook 'my-cperl-mode-init)
