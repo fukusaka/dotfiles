@@ -63,6 +63,11 @@
   ;;(defalias 'my-move-frame 'my-move-frame-large-desktop)
   )
 
+ ;; MacOSX Lion ...
+ ((and (eq window-system 'ns) (string-match "darwin11" system-configuration))
+  (defun my-move-frame (frame x y &optional abs)
+    ))
+
  ;; For Cocoa Emacs / CGS対応改造版
  ((and (eq window-system 'ns) (fboundp 'set-frame-ns-workspace))
   (defun my-move-frame (frame x y &optional abs)
