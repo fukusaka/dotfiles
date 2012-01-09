@@ -112,6 +112,9 @@
                          "ProxyMatch"
                          "VirtualHost"
 
+                         ;; for mod_perl 2.0
+                         "Perl"
+
                          ) 'words)
            ".*?>")
           1 'font-lock-function-name-face)
@@ -490,6 +493,55 @@
              "order"
              "require"
 
+             ;; for mod_perl 2.0
+             "PerlAddVar"
+             "PerlConfigRequire"
+             "PerlLoadModule"
+             "PerlModule"
+             "PerlOptions"
+             "PerlPassEnv"
+             "PerlPostConfigRequire"
+             "PerlRequire"
+             "PerlSetEnv"
+             "PerlSetVar"
+             "PerlSwitches"
+
+             "PerlOpenLogsHandler"
+             "PerlPostConfigHandler"
+             "PerlChildInitHandler"
+             "PerlChildExitHandler"
+
+             "PerlPreConnectionHandler"
+             "PerlProcessConnectionHandler"
+
+             "PerlInputFilterHandler"
+             "PerlOutputFilterHandler"
+             "PerlSetInputFilter"
+             "PerlSetOutputFilter"
+
+             "PerlPostReadRequestHandler"
+             "PerlTransHandler"
+             "PerlMapToStorageHandler"
+             "PerlInitHandler"
+             "PerlHeaderParserHandler"
+             "PerlAccessHandler"
+             "PerlAuthenHandler"
+             "PerlAuthzHandler"
+             "PerlTypeHandler"
+             "PerlFixupHandler"
+             "PerlResponseHandler"
+             "PerlLogHandler"
+             "PerlCleanupHandler"
+
+             "PerlInterpStart"
+             "PerlInterpMax"
+             "PerlInterpMinSpare"
+             "PerlInterpMaxSpare"
+             "PerlInterpMaxRequests"
+             "PerlInterpScope"
+
+             "PerlTrace"
+
              )
             'words))
           1 'font-lock-keyword-face)
@@ -565,6 +617,20 @@
        "unset"
        "user"
        "valid-user"
+
+       ;; for mod_perl 2.0
+       "Clone"
+       "InheritSwitches"
+       "Parent"
+       "AutoLoad"
+       "GlobalRequest"
+       "ParseHeaders"
+       "MergeHeaders"
+       "SetupEnv"
+
+       "modperl"
+       "perl-script"
+
        ) 'words)
      1 'font-lock-type-face)))
   "Expressions to highlight in Apache config buffers.")
