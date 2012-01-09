@@ -3,12 +3,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; よく使う連想リストの追加用
-(defun add-to-assoc-list (list-var element &optional append)
+(defun add-to-assoc-list (list-var element &optional prepend)
   "連想リスト版の add-to-list。既にキーが存在するとき上書きする"
   (let ((list (assoc (car element) (symbol-value list-var))))
     (if list
         (setcdr list (cdr element))
-      (set list-var (append (symbol-value list-var) (list element)))))
+      (set list-var (if prepend
+                        (append (list element) (symbol-value list-var))
+                      (append (symbol-value list-var) (list element))))))
   (symbol-value list-var))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
