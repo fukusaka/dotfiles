@@ -103,7 +103,7 @@
 
   ;; 起動キーの設定
   ;;(ac-set-trigger-key "<C-tab>")
-  (ac-set-trigger-key "Tab")
+  (ac-set-trigger-key "<Tab>")
 
 
   (setq ac-auto-start 3)
