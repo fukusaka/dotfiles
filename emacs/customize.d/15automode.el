@@ -17,11 +17,18 @@
               ("\\.php\\'" . php-mode)
               ("\\.tpl\\'" . smarty-mode)
 
+              ("\\.htaccess\\'"   . apache-mode)
+              ("httpd\\.conf\\'"  . apache-mode)
+              ("srm\\.conf\\'"    . apache-mode)
+              ("access\\.conf\\'" . apache-mode)
+              ("sites-\\(available\\|enabled\\)/" . apache-mode)
+              ("https?d/conf/" . apache-mode)
+
               ;; epcg ? 用
               ("\\.pgc\\'" . c-mode)
               ("\\.pgcc\\'" . c++-mode)
               )))
-  (add-to-assoc-list 'auto-mode-alist e))
+  (add-to-assoc-list 'auto-mode-alist e t))
 
 (autoload 'bison-mode "bison-mode"
   "Major mode for editing bison/yacc files" t)
@@ -50,6 +57,10 @@
 ;;(defalias 'js-mode 'js2-mode)
 (autoload 'js2-mode "js2"
   "Major mode for editing JavaScript code." t)
+
+(autoload 'apache-mode "apache-mode"
+  "Apache Conf mode." t)
+
 
 (require 'mmm-mode)
 (require 'mmm-sample)
