@@ -72,9 +72,11 @@
 (autoload 'my-sample-face-size "my-sample-ascii" "" t)
 
 ;; Customize 用設定
-(setq custom-file (concat my-emacs-conf-dir "custom.el"))
-(if (file-exists-p custom-file)
-    (load custom-file))
+(if (boundp 'my-emacs-conf-dir)
+    (progn
+      (setq custom-file (concat my-emacs-conf-dir "custom.el"))
+      (if (file-exists-p custom-file)
+          (load custom-file))))
 
 ;; 簡易インデックスの作成
 (setq imenu-auto-rescan t)              ;; imenu 用の自動スキャンをする
