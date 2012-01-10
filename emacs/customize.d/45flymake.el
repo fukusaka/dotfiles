@@ -50,8 +50,8 @@
   (global-set-key "\M-n" 'flymake-goto-next-error)
 
   ;; 警告エラー行の表示
-  ;;(global-set-key "\C-cd" 'flymake-display-err-menu-for-current-line)
-  (global-set-key "\C-cd"
+  ;;(global-set-key "\C-cx" 'flymake-display-err-menu-for-current-line)
+  (global-set-key "\C-cx"
                   '(lambda ()
                      (interactive)
                      ;;(my-flymake-display-err-minibuf-for-current-line)
