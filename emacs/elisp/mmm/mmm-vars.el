@@ -146,45 +146,54 @@
        #'(lambda (var) (list var nil mmm-c-derived-modes))
        '(c++-template-syntax-table
 	 c-<-op-cont-regexp 
+	 c-<>-multichar-token-regexp
 	 c->-op-cont-regexp 
 	 c-after-suffixed-type-decl-key
 	 c-after-suffixed-type-maybe-decl-key
-	 c-any-class-key
+	 c-anchored-cpp-prefix
 	 c-any-class-key 
 	 c-asm-stmt-kwds
 	 c-assignment-op-regexp
+	 c-at-vsemi-p-fn
 	 c-backslash-column
+	 c-backslash-max-column
 	 c-basic-offset
+	 c-before-font-lock-function
 	 c-bitfield-kwds
 	 c-block-comment-prefix
+	 c-block-comment-start-regexp
 	 c-block-decls-with-vars
+	 c-block-prefix-charset
 	 c-block-stmt-1-key
-	 c-block-stmt-1-key 
 	 c-block-stmt-1-kwds
-	 c-block-stmt-2-key
 	 c-block-stmt-2-key 
 	 c-block-stmt-2-kwds
 	 c-brace-list-key 
-	 c-cast-parens 
+	 c-buffer-is-cc-mode
+	 c-case-kwds-regexp
+	 c-cast-parens
 	 c-class-key
-	 c-class-key 
 	 c-class-kwds
 	 c-cleanup-list
 	 c-colon-type-list-re 
 	 c-comment-only-line-offset
 	 c-comment-prefix-regexp
-	 c-comment-start-regexp
 	 c-comment-start-regexp 
 	 c-cpp-defined-fns
 	 c-current-comment-prefix
 	 c-decl-block-key
-	 c-decl-block-key 
+	 c-decl-hangon-key
+	 c-decl-prefix-or-start-re
 	 c-decl-prefix-re 
 	 c-decl-spec-kwds
+	 c-decl-start-re
 	 c-doc-comment-start-regexp
+	 c-doc-comment-style
 	 c-expr-kwds
 	 c-file-offsets
 	 c-file-style
+	 c-found-types
+	 c-get-state-before-change-function
 	 c-hanging-braces-alist
 	 c-hanging-colons-alist
 	 c-hanging-comment-ender-p
@@ -204,87 +213,91 @@
 	 c-keywords
 	 c-keywords-obarray
 	 c-keywords-regexp
-	 c-keywords-regexp 
 	 c-known-type-key
 	 c-label-key
-	 c-label-key 
 	 c-label-kwds
 	 c-label-kwds-regexp
-	 c-label-kwds-regexp 
 	 c-label-minimum-indentation
+	 c-label-prefix-re
 	 c-lambda-kwds
+	 c-line-comment-starter
 	 c-literal-start-regexp 
+	 c-multiline-string-start-char
+	 c-new-BEG
+	 c-new-END
+	 c-nonlabel-token-key
 	 c-nonsymbol-chars 
 	 c-nonsymbol-token-regexp
 	 c-not-decl-init-keywords
 	 c-offsets-alist
-	 c-opt-<>-arglist-start 
+	 c-old-BOM
+	 c-old-EOM
+	 c-opt-<>-arglist-start
 	 c-opt-<>-arglist-start-in-paren
 	 c-opt-<>-sexp-key 
 	 c-opt-access-key
-	 c-opt-access-key 
-	 c-opt-asm-stmt-key
 	 c-opt-asm-stmt-key 
-	 c-opt-bitfield-key
 	 c-opt-bitfield-key 
 	 c-opt-block-decls-with-vars-key
 	 c-opt-block-stmt-key
-	 c-opt-block-stmt-key 
+	 c-opt-cpp-macro-define-id
+	 c-opt-cpp-macro-define-start
 	 c-opt-cpp-prefix 
 	 c-opt-cpp-start 
 	 c-opt-decl-spec-key
+	 c-opt-extra-label-key
 	 c-opt-friend-key
-	 c-opt-friend-key 
 	 c-opt-identifier-concat-key
-	 c-opt-inexpr-block-key
 	 c-opt-inexpr-block-key 
 	 c-opt-inexpr-brace-list-key
-	 c-opt-inexpr-class-key
 	 c-opt-inexpr-class-key 
-	 c-opt-lambda-key
 	 c-opt-lambda-key 
-	 c-opt-method-key
 	 c-opt-method-key 
+	 c-opt-op-identifier-prefix
 	 c-opt-postfix-decl-spec-key
 	 c-opt-type-component-key
 	 c-opt-type-concat-key 
 	 c-opt-type-modifier-key 
 	 c-opt-type-suffix-key 
 	 c-other-decl-block-key
-	 c-other-decl-block-key 
+	 c-other-decl-block-key-in-symbols-alist
 	 c-other-decl-block-kwds
 	 c-other-decl-kwds
 	 c-overloadable-operators-regexp
 	 c-paragraph-separate 
 	 c-paragraph-start 
 	 c-paren-stmt-key 
-	 c-primary-expr-regexp 
+	 c-prefix-spec-kwds-re
+	 c-primary-expr-regexp
 	 c-primitive-type-key 
 	 c-primitive-type-kwds
 	 c-protection-kwds
 	 c-recognize-<>-arglists 
-	 c-recognize-knr-p
+	 c-recognize-colon-labels
 	 c-recognize-knr-p 
-	 c-recognize-paren-inits 
+	 c-recognize-paren-inexpr-blocks
+	 c-recognize-paren-inits
 	 c-recognize-typeless-decls
 	 c-regular-keywords-regexp
 	 c-simple-stmt-key 
 	 c-simple-stmt-kwds
 	 c-special-brace-lists
-	 c-special-brace-lists 
+	 c-special-indent-hook
 	 c-specifier-key 
 	 c-specifier-kwds
 	 c-stmt-delim-chars 
 	 c-stmt-delim-chars-with-comma
+	 c-string-escaped-newlines
 	 c-symbol-key
-	 c-symbol-key 
 	 c-symbol-start 
 	 c-syntactic-eol
 	 c-syntactic-ws-end 
 	 c-syntactic-ws-start 
-	 c-type-decl-prefix-key 
+	 c-type-decl-end-used
+	 c-type-decl-prefix-key
 	 c-type-decl-suffix-key 
 	 c-type-prefix-key 
+	 c-vsemi-status-unknown-p-fn
 	 comment-end 
 	 comment-start 
 	 comment-start-skip))
