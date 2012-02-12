@@ -62,17 +62,4 @@
   "Apache Conf mode." t)
 
 
-(require 'mmm-mode)
-(require 'mmm-sample)
-
-(setq mmm-global-mode 'maybe)
-(setq mmm-submode-decoration-level 1)
-
-(mmm-add-mode-ext-class nil "\\.html\\'" 'embedded-css)
-(mmm-add-mode-ext-class nil "\\.html\\'" 'html-js)
-
-(mmm-add-mode-ext-class nil "\\.php\\'" 'embedded-css)
-(mmm-add-mode-ext-class nil "\\.php\\'" 'html-js)
-(mmm-add-mode-ext-class nil "\\.php\\'" 'html-php)
-
 (require 'go-mode-load)
