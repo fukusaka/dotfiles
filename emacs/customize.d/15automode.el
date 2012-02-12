@@ -3,7 +3,7 @@
 ;;
 
 (dolist (e (nreverse
-            '(
+            `(
               ("\\.h\\'" . c++-mode)
               ("\\.pl\\'" . perl-mode)
               ("\\.mm\\'" . objc-mode)
@@ -14,7 +14,6 @@
               ("\\.applescript\\'" . applescript-mode)
               ("\\.as\\'" . actionscript-mode)
               ("\\.cs\\'" . csharp-mode)
-              ("\\.php\\'" . php-mode)
               ("\\.tpl\\'" . smarty-mode)
 
               ("\\.htaccess\\'"   . apache-mode)
@@ -23,6 +22,10 @@
               ("access\\.conf\\'" . apache-mode)
               ("sites-\\(available\\|enabled\\)/" . apache-mode)
               ("https?d/conf/" . apache-mode)
+
+              ;; use MMM-mode
+              ("\\.php\\'" . html-mode)
+              ("\\.tt\\'" . tt-html-mumamo-mode)
 
               ;; epcg ? 用
               ("\\.pgc\\'" . c-mode)
@@ -61,5 +64,11 @@
 (autoload 'apache-mode "apache-mode"
   "Apache Conf mode." t)
 
+(autoload 'tt-mode "tt-mode"
+  "Template Toolkit mode." t)
 
 (require 'go-mode-load)
+
+(load (concat my-emacs-conf-dir "nxhtml/autostart"))
+
+(autoload 'tt-html-mumamo-mode "mumamo-fun")
