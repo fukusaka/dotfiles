@@ -90,3 +90,12 @@
 (custom-set-faces
  '(mmm-default-submode-face
    ((t (:background "gray95")))))
+
+;; nxhtml-mode
+(custom-set-faces
+ '(mumamo-background-chunk-major
+   ((t (:background "white")))))
+
+(custom-set-faces
+ '(mumamo-background-chunk-submode1
+   ((t (:background "lightcyan")))))
