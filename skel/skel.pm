@@ -28,5 +28,9 @@ __END__
 @@@@
 FNAME: (file-name-nondirectory buffer-file-name)
 FBASE: (file-name-sans-extension (file-name-nondirectory buffer-file-name))
+NAME: programmer-name
+ADDRESS: programmer-mail-address
+YEAR: (format-time-string "%Y")
 DATE: (format-time-string "%Y/%m/%d %H:%M:%S")
+LICENSE: (my-ask-license-string "# ")
 @@@@
