@@ -1,4 +1,5 @@
 *~
+*.elc
 bin/cgsutils
 dotfiles/emacs
 dotfiles/emacs-root
@@ -18,4 +19,4 @@ emacs/elisp-emacs23
 emacs/elisp-emacs24
 emacs/elisp-addons/muse-3.20/lisp/muse-autoloads.el
 emacs/custom.el
-
+emacs/nxhtml/nxhtml-loaddefs.el
