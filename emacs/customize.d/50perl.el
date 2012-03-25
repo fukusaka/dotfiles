@@ -5,6 +5,19 @@
 
   ;; PerlStyle (perldoc perlstyle ベースの設定)
   (cperl-set-style "PerlStyle")
+  (setq cperl-indent-level 4
+        cperl-close-paren-offset -4
+        cperl-continued-statement-offset 4
+        cperl-indent-parens-as-block t
+        cperl-tab-always-indent t)
+
+  (defun cperl-backward-to-start-of-continued-exp (lim)
+    (goto-char containing-sexp)
+    (let ((sexp-start (following-char)))
+      (forward-char)
+      (skip-chars-forward " \t\n")
+      (if (memq sexp-start (append "([" nil)) ; this hack is for continued statements inside parentheses
+          (backward-char cperl-continued-statement-offset))))
 
   ;; Tabスペースは使わない
   (setq indent-tabs-mode nil)
