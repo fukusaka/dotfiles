@@ -24,8 +24,9 @@
               ("https?d/conf/" . apache-mode)
 
               ;; use MMM-mode
-              ("\\.php\\'" . html-mode)
-              ("\\.tt\\'" . tt-html-mumamo-mode)
+              ("\\.php\\'" . php-mode)
+              ("\\.tt\\'" . tt-mode)
+              ("\\.ctp\\'" . php-mode)
 
               ;; epcg ? 用
               ("\\.pgc\\'" . c-mode)
@@ -69,6 +70,6 @@
 
 (require 'go-mode-load)
 
-(load (concat my-emacs-conf-dir "nxhtml/autostart"))
+;;(load (concat my-emacs-conf-dir "nxhtml/autostart"))
 
 (autoload 'tt-html-mumamo-mode "mumamo-fun")
