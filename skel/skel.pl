@@ -37,6 +37,10 @@ $ENV{PATH} = q(/bin:/usr/bin);
 #    no warnings 'redefine';
 #    sub qquote { my $s=shift; return "'$s'"; }
 #}
+# Dumper でハッシュキーをソートする方法
+$Data::Dumper::Sortkeys = \sub { sort keys %{$_[0]}};
+
+# Ex
 #print Dumper(\$var);
 #print Data::Dumper->Dump([$var $opt],[qw/var opt/]);
 

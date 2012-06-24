@@ -4,9 +4,9 @@ package @@FBASE@@;
 #
 # Copyright (C) @@YEAR@@ @@NAME@@
 #
-# Author: @@NAME@@ <@@ADDRESS@@>
-# Created: <@@DATE@@>
-# Last Modified: <@@DATE@@>
+#     Author: @@NAME@@ <@@ADDRESS@@>
+#     Created:       <@@DATE@@>
+#     Last Modified: <@@DATE@@>
 #
 @@LICENSE@@
 
