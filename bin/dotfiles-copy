@@ -2,7 +2,10 @@
 
 USERHOST=$1
 
-[ -z "${USERHOST}" ] && echo "Usage $0 [user@]machine"
+if [ -z "${USERHOST}" ]; then
+        echo "Usage $0 [user@]machine"
+        exit
+fi
 
 DOTFILES="
 bashrc
