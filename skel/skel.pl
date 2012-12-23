@@ -1,4 +1,4 @@
-#!/usr/bin/env perl -T
+#!/usr/bin/env perl
 # -*- coding: utf-8 -*-
 # file: @@FNAME@@
 #
@@ -13,12 +13,13 @@
 use strict;
 use warnings;
 
-use Carp;
-use Data::Dumper qw(Dumper);
-use English qw( -no_match_vars );
-
 # ソースコードのencoding指定
 use utf8;
+
+use Carp;
+use Data::Dump qw(dump);
+use Data::Dumper qw(Dumper);
+use English qw(-no_match_vars);
 
 # I/OのencodingをUTF8固定にする
 use open ':encoding(UTF-8)';

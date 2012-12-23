@@ -12,11 +12,13 @@ package @@FBASE@@;
 
 use strict;
 use warnings;
+use utf8;
 
-use Carp;
-use Data::Dumper qw(Dumper);
-use English qw( -no_match_vars );
 #use Exporter qw(import);
+use Carp;
+use Data::Dump qw(dump);
+use Data::Dumper qw(Dumper);
+use English qw(-no_match_vars);
 
 #our @EXPORT = qw ();
 #our @EXPORT_OK = qw ();
