@@ -1,6 +1,8 @@
 ;; CPerl-mode を使う
 (defalias 'perl-mode 'cperl-mode)
 
+(setq-default perl5-command "perl")
+
 (defun my-cperl-mode-init ()
 
   ;; PerlStyle (perldoc perlstyle ベースの設定)
@@ -66,18 +68,19 @@
   "Run selected region as Perl code"
   (interactive "r")
   (save-excursion
-    (shell-command-on-region beg end "perl -T"))
+    (shell-command-on-region beg end "perl"))
   )
 
 ;; flymakeでの文法チェック時に taint mode を有効にする
 ;; perl5lib-list があれば、-Ixx で追加する
 (defadvice flymake-perl-init
-  (after flymake-perl-init-taint-mode activate)
+  (after my-flymake-perl-init-mode activate)
   (let ((ret ad-return-value))
     (setcar (cdr ret)
             (append (mapcar '(lambda (x) (format "-I%s" x))
                             perl5lib-list)
-                    (cons "-T " (cadr ret))))
+                    (cadr ret)))
+    (setcar ret perl5-command)
     ret))
 
 (defun my-cperl-eldoc-documentation-function ()
@@ -113,9 +116,13 @@
    (with-output-to-string
      (with-current-buffer
          standard-output
-       (call-process "perl" nil t nil "-e" (format "@OINC=@INC; require \"%s\"; print join \" \",@INC[0..($#INC-$#OINC-1)];" sitefile))
-       ))))
-;; (あまり実装が良くない)
+       (call-process
+        "perl" nil t nil
+        "-e"
+        (concat
+         "@INC0=@INC;$,=' ';"
+         "require '" sitefile "';"
+         "print @INC[0..($#INC-$#INC0-1)];"))))))
 
 ;;
 (defun set-perl5site ()
@@ -123,4 +130,6 @@
   (interactive)
   (let ((sitefile (search-perl5site buffer-file-name)))
     (make-local-variable 'perl5lib-list)
-    (setq perl5lib-list (if sitefile (perl5lib-perl5site sitefile)))))
+    (make-local-variable 'perl5-command)
+    (setq perl5lib-list (if sitefile (perl5lib-perl5site sitefile)))
+    ))
