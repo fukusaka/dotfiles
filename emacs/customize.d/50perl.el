@@ -71,7 +71,7 @@
     (shell-command-on-region beg end "perl"))
   )
 
-;; flymakeでの文法チェック時に taint mode を有効にする
+;; flymakeでの文法チェック時に
 ;; perl5lib-list があれば、-Ixx で追加する
 (defadvice flymake-perl-init
   (after my-flymake-perl-init-mode activate)
