@@ -6,6 +6,7 @@
             `(
               ("\\.h\\'" . c++-mode)
               ("\\.pl\\'" . perl-mode)
+              ("\\.psgi\\'" . perl-mode)
               ("\\.mm\\'" . objc-mode)
               ("\\.CPP\\'" . c++-mode) ;; DOS/Windows 系だと大文字になってる場合がある
 
