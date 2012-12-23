@@ -184,4 +184,15 @@
   ;;(push '("^\\(.+\\)\:\\([0-9]+\\)\: \\(strict warning: trailing comma.+\\)\:$" 1 2 nil 3)
   ;;    flymake-err-line-patterns)
 
+
+  (push '("\\.tt\\'" flymake-tt-init) flymake-allowed-file-name-masks)
+  (push '("file:\\([^ ]+\\) line \\([0-9]+\\)\\(-[0-9]+\\)?: \\(.+\\)" 1 2 nil 4) flymake-err-line-patterns)
+
+  (defun flymake-tt-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list perl5-command (list (concat my-emacs-bin-dir "tt_parse.pl") local-file))))
   )
