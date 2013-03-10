@@ -55,6 +55,17 @@
 (savehist-mode 1)
 (setq history-length 1000)
 
+;; 最近使ったファイルリストを保持
+(add-hook 'after-init-hook 'recentf-mode)
+(eval-after-load "recentf"
+  '(progn
+     (setq recentf-max-saved-items 2000)
+     (setq recentf-auto-cleanup 'never) ; default = 'mode
+     (run-with-idle-timer 300 t 'recentf-save-list)
+     (run-with-idle-timer 600 t 'recentf-cleanup)
+     (setq recentf-exclude
+           '("^/tmp\\.*" "^/private\\.*" "^/var/folders\\.*" "/TAGS$"))))
+
 ;; Emacs内部端末で Password を隠しまほう
 (add-hook 'comint-output-filter-functions
           'comint-watch-for-password-prompt)
