@@ -51,6 +51,10 @@
 ;; ヒストリ数を設定する。
 ;;(setq comint-input-ring-size 200)
 
+;; history of minibuffer
+(savehist-mode 1)
+(setq history-length 1000)
+
 ;; Emacs内部端末で Password を隠しまほう
 (add-hook 'comint-output-filter-functions
           'comint-watch-for-password-prompt)
