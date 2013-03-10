@@ -63,6 +63,14 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
+;; Windows 間の移動
+(setq windmove-wrap-around t)
+(windmove-default-keybindings)
+(my-prefix-set-key [up] 'windmove-up)
+(my-prefix-set-key [down] 'windmove-down)
+(my-prefix-set-key [left] 'windmove-left)
+(my-prefix-set-key [right] 'windmove-right)
+
 ;; トグル動作
 ;; 現在バッファ名が run-buffer-name であれば現在バッファを最後尾に下げ、
 ;; でなければ、run-comanndを実行する。
