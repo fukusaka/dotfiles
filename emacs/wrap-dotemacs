@@ -12,28 +12,26 @@
 
 (if init-top-level
     (let ((init-top-level nil)
-	  (elc-filename
-	   (cond (((and (boundp 'emacs-major-version)
-                        (>= emacs-major-version 21))
-                   (format "~/.emacs%d.elc" emacs-major-version)))
+          (elc-filename
+           (cond ((and (boundp 'emacs-major-version) (>= emacs-major-version 21))
+                  (format "~/.emacs%d.elc" emacs-major-version))
                  ((string< emacs-version "19") "~/.emacs18.elc")
-		 ((string< emacs-version "20") "~/.emacs19.elc")
-		 ((string< emacs-version "21") "~/.emacs20.elc")
-		 (t "~/.emacsxx.elc"))))
+                 ((string< emacs-version "20") "~/.emacs19.elc")
+                 (t "~/.emacsxx.elc"))))
       (if (file-newer-than-file-p "~/.emacs" elc-filename)
           (progn
             (or init-complete (load "~/.emacs" nil t t))
             (byte-compile-file "~/.emacs")
-	    (if (file-exists-p "~/.emacsc")
-		(rename-file "~/.emacsc" elc-filename t))
-	    (if (file-exists-p "~/.emacs.elc")
-		(rename-file "~/.emacs.elc" elc-filename t)))
+            (if (file-exists-p "~/.emacsc")
+                (rename-file "~/.emacsc" elc-filename t))
+            (if (file-exists-p "~/.emacs.elc")
+                (rename-file "~/.emacs.elc" elc-filename t)))
         (or init-complete (load elc-filename nil t t))))
-(progn
+  (progn
 
 ;;;     <Your current .emacs file here, unchanged>
 
 ;;;;INSERT_DOT_EMACS
 
 ;;; Matches IF from top of file
-))
+    ))
