@@ -7,11 +7,15 @@
 
   ;; PerlStyle (perldoc perlstyle ベースの設定)
   (cperl-set-style "PerlStyle")
-  (setq cperl-indent-level 4
-        cperl-close-paren-offset -4
-        cperl-continued-statement-offset 4
-        cperl-indent-parens-as-block t
-        cperl-tab-always-indent t)
+  (setq cperl-indent-level 4                         ;インデント幅を４にする
+        cperl-continued-statement-offset 4           ;連続する文のオフセット
+        cperl-brace-offset -4                        ;ブレースのオフセット
+        cperl-close-paren-offset -4                  ;閉じる括弧のオフセット
+        cperl-label-offset -4                        ;labelのオフセット
+        cperl-indent-parens-as-block t               ;括弧もブロックとしてインデント
+        cperl-tab-always-indent t                    ;TABをインデントにする
+        cperl-highlight-variables-indiscriminately t ;スカラを常にハイライト
+        )
 
   (defun cperl-backward-to-start-of-continued-exp (lim)
     (goto-char containing-sexp)
