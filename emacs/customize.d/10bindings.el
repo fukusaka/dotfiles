@@ -59,9 +59,9 @@
 (define-key global-map "\M-1" 'shell-command)
 
 ;; For Org Mode
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+;;(global-set-key "\C-cl" 'org-store-link)
+;;(global-set-key "\C-ca" 'org-agenda)
+;;(global-set-key "\C-cb" 'org-iswitchb)
 
 ;; Windows 間の移動
 (setq windmove-wrap-around t)
@@ -109,8 +109,8 @@
 (def-toggle-run shell "*shell*")
 (def-toggle-run eshell "*eshell*")
 
-(my-prefix-set-key "s" 'toggle-shell)
-(my-prefix-set-key "\C-s" 'toggle-shell)
+(my-prefix-set-key "b" 'toggle-shell)
+(my-prefix-set-key "\C-b" 'toggle-shell)
 
 (my-prefix-set-key "e" 'toggle-eshell)
 (my-prefix-set-key "\C-e" 'toggle-eshell)
