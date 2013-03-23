@@ -1,10 +1,25 @@
+" 読み込みパスの変更
+set runtimepath+=$HOME/common/vim
+
+" from https://github.com/tpope/vim-pathogen
+try
+	execute pathogen#infect()
+catch
+	"プラグインを取り込んでいない場合無視する
+endtry
+
+" sh
 let is_bash=1
+
+" 色付け
 syntax on
 
+" GUI font for MacOSX
 if has('gui_macvim')
 	set lines=34 columns=100
 	set transparency=3
 	set guioptions-=T
 	set guifont=Menlo:h12
 endif
+
 
