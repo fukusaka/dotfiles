@@ -62,7 +62,6 @@
         '(
           (space-mark   ?\u3000 [?\u25a1])
           (tab-mark     ?\t     [?\u00BB ?\t] [?\\ ?\t])
-          (newline-mark ?\n     [?| ?\n])
           ;;(newline-mark ?\n     [?$ ?\n])
           ;;(newline-mark ?\n     [?\u21B5 ?\n] [?$ ?\n])
           ;;(newline-mark ?\n     [?\u00B6 ?\n] [?$ ?\n])
@@ -75,12 +74,12 @@
   (set-face-background 'whitespace-space nil)
   (set-face-foreground 'whitespace-tab "lightgray")
   (set-face-background 'whitespace-tab nil)
-  (set-face-foreground 'whitespace-newline "gray95")
-  (set-face-background 'whitespace-newline nil)
+  ;;(set-face-foreground 'whitespace-newline "gray95")
+  ;;(set-face-background 'whitespace-newline nil)
   (set-face-background 'whitespace-trailing "MistyRose")
 
   (global-whitespace-mode 1)
-  (global-whitespace-newline-mode 1)
+  ;;(global-whitespace-newline-mode 1)
   ))
 
 ;; タブと改行と全角空白の色付け
