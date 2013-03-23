@@ -7,29 +7,36 @@
   (define-key global-map "\M-c" 'tramp-compile)
   (define-key global-map "\C-zc" 'tramp-compile))
 
-;; NTEmacsでCygwinのsshを使う。
-;; 必ず、fakecygpty を使うべし
 (eval-after-load "tramp"
   '(progn
+     ;; NTEmacsでCygwinのsshを使う。
+     ;; 必ず、fakecygpty を使うべし
      (when (and (eq system-type 'windows-nt)
                 (executable-find "f_ssh"))
-       (require 'tramp)
        (dolist (methods tramp-methods)
          (if (string-equal (cadr (assq 'tramp-login-program methods)) "ssh")
              (setcdr (assq 'tramp-login-program methods) '("f_ssh")))))
-
      (require 'tramp-cmds)
-
-     (setq tramp-verbose 0)
-
-     ;; ローカルアクセスには直接接続する
-     (add-to-list 'tramp-default-proxies-alist '("localhost" nil nil) t)
-     (add-to-list 'tramp-default-proxies-alist '((regexp-quote (system-name)) nil nil) t)
-
-     ;; root アクセスは常に sudo を使う
-     (add-to-list 'tramp-default-method-alist '(nil "\\`root\\'" "sudo") t)
-     (add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:") t)
-
-     ;; 特定のホスト群には途中を経由する
-     ;;(add-to-list 'tramp-default-proxies-alist '("\\`far-host\\'" nil "/ssh:fukusaka@proxy-host:") t)
      ))
+
+(require 'tramp)
+
+(setq tramp-verbose 0)
+
+(setq tramp-default-method "ssh")
+
+;; tramp-default-proxies-alist
+;; (ホスト ユーザ 経由)
+;;tramp-default-method-alist
+;; (ホスト ユーザ 方法)
+
+;; リモート接続での root アクセスする場合、マルチ接続に変換して sudo or su を呼び出す
+(add-to-list 'tramp-default-proxies-alist `(,tramp-local-host-regexp nil nil))
+(add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
+
+;; root アクセスには常に sudo を使う
+(add-to-list 'tramp-default-method-alist '(nil "\\`root\\'" "sudo"))
+
+
+;; 特定のホスト群には途中を経由する
+;;(add-to-list 'tramp-default-proxies-alist '("\\`far-host\\'" nil "/ssh:fukusaka@proxy-host:") t)
