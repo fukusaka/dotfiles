@@ -18,6 +18,8 @@
          (if (string-equal (cadr (assq 'tramp-login-program methods)) "ssh")
              (setcdr (assq 'tramp-login-program methods) '("f_ssh")))))
 
+     (require 'tramp-cmds)
+
      (setq tramp-verbose 0)
 
      ;; ローカルアクセスには直接接続する
@@ -31,4 +33,3 @@
      ;; 特定のホスト群には途中を経由する
      ;;(add-to-list 'tramp-default-proxies-alist '("\\`far-host\\'" nil "/ssh:fukusaka@proxy-host:") t)
      ))
-
