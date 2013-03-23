@@ -1,7 +1,14 @@
 ;; -*- coding: utf-8 -*-
 
-(when (locate-library "flymake")
-  (require 'flymake)
+
+;; use https://github.com/illusori/emacs-flymake
+(load-when-eval-safe (concat my-compiled-elisp-dir "flymake.elc"))
+
+(if (and (not (featurep 'flymake))
+         (locate-library "flymake"))
+    (require 'flymake))
+
+(when (featurep 'flymake)
 
   ;;シンタックスチェックは次のコマンドが呼ばれる
   ;;make -s -C . CHK_SOURCES=hoge.cpp SYNTAX_CHECK_MODE=1 check-syntax
@@ -25,15 +32,18 @@
   ;; 全てのファイルで flymakeを有効化
   (add-hook 'find-file-hook 'flymake-find-file-hook)
 
+  ;;
+  (setq flymake-run-in-place nil)
+
   ;; flymake を使えない場合をチェック
   (defadvice flymake-can-syntax-check-file
     (after my-flymake-can-syntax-check-file activate)
     (cond
      ((not ad-return-value))
-     ;; tramp 経由であれば、無効
-     ((and (fboundp 'tramp-list-remote-buffers)
-           (memq (current-buffer) (tramp-list-remote-buffers)))
-      (setq ad-return-value nil))
+     ;;;; tramp 経由であれば、無効
+     ;;((and (fboundp 'tramp-list-remote-buffers)
+     ;;      (memq (current-buffer) (tramp-list-remote-buffers)))
+     ;; (setq ad-return-value nil))
      ;; 書き込み不可ならば、flymakeは無効
      ((not (file-writable-p buffer-file-name))
       (setq ad-return-value nil))
