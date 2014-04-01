@@ -4,7 +4,7 @@
 
   ;; インデントモードの設定
   (setq-default tab-width 4)
-  (setq-default indent-tabs-mode t)
+  (setq-default indent-tabs-mode nil)
 
   ;; for Indentation of arrays
   ;; http://emacswiki.org/emacs/PhpMode
