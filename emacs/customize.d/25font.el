@@ -76,6 +76,7 @@
         ;; フォントサイズの微調節 (12ptで合うように)
         (setq face-font-rescale-alist
               '(("^-apple-hiragino.*" . 1.2)
+                (".*Hiragino.*" . 1.2)
                 (".*osaka-bold.*" . 1.2)
                 (".*osaka-medium.*" . 1.2)
                 (".*courier-bold-.*-mac-roman" . 1.0)
