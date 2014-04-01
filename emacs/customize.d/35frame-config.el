@@ -107,6 +107,7 @@
    ;; Cocoa Emacs / MacBookPro 15
    ((string-match "^fuku-mac" (system-name))
     (add-to-assoc-list 'initial-frame-alist '(height . 56))
+    (add-to-assoc-list 'initial-frame-alist '(left . 56))
 
     ;; 作業用の Safari を開く
     (define-key my-prefix-5-map "w" 'my-make-safari-window)
