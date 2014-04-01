@@ -123,5 +123,11 @@
       (my-make-safari-window)
       )
     )
+
+   ;; Cocoa Emacs / MacBookAir 11
+   ((string-match "^fuku-air" (system-name))
+    (add-to-assoc-list 'initial-frame-alist '(height . 51))
+    (add-to-assoc-list 'initial-frame-alist '(left . 54))
+    )
    )
   )
