@@ -1,7 +1,8 @@
 *~
 *.elc
 /bin/cgsutils
-/composer/
+/composer/cache
+/composer/vendor
 /dotfiles/emacs
 /dotfiles/emacs-root
 /emacs/custom.el

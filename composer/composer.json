@@ -1,0 +1,8 @@
+{
+    "require": {
+        "fabpot/php-cs-fixer": "@stable",
+        "squizlabs/php_codesniffer": "*",
+        "phpdocumentor/phpdocumentor": "2.*",
+        "phing/phing": "2.*"
+    }
+}
