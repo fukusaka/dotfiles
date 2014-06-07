@@ -2,6 +2,7 @@
 signature/persional		~/.signature
 dotfiles/bash_make_aliases	~/.bash_make_aliases
 dotfiles/bash_env		~/.bash_env
+dotfiles/bash_app		~/.bash_app
 dotfiles/profile		~/.profile
 dotfiles/bashrc			~/.bashrc
 dotfiles/vimrc			~/.vimrc

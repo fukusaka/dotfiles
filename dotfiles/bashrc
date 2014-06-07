@@ -62,24 +62,14 @@ xterm*|rxvt*)
         ;;
 esac
 
-# エイリアスを手動作成コマンド
-if [ -f ~/.bash_make_aliases ]; then
-        alias hh='source ~/.bash_make_aliases ; source ~/.bash_aliases ; unalias hh'
-fi
-
-# エイリアスの読み込み
-if [ -f ~/.bash_aliases ]; then
-        . ~/.bash_aliases
-fi
-
-# Completion
-if [ -f "${BASH_COMPLETION}" ]; then
-        alias h="source ${BASH_COMPLETION}; unalias h"
-fi
-
-unset terminal_type
-
 # マシン毎の環境変数
 if [ "$SHLVL" = 1 -a -f ~/.bash_env_local ]; then
         . ~/.bash_env_local
 fi
+
+# Bash アプリケーション
+if [ "$SHLVL" = 1 -a -f ~/.bash_app ]; then
+        . ~/.bash_app
+fi
+
+unset terminal_type

@@ -1,0 +1,88 @@
+# -*-shell-script-*-
+
+# エイリアスを手動作成コマンド
+if [ -f ${HOME}/.bash_make_aliases ]; then
+    alias hh='source ~/.bash_make_aliases ; source ~/.bash_aliases ; unalias hh'
+fi
+
+# エイリアスの読み込み
+if [ -f ${HOME}/.bash_aliases ]; then
+    . ${HOME}/.bash_aliases
+fi
+
+# Completion
+if [ -f "${BASH_COMPLETION}" ]; then
+    if [ -n "USE_BASH_COMPLETION" ]; then
+        source ${BASH_COMPLETION};
+    fi
+fi
+
+# for Perl
+if [ -n "$PERLBREW_ROOT" -a -n "$PERLBREW_HOME" ]; then
+
+    if [ -n "$PRELOAD_PERLBREW" ]; then
+        source ${PERLBREW_ROOT}/etc/bashrc
+    else
+            source ${PERLBREW_HOME}/init
+            PATH=${PERLBREW_PATH}:${PATH}
+            MANPATH=${PERLBREW_MANPATH}:${MANPATH}
+
+            function perlbrew() {
+                    source ${PERLBREW_ROOT}/etc/bashrc;
+                    perlbrew "$@";
+            }
+    fi
+fi
+
+# for PHP
+if [ -n "$PHPBREW_ROOT" ]; then
+
+    if [ -n "$PRELOAD_PHPBREW" ]; then
+        source ${PHPBREW_ROOT}/bashrc
+    else
+            source ${PHPBREW_HOME}/init
+            PATH=${PHPBREW_PATH}:${PATH}
+
+            function phpbrew() {
+                    source ${PHPBREW_ROOT}/bashrc;
+                    phpbrew "$@";
+            }
+    fi
+fi
+
+# for pythonz
+if [ -n ${PYTHONZ_ROOT} ]; then
+
+    if [ -n "$PRELOAD_PYTHONZ" ]; then
+        source ${PYTHONZ_ROOT}/etc/bashrc
+    else
+
+            function pythonz() {
+                    source ${PYTHONZ_ROOT}/etc/bashrc;
+                    pythonz "$@";
+            }
+    fi
+fi
+
+export VAGRANT_HOME=/opt/vagrant_home
+#export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
+
+# for composer
+export COMPOSER_HOME=${HOME}/common/composer
+PATH=${PATH}:${COMPOSER_HOME}/vendor/bin
+
+# for GO
+export GOPATH=/opt/gocode
+export GOROOT=/usr/local/go
+
+# for NodeJS
+if [ -n "$NVM_DIR" ]; then
+    if [ -n "$PRELOAD_NVM" ]; then
+        source ${NVM_DIR}/nvm.sh
+    else
+            function nvm() {
+                    source ${NVM_DIR}/nvm.sh
+                    nvm "$@";
+            }
+    fi
+fi
