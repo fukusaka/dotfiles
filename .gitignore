@@ -1,6 +1,11 @@
 *~
 *.elc
 /bin/cgsutils
+/bin/composer.phar
+/bin/phing.phar
+/bin/phpmd.phar
+/bin/zftool.phar
+/bin/phpDocumentor.phar
 /composer/cache
 /composer/vendor
 /dotfiles/emacs

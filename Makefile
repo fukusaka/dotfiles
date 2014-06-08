@@ -4,12 +4,16 @@ CONFDIR=common
 
 all:
 	@ echo "link          リンクを張り巡らす"
+	@ echo "download      ダウンロード"
 	@ echo "clean         ゴミ削除"
 	@ echo "simple-emacs  emacs.el の生成"
 	@ echo "emacs-clean   emacs のbytecode を削除"
 
 link:
 	@ awk '!/^#/ { printf("ln -sf ${CONFDIR}/%s %s\n", $$1,$$2) }' link-list
+
+download:
+	@ awk '!/^#/ { printf("curl -C - -o ~/${CONFDIR}/%s %s\nchmod %s ~/${CONFDIR}/%s\n", $$1,$$3,$$2,$$1) }' download-list
 
 clean:
 	find . -name '*~' -exec rm -f {} \;
