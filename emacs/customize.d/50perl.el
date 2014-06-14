@@ -1,4 +1,4 @@
-;; CPerl-mode を使う
+;; cperl-mode を使う
 (defalias 'perl-mode 'cperl-mode)
 
 (setq-default perl5-command "perl")
@@ -38,10 +38,6 @@
   ;;(require 'perlplus)
   ;;(local-set-key "\M-\t" 'perlplus-complete-symbol)
   ;;(perlplus-setup)
-
-  ;; スクリプトパスから lib を抽出してPERL5LIBに追加
-  ;;(require 'set-perl5lib)
-  ;;(set-perl5lib)
 
   ;; スクリプト位置からディレクトリを遡って site.pl を探し、
   ;; 内部の @INC を抽出して、文法チェック呼び出しの -I オプションに引き渡す
@@ -93,47 +89,52 @@
    (let ((cperl-message-on-help-error nil))
      (cperl-get-help))))
 
-
 ;; PERL5LIB のパスリスト
 (setq perl5lib-list nil)
 
-;; file 位置からディレクトリを遡って site.pl を探す
-(defun search-perl5site (file)
-  (let (sitefile dir lst)
-    (while (progn
-             (setq dir (file-name-directory file))
-             (setq sitefile (concat dir "site.pl"))
-             (not (or (string= dir file) (file-exists-p sitefile))))
-      (setq lst (cons sitefile lst))
-      (setq file (directory-file-name dir))
+;; 下記条件で perl5 の検索パスを探します
+;;
+;; 1. ファイルのパスに "lib" というディレクトリが含まれていたら、
+;;    そこまでのパスを候補パスに加える。
+;; 2. ファイルのパスに"bin"というディレクトリが含まれており、
+;;    その階層に "lib" というディレクトリがあれば、候補パスに加える。
+;; 3. 候補パスの下層に "perl5" が含まれていれば、そのパスを検索パスとする。
+;; 4. 候補パスの下層に追加した検索パスが無ければ、それ自身を検索パスとする
+
+(defun perllib-guess (pathname)
+  (let (cand-list dir base)
+    (while
+        (progn
+          (setq dir (file-name-directory pathname))
+          (setq base (file-name-nondirectory pathname))
+          (not (string= dir pathname)))
+      (cond
+       ((string= base "lib")
+        (add-to-list 'cand-list pathname))
+       ((string= base "bin")
+        (let ((lib-path (concat dir "lib")))
+          (if (file-exists-p lib-path)
+              (add-to-list 'cand-list lib-path))))
+       )
+      (setq pathname (directory-file-name dir))
       )
-    (if (file-exists-p sitefile)
-        sitefile)))
+    (mapcar (lambda (x)
+              (cond
+               ((file-readable-p (concat x "/perl5"))
+                (concat x "/perl5"))
+               (t x)))
+            cand-list)))
 
-;; site.pl が単純と仮定して、追加の@INCを抽出
-;;
-;; ex)
-;; use lib qw(path1 path2);
-;; 1;
-(defun perl5lib-perl5site (sitefile)
-  (split-string
-   (with-output-to-string
-     (with-current-buffer
-         standard-output
-       (call-process
-        "perl" nil t nil
-        "-e"
-        (concat
-         "@INC0=@INC;$,=' ';"
-         "require '" sitefile "';"
-         "print @INC[0..($#INC-$#INC0-1)];"))))))
+(defun set-perl5lib-list ()
+  (interactive)
+  (let* ((current-perl5lib-list (split-string (or (getenv "PERL5LIB") "") ":"))
+         (path-list (remove-if (lambda (x) (member x current-perl5lib-list))
+                               (perllib-guess (buffer-file-name)))))
+    (setq perl5lib-list path-list)))
 
-;;
 (defun set-perl5site ()
   "Set path into PERL5LIB from site.pl"
   (interactive)
-  (let ((sitefile (search-perl5site buffer-file-name)))
-    (make-local-variable 'perl5lib-list)
-    (make-local-variable 'perl5-command)
-    (setq perl5lib-list (if sitefile (perl5lib-perl5site sitefile)))
-    ))
+  (make-local-variable 'perl5lib-list)
+  (make-local-variable 'perl5-command)
+  (set-perl5lib-list))
