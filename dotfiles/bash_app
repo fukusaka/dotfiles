@@ -64,6 +64,17 @@ if [ -n ${PYTHONZ_ROOT} ]; then
     fi
 fi
 
+# for Rbenv
+if [ -n ${RBENV_ROOT} ]; then
+
+    if [ -n "$PRELOAD_REBENV" ]; then
+        eval "$(rbenv init -)"
+    else
+            export PATH="${RBENV_ROOT}/shims:${PATH}"
+            source "$(brew --prefix rbenv)/completions/rbenv.bash"
+    fi
+fi
+
 export VAGRANT_HOME=/opt/vagrant_home
 #export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 
