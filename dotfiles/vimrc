@@ -22,4 +22,5 @@ if has('gui_macvim')
 	set guifont=Menlo:h12
 endif
 
-
+" Undo File
+set undodir=$HOME/.vim/undodir
