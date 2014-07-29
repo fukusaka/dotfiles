@@ -5,8 +5,6 @@
 (dolist (e (nreverse
             `(
               ("\\.h\\'" . c++-mode)
-              ("\\.pl\\'" . perl-mode)
-              ("\\.psgi\\'" . perl-mode)
               ("\\.mm\\'" . objc-mode)
               ("\\.CPP\\'" . c++-mode) ;; DOS/Windows 系だと大文字になってる場合がある
 
@@ -17,6 +15,17 @@
               ("\\.cs\\'" . csharp-mode)
               ("\\.tpl\\'" . smarty-mode)
 
+              ;; perl
+              ("\\.pl\\'" . perl-mode)
+              ("\\.psgi\\'" . perl-mode)
+              ("\\.t\\'" . perl-mode)
+
+              ;; use MMM-mode
+              ("\\.php\\'" . php-mode)
+              ("\\.tt\\'" . tt-mode)
+              ("\\.ctp\\'" . php-mode)
+
+              ;; apache conf
               ("\\.htaccess\\'"   . apache-mode)
               ("httpd\\(-.*\\)?\\.conf"  . apache-mode)
               ("srm\\.conf\\'"    . apache-mode)
@@ -24,10 +33,7 @@
               ("sites-\\(available\\|enabled\\)/" . apache-mode)
               ("https?d/conf/" . apache-mode)
 
-              ;; use MMM-mode
-              ("\\.php\\'" . php-mode)
-              ("\\.tt\\'" . tt-mode)
-              ("\\.ctp\\'" . php-mode)
+              ("\\.json\\'" . js-mode)
 
               ;; epcg ? 用
               ("\\.pgc\\'" . c-mode)
