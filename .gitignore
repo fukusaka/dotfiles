@@ -6,6 +6,7 @@
 /bin/phpmd.phar
 /bin/zftool.phar
 /bin/phpDocumentor.phar
+/bin/phpunit.phar
 /composer/cache
 /composer/vendor
 /dotfiles/emacs
