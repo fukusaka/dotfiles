@@ -35,19 +35,17 @@ if [ -n "$PERLBREW_ROOT" -a -n "$PERLBREW_HOME" ]; then
 fi
 
 # for PHP
-if [ -n "$PHPBREW_ROOT" ]; then
+if [ -n "$PHPBREW_ROOT" -a -d "$PHPBREW_ROOT" ]; then
 
-    if [ -n "$PRELOAD_PHPBREW" ]; then
-        source ${PHPBREW_ROOT}/bashrc
-    else
-            source ${PHPBREW_HOME}/init
-            PATH=${PHPBREW_PATH}:${PATH}
-
-            function phpbrew() {
-                    source ${PHPBREW_ROOT}/bashrc;
-                    phpbrew "$@";
-            }
+    if [ -f ${PHPBREW_HOME}/init ]; then
+        source ${PHPBREW_HOME}/init
+        PATH=${PHPBREW_PATH}:${PATH}
     fi
+
+    function phpbrew() {
+            source ${PHPBREW_HOME}/bashrc;
+            phpbrew "$@";
+    }
 fi
 
 # for pythonz
