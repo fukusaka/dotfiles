@@ -23,9 +23,11 @@ if [ -n "$PERLBREW_ROOT" -a -n "$PERLBREW_HOME" ]; then
     if [ -n "$PRELOAD_PERLBREW" ]; then
         source ${PERLBREW_ROOT}/etc/bashrc
     else
-            source ${PERLBREW_HOME}/init
-            PATH=${PERLBREW_PATH}:${PATH}
-            MANPATH=${PERLBREW_MANPATH}:${MANPATH}
+            if [ -f ${PERLBREW_HOME}/init ]; then
+                source ${PERLBREW_HOME}/init
+                PATH=${PERLBREW_PATH}:${PATH}
+                MANPATH=${PERLBREW_MANPATH}:${MANPATH}
+            fi
 
             function perlbrew() {
                     source ${PERLBREW_ROOT}/etc/bashrc;
@@ -63,7 +65,7 @@ if [ -n ${PYTHONZ_ROOT} ]; then
 fi
 
 # for Rbenv
-if [ -n ${RBENV_ROOT} ]; then
+if [ -n "${RBENV_ROOT}" -a -d "${RBENV_ROOT}" ]; then
 
     if [ -n "$PRELOAD_REBENV" ]; then
         eval "$(rbenv init -)"
