@@ -18,7 +18,7 @@ Linux)
 Darwin)
         # Prefer to Use Homebrew
         if [ -x /usr/local/bin/brew ]; then
-                PATH=/usr/local/bin:$PATH
+                PATH=/usr/local/bin:/usr/local/sbin:$PATH
                 MANPATH=/usr/local/share/man:$MANPATH
                 BASH_COMPLETION=/usr/local/etc/bash_completion
         fi
