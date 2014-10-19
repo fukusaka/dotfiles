@@ -23,4 +23,7 @@ if has('gui_macvim')
 endif
 
 " Undo File
-set undodir=$HOME/.vim/undodir
+if has('persistent_undo')
+	set undodir=$HOME/.vim/undodir
+endif
+
