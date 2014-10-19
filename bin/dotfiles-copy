@@ -11,6 +11,7 @@ DOTFILES="
 bashrc
 bash_env
 bash_make_aliases
+bash_app
 profile
 vimrc
 inputrc

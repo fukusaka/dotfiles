@@ -10,6 +10,17 @@ if [ -f ${HOME}/.bash_aliases ]; then
     . ${HOME}/.bash_aliases
 fi
 
+# タイトルバーに端末情報を追加
+case "$TERM" in
+xterm*|rxvt*)
+        if [ -z "${NO_TERM_PROMPT}" ]; then
+            PS1="\[\033]0;\u@\h: \w\007\]$PS1"
+        else
+            echo -ne "\033]0;${USER}@$(hostname): \w\007"
+        fi
+        ;;
+esac
+
 # Completion
 if [ -f "${BASH_COMPLETION}" ]; then
     if [ -n "USE_BASH_COMPLETION" ]; then

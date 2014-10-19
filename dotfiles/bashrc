@@ -34,12 +34,12 @@ shopt -s checkwinsize
 
 # 端末に Ecma-48 の色付きが出来るかでカラーかを確認
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-        terminal_type=color
+        terminal_type=${terminal_type:-color}
 fi
 
 # Emacs 内部
 if [ "$EMACS" = t ]; then
-        terminal_type=simple
+        terminal_type=${terminal_type:=simple}
 fi
 
 ## シェルプロンプト
@@ -48,17 +48,10 @@ simple)
         PS1='% '
         ;;
 color)
-        PS1='\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[00;34m\]\w\[\033[00m\]\$ '
+        PS1='\[\033[0;32m\]\u@\h\[\033[0m\]:\[\033[0;34m\]\w\[\033[0m\]\$ '
         ;;
 *)
         PS1='\u@\h:\w\$ '
-        ;;
-esac
-
-# タイトルバーに端末情報を追加
-case "$TERM" in
-xterm*|rxvt*)
-        PS1="\[\e]0;\u@\h: \w\a\]$PS1"
         ;;
 esac
 
