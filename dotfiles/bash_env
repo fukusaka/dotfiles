@@ -29,6 +29,11 @@ Darwin)
         #        MANPATH="/opt/local/man:$MANPATH"
         #        BASH_COMPLETION=/opt/local/etc/bash_completion
         #fi
+
+        export EDITOR=/usr/bin/vim
+        if [ -x /usr/local/bin/vimpager ]; then
+            export PAGER=/usr/local/bin/vimpager
+        fi
         ;;
 SunOS)
         PATH=/usr/bin:/usr/sbin
