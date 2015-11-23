@@ -29,29 +29,29 @@
                       (fboundp 'dired-omit-toggle))
                  (defalias 'dired-omit-mode 'dired-omit-toggle))
 
-             ;; 複数のウィンドウを開かない
-             (put 'dired-find-alternate-file 'disabled nil)
-
-             (defadvice dired-up-directory
-               (around kill-up-dired-buffer activate)
-               (let ((before-buffer (current-buffer)))
-                 ad-do-it
-                 (if (eq major-mode 'dired-mode)
-                     (kill-buffer before-buffer))))
-
-             (defadvice dired-find-file
-               (around kill-find-dired-buffer activate)
-               (let ((before-buffer (current-buffer)))
-                 ad-do-it
-                 (if (eq major-mode 'dired-mode)
-                     (kill-buffer before-buffer))))
-
-             (defadvice dired-view-file
-               (around kill-view-dired-buffer activate)
-               (let ((before-buffer (current-buffer)))
-                 ad-do-it
-                 (if (eq major-mode 'dired-mode)
-                     (kill-buffer before-buffer))))
+             ;;;;; 複数のウィンドウを開かない
+             ;;;(put 'dired-find-alternate-file 'disabled nil)
+             ;;;
+             ;;;(defadvice dired-up-directory
+             ;;;  (around kill-up-dired-buffer activate)
+             ;;;  (let ((before-buffer (current-buffer)))
+             ;;;    ad-do-it
+             ;;;    (if (eq major-mode 'dired-mode)
+             ;;;        (kill-buffer before-buffer))))
+             ;;;
+             ;;;(defadvice dired-find-file
+             ;;;  (around kill-find-dired-buffer activate)
+             ;;;  (let ((before-buffer (current-buffer)))
+             ;;;    ad-do-it
+             ;;;    (if (eq major-mode 'dired-mode)
+             ;;;        (kill-buffer before-buffer))))
+             ;;;
+             ;;;(defadvice dired-view-file
+             ;;;  (around kill-view-dired-buffer activate)
+             ;;;  (let ((before-buffer (current-buffer)))
+             ;;;    ad-do-it
+             ;;;    (if (eq major-mode 'dired-mode)
+             ;;;        (kill-buffer before-buffer))))
 
              ;; モードキーの設定
              (define-key dired-mode-map "\M-o" 'dired-omit-mode)
