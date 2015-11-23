@@ -95,7 +95,7 @@ PATH=${PATH}:${COMPOSER_HOME}/vendor/bin
 
 # for GO
 export GOPATH=/opt/gocode
-export GOROOT=/usr/local/go
+#export GOROOT=/usr/local/go
 
 # for NodeJS
 if [ -n "$NVM_DIR" ]; then
