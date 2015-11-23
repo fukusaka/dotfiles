@@ -3,6 +3,6 @@
         "fabpot/php-cs-fixer": "@stable",
         "squizlabs/php_codesniffer": "*",
         "phpdocumentor/phpdocumentor": "2.*",
-        "phing/phing": "2.*"
+        "phpmd/phpmd": "~2.2"
     }
 }
