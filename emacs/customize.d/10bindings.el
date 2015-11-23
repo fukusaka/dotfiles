@@ -64,7 +64,7 @@
 ;;(global-set-key "\C-cb" 'org-iswitchb)
 
 ;; Windows 間の移動
-(setq windmove-wrap-around t)
+;;(setq windmove-wrap-around t)
 (windmove-default-keybindings)
 (my-prefix-set-key [up] 'windmove-up)
 (my-prefix-set-key [down] 'windmove-down)
