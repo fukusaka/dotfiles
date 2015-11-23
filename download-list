@@ -1,6 +1,5 @@
 #
 bin/phing.phar        u=rwx     http://www.phing.info/get/phing-latest.phar
-bin/phpmd.phar        u=rwx     http://static.phpmd.org/php/1.5.0/phpmd.phar
 bin/zftool.phar       u=rwx     https://packages.zendframework.com/zftool.phar
-bin/phpDocumentor.phar u=rwx    http://phpdoc.org/phpDocumentor.phar
-bin/phpunit.phar      u=rwx     https://phar.phpunit.de/phpunit-lts.phar
+bin/phpunit-3.phar      u=rwx     https://phar.phpunit.de/phpunit-3.7.38.phar
+bin/phpunit.phar      u=rwx     https://phar.phpunit.de/phpunit.phar
