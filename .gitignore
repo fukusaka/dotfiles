@@ -1,12 +1,17 @@
 *~
 *.elc
+/proxy.pac
 /bin/cgsutils
+/bin/genstrings2
+/bin/class-dump
 /bin/composer.phar
 /bin/phing.phar
 /bin/phpmd.phar
 /bin/zftool.phar
 /bin/phpDocumentor.phar
 /bin/phpunit.phar
+/bin/phpunit-3.phar
+/bin/wol-*
 /composer/cache
 /composer/vendor
 /dotfiles/emacs
@@ -27,3 +32,6 @@
 /emacs/elisp-emacs23
 /emacs/elisp-emacs24
 /emacs/nxhtml/nxhtml-loaddefs.el
+/vim/
+/node_modules
+/genymotion-peco
