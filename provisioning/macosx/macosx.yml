@@ -43,10 +43,12 @@
       - nsd
       - nvm
       - peco
+      - pidof
       - pkg-config
       - python
       - reattach-to-user-namespace
       - redis
+      - shellcheck
       - sqlite
       - tmux
       - tofrodos
@@ -55,7 +57,12 @@
       - unrar
       - wget
       - xz
-      - pidof
+
+      - php56
+      - php56-opcache
+      - php56-redis
+      - php56-xdebug
+      - php56-intl
 
     homebrew_cask_repositories:
       - caskroom/cask
