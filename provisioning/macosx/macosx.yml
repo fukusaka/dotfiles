@@ -1,0 +1,104 @@
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  sudo: no
+
+  roles:
+    - homebrew
+    - homebrew-cask
+
+  vars:
+    homebrew_repositories:
+      - homebrew/binary
+      - homebrew/dupes
+      - homebrew/versions
+
+    homebrew_packages:
+      - ansible
+      - readline
+      - openssl
+      - { name: openssl, state: linked, install_options: force }
+      - autoconf-archive
+      - automake
+      - bash-completion
+      - cmake
+      - ctags
+      - curl
+      - d-bus
+      - flow
+      - git
+      - glib
+      - gnutls
+      - go
+      - graphviz
+      - icu4c
+      - imagemagick
+      - jq
+      - lha
+      - librsvg
+      - lv
+      - nginx
+      - nkf
+      - node
+      - nsd
+      - nvm
+      - peco
+      - pkg-config
+      - python
+      - reattach-to-user-namespace
+      - redis
+      - sqlite
+      - tmux
+      - tofrodos
+      - tree
+      - unbound
+      - unrar
+      - wget
+      - xz
+      - pidof
+
+    homebrew_cask_repositories:
+      - caskroom/cask
+
+    homebrew_cask_packages:
+      - firefox
+      - google-chrome
+      - iterm2
+      - java
+      - mysqlworkbench
+      - pgadmin3
+      - skype
+      - sourcetree
+      - sqlitestudio
+      - vagrant
+      - vagrant-manager
+      - virtualbox
+      - vlc
+      - xquartz
+
+  tasks:
+     - name: unbound config file
+       copy: src=files/unbound-real.conf dest=/usr/local/etc/unbound/unbound.conf
+       notify: restart unbound
+     - name: setup unbound
+       script: files/setup-unbound.sh
+
+     - name: nsd config file
+       copy: src=files/nsd-real.conf dest=/usr/local/etc/nsd/nsd-real.conf
+       notify: restart nsd
+     - name: nsd launch plist
+       copy: src=files/homebrew.mxcl.nsd.plist dest=/usr/local/etc/nsd/homebrew.mxcl.nsd.plist
+       notify: restart nsd
+     - name: setup nsd
+       script: files/setup-nsd.sh
+
+     - name: setup ngix
+       script: files/setup-nginx.sh
+
+  handlers:
+   - name: restart unbound
+     sudo: yes
+     command: unbound-control reload
+   - name: restart nsd
+     sudo: yes
+     command: nsd-control reload
