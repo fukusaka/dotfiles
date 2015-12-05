@@ -23,13 +23,6 @@ Darwin)
                 BASH_COMPLETION=/usr/local/etc/bash_completion
         fi
 
-        ## Use MacPorts
-        #if [ -x /opt/local/bin/port ]; then
-        #        PATH="/opt/local/bin:$PATH"
-        #        MANPATH="/opt/local/man:$MANPATH"
-        #        BASH_COMPLETION=/opt/local/etc/bash_completion
-        #fi
-
         export EDITOR=/usr/bin/vim
         if [ -x /usr/local/bin/vimpager ]; then
             export PAGER=/usr/local/bin/vimpager

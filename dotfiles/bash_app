@@ -7,7 +7,7 @@ fi
 
 # エイリアスの読み込み
 if [ -f ${HOME}/.bash_aliases ]; then
-    . ${HOME}/.bash_aliases
+    source ${HOME}/.bash_aliases
 fi
 
 # タイトルバーに端末情報を追加
@@ -62,7 +62,7 @@ if [ -n "$PHPBREW_ROOT" -a -d "$PHPBREW_ROOT" ]; then
 fi
 
 # for pythonz
-if [ -n ${PYTHONZ_ROOT} ]; then
+if [ -n "${PYTHONZ_ROOT}" -a -d "${PYTHONZ_ROOT}" ]; then
 
     if [ -n "$PRELOAD_PYTHONZ" ]; then
         source ${PYTHONZ_ROOT}/etc/bashrc
@@ -76,15 +76,15 @@ if [ -n ${PYTHONZ_ROOT} ]; then
 fi
 
 # for Rbenv
-if [ -n "${RBENV_ROOT}" -a -d "${RBENV_ROOT}" ]; then
-
-    if [ -n "$PRELOAD_REBENV" ]; then
-        eval "$(rbenv init -)"
-    else
-            export PATH="${RBENV_ROOT}/shims:${PATH}"
-            source "$(brew --prefix rbenv)/completions/rbenv.bash"
-    fi
-fi
+# if [ -n "${RBENV_ROOT}" -a -d "${RBENV_ROOT}" ]; then
+#
+#     if [ -n "$PRELOAD_REBENV" ]; then
+#         eval "$(rbenv init -)"
+#     else
+#             export PATH="${RBENV_ROOT}/shims:${PATH}"
+#             source "$(brew --prefix rbenv)/completions/rbenv.bash"
+#     fi
+# fi
 
 export VAGRANT_HOME=/opt/vagrant_home
 #export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
@@ -98,7 +98,7 @@ export GOPATH=/opt/gocode
 #export GOROOT=/usr/local/go
 
 # for NodeJS
-if [ -n "$NVM_DIR" ]; then
+if [ -n "${NVM_DIR}" -a -d "${NVM_DIR}" ]; then
     if [ -n "$PRELOAD_NVM" ]; then
         source ${NVM_DIR}/nvm.sh
     else
