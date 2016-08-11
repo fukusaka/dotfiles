@@ -62,6 +62,5 @@ if [ ! -d ${HOME}/common ]; then
 fi
 
 if [ -d ${HOME}/common ]; then
-    echo "setup macOS package"
     ${HOME}/common/setup/setup-macos-dev.sh
 fi
