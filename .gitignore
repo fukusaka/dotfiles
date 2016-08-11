@@ -35,7 +35,7 @@
 /vim/
 /node_modules
 /genymotion-peco
-/provisioning/macosx/brew_info/*
-!/provisioning/macosx/brew_info/.gitkeep
-/provisioning/macosx/cask_info/*
-!/provisioning/macosx/cask_info/.gitkeep
+/setup/ansible-macos/*.retry
+/setup/ansible-macos/brew_info/*
+/setup/ansible-macos/cask_info/*
+!.gitkeep

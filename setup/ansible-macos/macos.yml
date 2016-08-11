@@ -1,7 +1,7 @@
 - hosts: localhost
   connection: local
   gather_facts: no
-  sudo: no
+  become: no
 
   roles:
     - homebrew
@@ -69,19 +69,16 @@
     homebrew_cask_packages:
       - firefox
       - google-chrome
-      - iterm2
       - java
       - mysqlworkbench
-      - pgadmin3
-      - skype
       - sourcetree
       - sqlitestudio
       - vagrant
       - vagrant-manager
       - virtualbox
-      - vlc
       - xquartz
-      - dockertoolbox
+      - docker
+      - kitematic
 
   tasks:
      - name: unbound config file
