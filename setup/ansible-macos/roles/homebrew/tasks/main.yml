@@ -3,9 +3,13 @@
   homebrew_tap: tap={{ item }} state=present
   with_items: '{{homebrew_repositories}}'
   when: '{{homebrew_repositories}}'
+  tags:
+   - brew-repositories
 
 - name: Update Homebrew
   homebrew: update_homebrew=yes
+  tags:
+   - update-packages
 
 - name: Install/Upgrade Homebrew packages
   homebrew: >
@@ -18,3 +22,5 @@
     }}
   with_items: '{{homebrew_packages}}'
   when: '{{homebrew_packages}}'
+  tags:
+   - brew-packages

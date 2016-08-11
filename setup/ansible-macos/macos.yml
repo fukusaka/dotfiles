@@ -17,7 +17,6 @@
       - ansible
       - readline
       - openssl
-      - { name: openssl, state: linked, install_options: force }
       - autoconf-archive
       - automake
       - bash-completion
@@ -37,6 +36,7 @@
       - lha
       - librsvg
       - lv
+      - mailutils
       - nginx
       - nkf
       - node
@@ -57,19 +57,15 @@
       - unrar
       - wget
       - xz
-
-      - php56
-      - php56-opcache
-      - php56-xdebug
-      - php56-intl
+      - { name: emacs, install_options: with-cocoa,with-gnutls,with-ctags,with-librsvg }
 
     homebrew_cask_repositories:
       - caskroom/cask
+      - caskroom/versions
 
     homebrew_cask_packages:
       - firefox
       - google-chrome
-      - java
       - mysqlworkbench
       - sourcetree
       - sqlitestudio
@@ -79,6 +75,50 @@
       - xquartz
       - docker
       - kitematic
+      - tower
+      - java6
+      - java7
+      - java
+      - appcode
+      - reveal
+      - android-studio
+      - omnifocus
+      - omnioutliner
+      - omnigraffle
+      - omnipresence
+      - omniplan
+      - 1password
+      - microsoft-office
+      - intellij-idea
+      - datagrip
+      - vmware-fusion
+      - apache-directory-studio
+      - appcleaner
+      - astah-professional
+      - coda
+      - evernote
+      - sequel-pro
+      - skype
+      - sublime-text
+      - kindle
+      - dropbox
+      - cornerstone
+      - google-drive
+      - rstudio
+      - handbrake
+      - karabiner
+      - grandperspective
+      - slack
+      - unity
+      - googleappengine
+      - transmission
+      - android-file-transfer
+      - adobe-creative-cloud
+      - diskwave
+      - owasp-zap
+      - pgadmin3
+      - mactex
+      - realm-browser
 
   tasks:
      - name: unbound config file
