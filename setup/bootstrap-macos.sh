@@ -62,5 +62,5 @@ if [ ! -d ${HOME}/common ]; then
 fi
 
 if [ -d ${HOME}/common ]; then
-    ${HOME}/common/setup/setup-macos-dev.sh
+    ${HOME}/common/setup/setup-macos-common.sh
 fi

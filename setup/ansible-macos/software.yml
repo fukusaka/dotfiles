@@ -1,0 +1,128 @@
+- hosts: localhost
+  connection: local
+  become: no
+
+  roles:
+    - role: homebrew
+      tags: [ 'common' ]
+      homebrew_repositories:
+        - homebrew/binary
+        - homebrew/dupes
+        - homebrew/versions
+      homebrew_packages:
+        - ansible
+        - readline
+        - openssl
+        - bash-completion
+        - ctags
+        - curl
+        - d-bus
+        - git
+        - glib
+        - gnutls
+        - go
+        - graphviz
+        - icu4c
+        - imagemagick
+        - jq
+        - lha
+        - librsvg
+        - lv
+        - mailutils
+        - nginx
+        - nsd
+        - pidof
+        - pkg-config
+        - reattach-to-user-namespace
+        - tmux
+        - tree
+        - unbound
+        - unrar
+        - wget
+        - xz
+        - { name: emacs, install_options: with-cocoa,with-gnutls,with-ctags,with-librsvg }
+    - role: homebrew
+      tags: [ 'extra' ]
+      homebrew_packages:
+        - tofrodos
+        - nkf
+        - peco
+    - role: homebrew
+      tags: [ 'develop' ]
+      homebrew_packages:
+        - flow
+        - node
+        - nvm
+        - python
+        - redis
+        - sqlite
+        - shellcheck
+        - autoconf-archive
+        - automake
+        - cmake
+    - role: homebrew-cask
+      tags: [ 'common' ]
+      homebrew_cask_repositories:
+        - caskroom/versions
+      homebrew_cask_packages:
+        - firefox
+        - google-chrome
+        - sourcetree
+        - xquartz
+        - tower
+        - java6
+        - omnifocus
+        - omnioutliner
+        - omnigraffle
+        - omnipresence
+        - omniplan
+        - 1password
+        - microsoft-office
+        - appcleaner
+        - coda
+        - evernote
+        - sublime-text
+        - kindle
+        - dropbox
+        - google-drive
+        - karabiner
+        - grandperspective
+        - slack
+        - adobe-creative-cloud
+        - android-file-transfer
+        - diskwave
+    - role: homebrew-cask
+      tags: [ 'develop' ]
+      homebrew_cask_packages:
+         - sequel-pro
+         - mysqlworkbench
+         - sqlitestudio
+         - virtualbox
+         - docker
+         - kitematic
+         - vagrant
+         - vagrant-manager
+         - java7
+         - java
+         - appcode
+         - reveal
+         - android-studio
+         - intellij-idea
+         - datagrip
+         - cornerstone
+         - astah-professional
+         - googleappengine
+         - owasp-zap
+         - unity
+         - pgadmin3
+         - mactex
+         - realm-browser
+    - role: homebrew-cask
+      tags: [ 'extra' ]
+      homebrew_cask_packages:
+         - vmware-fusion
+         - apache-directory-studio
+         - skype
+         - rstudio
+         - handbrake
+         - transmission

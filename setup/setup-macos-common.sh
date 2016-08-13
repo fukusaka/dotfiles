@@ -8,4 +8,4 @@ fi
 cd ${HOME}/common/setup/ansible-macos
 
 echo "setup macOS package"
-ansible-playbook -i hosts software.yml -t develop
+ansible-playbook -i hosts software.yml -t common
