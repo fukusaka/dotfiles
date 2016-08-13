@@ -25,20 +25,20 @@
         - icu4c
         - imagemagick
         - jq
-        - lha
         - librsvg
         - lv
         - mailutils
         - nginx
-        - nsd
         - pidof
         - pkg-config
         - reattach-to-user-namespace
         - tmux
         - tree
         - unbound
-        - unrar
+        - nsd
         - wget
+        - unrar
+        - lha
         - xz
         - { name: emacs, install_options: with-cocoa,with-gnutls,with-ctags,with-librsvg }
     - role: homebrew
@@ -75,54 +75,59 @@
         - omnioutliner
         - omnigraffle
         - omnipresence
-        - omniplan
         - 1password
-        - microsoft-office
         - appcleaner
-        - coda
         - evernote
-        - sublime-text
         - kindle
         - dropbox
         - google-drive
         - karabiner
         - grandperspective
         - slack
-        - adobe-creative-cloud
         - android-file-transfer
         - diskwave
+        - logitech-control-center
     - role: homebrew-cask
       tags: [ 'develop' ]
       homebrew_cask_packages:
-         - sequel-pro
-         - mysqlworkbench
-         - sqlitestudio
-         - virtualbox
-         - docker
-         - kitematic
-         - vagrant
-         - vagrant-manager
-         - java7
-         - java
-         - appcode
-         - reveal
-         - android-studio
-         - intellij-idea
-         - datagrip
-         - cornerstone
-         - astah-professional
-         - googleappengine
-         - owasp-zap
-         - unity
-         - pgadmin3
-         - mactex
-         - realm-browser
+        - coda
+        - sublime-text
+        - sequel-pro
+        - mysqlworkbench
+        - sqlitestudio
+        - virtualbox
+        - docker
+        - kitematic
+        - vagrant
+        - vagrant-manager
+        - java7
+        - java
+        - appcode
+        - reveal
+        - android-studio
+        - intellij-idea
+        - datagrip
+        - cornerstone
+        - astah-professional
+        - googleappengine
+        - owasp-zap
+        - unity
+        - pgadmin3
+        - mactex
+        - realm-browser
     - role: homebrew-cask
       tags: [ 'extra' ]
       homebrew_cask_packages:
-         - vmware-fusion
-         - apache-directory-studio
-         - skype
-         - rstudio
-         - handbrake
-         - transmission
+        - adobe-creative-cloud
+        - microsoft-office
+        - omniplan
+        - vmware-fusion
+        - apache-directory-studio
+        - skype
+        - rstudio
+        - handbrake
+        - transmission
+
+# 手動でインストールを実施
+# caldigit thunderbolt station 2 のドライバ
+# HHK Pro のドライバ
