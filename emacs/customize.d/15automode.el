@@ -75,8 +75,6 @@
 (autoload 'tt-mode "tt-mode"
   "Template Toolkit mode." t)
 
-(require 'go-mode-load)
-
 ;;(load (concat my-emacs-conf-dir "nxhtml/autostart"))
 
 (autoload 'tt-html-mumamo-mode "mumamo-fun")
