@@ -38,9 +38,40 @@
        notify: restart nsd
      - name: setup nsd
        script: files/setup-nsd.sh
+     - block:
+       - name: add nginx grroup
+         become: yes
+         group: name=nginx system=yes state=present
 
-     - name: setup ngix
-       script: files/setup-nginx.sh
+       - name: add nginx user
+         become: yes
+         user: name=nginx group=nginx home=/var/empty createhome=no shell=/usr/bin/false comment="nginx Web Server"
+
+       - name: install nginx
+         homebrew: name=nginx
+
+       - name: nginx config file
+         copy: src=files/nginx/nginx.conf dest=/usr/local/etc/nginx/nginx.conf
+         notify: reload nginx
+
+       - file: path=/usr/local/var/run/nginx state=directory owner=nsd group=admin
+         become: yes
+
+       - file: path=/usr/local/etc/nginx/vhosts state=directory
+       - copy: src=files/nginx/vhosts/vhosts.conf dest=/usr/local/etc/nginx/vhosts/vhosts.conf.default
+       - command: cp /usr/local/etc/nginx/vhosts/vhosts.conf.default /usr/local/etc/nginx/vhosts/vhosts.conf creates=/usr/local/etc/nginx/vhosts/vhosts.conf
+         notify: reload nginx
+       - copy: src=files/nginx/vhosts/default.conf dest=/usr/local/etc/nginx/vhosts/default.conf
+         notify: reload nginx
+
+       - name: nginx launch config file
+         become: yes
+         copy: src=files/homebrew.mxcl.nginx.plist dest=/Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+         notify:
+           - unload nginx
+           - load nginx
+           - wait for nginx
+       tags: ['nginx']
 
   handlers:
    - name: unload unbound
@@ -55,3 +86,14 @@
    - name: restart nsd
      sudo: yes
      command: nsd-control reload
+   - name: unload nginx
+     become: yes
+     command: launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+   - name: load nginx
+     become: yes
+     command: launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+   - name: wait for nginx
+     wait_for: host=127.0.0.1 port=80 state=started delay=5
+   - name: reload nginx
+     become: yes
+     command: nginx -s reload
