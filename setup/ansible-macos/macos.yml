@@ -3,11 +3,32 @@
   become: no
 
   tasks:
-     - name: unbound config file
-       copy: src=files/unbound-real.conf dest=/usr/local/etc/unbound/unbound.conf
-       notify: restart unbound
-     - name: setup unbound
-       script: files/setup-unbound.sh
+     - block:
+       - name: add unbound grroup
+         become: yes
+         group: name=unbound system=yes state=present
+
+       - name: add unbound user
+         become: yes
+         user: name=unbound group=unbound home=/var/empty createhome=no shell=/usr/bin/false comment="Unbound Server"
+
+       - name: install unbound
+         homebrew: name=unbound
+
+       - name: unbound config file
+         copy: src=files/unbound-real.conf dest=/usr/local/etc/unbound/unbound.conf
+         notify: reload unbound
+
+       - name: create unbound control key
+         command: unbound-control-setup creates=/usr/local/etc/unbound/unbound_control.key
+
+       - name: unbound launch config file
+         become: yes
+         copy: src=files/homebrew.mxcl.unbound.plist dest=/Library/LaunchDaemons/homebrew.mxcl.unbound.plist
+         notify:
+           - unload unbound
+           - load unbound
+       tags: ['unbound']
 
      - name: nsd config file
        copy: src=files/nsd-real.conf dest=/usr/local/etc/nsd/nsd-real.conf
@@ -22,8 +43,14 @@
        script: files/setup-nginx.sh
 
   handlers:
-   - name: restart unbound
-     sudo: yes
+   - name: unload unbound
+     become: yes
+     command: launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.unbound.plist
+   - name: load unbound
+     become: yes
+     command: launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.unbound.plist
+   - name: reload unbound
+     become: yes
      command: unbound-control reload
    - name: restart nsd
      sudo: yes
