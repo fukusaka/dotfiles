@@ -15,6 +15,7 @@
         - ctags
         - curl
         - d-bus
+        - doxygen
         - git
         - glib
         - gnutls
@@ -47,6 +48,7 @@
         - tofrodos
         - nkf
         - peco
+        - hugo
     - role: homebrew
       tags: [ 'develop' ]
       homebrew_packages:
@@ -123,7 +125,9 @@
         - datagrip
         - grandperspective
         - intellij-idea
+        - ksdiff
         - microsoft-office
+        - lingon-x
         - omnifocus
         - omnigraffle
         - omnioutliner
