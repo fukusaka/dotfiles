@@ -24,9 +24,9 @@
 (package-install 'auto-complete)
 (package-install 'sr-speedbar)
 (package-install 'yasnippet-bundle)
-(package-install 'popwin)
+(package-install 'popwin) ;; use version 20150315.600
 (package-install 'ahg)
-(package-install 'moccur-edit)
+;;(package-install 'moccur-edit)
 (package-install 'magit)
 (package-install 'htmlize)
 (package-install 'muse)

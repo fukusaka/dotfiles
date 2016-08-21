@@ -211,6 +211,9 @@
   ;;(let ((default-directory my-elisp-dir))
   ;;  (my-compile-directory "."))
 
+  ;; package の読み込み
+  (load-when-eval-safe (concat my-emacs-conf-dir "package.el"))
+
   ;; カスタマイズ設定の読み出し
   (my-customize-load my-customize-dir my-customize-bundle)
 
