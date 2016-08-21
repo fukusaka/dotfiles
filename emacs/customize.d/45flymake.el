@@ -1,9 +1,5 @@
 ;; -*- coding: utf-8 -*-
 
-
-;; use https://github.com/illusori/emacs-flymake
-(load-when-eval-safe (concat my-compiled-elisp-dir "flymake.elc"))
-
 (if (and (not (featurep 'flymake))
          (locate-library "flymake"))
     (require 'flymake))
