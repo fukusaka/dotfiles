@@ -30,14 +30,33 @@
            - load unbound
        tags: ['unbound']
 
-     - name: nsd config file
-       copy: src=files/nsd-real.conf dest=/usr/local/etc/nsd/nsd-real.conf
-       notify: restart nsd
-     - name: nsd launch plist
-       copy: src=files/homebrew.mxcl.nsd.plist dest=/usr/local/etc/nsd/homebrew.mxcl.nsd.plist
-       notify: restart nsd
-     - name: setup nsd
-       script: files/setup-nsd.sh
+     - block:
+       - name: add nsd group
+         become: yes
+         group: name=nsd system=yes state=present
+
+       - name: add nsd user
+         become: yes
+         user: name=nsd group=nsd home=/var/empty createhome=no shell=/usr/bin/false comment="NSD Server"
+
+       - name: install nsd
+         homebrew: name=nsd
+
+       - name: nsd config file
+         copy: src=files/nsd-real.conf dest=/usr/local/etc/nsd/nsd.conf
+         notify: reload nsd
+
+       - name: create nsd control key
+         command: nsd-control-setup creates=/usr/local/etc/nsd/nsd_control.key
+
+       - name: nsd launch config file
+         become: yes
+         copy: src=files/homebrew.mxcl.nsd.plist dest=/Library/LaunchDaemons/homebrew.mxcl.nsd.plist
+         notify:
+           - unload nsd
+           - load nsd
+       tags: ['nsd']
+
      - block:
        - name: add nginx grroup
          become: yes
@@ -83,8 +102,14 @@
    - name: reload unbound
      become: yes
      command: unbound-control reload
-   - name: restart nsd
-     sudo: yes
+   - name: unload nsd
+     become: yes
+     command: launchctl unload -w /Library/LaunchDaemons/homebrew.mxcl.nsd.plist
+   - name: load nsd
+     become: yes
+     command: launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.nsd.plist
+   - name: reload nsd
+     become: yes
      command: nsd-control reload
    - name: unload nginx
      become: yes
