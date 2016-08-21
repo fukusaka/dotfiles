@@ -17,6 +17,8 @@
         - d-bus
         - doxygen
         - git
+        - git-flow
+        - git-lfs
         - glib
         - gnutls
         - go
