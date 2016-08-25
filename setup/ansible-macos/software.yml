@@ -76,7 +76,6 @@
         - firefox
         - google-chrome
         - google-drive
-        - gpgtools
         - java6
         - karabiner
         - kindle
@@ -125,11 +124,12 @@
         - coda
         - cornerstone
         - datagrip
+        - gpgtools
         - grandperspective
         - intellij-idea
         - ksdiff
-        - microsoft-office
         - lingon-x
+        - microsoft-office
         - omnifocus
         - omnigraffle
         - omnioutliner
