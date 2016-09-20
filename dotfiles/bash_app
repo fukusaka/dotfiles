@@ -94,7 +94,7 @@ export COMPOSER_HOME=${HOME}/common/composer
 PATH=${PATH}:${COMPOSER_HOME}/vendor/bin
 
 # for GO
-export GOPATH=/opt/gocode
+export GOPATH=/sdk/gocode
 #export GOROOT=/usr/local/go
 
 # for NodeJS
