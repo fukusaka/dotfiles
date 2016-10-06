@@ -23,15 +23,9 @@
 
 (setq svn-status-hide-unmodified t)
 
-;; for Git / git-coreのcontribにある
-(when (locate-library "git")
-  (autoload 'git-status "git" nil t)
-  (autoload 'git-blame-mode "git-blame" nil t))
-
 ;; for MaGit
 (when (locate-library "magit")
   (autoload 'magit-status "magit" nil t))
-
 
 ;; for Subversion
 ;; サーバ内部ではログメッセージの文字コードはUTF-8になってる。
