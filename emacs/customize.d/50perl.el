@@ -3,6 +3,10 @@
 
 (setq-default perl5-command "perl")
 
+;; PERL5LIB のパスリスト
+(defvar perl5lib-list nil)
+
+
 (defun my-cperl-mode-init ()
 
   ;; PerlStyle (perldoc perlstyle ベースの設定)
@@ -89,9 +93,6 @@
   (car
    (let ((cperl-message-on-help-error nil))
      (cperl-get-help))))
-
-;; PERL5LIB のパスリスト
-(setq perl5lib-list nil)
 
 ;; 下記条件で perl5 の検索パスを探します
 ;;
