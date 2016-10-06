@@ -5,8 +5,6 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 
-(package-initialize)
-
 (package-install 'apache-mode)
 (package-install 'applescript-mode)
 (package-install 'go-mode)
