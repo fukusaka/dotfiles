@@ -64,6 +64,21 @@
         - redis
         - shellcheck
         - sqlite
+        - postgresql
+        - tinycdb
+        - rbenv
+        - nsd
+        - pandoc
+        - pandoc-crossref
+        - wakeonlan
+    - role: homebrew
+      tags: [ 'develop-extra' ]
+      homebrew_packages:
+        - boost
+        - libxml2
+        - gtk+
+        - gtkmm
+        - ucommon
     - role: homebrew-cask
       tags: [ 'common' ]
       homebrew_cask_repositories:
