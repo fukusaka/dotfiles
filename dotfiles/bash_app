@@ -1,3 +1,4 @@
+#!/bin/bash
 # -*-shell-script-*-
 
 # エイリアスを手動作成コマンド
@@ -95,6 +96,7 @@ PATH=${PATH}:${COMPOSER_HOME}/vendor/bin
 
 # for GO
 export GOPATH=/sdk/gocode
+PATH=${PATH}:${GOPATH}/bin
 #export GOROOT=/usr/local/go
 
 # for NodeJS
