@@ -28,11 +28,11 @@
         (forward-line lineno)
         )))
 
-(add-hook 'texinfo-mode-hook
-          (function (lambda ()
-                      (define-key texinfo-mode-map "\C-c\C-v"
-                        'texinfo-preview-buffer)
-           )))
+;;(add-hook 'texinfo-mode-hook
+;;          (function (lambda ()
+;;                      (define-key texinfo-mode-map "\C-c\C-v"
+;;                        'texinfo-preview-buffer)
+;;           )))
 
 (defun texinfo-preview-buffer ()
   (interactive)

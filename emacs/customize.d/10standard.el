@@ -2,7 +2,7 @@
 ;; 標準設定
 ;;
 
-(eval-when-compile (require 'cl))
+(require 'cl-lib)
 
 ;; 操作/表示の細かい設定
 (setq inhibit-startup-message nil)      ;; オープニングは大事
@@ -22,7 +22,7 @@
 
 ;; Beep 音を鳴らさない
 ;;(setq visible-bell t)
-(setq ring-bell-function '(lambda ()))
+(setq ring-bell-function (lambda ()))
 ;; ~/.xsession -->  xset b off
 
 ;; 端末ではメニューバーを消す
@@ -78,7 +78,7 @@
 (defun my-process-kill-without-query ()
   (let ((process (get-buffer-process (current-buffer))))
     (if process
-        (process-kill-without-query process))))
+        (set-process-query-on-exit-flag process nil))))
 
 (add-hook 'shell-mode-hook 'my-process-kill-without-query)
 
@@ -101,12 +101,12 @@
 
 ;; 現在関数表示モード
 (require 'which-func)
-(which-func-mode t)
+(which-function-mode t)
 (add-to-list 'which-func-modes 'java-mode)
 (add-to-list 'which-func-modes 'javascript-mode)
 
-;; Iswitchb モード
-(iswitchb-mode 1)
+;; Icomplete-mode モード
+(icomplete-mode 1)
 
 
 ;; 編集バックアップは一カ所に集める
@@ -126,11 +126,11 @@
   (interactive)
   (let* ((now (current-time))
          (files (directory-files my-backup-dir t "\\`[^\\.]"))
-         (older (remove-if-not
-                 '(lambda (e)
-                    (>= (let ((mtime (nth 5 (file-attributes e))))
-                          (- (first now) (first mtime)))
-                        (* 30 24 60 60)))
+         (older (cl-remove-if-not
+                 (lambda (e)
+                   (>= (let ((mtime (nth 5 (file-attributes e))))
+                         (- (first now) (first mtime)))
+                       (* 30 24 60 60)))
                  files)))
     (mapc 'delete-file older)))
 

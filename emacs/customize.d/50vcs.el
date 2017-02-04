@@ -3,25 +3,25 @@
 ;;
 
 ;; VCは自動的にリンクを辿って、かわりに本当のファイルを訪問
-(setq vc-follow-symlinks t)
+(defvar vc-follow-symlinks t)
 
 ;; VC-DIR を PCL-CVS -status に近づける
 (when (>= emacs-major-version 23)
 
   (add-hook 'vc-dir-mode-hook
-            '(lambda ()
-               (define-key vc-dir-mode-map "a" 'vc-register)
-               (define-key vc-dir-mode-map "c" 'vc-next-action)
-               )))
+            (lambda ()
+              (define-key vc-dir-mode-map "a" 'vc-register)
+              (define-key vc-dir-mode-map "c" 'vc-next-action)
+              )))
 
 ;; for CVS
-(setq cvs-diff-flags '("-u"))
+(defvar cvs-diff-flags '("-u"))
 
 ;; for Subversion
 (when (locate-library "psvn")
   (autoload 'svn-status "psvn" nil t))
 
-(setq svn-status-hide-unmodified t)
+(defvar svn-status-hide-unmodified t)
 
 ;; for MaGit
 (when (locate-library "magit")
@@ -37,15 +37,15 @@
   (cond
 
    ;; SJISロケール
-   ((not my-prefer-utf8-for-cygwin)
+   ((and (boundp 'my-prefer-utf8-for-cygwin) (not my-prefer-utf8-for-cygwin))
 
     ;; vc-svn.el用
-    (setq vc-svn-checkin-switches '("--encoding" "Shift_JIS"))
+    (defvar vc-svn-checkin-switches '("--encoding" "Shift_JIS"))
 
     ;; psvn.el 用
-    (setq svn-status-default-commit-arguments '("--encoding" "SJIS"))
-    (setq svn-status-svn-process-coding-system 'shift_jis)
-    (setq svn-status-svn-file-coding-system 'shift_jis)
+    (defvar svn-status-default-commit-arguments '("--encoding" "SJIS"))
+    (defvar svn-status-svn-process-coding-system 'shift_jis)
+    (defvar svn-status-svn-file-coding-system 'shift_jis)
     )
 
    ;; UTF8
@@ -67,8 +67,8 @@
     ;;
 
     ;; psvn.el 用
-    (setq svn-status-svn-process-coding-system 'utf-8)
-    (setq svn-status-svn-file-coding-system 'utf-8)
+    (defvar svn-status-svn-process-coding-system 'utf-8)
+    (defvar svn-status-svn-file-coding-system 'utf-8)
     )
    )
 

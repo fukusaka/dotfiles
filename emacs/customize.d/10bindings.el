@@ -123,9 +123,7 @@
 (defun scratch ()
   (interactive)
   (unless (get-buffer scratch-buffer-name)
-    (get-buffer-create scratch-buffer-name)
-    (save-excursion
-      (set-buffer scratch-buffer-name)
+    (with-current-buffer (get-buffer-create scratch-buffer-name)
       (if (eq major-mode 'fundamental-mode)
           (funcall initial-major-mode))
       (and initial-scratch-message

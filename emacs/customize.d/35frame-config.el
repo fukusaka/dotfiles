@@ -12,6 +12,8 @@
   (setq my-desktop-center-x 1)
   (setq my-desktop-center-y 1)
 
+  (declare-function my-make-frame-at "30make-frame")
+
   ;; 複数フレーム開く方法 1
   (defun my-real-make-frame-1 ()
     (my-make-frame-at -1 0)
@@ -65,9 +67,10 @@
     (add-to-assoc-list 'initial-frame-alist '(height . 51))
 
     (defun my-real-make-frame-1 () )
+
     (defun my-real-make-frame-2 ()
-      (my-make-frame-at  0 0 712 0)
-      )
+      (my-make-frame-at  0 0 712 0))
+
     )
 
    ;; MacOSX
@@ -111,9 +114,10 @@
 
     ;; 作業用の Safari を開く
     (define-key my-prefix-5-map "w" 'my-make-safari-window)
-    (defun my-make-safari-window ()
-      (interactive)
-      (shell-command "make-safari-window-for-develop.applescript"))
+    (eval-and-compile
+      (defun my-make-safari-window ()
+        (interactive)
+        (shell-command "make-safari-window-for-develop.applescript")))
 
     ;; 複数フレーム開く方法 1
     (defun my-real-make-frame-1 ()

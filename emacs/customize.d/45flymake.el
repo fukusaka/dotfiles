@@ -56,11 +56,11 @@
   ;; 警告エラー行の表示
   ;;(global-set-key "\C-cx" 'flymake-display-err-menu-for-current-line)
   (global-set-key "\C-cx"
-                  '(lambda ()
-                     (interactive)
-                     ;;(my-flymake-display-err-minibuf-for-current-line)
-                     (my-flymake-display-err-popup.el-for-current-line)
-                     ))
+                  (lambda ()
+                    (interactive)
+                    ;;(my-flymake-display-err-minibuf-for-current-line)
+                    (my-flymake-display-err-popup.el-for-current-line)
+                    ))
 
   ;; Minibuf に出力
   (defun my-flymake-display-err-minibuf-for-current-line ()
@@ -84,7 +84,7 @@
            (line-err-info-list  (nth 0 (flymake-find-err-info flymake-err-info line-no)))
            (menu-data           (flymake-make-err-menu-data line-no line-err-info-list)))
       (if menu-data
-          (popup-tip (mapconcat '(lambda (e) (nth 0 e))
+          (popup-tip (mapconcat (lambda (e) (nth 0 e))
                                 (nth 1 menu-data)
                                 "\n")))
       ))

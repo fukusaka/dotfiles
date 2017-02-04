@@ -6,13 +6,13 @@
 
 ;; 保存時に無駄なスペースを削除/タイムスタンプ更新
 (add-hook 'before-save-hook
-          '(lambda ()
-             ;; 他人のソースでは修正を行なわない!
-             (unless my-others-source-code
-               (delete-trailing-whitespace)
-               (unless (string-match "skel" (buffer-file-name))
-                   (time-stamp))
-               )))
+          (lambda ()
+            ;; 他人のソースでは修正を行なわない!
+            (unless my-others-source-code
+              (delete-trailing-whitespace)
+              (unless (string-match "skel" (buffer-file-name))
+                (time-stamp))
+              )))
 
 ;; time-stamp の書式
 (setq time-stamp-pattern "8/\\(Time-stamp\\|Last Modified\\):[ \t]+\\\\?[\"<]+%:y/%02m/%02d %02H:%02M:%02S\\\\?[\">]")
@@ -52,7 +52,7 @@
   (if (string-match "/usr/src/linux.*/.*\\.[ch]$" (or (buffer-file-name) ""))
       (c-set-style "linux"))
 
-  (setq c-basic-offset 4)
+  (setq-default c-basic-offset 4)
   (c-set-offset 'inextern-lang 0) ;; extern "??" {} 中でインデントしない
   (c-set-offset 'innamespace 0)   ;; namspace {} 中でインデントしない
   )
@@ -112,4 +112,3 @@
   ;;(setq ac-auto-show-menu 2)
   ;;(setq ac-dwim t)
   )
-

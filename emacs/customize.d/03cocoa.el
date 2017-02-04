@@ -36,8 +36,8 @@
 
   (define-key global-map [ns-drag-file] 'ns-find-file)
 
-  (setq x-select-enable-clipboard nil)
-  (setq x-select-eable-primary t)
+  (setq select-enable-clipboard nil)
+  (setq select-enable-primary t)
   (setq select-active-regions nil)
 
   (defun copy-from-osx ()

@@ -33,7 +33,7 @@
     frame)
 
   ;; use wmctrl
-  (when (executable-find "wmctrl")
+  (when (and (executable-find "wmctrl") (fboundp 'x-window-property))
     (defun my-move-frame-wmctrl (frame x y &optional abs)
       (let* ((wid (string-to-number (frame-parameter (or frame (selected-frame)) 'outer-window-id)))
              (max-desk (x-window-property "_NET_NUMBER_OF_DESKTOPS" nil "CARDINAL" 0 nil t))
@@ -69,7 +69,7 @@
     ))
 
  ;; For Cocoa Emacs / CGS対応改造版
- ((and (eq window-system 'ns) (fboundp 'set-frame-ns-workspace))
+ ((and (eq window-system 'ns) (fboundp 'set-frame-ns-workspace) (fboundp 'frame-ns-workspace))
   (defun my-move-frame (frame x y &optional abs)
     (let ((max-cols (string-to-number
                      (shell-command-to-string
@@ -79,7 +79,7 @@
                       "defaults read com.apple.dock workspaces-rows"))))
       ;; 現在位置からの相対
       (unless abs
-        (let* ((now-desk (1- (string-to-int (frame-ns-workspace))))
+        (let* ((now-desk (1- (string-to-number (frame-ns-workspace))))
                (now-x (/ now-desk max-rows))
                (now-y (- now-desk (* now-x max-rows))))
           (setq x (+ now-x x))
@@ -102,23 +102,24 @@
 
   (defvar my-make-frame-list nil)
 
-  (defun my-clone-frame (&optional x y)
-    (let* ((fpar (frame-parameters))
-           (left (cdr (assoc 'left fpar)))
-           (top  (cdr (assoc 'top fpar)))
-           (height (cdr (assoc 'height fpar)))
-           (width  (cdr (assoc 'width fpar)))
-           (font (cdr (assoc 'font fpar)))
-           frame)
-      (if x (setq left (+ left x)))
-      (if y (setq top (+ top y)))
-      (setq frame (make-frame `((height . ,height) (width . ,width)
-                                (top . ,top) (left . ,left) (font . ,font))))
-      (if (eq window-system 'ns)
-          (set-frame-height frame height))
-      (push frame my-make-frame-list)
-      frame
-      ))
+  (eval-and-compile
+    (defun my-clone-frame (&optional x y)
+      (let* ((fpar (frame-parameters))
+             (left (cdr (assoc 'left fpar)))
+             (top  (cdr (assoc 'top fpar)))
+             (height (cdr (assoc 'height fpar)))
+             (width  (cdr (assoc 'width fpar)))
+             (font (cdr (assoc 'font fpar)))
+             frame)
+        (if x (setq left (+ left x)))
+        (if y (setq top (+ top y)))
+        (setq frame (make-frame `((height . ,height) (width . ,width)
+                                  (top . ,top) (left . ,left) (font . ,font))))
+        (if (eq window-system 'ns)
+            (set-frame-height frame height))
+        (push frame my-make-frame-list)
+        frame
+        )))
 
   (defun my-delete-frames ()
     (interactive)

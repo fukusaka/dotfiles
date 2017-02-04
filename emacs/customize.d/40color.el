@@ -25,9 +25,9 @@
   (setq-default show-trailing-whitespace t)
 
   ;; タブと改行と全角空白の色付け
-  (defface my-face-b-1 '((t (:background "gray80"))) nil)
-  (defface my-face-b-2 '((t (:background "gray90"))) nil)
-  (defface my-face-u-1 '((t (:foreground "SteelBlue" :underline t))) nil)
+  (defface my-face-b-1 '((t (:background "gray80"))) nil :group 'font-lock-highlighting-faces)
+  (defface my-face-b-2 '((t (:background "gray90"))) nil :group 'font-lock-highlighting-faces)
+  (defface my-face-u-1 '((t (:foreground "SteelBlue" :underline t))) nil :group 'font-lock-highlighting-faces)
   (defvar my-face-b-1 'my-face-b-1)
   (defvar my-face-b-2 'my-face-b-2)
   (defvar my-face-u-1 'my-face-u-1)

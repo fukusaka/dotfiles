@@ -13,7 +13,8 @@
   (cond
    ;; Ver.21 以前
    ((<= emacs-major-version 21)
-    (set-default-font "fontset-standard"))
+    (with-no-warnings
+      (set-default-font "fontset-standard")))
 
    ;; X / emacs22
    ((and (eq window-system 'x)
@@ -29,8 +30,9 @@
    ;; CarbonEmacs
    ((eq window-system 'mac)
     (require 'carbon-font)
-    (setq mac-allow-anti-aliasing t)
-    (fixed-width-set-fontset "hirakaku_w3" 12))
+    (defvar mac-allow-anti-aliasing t)
+    (if (fboundp 'fixed-width-set-fontset)
+        (fixed-width-set-fontset "hirakaku_w3" 12)))
 
    ;; Emacs 23 以上
    ((>= emacs-major-version 23)
@@ -88,7 +90,7 @@
        ;; NTEmacs
        ((eq window-system 'w32)
         (setq scalable-fonts-allowed t)
-        (setq w32-enable-synthesized-fonts t)
+        (defvar w32-enable-synthesized-fonts t)
         (setq my-font-height 100)
         ;;(setq my-font "ＭＳ ゴシック")
         ;;(setq my-font "VL ゴシック")

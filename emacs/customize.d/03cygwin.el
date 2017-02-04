@@ -2,6 +2,8 @@
 ;; Windows系でCygwin対応コード
 ;;
 
+(require 'cl-lib)
+
 (when (memq system-type '(cygwin windows-nt))
 
   ;; cygwin のパスを確認する
@@ -17,7 +19,7 @@
               (remove cygwin-bin-directory exec-path)))
 
   (let ((path (split-string (getenv "PATH") path-separator)))
-    (setq path (remove-if '(lambda (e) (string-equal "C:\\App\\cygwin\\bin" e))
+    (setq path (cl-remove-if (lambda (e) (string-equal "C:\\App\\cygwin\\bin" e))
                           path))
     (add-to-list 'path cygwin-bin-directory)
     (setenv "PATH" (mapconcat 'identity path path-separator)))
@@ -38,7 +40,7 @@
          (version
           (if (and text
                    (string-match "\\([0-9.]+\\)(\\([0-9.]+\\)/\\([0-9.]+\\)/\\([0-9.]+\\))" text))
-              (mapcar '(lambda (c) (match-string c text)) '(1 2 3 4)))))
+              (mapcar (lambda (c) (match-string c text)) '(1 2 3 4)))))
     (when version
       (setq cygwin-version (nth-value 0 version))
       (setq cygwin-api-version (nth-value 1 version))
@@ -56,23 +58,24 @@
         (setq cygwin-api-minor-version (string-to-number (nth-value 1 vers))))
       ))
 
-  (defun setenv-cygwin (value)
-    (let* ((func '(lambda (val)
-                    (string-match "\\(no\\)?\\([^:]*\\)\\(:.*\\)?" val)
-                    (match-string 2 val)))
-           (env (getenv "CYGWIN"))
-           (envs (if env (split-string env " ")))
-           replaced)
-      (setq envs
-            (mapcar '(lambda (val)
-                       (if (not (string=
-                                 (funcall func val)
-                                 (funcall func value)))
-                           val
-                         (setq replaced t) value))
-                    envs))
-      (unless replaced (setq envs (append envs `(,value))))
-      (setenv "CYGWIN" (mapconcat 'identity envs " "))))
+  (eval-and-compile
+    (defun setenv-cygwin (value)
+      (let* ((func (lambda (val)
+                     (string-match "\\(no\\)?\\([^:]*\\)\\(:.*\\)?" val)
+                     (match-string 2 val)))
+             (env (getenv "CYGWIN"))
+             (envs (if env (split-string env " ")))
+             replaced)
+        (setq envs
+              (mapcar (lambda (val)
+                        (if (not (string=
+                                  (funcall func val)
+                                  (funcall func value)))
+                            val
+                          (setq replaced t) value))
+                      envs))
+        (unless replaced (setq envs (append envs `(,value))))
+        (setenv "CYGWIN" (mapconcat 'identity envs " ")))))
 
   ;; 環境CYGWINの設定
   (setenv-cygwin "nodosfilewarning")
@@ -80,7 +83,8 @@
 
   ;; cygwin-mount.el
   (when (locate-library "cygwin-mount")
-    (require 'cygwin-mount)
+    ;;(require 'cygwin-mount)
+    (declare-function cygwin-mount-activate "cygwin-mount" nil)
     (cygwin-mount-activate))
 
   ;; Shell としてCygwinのBashを使う
@@ -94,7 +98,7 @@
    (expand-file-name (concat cygwin-top-directory "usr/share/info")) t)
 
   ;; cygwin-1.7のman(groff)は日本語が使えない。。。
-  (setq manual-program "LANG=C man")
+  (defvar manual-program "LANG=C man")
 
   ;; Prevent issues with the Windows null device (NUL)
   ;; when using cygwin find with rgrep.
