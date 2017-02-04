@@ -4,7 +4,7 @@
 
   tasks:
      - block:
-       - name: add unbound grroup
+       - name: add unbound group
          become: yes
          group: name=unbound system=yes state=present
 

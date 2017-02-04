@@ -43,7 +43,12 @@
         - unrar
         - wget
         - xz
-        - { name: emacs, install_options: with-cocoa,with-gnutls,with-ctags,with-librsvg }
+        - name: emacs
+          install_options:
+           - with-cocoa
+           - with-gnutls
+           - with-librsvg
+           - with-imagemagick
     - role: homebrew
       tags: [ 'extra' ]
       homebrew_packages:
@@ -95,6 +100,7 @@
         - keepingyouawake
         - kindle
         - logitech-control-center
+        - logitech-options
         - slack
         - sourcetree
         - xquartz
@@ -104,7 +110,7 @@
         - android-studio
         - docker
         - googleappengine
-        - intellij-idea-ce
+        - jetbrains-toolbox
         - java
         - java7
         - kitematic
@@ -124,23 +130,18 @@
       tags: [ 'extra' ]
       homebrew_cask_packages:
         - apache-directory-studio
-        - handbrake
         - mactex
         - rstudio
-        - skype
     - role: homebrew-cask
       tags: [ 'personal' ]
       homebrew_cask_packages:
         - 1password
         - adobe-creative-cloud
-        - appcode
         - astah-professional
         - coda
         - cornerstone
-        - datagrip
         - gpgtools
         - grandperspective
-        - intellij-idea
         - ksdiff
         - lingon-x
         - microsoft-office
