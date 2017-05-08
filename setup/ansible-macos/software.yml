@@ -101,9 +101,9 @@
         - kindle
         - logitech-control-center
         - logitech-options
-        - slack
         - sourcetree
         - xquartz
+        - qlmarkdown
     - role: homebrew-cask
       tags: [ 'develop' ]
       homebrew_cask_packages:
@@ -151,10 +151,54 @@
         - omniplan
         - omnipresence
         - reveal
+        - slack
         - sublime-text
         - tower
         - transmission
         - vmware-fusion
+    - role: kadaan.atom-packages
+      tags: [ 'atom' ]
+      atom_packages_packages:
+        - atom-beautify
+        - atom-html-preview
+        - atom-ternjs
+        - autocomplete-paths
+        - build
+        - busy
+        - busy-signal
+        - color-picker
+        - docblockr
+        - editorconfig
+        - file-icons
+        - flex-tool-bar
+        - goto-definition
+        - intentions
+        - language-latex
+        - latex
+        - linter
+        - linter-htmlhint
+        - linter-php
+        - linter-phpcs
+        - linter-phpmd
+        - linter-ui-default
+        - markdown-scroll-sync
+        - markdown-writer
+        - minimap
+        - minimap-pigments
+        - pigments
+        - project-manager
+        - regex-railroad-diagram
+        - script
+        - sort-lines
+        - tabs-to-spaces
+        - tag
+        - term3
+        - tool-bar
+        - tool-bar-almighty
+        - tool-bar-atom
+        - tool-bar-main
+        - tool-bar-markdown-writer
+        - tool-bar-shortcuts
 
 # 手動でインストールを実施
 # caldigit thunderbolt station 2 のドライバ
