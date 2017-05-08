@@ -62,5 +62,10 @@ if [ ! -d ${HOME}/common ]; then
 fi
 
 if [ -d ${HOME}/common ]; then
+
+    if [ ! -d ${HOME}/common/setup/ansible-macos/roles/kadaan.atom-packages ]; then
+            ansible-galaxy install --roles-path=roles kadaan.atom-packages
+    fi
+
     ${HOME}/common/setup/setup-macos-common.sh
 fi

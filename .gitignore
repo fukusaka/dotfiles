@@ -39,4 +39,5 @@
 /setup/ansible-macos/*.retry
 /setup/ansible-macos/brew_info/*
 /setup/ansible-macos/cask_info/*
+/setup/ansible-macos/roles/kadaan.atom-packages
 !.gitkeep
