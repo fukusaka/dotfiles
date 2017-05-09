@@ -157,7 +157,7 @@
         - transmission
         - vmware-fusion
     - role: kadaan.atom-packages
-      tags: [ 'atom' ]
+      tags: [ 'atom', 'common' ]
       atom_packages_packages:
         - atom-beautify
         - atom-html-preview
