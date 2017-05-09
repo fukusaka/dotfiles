@@ -3,6 +3,7 @@
         "friendsofphp/php-cs-fixer": "@stable",
         "squizlabs/php_codesniffer": "*",
         "phpdocumentor/phpdocumentor": "2.*",
-        "phpmd/phpmd": "~2.4"
+        "phpmd/phpmd": "~2.4",
+        "phpdocumentor/fileset": "^1.0"
     }
 }
