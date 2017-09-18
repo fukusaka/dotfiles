@@ -94,28 +94,28 @@
         - atom
         - dropbox
         - firefox
+        - google-backup-and-sync
         - google-chrome
-        - google-drive
         - java6
         - keepingyouawake
         - kindle
         - logitech-control-center
         - logitech-options
+        - qlmarkdown
+        - slack
         - sourcetree
         - xquartz
-        - qlmarkdown
     - role: homebrew-cask
       tags: [ 'develop' ]
       homebrew_cask_packages:
         - android-studio
         - docker
+        - google-cloud-sdk
         - googleappengine
-        - jetbrains-toolbox
         - java
-        - java7
+        - jetbrains-toolbox
         - kitematic
         - mysqlworkbench
-        - owasp-zap
         - pgadmin3
         - realm-browser
         - sequel-pro
@@ -149,9 +149,7 @@
         - omnigraffle
         - omnioutliner
         - omniplan
-        - omnipresence
         - reveal
-        - slack
         - sublime-text
         - tower
         - transmission
@@ -170,7 +168,8 @@
         - docblockr
         - editorconfig
         - file-icons
-        - flex-tool-bar
+        - git-plus
+        - git-status
         - goto-definition
         - intentions
         - language-latex
@@ -185,6 +184,7 @@
         - markdown-writer
         - minimap
         - minimap-pigments
+        - multi-cursor
         - pigments
         - project-manager
         - regex-railroad-diagram
@@ -192,13 +192,12 @@
         - sort-lines
         - tabs-to-spaces
         - tag
-        - term3
         - tool-bar
         - tool-bar-almighty
         - tool-bar-atom
-        - tool-bar-main
         - tool-bar-markdown-writer
         - tool-bar-shortcuts
+        - tree-view-git-status
 
 # 手動でインストールを実施
 # caldigit thunderbolt station 2 のドライバ
