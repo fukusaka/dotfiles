@@ -160,7 +160,6 @@
         - atom-beautify
         - atom-html-preview
         - atom-ternjs
-        - autocomplete-paths
         - busy
         - busy-signal
         - color-picker
