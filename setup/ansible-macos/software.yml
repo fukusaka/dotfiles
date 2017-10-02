@@ -161,7 +161,6 @@
         - atom-html-preview
         - atom-ternjs
         - autocomplete-paths
-        - build
         - busy
         - busy-signal
         - color-picker
@@ -187,8 +186,6 @@
         - multi-cursor
         - pigments
         - project-manager
-        - regex-railroad-diagram
-        - script
         - sort-lines
         - tabs-to-spaces
         - tag
@@ -197,7 +194,6 @@
         - tool-bar-atom
         - tool-bar-markdown-writer
         - tool-bar-shortcuts
-        - tree-view-git-status
 
 # 手動でインストールを実施
 # caldigit thunderbolt station 2 のドライバ
