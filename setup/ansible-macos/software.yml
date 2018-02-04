@@ -9,6 +9,7 @@
         - homebrew/binary
         - homebrew/dupes
         - homebrew/versions
+        - buo/cask-upgrade
       homebrew_packages:
         - ansible
         - bash-completion
@@ -162,11 +163,8 @@
         - atom-ternjs
         - busy
         - busy-signal
-        - color-picker
-        - docblockr
         - editorconfig
         - file-icons
-        - git-plus
         - git-status
         - goto-definition
         - intentions
@@ -178,10 +176,7 @@
         - linter-phpcs
         - linter-phpmd
         - linter-ui-default
-        - markdown-scroll-sync
         - markdown-writer
-        - minimap
-        - minimap-pigments
         - multi-cursor
         - pigments
         - project-manager
@@ -189,10 +184,8 @@
         - tabs-to-spaces
         - tag
         - tool-bar
-        - tool-bar-almighty
         - tool-bar-atom
         - tool-bar-markdown-writer
-        - tool-bar-shortcuts
 
 # 手動でインストールを実施
 # caldigit thunderbolt station 2 のドライバ
