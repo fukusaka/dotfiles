@@ -1,0 +1,53 @@
+divert(2)dnl -*-m4-*-
+dnl
+dnl Default
+dnl
+
+Host *
+  Port 22
+  Protocol 2
+  ForwardAgent yes
+  ForwardX11 yes
+  PasswordAuthentication yes
+  PubkeyAuthentication yes
+  GSSAPIAuthentication no
+  GSSAPIDelegateCredentials no
+  PreferredAuthentications publickey,password
+  CheckHostIP no
+  StrictHostKeyChecking ask
+  IdentityFile ~/.ssh/id_rsa
+  AddKeysToAgent yes
+  UseKeychain yes
+  EscapeChar ~
+  ForwardX11Trusted yes
+  ServerAliveInterval 90
+  AddressFamily inet
+#  ControlMaster auto
+#  ControlPath ~/.ssh/master-%r@%h:%p
+
+  SendEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+  SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+  SendEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+  SendEnv XMODIFIERS
+
+divert(-1)
+
+dnl
+dnl Home
+dnl
+
+ssh_opt([[]])
+
+ssh_server([[app_server1]],22)
+ssh_server([[app_server2]],,user)
+ssh_server([[app_server3]],,,12.12.12.12)
+ssh_server([[app_server4]],22,user,12.12.12.12)
+
+dnl multi-step-ssh
+ssh_server([[app_server1_over]],,user,,app_server1)
+
+
+ssh_opt([[IdentityFile ~/.ssh/id_rsa2
+]])
+
+ssh_server([[app_server1_over]],,user2,,app_server1)
