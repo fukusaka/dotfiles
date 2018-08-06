@@ -1,0 +1,92 @@
+- hosts: localhost
+  connection: local
+  become: no
+
+  roles:
+    - role: homebrew-cask
+      tags: [ 'common' ]
+      homebrew_repositories:
+        - buo/cask-upgrade
+      homebrew_cask_repositories:
+        - caskroom/versions
+      homebrew_cask_packages:
+        - android-file-transfer
+        - appcleaner
+        - atom
+        - dropbox
+        - firefox
+        - google-backup-and-sync
+        - google-chrome
+        - java6
+        - keepingyouawake
+        - kindle
+        - logitech-control-center
+        - logitech-options
+        - qlmarkdown
+        - slack
+        - sourcetree
+        - xquartz
+    - role: homebrew-cask
+      tags: [ 'develop' ]
+      homebrew_cask_packages:
+        - android-studio
+        - docker
+        - google-cloud-sdk
+        - googleappengine
+        - java
+        - jetbrains-toolbox
+        - kitematic
+        - mysqlworkbench
+        - pgadmin3
+        - realm-browser
+        - sequel-pro
+        - sqlitestudio
+        - unity
+        - unity-android-support-for-editor
+        - unity-ios-support-for-editor
+        - vagrant
+        - vagrant-manager
+        - virtualbox
+    - role: homebrew-cask
+      tags: [ 'extra' ]
+      homebrew_cask_packages:
+        - apache-directory-studio
+        - mactex
+        - rstudio
+    - role: homebrew-cask
+      tags: [ 'personal' ]
+      homebrew_cask_packages:
+        - 1password
+        - adobe-creative-cloud
+        - astah-professional
+        - coda
+        - cornerstone
+        - gpgtools
+        - grandperspective
+        - ksdiff
+        - lingon-x
+        - microsoft-office
+        - omnifocus
+        - omnigraffle
+        - omnioutliner
+        - omniplan
+        - reveal
+        - sublime-text
+        - tower
+        - transmission
+        - vmware-fusion
+
+# 手動でインストールを実施
+# caldigit thunderbolt station 2 のドライバ
+#  http://www.caldigit.com/Support.asp#TS2
+# HHK Pro のドライバ
+#  http://www.pfu.fujitsu.com/hhkeyboard/macdownload.html
+# ATOK DL購入製品の再ダウンロード
+#  https://www.justmyshop.com
+# Intego Mac Internet Security をインストール
+#  https://www.intego.com/jp/support/downloads
+# MacVim + Kaoriya の最新版インストール
+#  https://github.com/splhack/macvim-kaoriya/releases
+# JetBrains系IDEは、settings を Export/Import で Plugin 含めて引き継ぎを行う
+# Safari 機能拡張は手動でインストール
+# Mail.app のローカルにあるメールはエクスポート・インポートで手動で移行

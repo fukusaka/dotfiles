@@ -1,0 +1,36 @@
+- hosts: localhost
+  connection: local
+  become: no
+
+  roles:
+    - role: kadaan.atom-packages
+      tags: [ 'atom' ]
+      atom_packages_packages:
+        - atom-beautify
+        - atom-html-preview
+        - atom-ternjs
+        - busy
+        - busy-signal
+        - editorconfig
+        - file-icons
+        - git-status
+        - goto-definition
+        - intentions
+        - language-latex
+        - latex
+        - linter
+        - linter-htmlhint
+        - linter-php
+        - linter-phpcs
+        - linter-phpmd
+        - linter-ui-default
+        - markdown-writer
+        - multi-cursor
+        - pigments
+        - project-manager
+        - sort-lines
+        - tabs-to-spaces
+        - tag
+        - tool-bar
+        - tool-bar-atom
+        - tool-bar-markdown-writer
