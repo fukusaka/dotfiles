@@ -19,7 +19,8 @@ clean:
 	find . -name '*~' -exec rm -f {} \;
 
 emacs-clean:
-	rm -rf emacs/customize.d/emacs{20,21,22,23,24,25,xx}
+	rm -rf emacs/customize.d/emacs{20,21,22,23,24,25,26,xx}
+	rm -rf emacs/elisp-emacs{20,21,22,23,24,25,26,xx}
 	find emacs -name '*.elc' -exec rm -f {} \;
 
 distclean: clean emacs-clean
