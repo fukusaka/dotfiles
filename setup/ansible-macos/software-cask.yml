@@ -12,7 +12,6 @@
       homebrew_cask_packages:
         - android-file-transfer
         - appcleaner
-        - atom
         - dropbox
         - firefox
         - google-backup-and-sync

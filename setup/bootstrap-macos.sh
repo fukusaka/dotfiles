@@ -65,7 +65,6 @@ if [ -d ${HOME}/common ]; then
 
     ROLESDIR=${HOME}/common/setup/ansible-macos/roles
     if [ ! -d ${ROLES}/kadaan.atom-packages ]; then
-            ansible-galaxy install --roles-path=${ROLESDIR} kadaan.atom-packages
     fi
     unset ROLESDIR
 
