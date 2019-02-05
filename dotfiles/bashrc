@@ -10,6 +10,9 @@ ulimit -c 0
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# 既に bashrc を実行済み
+[ "$DONE_BASHRC" = "yes" ] && return
+
 # 個人の環境変数
 if [ "$SHLVL" = 1 -a -f ~/.bash_env ]; then
         . ~/.bash_env
@@ -76,3 +79,6 @@ if [ "$SHLVL" = 1 -a -f ~/.bash_app ]; then
 fi
 
 unset terminal_type
+
+# 既に bashrc を実行済み
+DONE_BASHRC=yes
