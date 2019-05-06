@@ -7,36 +7,39 @@ Host *
   Port 22
   Protocol 2
   ForwardAgent yes
-  ForwardX11 yes
+  ForwardX11 no
+  ForwardX11Trusted no
   PasswordAuthentication yes
   PubkeyAuthentication yes
   GSSAPIAuthentication no
   GSSAPIDelegateCredentials no
-  PreferredAuthentications publickey,password
   CheckHostIP no
   StrictHostKeyChecking ask
-  IdentityFile ~/.ssh/id_rsa
-  AddKeysToAgent yes
   UseKeychain yes
+  AddKeysToAgent yes
   EscapeChar ~
-  ForwardX11Trusted yes
-  ServerAliveInterval 90
-  AddressFamily inet
-#  ControlMaster auto
-#  ControlPath ~/.ssh/master-%r@%h:%p
-
-  SendEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
-  SendEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-  SendEnv LC_IDENTIFICATION LC_ALL LANGUAGE
-  SendEnv XMODIFIERS
-
+  ServerAliveInterval 90s
+  HashKnownHosts no
+  ControlMaster auto
+  ControlPath ~/.ssh/.master-%r@%h:%p
+  ControlPersist 30s
+  SendEnv LANG LANGUAGE LC_*
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa
 divert(-1)
+
+dnl X11 転送を使いたいならば、下記を有効にする
+dnl  ForwardX11 yes
+dnl  ForwardX11Trusted yes
+dnl  SendEnv XMODIFIERS
 
 dnl
 dnl Home
 dnl
 
 ssh_opt([[]])
+
+dnl ssh_server(Host, Port, User, Hostname, OverSSH, OtherOptions)
 
 ssh_server([[app_server1]],22)
 ssh_server([[app_server2]],,user)
@@ -45,9 +48,4 @@ ssh_server([[app_server4]],22,user,12.12.12.12)
 
 dnl multi-step-ssh
 ssh_server([[app_server1_over]],,user,,app_server1)
-
-
-ssh_opt([[IdentityFile ~/.ssh/id_rsa2
-]])
-
-ssh_server([[app_server1_over]],,user2,,app_server1)
+ssh_server([[app_server1_over]],,user2,,app_server1,[[IdentityFile ~/.ssh/id_rsa2]])

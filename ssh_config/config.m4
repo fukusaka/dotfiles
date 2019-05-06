@@ -40,7 +40,7 @@ ifelse(trim([[$3]]),[[]],[[]],[[  User trim([[$3]])
 ]])dnl
 ifelse(trim([[$4]]),[[]],[[]],[[  Hostname trim([[$4]])
 ]])dnl
-ifelse(trim([[$5]]),[[]],[[]],[[  ProxyCommand ssh trim([[$5]]) nc %h %p
+ifelse(trim([[$5]]),[[]],[[]],[[  ProxyCommand ssh trim([[$5]]) -W %h:%p
 ]])dnl
 ifelse(trim([[$6]]),[[]],[[]],[[  $6
 ]])dnl
