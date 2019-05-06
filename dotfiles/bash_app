@@ -87,17 +87,21 @@ fi
 #     fi
 # fi
 
-export VAGRANT_HOME=/opt/vagrant_home
+export VAGRANT_HOME=${VAGRANT_HOME:-/opt/vagrant_home}
 #export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 
 # for composer
-export COMPOSER_HOME=${HOME}/common/composer
-PATH=${PATH}:${COMPOSER_HOME}/vendor/bin
+export COMPOSER_HOME=${COMPOSER_HOME:-${HOME}/common/composer}
+if [ -d "$COMPOSER_HOME" ]; then
+    PATH=${PATH}:${COMPOSER_HOME}/vendor/bin
+fi
 
 # for GO
-export GOPATH=/sdk/gocode
-PATH=${PATH}:${GOPATH}/bin
-#export GOROOT=/usr/local/go
+export GOPATH=${GOPATH:-/sdk/gocode}
+if [ -d "$GOPATH" ]; then
+    PATH=${PATH}:${GOPATH}/bin
+    #export GOROOT=/usr/local/go
+fi
 
 # for NodeJS
 if [ -n "${NVM_DIR}" -a -d "${NVM_DIR}" ]; then
