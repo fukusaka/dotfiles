@@ -14,8 +14,8 @@ ulimit -c 0
 [ "$DONE_BASHRC" = "yes" ] && return
 
 # 個人の環境変数
-if [ "$SHLVL" = 1 -a -f ~/.bash_env ]; then
-        . ~/.bash_env
+if [ "$SHLVL" = 1 -a -f ~/.sh_env ]; then
+        . ~/.sh_env
 fi
 
 ## 入力
@@ -69,8 +69,8 @@ xterm*|rxvt*)
 esac
 
 # マシン毎の環境変数
-if [ "$SHLVL" = 1 -a -f ~/.bash_env_local ]; then
-        . ~/.bash_env_local
+if [ "$SHLVL" = 1 -a -f ~/.sh_env_local ]; then
+        . ~/.sh_env_local
 fi
 
 # Bash アプリケーション
