@@ -1,8 +1,12 @@
 signature/persional		~/.signature
-dotfiles/bash_make_aliases	~/.bash_make_aliases
-dotfiles/bash_env		~/.bash_env
-dotfiles/bash_app		~/.bash_app
 dotfiles/profile		~/.profile
+dotfiles/sh_env		~/.sh_env
 dotfiles/bashrc			~/.bashrc
+dotfiles/bash_app		~/.bash_app
+dotfiles/bash_make_aliases	~/.bash_make_aliases
 dotfiles/vimrc			~/.vimrc
+dotfiles/zprofile		~/.zprofile
+dotfiles/zshrc		~/.zshrc
+dotfiles/zsh_app		~/.zsh_app
+dotfiles/zsh_make_aliases	~/.zsh_make_aliases
 emacs/emacs.el			~/.emacs.d/init.el
