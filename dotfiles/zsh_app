@@ -1,0 +1,45 @@
+#!/bin/bash
+# -*-shell-script-*-
+
+# エイリアスを手動作成コマンド
+if [ -f ${HOME}/.zsh_make_aliases ]; then
+    alias hh='source ~/.zsh_make_aliases ; source ~/.zsh_aliases ; unalias hh'
+fi
+
+# エイリアスの読み込み
+if [ -f ${HOME}/.zsh_aliases ]; then
+    source ${HOME}/.zsh_aliases
+fi
+
+# タイトルバーに端末情報を追加 / 右脇に現在ディレクトリ
+case "$TERM" in
+xterm*|rxvt*)
+        if [ -z "${NO_TERM_PROMPT}" ]; then
+            precmd() { print -Pn "\[\e]0;%n@%m %~ \a\]"}
+        fi
+        ;;
+esac
+
+# Completion
+autoload -Uz compinit
+compinit
+
+setopt noautomenu
+setopt nomenucomplete
+
+zstyle ':completion:*' list-colors "${LS_COLORS}"
+
+# Git
+autoload -Uz vcs_info
+
+setopt prompt_subst
+
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{cyan}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{magenta}+"
+
+zstyle ':vcs_info:*' formats '%F{green}%c%u[%b]%f'
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+
+precmd () { vcs_info }
+RPROMPT=$RPROMPT'${vcs_info_msg_0_}'

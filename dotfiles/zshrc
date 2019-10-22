@@ -1,0 +1,77 @@
+#!/bin/sh
+# -*-shell-script-*-
+
+# umask for go-w
+umask 022
+
+# core を作成しない
+ulimit -c 0
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# 個人の環境変数
+if [ "$SHLVL" = 1 -a -f ~/.sh_env ]; then
+        . ~/.sh_env
+fi
+
+## 入力
+bindkey -e
+
+setopt auto_cd
+setopt auto_pushd
+
+# ヒストリ管理
+export HISTFILE=${HOME}/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+setopt appendhistory
+setopt extendedhistory
+setopt histignorealldups
+setopt histignoredups
+setopt histignorespace
+setopt histnostore
+setopt histreduceblanks
+setopt histsavenodups
+setopt histverify
+setopt incappendhistory
+setopt sharehistory
+
+# 端末の色付け
+autoload -Uz colors
+colors
+
+# 端末に Ecma-48 の色付きが出来るかでカラーかを確認
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+        terminal_type=${terminal_type:-color}
+fi
+
+# Emacs 内部
+if [ "$EMACS" = t ]; then
+        terminal_type=${terminal_type:=simple}
+fi
+
+## シェルプロンプト
+case "$terminal_type" in
+simple)
+        PS1='% '
+        ;;
+color)
+        PS1="%{$fg[green]%}%n@%m:%{$reset_color%}\$ "
+       ;;
+*)
+        PS1='%n@%m $ '
+        ;;
+esac
+
+# マシン毎の環境変数
+if [ "$SHLVL" = 1 -a -f ~/.sh_env_local ]; then
+        . ~/.sh_env_local
+fi
+
+# Zsh アプリケーション
+if [ "$SHLVL" = 1 -a -f ~/.zsh_app ]; then
+        . ~/.zsh_app
+fi
+
+unset terminal_type

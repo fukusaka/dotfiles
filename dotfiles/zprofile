@@ -1,0 +1,11 @@
+#!/bin/sh -*-shell-script-*-
+# $Id: bash_profile 187 2009-02-11 05:14:31Z shoichi $
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/common/bin" ] ; then
+        PATH="$HOME/common/bin:$PATH"
+fi
+
+if [ -d "$HOME/bin" ] ; then
+        PATH="$HOME/bin:$PATH"
+fi
