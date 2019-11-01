@@ -104,13 +104,6 @@ if [ -d "$GOPATH" ]; then
 fi
 
 # for NodeJS
-if [ -n "${NVM_DIR}" -a -d "${NVM_DIR}" ]; then
-    if [ -n "$PRELOAD_NVM" ]; then
-        source ${NVM_DIR}/nvm.sh
-    else
-            function nvm() {
-                    source ${NVM_DIR}/nvm.sh
-                    nvm "$@";
-            }
-    fi
+if [ -d $HOME/.nodebrew/current/bin ]; then
+    PATH=$HOME/.nodebrew/current/bin:$PATH
 fi
