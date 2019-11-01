@@ -142,5 +142,13 @@
     (add-to-assoc-list 'initial-frame-alist '(left . 56))
     (add-to-assoc-list 'initial-frame-alist '(top . 22))
     )
+
+   ;; Cocoa Emacs / MacBook Pro 13
+   ((string-match "^sfukusaka-mm" (system-name))
+    (add-to-assoc-list 'initial-frame-alist '(width . 120))
+    (add-to-assoc-list 'initial-frame-alist '(height . 70))
+    (add-to-assoc-list 'initial-frame-alist '(left . 62))
+    (add-to-assoc-list 'initial-frame-alist '(top . 23))
+    )
    )
   )
