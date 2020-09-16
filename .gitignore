@@ -12,6 +12,7 @@
 /bin/phpunit.phar
 /bin/phpunit-3.phar
 /bin/wol-*
+/bin/repo
 /composer/composer.lock
 /composer/cache
 /composer/vendor
