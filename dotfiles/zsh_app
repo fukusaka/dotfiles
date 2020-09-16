@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # -*-shell-script-*-
 
 # エイリアスを手動作成コマンド
@@ -46,5 +46,11 @@ RPROMPT=$RPROMPT'${vcs_info_msg_0_}'
 
 # for NodeJS
 if [ -d $HOME/.nodebrew/current/bin ]; then
-    PATH=$HOME/.nodebrew/current/bin:$PATH
+    PATH="$HOME/.nodebrew/current/bin:$PATH"
+fi
+
+# for GO
+export GOPATH="${GOPATH:-/opt/sdk/gocode}"
+if [ -d "$GOPATH" ]; then
+    PATH="$PATH:$GOPATH/bin"
 fi

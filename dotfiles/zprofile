@@ -1,4 +1,5 @@
-#!/bin/sh -*-shell-script-*-
+#!/bin/zsh
+# -*-shell-script-*-
 # $Id: bash_profile 187 2009-02-11 05:14:31Z shoichi $
 
 # set PATH so it includes user's private bin if it exists
