@@ -18,14 +18,12 @@ Linux)
 Darwin)
         # Prefer to Use Homebrew
         if [ -x /usr/local/bin/brew ]; then
-                PATH=/usr/local/bin:/usr/local/sbin:$PATH
-                MANPATH=/usr/local/share/man:$MANPATH
                 BASH_COMPLETION=/usr/local/etc/bash_completion
         fi
 
         export EDITOR=/usr/bin/vim
         if [ -x /usr/local/bin/vimpager ]; then
-            export PAGER=/usr/local/bin/vimpager
+                export PAGER=/usr/local/bin/vimpager
         fi
         ;;
 SunOS)
