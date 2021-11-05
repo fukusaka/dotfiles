@@ -2,6 +2,7 @@
 # -*-shell-script-*-
 
 sysname=$(uname -s)
+machine=$(uname -m)
 
 if [ -n "$COMSPEC" ]; then
         sysname=Windows
@@ -16,15 +17,29 @@ Linux)
         fi
         ;;
 Darwin)
+        export EDITOR=/usr/bin/vim
+
         # Prefer to Use Homebrew
-        if [ -x /usr/local/bin/brew ]; then
-                BASH_COMPLETION=/usr/local/etc/bash_completion
+        if [ "$machine" = "arm64" ]; then
+                homebrew_dir=/opt/homebrew
+        else
+                homebrew_dir=/usr/local
         fi
 
-        export EDITOR=/usr/bin/vim
-        if [ -x /usr/local/bin/vimpager ]; then
-                export PAGER=/usr/local/bin/vimpager
+        if [ -x "$homebrew_dir/bin/brew" ]; then
+                PATH="$homebrew_dir/bin:$homebrew_dir/sbin${PATH+:$PATH}";
+                MANPATH="$homebrew_dir/share/man${MANPATH+:$MANPATH}";
+                #INFOPATH="$homebrew_dir/share/info:${INFOPATH:-}";
+
+                export HOMEBREW_PREFIX="$homebrew_dir"
+
+                BASH_COMPLETION="$homebrew_dir/etc/bash_completion"
+                if [ -x "$homebrew_dir/bin/vimpager" ]; then
+                        export PAGER="$homebrew_dir/bin/vimpager"
+                fi
         fi
+
+        unset homebrew_dir
         ;;
 SunOS)
         PATH=/usr/bin:/usr/sbin
@@ -51,5 +66,6 @@ Windows)
         ;;
 esac
 unset sysname
+unset machine
 
 export PATH MANPATH
