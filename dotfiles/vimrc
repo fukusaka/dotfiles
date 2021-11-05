@@ -15,7 +15,7 @@ let is_bash=1
 syntax on
 
 " GUI font for MacOSX
-if has('gui_macvim')
+if has('gui_running')
 	set lines=34 columns=100
 	set transparency=3
 	set guioptions-=T
