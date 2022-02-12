@@ -1,0 +1,16 @@
+#!/bin/bash
+
+MULTIPASS_NAME=${MULTIPASS_NAME=workspace}
+DOCKER_CONTEXT=${DOCKER_CONTEXT=docker-vm}
+
+DOCKER_HOST="$(multipass info ${MULTIPASS_NAME} --format json | jq -r .info[\"${MULTIPASS_NAME}\"].ipv4[0])"
+
+if [ "x$(docker context list -q | grep ^${DOCKER_CONTEXT}$)" != x${DOCKER_CONTEXT} ]; then
+        CONTEXT_MODE=create
+else
+        CONTEXT_MODE=update
+fi
+
+docker context \
+       ${CONTEXT_MODE} ${DOCKER_CONTEXT} \
+       --docker "host=tcp://${DOCKER_HOST}:2375"

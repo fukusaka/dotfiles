@@ -1,0 +1,72 @@
+#!/bin/bash
+
+MULTIPASS_NAME=${MULTIPASS_NAME=workspace}
+DOCKER_CONTEXT=${DOCKER_CONTEXT=docker-vm}
+SSH_COPY_ID_FILE=${SSH_COPY_ID_FILE="${HOME}/.ssh/id_rsa.pub"}
+MULTIPASS_CPUS=${MULTIPASS_CPUS=1}
+MULTIPASS_DISK=${MULTIPASS_DISK=5G}
+MULTIPASS_MEM=${MULTIPASS_MEM=1G}
+MULTIPASS_IMAGE=${MULTIPASS_IMAGE=20.04}
+
+
+CLOUD_INIT_CFG=$(mktemp)
+trap 'rm -rf ${CLOUD_INIT_CFG}' EXIT
+
+GET_ID=$(cat "${SSH_COPY_ID_FILE}")
+
+cat <<EOF > "${CLOUD_INIT_CFG}"
+#cloud-config
+
+groups:
+  - docker
+
+package_update: true
+
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - lsb-release
+  - software-properties-common
+
+runcmd:
+# ref https://docs.docker.com/engine/install/ubuntu/
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+  - add-apt-repository "deb [arch=\$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu \$(lsb_release -cs) stable"
+  - apt-get install -y docker-ce docker-ce-cli containerd.io
+  - sed -i -e 's#ExecStart=/usr/bin/dockerd -H fd://#ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H fd://#' /lib/systemd/system/docker.service
+  - systemctl daemon-reload
+  - systemctl restart docker
+  - adduser ubuntu docker
+
+snap:
+  commands:
+    - [install, multipass-sshfs]
+
+system_info:
+  default_user:
+    ssh_authorized_keys:
+      - ${GET_ID}
+EOF
+
+multipass launch \
+          -vv \
+          --name ${MULTIPASS_NAME} \
+          --cpus ${MULTIPASS_CPUS} \
+          --disk ${MULTIPASS_DISK} \
+          --mem  ${MULTIPASS_MEM} \
+          --cloud-init "${CLOUD_INIT_CFG}" \
+          ${MULTIPASS_IMAGE}
+
+
+DOCKER_HOST="$(multipass info ${MULTIPASS_NAME} --format json | jq -r .info[\"${MULTIPASS_NAME}\"].ipv4[0])"
+
+if [ "x$(docker context list -q | grep ^${DOCKER_CONTEXT}$)" != x${DOCKER_CONTEXT} ]; then
+        CONTEXT_MODE=create
+else
+        CONTEXT_MODE=update
+fi
+
+docker context \
+       ${CONTEXT_MODE} ${DOCKER_CONTEXT} \
+       --docker "host=tcp://${DOCKER_HOST}:2375"

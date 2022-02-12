@@ -1,0 +1,14 @@
+#cloud-config
+
+groups:
+  - docker
+
+package_update: true
+
+snap:
+  commands:
+    - [install, multipass-sshfs]
+    - [install, docker]
+
+runcmd:
+  - adduser ubuntu docker

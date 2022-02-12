@@ -1,0 +1,26 @@
+#cloud-config
+
+apt:
+  sources:
+    docker.list:
+      source: deb [arch=arm64] https://download.docker.com/linux/ubuntu $RELEASE stable
+      keyid: 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
+
+package_update: true
+
+packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+
+runcmd:
+- sed -i -e 's#ExecStart=/usr/bin/dockerd -H fd://#ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H fd://#' /lib/systemd/system/docker.service
+  - systemctl daemon-reload
+  - systemctl restart docker
+  - adduser ubuntu docker
+
+snap:
+  commands:
+    - [install, multipass-sshfs]
+
+# ref https://gist.github.com/ww24/7c6c722bbd842657b9cebfe600972904
