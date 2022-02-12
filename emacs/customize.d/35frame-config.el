@@ -102,15 +102,12 @@
     (add-to-assoc-list 'initial-frame-alist '(height . 53))
     )
 
-   ;; Linux on CF-R3
-   ((string-match "^fuku-cf-r3" (system-name))
-    (add-to-assoc-list 'initial-frame-alist '(height . 47))
-    )
-
-   ;; Cocoa Emacs / MacBookPro 15
-   ((string-match "^fuku-mac" (system-name))
-    (add-to-assoc-list 'initial-frame-alist '(height . 56))
+   ;; Cocoa Emacs / MacBook Pro 13/15
+   ((string-match "^fuku-\\(mac\\|pro\\|m1max\\)\\|sfukusaka-mm" (system-name))
+    (add-to-assoc-list 'initial-frame-alist '(width . 120))
+    (add-to-assoc-list 'initial-frame-alist '(height . 70))
     (add-to-assoc-list 'initial-frame-alist '(left . 56))
+    (add-to-assoc-list 'initial-frame-alist '(top . 22))
 
     ;; 作業用の Safari を開く
     (define-key my-prefix-5-map "w" 'my-make-safari-window)
@@ -127,28 +124,6 @@
       (my-make-frame-at  0 1 675 0)
       (my-make-safari-window)
       )
-    )
-
-   ;; Cocoa Emacs / MacBookAir 11
-   ((string-match "^fuku-air" (system-name))
-    (add-to-assoc-list 'initial-frame-alist '(height . 51))
-    (add-to-assoc-list 'initial-frame-alist '(left . 54))
-    )
-
-   ;; Cocoa Emacs / MacBook Pro 13
-   ((string-match "^fuku-pro" (system-name))
-    (add-to-assoc-list 'initial-frame-alist '(width . 120))
-    (add-to-assoc-list 'initial-frame-alist '(height . 70))
-    (add-to-assoc-list 'initial-frame-alist '(left . 56))
-    (add-to-assoc-list 'initial-frame-alist '(top . 22))
-    )
-
-   ;; Cocoa Emacs / MacBook Pro 13
-   ((string-match "^sfukusaka-mm" (system-name))
-    (add-to-assoc-list 'initial-frame-alist '(width . 120))
-    (add-to-assoc-list 'initial-frame-alist '(height . 70))
-    (add-to-assoc-list 'initial-frame-alist '(left . 62))
-    (add-to-assoc-list 'initial-frame-alist '(top . 23))
     )
    )
   )
