@@ -14,7 +14,14 @@ packages:
   - containerd.io
 
 runcmd:
-- sed -i -e 's#ExecStart=/usr/bin/dockerd -H fd://#ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H fd://#' /lib/systemd/system/docker.service
+  # configuration for direct connection from multipass host
+  - |
+    mkdir -p /etc/systemd/system/docker.service.d
+    cat <<EOF > /etc/systemd/system/docker.service.d/override.conf
+    [Service]
+    ExecStart=
+    ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H fd:// --containerd=/run/containerd/containerd.sock
+    EOF
   - systemctl daemon-reload
   - systemctl restart docker
   - adduser ubuntu docker
