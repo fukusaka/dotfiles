@@ -44,4 +44,5 @@
 /setup/ansible-macos/cask_info/*
 /setup/ansible-macos/roles/kadaan.atom-packages
 /ssh_config/config
+Brewfile.lock.json
 !.gitkeep
