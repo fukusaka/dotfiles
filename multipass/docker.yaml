@@ -6,19 +6,14 @@ groups:
 package_update: true
 
 packages:
-  - apt-transport-https
   - ca-certificates
   - curl
-  - lsb-release
-  - software-properties-common
 
 runcmd:
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-  - add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - apt-get install -y docker-ce docker-ce-cli containerd.io
-  - sed -i -e 's#ExecStart=/usr/bin/dockerd -H fd://#ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H fd://#' /lib/systemd/system/docker.service
-  - systemctl daemon-reload
-  - systemctl restart docker
+  # install Docker CE
+  - |
+    export DEBIAN_FRONTEND=noninteractive
+    curl -fsSL https://get.docker.com | sh
   - adduser ubuntu docker
 
 snap:
