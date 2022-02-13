@@ -1,0 +1,100 @@
+#!/bin/bash
+
+MULTIPASS_NAME=${MULTIPASS_NAME:-docker}
+MULTIPASS_CONTEXT=${MULTIPASS_CONTEXT:-multipass-docker}
+MULTIPASS_CPUS=${MULTIPASS_CPUS:-1}
+MULTIPASS_DISK=${MULTIPASS_DISK:-5G}
+MULTIPASS_MEM=${MULTIPASS_MEM:-1G}
+MULTIPASS_IMAGE=${MULTIPASS_IMAGE:-20.04}
+
+## check SSH pub key/ id key
+
+DEFAULT_PUB_ID_FILE=${DEFAULT_PUB_ID_FILE:-"${HOME}/.ssh/id_rsa.pub"}
+
+if expr "$DEFAULT_PUB_ID_FILE" : '.*\.pub$' >/dev/null ; then
+        PUB_ID_FILE="$DEFAULT_PUB_ID_FILE"
+else
+        PUB_ID_FILE="$DEFAULT_PUB_ID_FILE.pub"
+fi
+ID_FILE=${PUB_ID_FILE%.pub}
+
+## unix socket for docker
+
+SOCK_DIR=${HOME}/.multipass/${MULTIPASS_NAME}/sock
+SOCK=${SOCK_DIR}/docker.sock
+
+mkdir -p ${SOCK_DIR}
+
+## generate cloud-init.yaml
+
+CLOUD_INIT_CFG=$(mktemp)
+trap 'rm -rf ${CLOUD_INIT_CFG}' EXIT
+
+cat <<EOF > "${CLOUD_INIT_CFG}"
+#cloud-config
+
+groups:
+  - docker
+
+package_update: true
+
+packages:
+  - ca-certificates
+  - curl
+
+runcmd:
+  # install Docker CE
+  - |
+    export DEBIAN_FRONTEND=noninteractive
+    curl -fsSL https://get.docker.com | sh
+  - adduser ubuntu docker
+
+snap:
+  commands:
+    - [install, multipass-sshfs]
+
+system_info:
+  default_user:
+    ssh_authorized_keys:
+      - $(cat "${DEFAULT_PUB_ID_FILE}")
+EOF
+
+multipass launch \
+          -vv \
+          --name ${MULTIPASS_NAME} \
+          --cpus ${MULTIPASS_CPUS} \
+          --disk ${MULTIPASS_DISK} \
+          --mem  ${MULTIPASS_MEM} \
+          --cloud-init "${CLOUD_INIT_CFG}" \
+          ${MULTIPASS_IMAGE}
+
+HOST="$(multipass info ${MULTIPASS_NAME} --format json | jq -r .info[\"${MULTIPASS_NAME}\"].ipv4[0])"
+
+if [ "x$(docker context list -q | grep ^${MULTIPASS_CONTEXT}$)" != x${MULTIPASS_CONTEXT} ]; then
+        CONTEXT_MODE=create
+else
+        CONTEXT_MODE=update
+fi
+
+docker context \
+       ${CONTEXT_MODE} ${MULTIPASS_CONTEXT} \
+       --docker "host=unix://${SOCK}"
+
+cat <<EOM
+To access `docker`, add the following configuration to `ssh_config` and run `ssh multipass`.
+
+----
+Host multipass
+  User ubuntu
+  Hostname ${HOST}
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  IdentityFile ${ID_FILE}
+  LocalForward ${SOCK} /var/run/docker.sock
+----
+then, run
+----
+docker context use ${MULTIPASS_CONTEXT}
+docker run hello-world
+----
+EOM
