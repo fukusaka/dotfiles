@@ -5,7 +5,7 @@ MULTIPASS_CONTEXT=${MULTIPASS_CONTEXT:-multipass-docker}
 MULTIPASS_CPUS=${MULTIPASS_CPUS:-1}
 MULTIPASS_DISK=${MULTIPASS_DISK:-5G}
 MULTIPASS_MEM=${MULTIPASS_MEM:-1G}
-MULTIPASS_IMAGE=${MULTIPASS_IMAGE:-20.04}
+MULTIPASS_IMAGE=${MULTIPASS_IMAGE:-22.04}
 
 ## check SSH pub key/ id key
 
@@ -47,6 +47,16 @@ runcmd:
   - |
     export DEBIAN_FRONTEND=noninteractive
     curl -fsSL https://get.docker.com | sh
+  # configuration for direct connection from multipass host
+  - |
+    mkdir -p /etc/systemd/system/docker.service.d
+    cat <<EOF > /etc/systemd/system/docker.service.d/override.conf
+    [Service]
+    ExecStart=
+    ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H fd:// --containerd=/run/containerd/containerd.sock
+    EOF
+  - systemctl daemon-reload
+  - systemctl restart docker
   - adduser ubuntu docker
 
 snap:
@@ -64,7 +74,7 @@ multipass launch \
           --name ${MULTIPASS_NAME} \
           --cpus ${MULTIPASS_CPUS} \
           --disk ${MULTIPASS_DISK} \
-          --mem  ${MULTIPASS_MEM} \
+          --memory  ${MULTIPASS_MEM} \
           --cloud-init "${CLOUD_INIT_CFG}" \
           ${MULTIPASS_IMAGE}
 
@@ -78,21 +88,9 @@ fi
 
 docker context \
        ${CONTEXT_MODE} ${MULTIPASS_CONTEXT} \
-       --docker "host=unix://${SOCK}"
+       --docker "host=tcp://${HOST}:2375"
 
 cat <<EOM
-To access `docker`, add the following configuration to `ssh_config` and run `ssh multipass`.
-
-----
-Host multipass
-  User ubuntu
-  Hostname ${HOST}
-  StrictHostKeyChecking no
-  UserKnownHostsFile /dev/null
-  IdentityFile ${ID_FILE}
-  LocalForward ${SOCK} /var/run/docker.sock
-----
-then, run
 ----
 docker context use ${MULTIPASS_CONTEXT}
 docker run hello-world
